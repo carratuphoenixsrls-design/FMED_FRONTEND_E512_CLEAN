@@ -1,0 +1,960 @@
+/* FMED Enterprise 1.0 · E2.2.8
+   Banner/brand/report/process/dictionary code engine UX.
+   Desktop-only: nessuna logica mobile. */
+
+/* ===== Intestazione globale: compatta, bilanciata, senza spazio vuoto ===== */
+.fmed-global-page-header {
+  min-height: 0 !important;
+  margin: 0 0 14px !important;
+  padding: 13px 18px !important;
+  border-radius: 16px !important;
+  overflow: hidden !important;
+}
+.fmed-global-page-header-content {
+  display: grid !important;
+  grid-template-columns: minmax(0, 1fr) auto !important;
+  align-items: center !important;
+  gap: 18px !important;
+  min-height: 48px !important;
+}
+.fmed-global-page-copy { min-width: 0 !important; }
+.fmed-global-page-context {
+  margin: 0 0 2px !important;
+  font-size: 11px !important;
+  line-height: 1.2 !important;
+  letter-spacing: .03em !important;
+  text-transform: none !important;
+}
+.fmed-global-page-title {
+  margin: 0 !important;
+  font-size: clamp(18px, 1.45vw, 23px) !important;
+  line-height: 1.15 !important;
+  white-space: normal !important;
+}
+.fmed-global-page-subtitle {
+  margin: 3px 0 0 !important;
+  max-width: 900px !important;
+  font-size: 10.5px !important;
+  line-height: 1.3 !important;
+  letter-spacing: .055em !important;
+  white-space: normal !important;
+}
+.fmed-global-page-header .fmed-header-brand {
+  display: grid !important;
+  gap: 2px !important;
+  min-width: 172px !important;
+  padding: 8px 11px !important;
+  border: 1px solid color-mix(in srgb, var(--fmed-primary, #087f86) 16%, var(--fmed-border, #dbe5ea)) !important;
+  border-radius: 11px !important;
+  background: color-mix(in srgb, var(--fmed-primary, #087f86) 5%, var(--fmed-card, #fff)) !important;
+  text-align: right !important;
+}
+.fmed-global-page-header .fmed-header-brand-main {
+  font-size: 9.5px !important;
+  line-height: 1.15 !important;
+  letter-spacing: .075em !important;
+}
+.fmed-global-page-header .fmed-header-brand-sub {
+  font-size: 8.5px !important;
+  line-height: 1.15 !important;
+  letter-spacing: .035em !important;
+}
+
+/* ===== Banner dei moduli: una sola gerarchia, metrica laterale proporzionata ===== */
+.fmed-module-hero {
+  display: grid !important;
+  grid-template-columns: minmax(0, 1fr) minmax(168px, 205px) !important;
+  align-items: center !important;
+  gap: 24px !important;
+  min-height: 0 !important;
+  height: auto !important;
+  padding: 20px 22px !important;
+  border-radius: 20px !important;
+  overflow: hidden !important;
+}
+.fmed-module-hero-copy { min-width: 0 !important; }
+.fmed-module-hero-eyebrow {
+  margin: 0 0 7px !important;
+  padding: 0 !important;
+  background: transparent !important;
+  border: 0 !important;
+  font-size: 10px !important;
+  line-height: 1.2 !important;
+  font-weight: 800 !important;
+  letter-spacing: .11em !important;
+  text-transform: uppercase !important;
+}
+.fmed-module-hero-title {
+  margin: 0 !important;
+  font-size: clamp(25px, 2vw, 32px) !important;
+  line-height: 1.1 !important;
+  letter-spacing: -.025em !important;
+  white-space: normal !important;
+}
+.fmed-module-hero-subtitle {
+  max-width: 850px !important;
+  margin: 8px 0 0 !important;
+  font-size: 13px !important;
+  line-height: 1.45 !important;
+  white-space: normal !important;
+}
+.fmed-module-hero-metric {
+  display: grid !important;
+  align-content: center !important;
+  justify-items: start !important;
+  min-width: 0 !important;
+  min-height: 102px !important;
+  height: auto !important;
+  padding: 14px 16px !important;
+  border-radius: 16px !important;
+  overflow: hidden !important;
+  box-shadow: none !important;
+}
+.fmed-module-hero-metric::before,
+.fmed-module-hero-metric::after { display: none !important; content: none !important; }
+.fmed-module-hero-metric-value {
+  margin: 0 !important;
+  font-size: clamp(28px, 2.3vw, 38px) !important;
+  line-height: 1 !important;
+  letter-spacing: -.045em !important;
+  white-space: nowrap !important;
+}
+.fmed-module-hero-metric-label {
+  margin: 7px 0 0 !important;
+  font-size: 10px !important;
+  line-height: 1.25 !important;
+  letter-spacing: .08em !important;
+  text-transform: uppercase !important;
+  white-space: normal !important;
+}
+.fmed-module-hero-metric-sub {
+  margin: 8px 0 0 !important;
+  padding: 0 !important;
+  font-size: 10px !important;
+  line-height: 1.2 !important;
+  white-space: normal !important;
+}
+
+/* ===== Brand sidebar: simbolo facility sobrio e wordmark leggibile ===== */
+.fmed-app-root aside.fmed-side-rail .fmed-sidebar-logo-lockup {
+  grid-template-columns: 43px minmax(0, 1fr) !important;
+  align-items: center !important;
+  min-height: 68px !important;
+  padding: 9px 10px !important;
+  border-radius: 15px !important;
+}
+.fmed-app-root aside.fmed-side-rail .fmed-sidebar-logo-mark {
+  width: 42px !important;
+  min-width: 42px !important;
+  height: 42px !important;
+  border-radius: 12px !important;
+}
+.fmed-brand-symbol { display: block !important; }
+.fmed-app-root aside.fmed-side-rail .fmed-sidebar-logo-title {
+  font-size: 21px !important;
+  line-height: 1 !important;
+  letter-spacing: .13em !important;
+}
+.fmed-app-root aside.fmed-side-rail .fmed-sidebar-logo-subtitle {
+  margin-top: 5px !important;
+  font-size: 8.2px !important;
+  line-height: 1.15 !important;
+  letter-spacing: .095em !important;
+}
+.fmed-sidebar-logo-byline {
+  margin-top: 3px !important;
+  font-size: 8.8px !important;
+  line-height: 1.15 !important;
+  font-weight: 700 !important;
+}
+.fmed-app-root aside.fmed-side-rail .fmed-sidebar-controls {
+  gap: 8px !important;
+  margin-bottom: 9px !important;
+}
+.fmed-app-root aside.fmed-side-rail .fmed-sidebar-control-btn {
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 7px !important;
+  min-height: 40px !important;
+  padding: 6px 9px !important;
+  border-radius: 11px !important;
+  box-shadow: none !important;
+}
+.fmed-sidebar-control-icon {
+  width: 24px !important;
+  min-width: 24px !important;
+  height: 24px !important;
+  border-radius: 7px !important;
+}
+.fmed-sidebar-control-icon svg { width: 15px !important; height: 15px !important; }
+.fmed-sidebar-control-label { font-size: 9.6px !important; line-height: 1.1 !important; }
+
+/* ===== Report e analisi: testi allineati, card ordinate ===== */
+.fmed-report-page {
+  display: grid !important;
+  gap: 14px !important;
+  min-width: 0 !important;
+  padding: 0 !important;
+  background: transparent !important;
+  border: 0 !important;
+  box-shadow: none !important;
+}
+.fmed-report-hero {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(245px, 320px);
+  align-items: center;
+  gap: 22px;
+  padding: 19px 21px;
+  border: 1px solid var(--fmed-border, #dbe5ea);
+  border-radius: 20px;
+  background: var(--fmed-card, #fff);
+  box-shadow: 0 10px 28px rgba(16, 42, 58, .055);
+}
+.fmed-report-hero-copy > span {
+  display: block;
+  margin-bottom: 6px;
+  color: var(--fmed-primary, #087f86);
+  font-size: 10px;
+  font-weight: 850;
+  letter-spacing: .11em;
+  text-transform: uppercase;
+}
+.fmed-report-hero h2 {
+  margin: 0;
+  color: var(--fmed-text, #102a3a);
+  font-size: clamp(25px, 2vw, 31px);
+  line-height: 1.1;
+  letter-spacing: -.025em;
+}
+.fmed-report-hero p {
+  max-width: 780px;
+  margin: 8px 0 0;
+  color: var(--fmed-muted, #647784);
+  font-size: 13px;
+  line-height: 1.45;
+}
+.fmed-report-environment {
+  display: grid;
+  gap: 4px;
+  min-width: 0;
+  padding: 13px 15px;
+  border: 1px solid color-mix(in srgb, var(--fmed-primary, #087f86) 16%, var(--fmed-border, #dbe5ea));
+  border-radius: 14px;
+  background: color-mix(in srgb, var(--fmed-primary, #087f86) 5%, var(--fmed-card, #fff));
+  text-align: left;
+}
+.fmed-report-environment small {
+  color: var(--fmed-muted, #647784);
+  font-size: 9px;
+  font-weight: 800;
+  letter-spacing: .09em;
+  text-transform: uppercase;
+}
+.fmed-report-environment strong {
+  min-width: 0;
+  color: var(--fmed-text, #102a3a);
+  font-size: 12px;
+  overflow-wrap: anywhere;
+}
+.fmed-report-environment span { color: var(--fmed-muted, #647784); font-size: 10px; line-height: 1.35; }
+.fmed-report-audit {
+  margin: 0 !important;
+  padding: 18px !important;
+  border-radius: 18px !important;
+}
+.fmed-report-audit-head {
+  display: grid !important;
+  grid-template-columns: minmax(0, 1fr) 132px !important;
+  align-items: center !important;
+  gap: 18px !important;
+}
+.fmed-report-audit-grid {
+  display: grid !important;
+  grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
+  gap: 10px !important;
+}
+.fmed-report-audit-grid > div {
+  min-width: 0 !important;
+  min-height: 82px !important;
+  padding: 13px !important;
+  overflow: hidden !important;
+}
+.fmed-report-audit-grid strong { font-size: 25px !important; line-height: 1 !important; white-space: nowrap !important; }
+.fmed-report-audit-grid span { font-size: 9.5px !important; line-height: 1.25 !important; white-space: normal !important; }
+.fmed-report-audit-actions { display: flex !important; flex-wrap: wrap !important; gap: 9px !important; }
+.fmed-report-page [style*="exportAccordionHeader"] { min-height: 58px !important; }
+
+/* ===== Master Data: codice automatico e modifica etichetta senza cambiare codice ===== */
+.core-standard-head,
+.fmed-process-head,
+.fmed-settings-head {
+  min-height: 0 !important;
+  padding: 18px 20px !important;
+  border-radius: 18px !important;
+}
+.core-standard-head h2,
+.fmed-process-head h2,
+.fmed-settings-head h2 { font-size: clamp(25px, 2vw, 31px) !important; }
+.core-standard-page .core-dictionary-layout {
+  grid-template-columns: clamp(410px, 36%, 500px) minmax(640px, 1fr) !important;
+}
+.core-standard-page .core-dictionary-panel { min-width: 640px !important; }
+.core-value-row { grid-template-columns: minmax(155px, .8fr) minmax(250px, 1.55fr) minmax(92px, .45fr) minmax(215px, .9fr) !important; }
+.core-value-actions {
+  display: flex;
+  justify-content: flex-end;
+  flex-wrap: wrap;
+  gap: 6px;
+  min-width: 0;
+}
+.core-value-actions button {
+  min-height: 34px;
+  padding: 6px 9px;
+  border: 1px solid var(--fmed-border, #dfe5ea);
+  border-radius: 8px;
+  background: color-mix(in srgb, var(--fmed-primary, #087f86) 8%, var(--fmed-card, #fff));
+  color: var(--fmed-primary, #087f86);
+  font-size: 10px;
+  font-weight: 800;
+  cursor: pointer;
+}
+.core-value-actions button.secondary { background: transparent; color: var(--fmed-muted, #647784); }
+.core-inline-label-input {
+  width: 100%;
+  min-width: 0;
+  min-height: 38px;
+  padding: 8px 10px;
+  border: 1px solid var(--fmed-primary, #087f86);
+  border-radius: 8px;
+  background: var(--fmed-input, #fff);
+  color: var(--fmed-text, #102a3a);
+}
+.core-add-value {
+  grid-template-columns: minmax(185px, .95fr) minmax(270px, 1.5fr) minmax(90px, .45fr) minmax(180px, auto) !important;
+  align-items: end !important;
+}
+.core-auto-code-preview {
+  display: grid;
+  gap: 5px;
+  min-height: 44px;
+  padding: 8px 11px;
+  border: 1px solid color-mix(in srgb, var(--fmed-primary, #087f86) 20%, var(--fmed-border, #dfe5ea));
+  border-radius: 10px;
+  background: color-mix(in srgb, var(--fmed-primary, #087f86) 6%, var(--fmed-card, #fff));
+}
+.core-auto-code-preview span {
+  color: var(--fmed-muted, #647784);
+  font-size: 9px;
+  font-weight: 850;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+}
+.core-auto-code-preview code { color: var(--fmed-primary, #087f86); font-size: 13px; font-weight: 850; }
+.core-auto-code-note {
+  grid-column: 1 / -1;
+  margin: 0;
+  color: var(--fmed-muted, #647784);
+  font-size: 10.5px;
+  line-height: 1.35;
+}
+
+/* ===== Nuovo intervento: selezione cespite chiara e filtrabile ===== */
+.fmed-intervention-asset-picker {
+  display: grid;
+  gap: 12px;
+  margin: 0 0 14px;
+  padding: 16px;
+  border: 1px solid color-mix(in srgb, var(--fmed-primary, #087f86) 18%, var(--fmed-border, #dbe5ea));
+  border-radius: 16px;
+  background: color-mix(in srgb, var(--fmed-primary, #087f86) 4%, var(--fmed-card, #fff));
+}
+.fmed-intervention-asset-picker-head {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(230px, 320px);
+  align-items: center;
+  gap: 18px;
+}
+.fmed-intervention-asset-picker-head > div:first-child > span {
+  color: var(--fmed-primary, #087f86);
+  font-size: 9px;
+  font-weight: 850;
+  letter-spacing: .09em;
+  text-transform: uppercase;
+}
+.fmed-intervention-asset-picker h3 { margin: 4px 0 0; font-size: 20px; line-height: 1.15; }
+.fmed-intervention-asset-picker p { margin: 6px 0 0; color: var(--fmed-muted, #647784); font-size: 12px; line-height: 1.4; }
+.fmed-intervention-selected-asset {
+  display: grid;
+  gap: 3px;
+  min-width: 0;
+  padding: 10px 12px;
+  border: 1px solid color-mix(in srgb, var(--fmed-primary, #087f86) 22%, var(--fmed-border, #dbe5ea));
+  border-radius: 12px;
+  background: var(--fmed-card, #fff);
+}
+.fmed-intervention-selected-asset small { color: var(--fmed-muted, #647784); font-size: 9px; text-transform: uppercase; letter-spacing: .07em; }
+.fmed-intervention-selected-asset strong { color: var(--fmed-primary, #087f86); font-size: 16px; }
+.fmed-intervention-selected-asset span { min-width: 0; color: var(--fmed-text, #102a3a); font-size: 10.5px; overflow-wrap: anywhere; }
+.fmed-intervention-asset-picker-filters {
+  display: grid;
+  grid-template-columns: minmax(320px, 1fr) minmax(190px, .42fr) minmax(210px, .5fr);
+  gap: 9px;
+}
+.fmed-intervention-asset-picker-filters label { display: grid; gap: 5px; min-width: 0; }
+.fmed-intervention-asset-picker-filters label > span { color: var(--fmed-muted, #647784); font-size: 9px; font-weight: 800; letter-spacing: .07em; text-transform: uppercase; }
+.fmed-intervention-asset-picker-filters input,
+.fmed-intervention-asset-picker-filters select {
+  width: 100%;
+  min-width: 0;
+  min-height: 42px;
+  padding: 0 11px;
+  border: 1px solid var(--fmed-border, #dbe5ea);
+  border-radius: 10px;
+  background: var(--fmed-input, #fff);
+  color: var(--fmed-text, #102a3a);
+}
+.fmed-intervention-asset-results {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 8px;
+  max-height: 260px;
+  overflow: auto;
+  padding-right: 3px;
+}
+.fmed-intervention-asset-results button {
+  display: grid;
+  gap: 4px;
+  min-width: 0;
+  padding: 10px 11px;
+  border: 1px solid var(--fmed-border, #dbe5ea);
+  border-radius: 11px;
+  background: var(--fmed-card, #fff);
+  color: var(--fmed-text, #102a3a);
+  text-align: left;
+  cursor: pointer;
+}
+.fmed-intervention-asset-results button:hover,
+.fmed-intervention-asset-results button.is-selected {
+  border-color: var(--fmed-primary, #087f86);
+  background: color-mix(in srgb, var(--fmed-primary, #087f86) 7%, var(--fmed-card, #fff));
+  box-shadow: 0 6px 14px rgba(8, 127, 134, .09);
+}
+.fmed-intervention-asset-results strong { color: var(--fmed-primary, #087f86); font-size: 13px; }
+.fmed-intervention-asset-results span { font-size: 11px; font-weight: 750; line-height: 1.25; }
+.fmed-intervention-asset-results small,
+.fmed-intervention-asset-results em { min-width: 0; color: var(--fmed-muted, #647784); font-size: 9.5px; line-height: 1.3; font-style: normal; overflow-wrap: anywhere; }
+.fmed-intervention-asset-empty { grid-column: 1 / -1; padding: 20px; border: 1px dashed var(--fmed-border, #dbe5ea); border-radius: 11px; color: var(--fmed-muted, #647784); text-align: center; }
+.fmed-intervention-asset-picker-note { color: var(--fmed-muted, #647784); font-size: 10.5px; line-height: 1.35; }
+.fmed-new-intervention-form { margin-top: 0 !important; }
+
+/* ===== Desktop medio: nessun taglio, solo ribilanciamento ===== */
+@media (max-width: 1480px) and (min-width: 1180px) {
+  .fmed-module-hero { grid-template-columns: minmax(0, 1fr) 180px !important; }
+  .fmed-report-hero { grid-template-columns: minmax(0, 1fr) 270px; }
+  .fmed-report-audit-grid { grid-template-columns: repeat(2, minmax(0, 1fr)) !important; }
+  .core-standard-page .core-dictionary-layout { grid-template-columns: 410px minmax(640px, 1fr) !important; }
+  .fmed-intervention-asset-results { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+
+/* ===== Costi: intestazione unica e compatta ===== */
+.fmed-costi-page {
+  display: grid !important;
+  gap: 14px !important;
+  min-width: 0 !important;
+  padding: 0 !important;
+  border: 0 !important;
+  background: transparent !important;
+  box-shadow: none !important;
+}
+.fmed-costi-hero {
+  display: grid !important;
+  grid-template-columns: minmax(0, 1fr) minmax(210px, 285px) !important;
+  align-items: center !important;
+  gap: 20px !important;
+  min-height: 0 !important;
+  padding: 19px 21px !important;
+  border: 1px solid var(--fmed-border, #dbe5ea) !important;
+  border-radius: 20px !important;
+  background: var(--fmed-card, #fff) !important;
+  box-shadow: 0 10px 28px rgba(16, 42, 58, .055) !important;
+}
+.fmed-costi-kicker {
+  display: block;
+  margin-bottom: 6px;
+  color: var(--fmed-primary, #087f86);
+  font-size: 10px;
+  font-weight: 850;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+}
+.fmed-costi-title {
+  margin: 0 !important;
+  font-size: clamp(25px, 2vw, 31px) !important;
+  line-height: 1.1 !important;
+  letter-spacing: -.025em !important;
+}
+.fmed-costi-hero p { max-width: 820px !important; margin: 8px 0 0 !important; font-size: 13px !important; line-height: 1.45 !important; }
+.fmed-costi-period {
+  display: grid !important;
+  gap: 4px !important;
+  min-width: 0 !important;
+  padding: 12px 14px !important;
+  border-radius: 13px !important;
+  text-align: left !important;
+  white-space: normal !important;
+}
+.fmed-costi-period small { font-size: 9px !important; font-weight: 800 !important; letter-spacing: .08em !important; text-transform: uppercase !important; }
+.fmed-costi-period strong { font-size: 13px !important; line-height: 1.3 !important; }
+.fmed-report-accordion-item { border-radius: 16px !important; overflow: hidden !important; }
+.fmed-report-accordion-header {
+  min-height: 60px !important;
+  padding: 10px 14px !important;
+  align-items: center !important;
+}
+.fmed-report-accordion-title-wrap { align-items: center !important; gap: 12px !important; min-width: 0 !important; }
+.fmed-report-accordion-title-wrap > div { min-width: 0 !important; }
+.fmed-report-accordion-title-wrap [style] { white-space: normal !important; overflow: visible !important; text-overflow: clip !important; }
+
+/* ===== E2.2.8 final polish: Dashboard, sidebar controls, alert email ===== */
+.fmed-dashboard-page {
+  display: grid !important;
+  gap: 14px !important;
+  min-width: 0 !important;
+}
+.fmed-dashboard-page > div:first-child {
+  min-height: 0 !important;
+  padding: 14px 17px !important;
+  border-radius: 17px !important;
+}
+.fmed-dashboard-page > div:first-child h2 {
+  font-size: 24px !important;
+  line-height: 1.05 !important;
+}
+.fmed-dashboard-page > div:first-child p {
+  margin-top: 4px !important;
+  font-size: 10px !important;
+  line-height: 1.25 !important;
+}
+.fmed-quick-actions-panel {
+  padding: 14px 16px !important;
+  border-radius: 17px !important;
+  overflow: hidden !important;
+}
+.fmed-quick-actions-grid {
+  display: grid !important;
+  grid-template-columns: repeat(7, minmax(0, 1fr)) !important;
+  gap: 8px !important;
+  min-width: 0 !important;
+}
+.fmed-quick-action {
+  display: grid !important;
+  grid-template-columns: 25px minmax(0, 1fr) !important;
+  align-items: center !important;
+  justify-items: start !important;
+  gap: 8px !important;
+  min-width: 0 !important;
+  min-height: 54px !important;
+  padding: 9px 10px !important;
+  border-radius: 12px !important;
+  overflow: hidden !important;
+}
+.fmed-quick-action::before,
+.fmed-quick-action::after { display: none !important; content: none !important; }
+.fmed-quick-action svg {
+  width: 22px !important;
+  height: 22px !important;
+  min-width: 22px !important;
+}
+.fmed-quick-action span {
+  min-width: 0 !important;
+  font-size: 9.2px !important;
+  line-height: 1.15 !important;
+  font-weight: 850 !important;
+  letter-spacing: .025em !important;
+  text-align: left !important;
+  white-space: normal !important;
+  overflow-wrap: anywhere !important;
+}
+.fmed-quick-outlook {
+  border-color: color-mix(in srgb, #1674d1 28%, var(--fmed-border, #dbe5ea)) !important;
+  color: #1263b2 !important;
+}
+
+.fmed-dashboard-kpi-grid {
+  display: grid !important;
+  grid-template-columns: repeat(5, minmax(0, 1fr)) !important;
+  gap: 10px !important;
+  min-width: 0 !important;
+}
+.fmed-dashboard-kpi-card {
+  display: grid !important;
+  grid-template-columns: 36px minmax(0, 1fr) !important;
+  grid-template-rows: minmax(52px, auto) auto !important;
+  align-items: center !important;
+  gap: 7px 9px !important;
+  min-width: 0 !important;
+  min-height: 116px !important;
+  padding: 13px !important;
+  overflow: hidden !important;
+  border-radius: 16px !important;
+}
+.fmed-dashboard-kpi-card::before,
+.fmed-dashboard-kpi-card::after { display: none !important; content: none !important; }
+.fmed-dashboard-kpi-card > span:first-child {
+  grid-column: 1 !important;
+  grid-row: 1 !important;
+  align-self: center !important;
+  width: 34px !important;
+  min-width: 34px !important;
+  height: 34px !important;
+  padding: 0 !important;
+}
+.fmed-dashboard-kpi-card > span:first-child svg {
+  width: 22px !important;
+  height: 22px !important;
+}
+.fmed-dashboard-kpi-card > span:nth-child(2) {
+  grid-column: 2 !important;
+  grid-row: 1 !important;
+  display: grid !important;
+  align-content: center !important;
+  justify-items: start !important;
+  gap: 5px !important;
+  min-width: 0 !important;
+  width: 100% !important;
+}
+.fmed-dashboard-kpi-value {
+  display: block !important;
+  width: 100% !important;
+  max-width: 100% !important;
+  margin: 0 !important;
+  font-size: clamp(20px, 1.75vw, 28px) !important;
+  line-height: .98 !important;
+  letter-spacing: -.045em !important;
+  white-space: nowrap !important;
+  word-break: normal !important;
+  overflow-wrap: normal !important;
+  text-overflow: clip !important;
+  overflow: visible !important;
+  font-variant-numeric: tabular-nums !important;
+}
+.fmed-dashboard-kpi-card small {
+  display: block !important;
+  width: 100% !important;
+  font-size: 8.5px !important;
+  line-height: 1.15 !important;
+  letter-spacing: .055em !important;
+  white-space: normal !important;
+}
+.fmed-dashboard-kpi-trend {
+  grid-column: 1 / -1 !important;
+  grid-row: 2 !important;
+  justify-self: stretch !important;
+  align-self: end !important;
+  display: block !important;
+  min-width: 0 !important;
+  width: 100% !important;
+  min-height: 24px !important;
+  margin: 0 !important;
+  padding: 6px 7px !important;
+  border-radius: 999px !important;
+  font-size: 7.8px !important;
+  line-height: 1.15 !important;
+  letter-spacing: .035em !important;
+  text-align: center !important;
+  white-space: normal !important;
+  overflow-wrap: anywhere !important;
+}
+
+/* Comandi sidebar sotto il marchio, leggibili e non invasivi. */
+.fmed-app-root aside.fmed-side-rail .fmed-sidebar-logo-lockup {
+  margin-bottom: 7px !important;
+}
+.fmed-app-root aside.fmed-side-rail .fmed-sidebar-controls {
+  order: initial !important;
+  display: grid !important;
+  grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  gap: 7px !important;
+  width: 100% !important;
+  margin: 0 0 8px !important;
+}
+.fmed-app-root aside.fmed-side-rail .fmed-sidebar-control-btn {
+  width: 100% !important;
+  min-width: 0 !important;
+  min-height: 38px !important;
+  padding: 6px 7px !important;
+  border: 1px solid color-mix(in srgb, var(--fmed-primary, #087f86) 18%, var(--fmed-border, #dbe5ea)) !important;
+  background: color-mix(in srgb, var(--fmed-primary, #087f86) 5%, var(--fmed-card, #fff)) !important;
+  color: var(--fmed-text, #102a3a) !important;
+}
+.fmed-app-root aside.fmed-side-rail .fmed-sidebar-control-btn:hover {
+  border-color: color-mix(in srgb, var(--fmed-primary, #087f86) 46%, var(--fmed-border, #dbe5ea)) !important;
+  background: color-mix(in srgb, var(--fmed-primary, #087f86) 10%, var(--fmed-card, #fff)) !important;
+  transform: translateY(-1px) !important;
+}
+.fmed-app-root aside.fmed-side-rail .fmed-sidebar-control-icon {
+  width: 22px !important;
+  min-width: 22px !important;
+  height: 22px !important;
+  background: color-mix(in srgb, var(--fmed-primary, #087f86) 12%, transparent) !important;
+}
+.fmed-app-root aside.fmed-side-rail .fmed-sidebar-control-label {
+  font-size: 8.5px !important;
+  line-height: 1.1 !important;
+  white-space: normal !important;
+}
+.fmed-app-root aside.fmed-side-rail.is-collapsed .fmed-sidebar-controls {
+  grid-template-columns: 1fr !important;
+}
+.fmed-app-root aside.fmed-side-rail.is-collapsed .fmed-sidebar-control-btn {
+  padding-inline: 0 !important;
+}
+
+/* Marchio tecnico: simbolo a griglia/facility, senza monogrammi improvvisati. */
+.fmed-brand-symbol { color: var(--fmed-primary, #087f86) !important; }
+.fmed-app-root aside.fmed-side-rail .fmed-sidebar-logo-mark {
+  background: color-mix(in srgb, var(--fmed-primary, #087f86) 7%, var(--fmed-card, #fff)) !important;
+  border: 1px solid color-mix(in srgb, var(--fmed-primary, #087f86) 22%, var(--fmed-border, #dbe5ea)) !important;
+}
+
+/* Alert Mail HTTPS / Outlook fallback. */
+.fmed-alert-dialog-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 5000;
+  display: grid;
+  place-items: center;
+  padding: 24px;
+  background: rgba(7, 24, 34, .58);
+  backdrop-filter: blur(6px);
+}
+.fmed-alert-dialog {
+  display: grid;
+  gap: 16px;
+  width: min(760px, 94vw);
+  max-height: 90vh;
+  padding: 20px;
+  overflow: auto;
+  border: 1px solid var(--fmed-border, #dbe5ea);
+  border-radius: 20px;
+  background: var(--fmed-card, #fff);
+  color: var(--fmed-text, #102a3a);
+  box-shadow: 0 26px 80px rgba(4, 21, 31, .28);
+}
+.fmed-alert-dialog > header {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: start;
+  gap: 18px;
+}
+.fmed-alert-dialog > header span {
+  color: var(--fmed-primary, #087f86);
+  font-size: 9px;
+  font-weight: 850;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+}
+.fmed-alert-dialog > header h2 { margin: 5px 0 0; font-size: 25px; line-height: 1.1; }
+.fmed-alert-dialog > header p { margin: 7px 0 0; color: var(--fmed-muted, #647784); font-size: 12px; line-height: 1.4; }
+.fmed-alert-dialog-close {
+  min-height: 36px;
+  padding: 7px 12px;
+  border: 1px solid var(--fmed-border, #dbe5ea);
+  border-radius: 10px;
+  background: transparent;
+  color: var(--fmed-text, #102a3a);
+  font-weight: 800;
+  cursor: pointer;
+}
+.fmed-alert-dialog-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 11px;
+}
+.fmed-alert-dialog-grid label { display: grid; gap: 6px; min-width: 0; }
+.fmed-alert-dialog-grid label.is-wide { grid-column: 1 / -1; }
+.fmed-alert-dialog-grid label > span { font-size: 9px; font-weight: 850; letter-spacing: .07em; text-transform: uppercase; }
+.fmed-alert-dialog-grid input,
+.fmed-alert-dialog-grid select,
+.fmed-alert-dialog-grid textarea {
+  width: 100%;
+  min-width: 0;
+  min-height: 42px;
+  padding: 9px 11px;
+  border: 1px solid var(--fmed-border, #dbe5ea);
+  border-radius: 10px;
+  background: var(--fmed-input, #fff);
+  color: var(--fmed-text, #102a3a);
+  resize: vertical;
+}
+.fmed-alert-dialog-grid small { color: var(--fmed-muted, #647784); font-size: 9.5px; line-height: 1.35; }
+.fmed-alert-dialog-status {
+  display: grid;
+  gap: 4px;
+  padding: 11px 13px;
+  border: 1px solid;
+  border-radius: 11px;
+}
+.fmed-alert-dialog-status.is-ok { border-color: rgba(24, 150, 112, .35); background: rgba(24, 150, 112, .08); }
+.fmed-alert-dialog-status.is-error { border-color: rgba(197, 79, 79, .38); background: rgba(197, 79, 79, .08); }
+.fmed-alert-dialog-status span,
+.fmed-alert-dialog-status small { font-size: 11px; line-height: 1.35; }
+.fmed-alert-dialog > footer {
+  display: flex;
+  justify-content: flex-end;
+  flex-wrap: wrap;
+  gap: 9px;
+}
+.fmed-alert-dialog > footer button {
+  min-height: 40px;
+  padding: 8px 13px;
+  border-radius: 10px;
+  font-weight: 850;
+  cursor: pointer;
+}
+.fmed-alert-dialog > footer button.secondary {
+  border: 1px solid var(--fmed-border, #dbe5ea);
+  background: transparent;
+  color: var(--fmed-text, #102a3a);
+}
+.fmed-alert-dialog > footer button.outlook { color: #1263b2; border-color: rgba(18, 99, 178, .35); }
+.fmed-alert-dialog > footer button.primary {
+  border: 1px solid var(--fmed-primary, #087f86);
+  background: var(--fmed-primary, #087f86);
+  color: #fff;
+}
+.fmed-alert-dialog button:disabled { opacity: .55; cursor: wait; }
+
+/* Banner Processi, Dizionari e 81/08 compatti come gli altri moduli. */
+.fmed-process-head,
+.core-standard-head,
+.fmed-safety-header,
+.fmed-settings-head {
+  min-height: 0 !important;
+  height: auto !important;
+  padding: 17px 19px !important;
+  gap: 18px !important;
+  overflow: hidden !important;
+}
+.fmed-process-head h2,
+.core-standard-head h2,
+.fmed-safety-header h2,
+.fmed-settings-head h2 {
+  margin: 0 !important;
+  font-size: clamp(24px, 1.8vw, 30px) !important;
+  line-height: 1.08 !important;
+}
+.fmed-process-head p,
+.core-standard-head p,
+.fmed-safety-header p,
+.fmed-settings-head p {
+  max-width: 900px !important;
+  margin: 7px 0 0 !important;
+  font-size: 12px !important;
+  line-height: 1.4 !important;
+}
+
+@media (max-width: 1320px) and (min-width: 980px) {
+  .fmed-quick-actions-grid { grid-template-columns: repeat(4, minmax(0, 1fr)) !important; }
+  .fmed-dashboard-kpi-grid { grid-template-columns: repeat(3, minmax(0, 1fr)) !important; }
+  .fmed-dashboard-kpi-value { font-size: 27px !important; }
+}
+
+/* ===== E2.2.8.1: processo Nuovo intervento realmente guidato ===== */
+.fmed-guided-process-waiting {
+  margin-top: 2px;
+  padding: 14px 16px;
+  border: 1px dashed color-mix(in srgb, var(--fmed-primary, #087f86) 38%, var(--fmed-border, #dbe5ea));
+  border-radius: 12px;
+  background: color-mix(in srgb, var(--fmed-primary, #087f86) 5%, var(--fmed-card, #fff));
+  color: var(--fmed-text, #102a3a);
+  font-size: 12px;
+  font-weight: 720;
+  line-height: 1.45;
+  text-align: center;
+}
+.fmed-guided-process-step {
+  grid-column: 1 / -1;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 8px;
+  padding: 10px 12px;
+  border-radius: 10px;
+  background: color-mix(in srgb, var(--fmed-primary, #087f86) 7%, var(--fmed-card, #fff));
+  border: 1px solid color-mix(in srgb, var(--fmed-primary, #087f86) 22%, var(--fmed-border, #dbe5ea));
+}
+.fmed-guided-process-step span {
+  color: var(--fmed-primary, #087f86);
+  font-size: 9px;
+  font-weight: 900;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+}
+.fmed-guided-process-step strong { font-size: 13px; }
+
+/* Risultati cespiti: card leggibili, nessuna sovrapposizione. */
+.fmed-intervention-asset-results {
+  grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  gap: 10px !important;
+  max-height: 330px !important;
+}
+.fmed-intervention-asset-results button {
+  grid-template-columns: minmax(88px, auto) minmax(0, 1fr) !important;
+  grid-template-areas:
+    "code type"
+    "tech tech"
+    "place place";
+  align-items: start !important;
+  gap: 5px 10px !important;
+  min-height: 98px !important;
+  padding: 12px 13px !important;
+  overflow: hidden !important;
+}
+.fmed-intervention-asset-results strong {
+  grid-area: code;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.fmed-intervention-asset-results span {
+  grid-area: type;
+  min-width: 0;
+  white-space: normal !important;
+  overflow-wrap: anywhere;
+}
+.fmed-intervention-asset-results small { grid-area: tech; }
+.fmed-intervention-asset-results em { grid-area: place; }
+.fmed-intervention-asset-results small,
+.fmed-intervention-asset-results em {
+  display: block;
+  white-space: normal !important;
+  overflow-wrap: anywhere !important;
+}
+
+/* Riepilogo alert mostrato anche nella finestra FMED. */
+.fmed-alert-summary {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 7px;
+  margin-top: 7px;
+}
+.fmed-alert-summary span {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  padding: 7px 9px;
+  border-radius: 8px;
+  background: color-mix(in srgb, var(--fmed-card, #fff) 78%, transparent);
+  font-size: 10px !important;
+}
+.fmed-alert-summary b { font-size: 13px; }
+
+@media (max-width: 1250px) {
+  .fmed-intervention-asset-picker-head { grid-template-columns: 1fr; }
+  .fmed-intervention-asset-picker-filters { grid-template-columns: 1fr 1fr; }
+  .fmed-intervention-asset-picker-filters label:first-child { grid-column: 1 / -1; }
+  .fmed-alert-summary { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}

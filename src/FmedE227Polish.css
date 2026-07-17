@@ -1,0 +1,383 @@
+/* FMED Enterprise 1.0 · E2.2.7
+   Processi/Dizionari controls + dashboard/sidebar visual integrity.
+   Desktop-only. Nessuna modifica a logiche o dati. */
+
+/* ===== Sidebar: brand e comandi professionali ===== */
+.fmed-app-root aside.fmed-side-rail .fmed-sidebar-controls {
+  grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  gap: 9px !important;
+  margin-bottom: 10px !important;
+}
+
+.fmed-app-root aside.fmed-side-rail .fmed-sidebar-control-btn {
+  min-height: 44px !important;
+  padding: 7px 10px !important;
+  border: 1px solid color-mix(in srgb, var(--fmed-primary, #087f86) 18%, var(--fmed-border, #dbe5ea)) !important;
+  border-radius: 13px !important;
+  background: linear-gradient(145deg, color-mix(in srgb, var(--fmed-card, #fff) 96%, var(--fmed-primary, #087f86) 4%), var(--fmed-card, #fff)) !important;
+  color: var(--fmed-text, #102a3a) !important;
+  box-shadow: 0 8px 18px rgba(16, 42, 58, .07) !important;
+  font-size: 10.5px !important;
+  font-weight: 800 !important;
+  letter-spacing: .01em !important;
+}
+
+.fmed-app-root aside.fmed-side-rail .fmed-sidebar-control-btn:hover {
+  transform: translateY(-1px) !important;
+  border-color: color-mix(in srgb, var(--fmed-primary, #087f86) 42%, transparent) !important;
+  background: color-mix(in srgb, var(--fmed-primary, #087f86) 9%, var(--fmed-card, #fff)) !important;
+  box-shadow: 0 12px 24px rgba(8, 127, 134, .13) !important;
+}
+
+.fmed-sidebar-control-icon {
+  display: grid !important;
+  place-items: center !important;
+  width: 27px !important;
+  min-width: 27px !important;
+  height: 27px !important;
+  border-radius: 9px !important;
+  background: color-mix(in srgb, var(--fmed-primary, #087f86) 12%, transparent) !important;
+  color: var(--fmed-primary, #087f86) !important;
+}
+.fmed-sidebar-control-icon svg { width: 17px !important; height: 17px !important; }
+.fmed-sidebar-control-label { min-width: 0; line-height: 1.12; white-space: normal; }
+
+body[data-theme="dark"] .fmed-sidebar-control-icon,
+.fmed-dark-mode .fmed-sidebar-control-icon {
+  background: rgba(31, 174, 156, .14) !important;
+  color: #4ed9cd !important;
+}
+
+.fmed-app-root aside.fmed-side-rail .fmed-sidebar-logo-lockup {
+  grid-template-columns: 50px minmax(0, 1fr) !important;
+  min-height: 76px !important;
+  padding: 10px 8px !important;
+  border: 1px solid color-mix(in srgb, var(--fmed-primary, #087f86) 13%, transparent) !important;
+  background: linear-gradient(145deg, color-mix(in srgb, var(--fmed-primary, #087f86) 7%, var(--fmed-card, #fff)), color-mix(in srgb, var(--fmed-card, #fff) 98%, transparent)) !important;
+  box-shadow: 0 10px 24px rgba(16, 42, 58, .065) !important;
+}
+
+.fmed-app-root aside.fmed-side-rail .fmed-sidebar-logo-mark {
+  display: grid !important;
+  place-items: center !important;
+  width: 48px !important;
+  min-width: 48px !important;
+  height: 48px !important;
+  border-radius: 15px !important;
+  background: transparent !important;
+  color: var(--fmed-primary, #087f86) !important;
+  border: 0 !important;
+  box-shadow: none !important;
+}
+.fmed-brand-monogram { display: block; overflow: visible; }
+.fmed-sidebar-logo-compact { display: grid !important; place-items: center !important; color: var(--fmed-primary, #087f86) !important; }
+.fmed-app-root aside.fmed-side-rail .fmed-sidebar-logo-title { font-size: 23px !important; letter-spacing: .105em !important; }
+.fmed-app-root aside.fmed-side-rail .fmed-sidebar-logo-subtitle { font-size: 8.8px !important; letter-spacing: .095em !important; }
+.fmed-sidebar-logo-byline { margin-top: 2px !important; font-size: 9.2px !important; }
+
+/* ===== Dashboard: Azioni rapide leggibili, senza bolle sovrapposte ===== */
+.fmed-dashboard-page .fmed-quick-actions-panel {
+  padding: 18px 20px 20px !important;
+  border-radius: 20px !important;
+  overflow: visible !important;
+}
+
+.fmed-dashboard-page .fmed-quick-actions-grid {
+  display: grid !important;
+  grid-template-columns: repeat(auto-fit, minmax(185px, 1fr)) !important;
+  gap: 12px !important;
+  align-items: stretch !important;
+}
+
+.fmed-dashboard-page .fmed-quick-action {
+  display: grid !important;
+  grid-template-columns: 40px minmax(0, 1fr) !important;
+  align-items: center !important;
+  justify-content: stretch !important;
+  gap: 12px !important;
+  min-width: 0 !important;
+  min-height: 72px !important;
+  padding: 12px 14px !important;
+  border-radius: 15px !important;
+  overflow: visible !important;
+  text-align: left !important;
+  background: linear-gradient(145deg, var(--fmed-card, #fff), color-mix(in srgb, var(--qa-color, #087f86) 4%, var(--fmed-card, #fff))) !important;
+  color: var(--fmed-text, #102a3a) !important;
+  -webkit-text-fill-color: var(--fmed-text, #102a3a) !important;
+  border: 1px solid color-mix(in srgb, var(--qa-color, #087f86) 20%, var(--fmed-border, #dbe5ea)) !important;
+  box-shadow: 0 8px 20px rgba(16, 42, 58, .055) !important;
+}
+.fmed-dashboard-page .fmed-quick-action::after { display: none !important; content: none !important; }
+.fmed-dashboard-page .fmed-quick-action::before {
+  inset: 10px auto 10px 0 !important;
+  width: 3px !important;
+  border-radius: 0 999px 999px 0 !important;
+}
+.fmed-dashboard-page .fmed-quick-action svg {
+  grid-column: 1 !important;
+  display: block !important;
+  width: 22px !important;
+  height: 22px !important;
+  padding: 8px !important;
+  box-sizing: content-box !important;
+  border-radius: 12px !important;
+  background: color-mix(in srgb, var(--qa-color, #087f86) 12%, transparent) !important;
+  color: var(--qa-color, #087f86) !important;
+}
+.fmed-dashboard-page .fmed-quick-action > span {
+  grid-column: 2 !important;
+  min-width: 0 !important;
+  color: var(--fmed-text, #102a3a) !important;
+  -webkit-text-fill-color: var(--fmed-text, #102a3a) !important;
+  font-size: 12px !important;
+  font-weight: 800 !important;
+  line-height: 1.22 !important;
+  letter-spacing: .025em !important;
+  text-transform: uppercase !important;
+  white-space: normal !important;
+  overflow: visible !important;
+  text-overflow: clip !important;
+}
+.fmed-dashboard-page .fmed-quick-alert { background: linear-gradient(145deg, color-mix(in srgb, #1fae9c 9%, var(--fmed-card, #fff)), var(--fmed-card, #fff)) !important; }
+
+body[data-theme="dark"] .fmed-dashboard-page .fmed-quick-action,
+.fmed-dark-mode .fmed-dashboard-page .fmed-quick-action {
+  background: linear-gradient(145deg, #102431, #0b1b26) !important;
+  color: #f3f8fa !important;
+  -webkit-text-fill-color: #f3f8fa !important;
+  border-color: color-mix(in srgb, var(--qa-color, #1fae9c) 28%, rgba(255,255,255,.08)) !important;
+}
+body[data-theme="dark"] .fmed-dashboard-page .fmed-quick-action > span,
+.fmed-dark-mode .fmed-dashboard-page .fmed-quick-action > span {
+  color: #f3f8fa !important;
+  -webkit-text-fill-color: #f3f8fa !important;
+}
+
+/* ===== Dashboard KPI: numeri su una riga e badge sempre separati ===== */
+.fmed-dashboard-kpi-grid {
+  display: grid !important;
+  grid-template-columns: repeat(auto-fit, minmax(225px, 1fr)) !important;
+  gap: 14px !important;
+  align-items: stretch !important;
+}
+.fmed-dashboard-kpi-card {
+  display: grid !important;
+  grid-template-columns: 52px minmax(0, 1fr) !important;
+  grid-template-rows: minmax(62px, auto) auto !important;
+  gap: 10px 13px !important;
+  min-width: 0 !important;
+  min-height: 138px !important;
+  height: 100% !important;
+  padding: 16px !important;
+  border-radius: 19px !important;
+  overflow: visible !important;
+  align-content: stretch !important;
+}
+.fmed-dashboard-kpi-card > span:first-child { align-self: center !important; }
+.fmed-dashboard-kpi-card > span:nth-child(2) {
+  align-self: center !important;
+  min-width: 0 !important;
+  overflow: visible !important;
+}
+.fmed-dashboard-kpi-value {
+  display: block !important;
+  min-width: 0 !important;
+  max-width: 100% !important;
+  font-size: clamp(24px, 2vw, 32px) !important;
+  line-height: 1 !important;
+  letter-spacing: -.045em !important;
+  font-variant-numeric: tabular-nums !important;
+  white-space: nowrap !important;
+  word-break: keep-all !important;
+  overflow: visible !important;
+  text-overflow: clip !important;
+}
+.fmed-dashboard-kpi-card small {
+  margin-top: 6px !important;
+  font-size: 10px !important;
+  line-height: 1.2 !important;
+  letter-spacing: .065em !important;
+  white-space: normal !important;
+}
+.fmed-dashboard-kpi-trend {
+  grid-column: 1 / -1 !important;
+  align-self: end !important;
+  width: 100% !important;
+  max-width: 100% !important;
+  min-height: 30px !important;
+  margin: 0 !important;
+  padding: 7px 10px !important;
+  border-radius: 10px !important;
+  font-size: 10.5px !important;
+  line-height: 1.25 !important;
+  letter-spacing: .025em !important;
+  white-space: normal !important;
+  overflow: visible !important;
+  overflow-wrap: normal !important;
+  text-align: center !important;
+}
+
+/* ===== Master Data/Dizionari: controlli dedicati e colonna più ampia ===== */
+.core-controls {
+  display: grid;
+  gap: 10px;
+  min-width: 0;
+}
+.core-controls .core-standard-tabs {
+  padding: 8px !important;
+  gap: 9px !important;
+}
+.core-controls .core-standard-tabs button {
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 8px !important;
+  min-height: 43px !important;
+  padding: 9px 15px !important;
+}
+.core-controls .core-standard-tabs svg { width: 18px; height: 18px; flex: 0 0 auto; }
+.core-controls .core-toolbar {
+  grid-template-columns: minmax(260px, 1fr) minmax(260px, 1fr) max-content !important;
+  align-items: end !important;
+  padding: 13px !important;
+}
+.core-search-field { display: grid !important; gap: 6px !important; min-width: 0 !important; }
+.core-search-field > span {
+  color: var(--fmed-muted, #60706d) !important;
+  font-size: 10px !important;
+  font-weight: 850 !important;
+  letter-spacing: .07em !important;
+  text-transform: uppercase !important;
+}
+.core-inactive-toggle {
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 8px !important;
+  min-height: 44px !important;
+  padding: 0 13px !important;
+  border: 1px solid var(--fmed-border, #dfe7e5) !important;
+  border-radius: 10px !important;
+  background: var(--fmed-soft, #eef5f3) !important;
+}
+
+.core-standard-page .core-dictionary-layout {
+  grid-template-columns: clamp(375px, 34%, 450px) minmax(0, 1fr) !important;
+  gap: 18px !important;
+}
+.core-standard-page .core-dictionary-list { padding: 17px !important; }
+.core-standard-page .core-dictionary-list button {
+  display: grid !important;
+  grid-template-columns: minmax(0, 1fr) auto !important;
+  align-items: center !important;
+  gap: 10px !important;
+  min-height: 58px !important;
+  padding: 10px 12px !important;
+}
+.core-standard-page .core-dictionary-list button strong {
+  min-width: 0 !important;
+  font-size: 12.5px !important;
+  line-height: 1.3 !important;
+  white-space: normal !important;
+  overflow: visible !important;
+  text-overflow: clip !important;
+  overflow-wrap: normal !important;
+}
+.core-standard-page .core-dictionary-list button span {
+  margin: 0 !important;
+  padding: 5px 7px !important;
+  border-radius: 999px !important;
+  background: color-mix(in srgb, var(--fmed-primary, #087f86) 8%, transparent) !important;
+  font-size: 9.5px !important;
+  line-height: 1.15 !important;
+  text-align: center !important;
+  white-space: nowrap !important;
+}
+.core-standard-page .core-dictionary-panel { min-width: 610px !important; }
+.core-standard-page .core-dictionary-title h3,
+.core-standard-page .core-dictionary-title p,
+.core-standard-page .core-table-head span,
+.core-standard-page .core-value-row > * {
+  white-space: normal !important;
+  overflow: visible !important;
+  text-overflow: clip !important;
+}
+
+/* ===== Processi: controlli centralizzati e leggibili ===== */
+.fmed-process-controls {
+  display: grid;
+  gap: 12px;
+  min-width: 0;
+}
+.fmed-process-control-summary {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 12px;
+}
+.fmed-process-control-summary article {
+  display: grid;
+  gap: 4px;
+  min-width: 0;
+  padding: 15px 17px;
+  border: 1px solid var(--fmed-border, #dbe5ea);
+  border-radius: 16px;
+  background: var(--fmed-card, #fff);
+  box-shadow: 0 7px 18px rgba(16,42,58,.045);
+}
+.fmed-process-control-summary span,
+.fmed-process-control-summary small { color: var(--fmed-muted, #647784); }
+.fmed-process-control-summary span { font-size: 10px; font-weight: 800; letter-spacing: .07em; text-transform: uppercase; }
+.fmed-process-control-summary strong { font-size: 28px; line-height: 1; color: var(--fmed-text, #102a3a); }
+.fmed-process-control-summary small { font-size: 10.5px; }
+.fmed-process-control-bar {
+  display: grid;
+  grid-template-columns: minmax(320px, 1fr) minmax(180px, 230px) max-content;
+  gap: 10px;
+  align-items: end;
+  padding: 13px;
+  border: 1px solid var(--fmed-border, #dbe5ea);
+  border-radius: 16px;
+  background: var(--fmed-card, #fff);
+}
+.fmed-process-search-field,
+.fmed-process-status-field { display: grid; gap: 6px; min-width: 0; }
+.fmed-process-search-field > span,
+.fmed-process-status-field > span {
+  color: var(--fmed-muted, #647784);
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: .07em;
+  text-transform: uppercase;
+}
+.fmed-process-control-bar input,
+.fmed-process-control-bar select {
+  width: 100%;
+  min-width: 0;
+  min-height: 44px;
+  padding: 0 12px;
+  border: 1px solid var(--fmed-border, #dbe5ea);
+  border-radius: 11px;
+  background: var(--fmed-card, #fff);
+  color: var(--fmed-text, #102a3a);
+}
+.fmed-process-control-bar .fmed-process-refresh {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-height: 44px;
+  padding: 0 15px;
+  background: linear-gradient(135deg, var(--fmed-primary, #087f86), #159b90);
+  border-color: transparent;
+  color: #fff;
+}
+.fmed-process-control-bar .fmed-process-refresh svg { width: 18px; height: 18px; }
+.fmed-process-history-head { align-items: flex-start !important; }
+
+/* Desktop stretto: mantieni leggibilità senza reintrodurre UI mobile. */
+@media (max-width: 1450px) and (min-width: 1180px) {
+  .fmed-dashboard-kpi-grid { grid-template-columns: repeat(3, minmax(225px, 1fr)) !important; }
+  .fmed-dashboard-page .fmed-quick-actions-grid { grid-template-columns: repeat(3, minmax(185px, 1fr)) !important; }
+  .core-standard-page .core-dictionary-layout { grid-template-columns: 390px minmax(610px, 1fr) !important; }
+  .fmed-process-control-summary { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}

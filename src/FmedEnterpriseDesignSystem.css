@@ -1,0 +1,336 @@
+/* FMED Enterprise 1.0 — Fase E2.1 Design System Foundations
+   Token, componenti e stati condivisi. Nessuna logica applicativa. */
+:root{
+  --fmed-font:"Futura Light","Futura LT Light","Futura PT",Futura,"Jost","Century Gothic",Arial,sans-serif;
+  --fmed-bg:#f2f5f4;
+  --fmed-card:#fffdf9;
+  --fmed-card-strong:#ffffff;
+  --fmed-soft:#edf4f2;
+  --fmed-input:#fffefa;
+  --fmed-text:#243331;
+  --fmed-muted:#667673;
+  --fmed-border:#d6e1de;
+  --fmed-border-strong:#b9cbc7;
+  --fmed-primary:#0d766e;
+  --fmed-primary-hover:#095f59;
+  --fmed-primary-soft:rgba(13,118,110,.09);
+  --fmed-success:#16795f;
+  --fmed-warning:#a66d14;
+  --fmed-danger:#a73f47;
+  --fmed-info:#236b86;
+  --fmed-radius-sm:9px;
+  --fmed-radius-md:12px;
+  --fmed-radius-lg:16px;
+  --fmed-radius-xl:20px;
+  --fmed-shadow-sm:0 5px 16px rgba(23,66,61,.05);
+  --fmed-shadow-md:0 12px 30px rgba(23,66,61,.09);
+  --fmed-shadow-lg:0 24px 58px rgba(16,51,48,.16);
+  --fmed-control-h:44px;
+  --fmed-space-1:4px;
+  --fmed-space-2:8px;
+  --fmed-space-3:12px;
+  --fmed-space-4:16px;
+  --fmed-space-5:20px;
+  --fmed-space-6:24px;
+  --fmed-space-8:32px;
+}
+body[data-theme="dark"],.fmed-dark-mode{
+  --fmed-bg:#0b151d;
+  --fmed-card:#17232c;
+  --fmed-card-strong:#1b2933;
+  --fmed-soft:#22343f;
+  --fmed-input:#101b23;
+  --fmed-text:#f2f6f7;
+  --fmed-muted:#a5b7bf;
+  --fmed-border:#344550;
+  --fmed-border-strong:#4a606c;
+  --fmed-primary:#18b5ab;
+  --fmed-primary-hover:#24c9be;
+  --fmed-primary-soft:rgba(24,181,171,.14);
+  --fmed-shadow-sm:0 6px 18px rgba(0,0,0,.18);
+  --fmed-shadow-md:0 14px 34px rgba(0,0,0,.25);
+  --fmed-shadow-lg:0 28px 64px rgba(0,0,0,.34);
+}
+
+/* Primitivi riutilizzabili */
+.fmed-ui-card{
+  min-width:0;
+  border:1px solid var(--fmed-border);
+  border-radius:var(--fmed-radius-lg);
+  background:var(--fmed-card);
+  color:var(--fmed-text);
+  box-shadow:var(--fmed-shadow-sm);
+}
+.fmed-ui-button,
+.core-primary-button,.core-process-card button,.core-add-value button,.core-add-relation button,
+.fmed-wizard-actions button{
+  min-height:var(--fmed-control-h);
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  gap:8px;
+  border:1px solid transparent;
+  border-radius:var(--fmed-radius-md);
+  padding:10px 16px;
+  background:var(--fmed-primary);
+  color:#fff;
+  font:800 13px/1 var(--fmed-font);
+  cursor:pointer;
+  white-space:nowrap;
+  transition:transform .15s ease,filter .15s ease,background .15s ease,border-color .15s ease,box-shadow .15s ease;
+}
+.fmed-ui-button:hover,
+.core-primary-button:hover,.core-process-card button:hover,.core-add-value button:hover,.core-add-relation button:hover,
+.fmed-wizard-actions button:hover:not(:disabled){
+  background:var(--fmed-primary-hover);
+  transform:translateY(-1px);
+  box-shadow:0 7px 18px var(--fmed-primary-soft);
+}
+.fmed-ui-button:disabled,
+.core-primary-button:disabled,.core-add-value button:disabled,.core-add-relation button:disabled,
+.fmed-wizard-actions button:disabled{opacity:.52;cursor:not-allowed;transform:none;box-shadow:none}
+.fmed-ui-button.secondary,.fmed-wizard-actions button.secondary{
+  background:var(--fmed-soft);
+  border-color:var(--fmed-border);
+  color:var(--fmed-text);
+  box-shadow:none;
+}
+.fmed-ui-button.ghost{
+  background:transparent;
+  border-color:var(--fmed-border);
+  color:var(--fmed-text);
+  box-shadow:none;
+}
+.fmed-ui-button.danger{background:var(--fmed-danger)}
+
+.fmed-ui-input,
+.core-toolbar input,.core-add-value input,.core-add-relation select,.core-add-relation input,
+.fmed-wizard-field input,.fmed-wizard-field select,.fmed-wizard-field textarea{
+  width:100%;min-width:0;min-height:var(--fmed-control-h);
+  box-sizing:border-box;
+  border:1px solid var(--fmed-border-strong);
+  border-radius:var(--fmed-radius-md);
+  padding:10px 13px;
+  background:var(--fmed-input);
+  color:var(--fmed-text);
+  font:inherit;
+  outline:none;
+  transition:border-color .15s ease,box-shadow .15s ease,background .15s ease;
+}
+.fmed-ui-input:focus,
+.core-toolbar input:focus,.core-add-value input:focus,.core-add-relation select:focus,.core-add-relation input:focus,
+.fmed-wizard-field input:focus,.fmed-wizard-field select:focus,.fmed-wizard-field textarea:focus{
+  border-color:var(--fmed-primary);
+  box-shadow:0 0 0 3px var(--fmed-primary-soft);
+}
+.fmed-ui-input:disabled,
+.core-toolbar input:disabled,.core-add-value input:disabled,.core-add-relation select:disabled,.core-add-relation input:disabled,
+.fmed-wizard-field input:disabled,.fmed-wizard-field select:disabled,.fmed-wizard-field textarea:disabled{
+  opacity:.66;cursor:not-allowed;background:var(--fmed-soft)
+}
+
+.fmed-ui-label,.fmed-wizard-field>span{
+  color:var(--fmed-text);
+  font-size:12px;
+  font-weight:800;
+  text-transform:uppercase;
+  letter-spacing:.055em;
+}
+.fmed-ui-help,.fmed-wizard-field small{color:var(--fmed-muted);font-size:12px;line-height:1.4}
+
+.fmed-ui-badge,.core-status{
+  display:inline-flex;align-items:center;justify-content:center;
+  width:max-content;min-height:26px;padding:4px 9px;
+  border-radius:999px;font-size:11px;font-weight:900;line-height:1;
+}
+.fmed-ui-badge.success,.core-status.active{background:rgba(22,121,95,.14);color:var(--fmed-success)}
+.fmed-ui-badge.inactive,.core-status.inactive{background:rgba(167,63,71,.13);color:var(--fmed-danger)}
+.fmed-ui-badge.warning{background:rgba(166,109,20,.14);color:var(--fmed-warning)}
+.fmed-ui-badge.info{background:rgba(35,107,134,.13);color:var(--fmed-info)}
+
+.fmed-ui-alert{padding:12px 14px;border:1px solid var(--fmed-border);border-radius:var(--fmed-radius-md);background:var(--fmed-soft);color:var(--fmed-text)}
+.fmed-ui-alert.error{border-color:rgba(167,63,71,.4);background:rgba(167,63,71,.09);color:var(--fmed-danger)}
+.fmed-ui-alert.warning{border-color:rgba(166,109,20,.4);background:rgba(166,109,20,.09);color:var(--fmed-warning)}
+
+button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible,[tabindex]:focus-visible{
+  outline:3px solid var(--fmed-primary-soft);
+  outline-offset:2px;
+}
+@media (prefers-reduced-motion:reduce){*{scroll-behavior:auto!important;transition:none!important;animation:none!important}}
+
+
+/* ==============================================================
+   E2.1 — ENTERPRISE FOUNDATIONS
+   Regole finali condivise per desktop: gerarchia, controlli, card,
+   tabelle, navigazione e temi. Nessuna logica applicativa.
+   ============================================================== */
+:root{
+  --fmed-font-size-xs:11px;
+  --fmed-font-size-sm:12px;
+  --fmed-font-size-md:14px;
+  --fmed-font-size-lg:17px;
+  --fmed-font-size-xl:22px;
+  --fmed-font-size-2xl:clamp(25px,2vw,34px);
+  --fmed-line-tight:1.18;
+  --fmed-line-base:1.5;
+  --fmed-page-gap:clamp(16px,1.35vw,24px);
+  --fmed-card-padding:clamp(16px,1.3vw,22px);
+  --fmed-focus-ring:0 0 0 3px var(--fmed-primary-soft);
+  --fmed-transition:150ms ease;
+}
+
+*,*::before,*::after{box-sizing:border-box}
+html{font-family:var(--fmed-font);text-rendering:optimizeLegibility;-webkit-font-smoothing:antialiased}
+body{font-family:var(--fmed-font);font-size:var(--fmed-font-size-md);line-height:var(--fmed-line-base)}
+button,input,select,textarea{font:inherit}
+
+.fmed-app-root{
+  color:var(--fmed-text);
+  background:var(--fmed-bg);
+}
+.fmed-app-root h1,.fmed-app-root h2,.fmed-app-root h3,.fmed-app-root h4{
+  margin-top:0;
+  color:var(--fmed-text);
+  font-family:var(--fmed-font);
+  line-height:var(--fmed-line-tight);
+  text-wrap:balance;
+}
+.fmed-app-root h1{font-size:var(--fmed-font-size-2xl)}
+.fmed-app-root h2{font-size:var(--fmed-font-size-xl)}
+.fmed-app-root h3{font-size:var(--fmed-font-size-lg)}
+.fmed-app-root p{line-height:var(--fmed-line-base)}
+
+/* Comandi: altezze e stati coerenti senza alterare le azioni colorate specifiche. */
+.fmed-app-root button,
+.fmed-app-root [role="button"]{
+  min-width:0;
+  min-height:40px;
+  border-radius:var(--fmed-radius-md);
+  font-family:var(--fmed-font);
+  font-weight:700;
+  letter-spacing:.01em;
+  transition:transform var(--fmed-transition),box-shadow var(--fmed-transition),border-color var(--fmed-transition),background var(--fmed-transition);
+}
+.fmed-app-root button:not(:disabled):active,
+.fmed-app-root [role="button"]:not([aria-disabled="true"]):active{transform:translateY(0)}
+.fmed-app-root button:disabled{opacity:.55;cursor:not-allowed}
+
+.fmed-app-root input,
+.fmed-app-root select,
+.fmed-app-root textarea{
+  min-height:42px;
+  border-radius:var(--fmed-radius-md);
+  line-height:1.35;
+}
+.fmed-app-root textarea{min-height:96px;resize:vertical}
+.fmed-app-root input:focus,
+.fmed-app-root select:focus,
+.fmed-app-root textarea:focus{box-shadow:var(--fmed-focus-ring)}
+
+/* Superfici condivise. */
+.fmed-app-root section,
+.fmed-app-root article,
+.fmed-ui-card{
+  min-width:0;
+}
+.fmed-app-root table{
+  width:100%;
+  border-collapse:separate;
+  border-spacing:0;
+  font-size:13px;
+}
+.fmed-app-root th{
+  font-size:11px;
+  font-weight:800;
+  letter-spacing:.045em;
+  text-transform:uppercase;
+}
+.fmed-app-root th,.fmed-app-root td{
+  padding:12px 14px;
+  vertical-align:middle;
+}
+
+/* Sidebar enterprise: comandi chiari, logo e voci allineati. */
+.fmed-sidebar-controls{
+  display:grid!important;
+  grid-template-columns:minmax(0,1fr) minmax(0,1fr)!important;
+  gap:8px!important;
+  width:100%!important;
+}
+.fmed-sidebar-controls.is-collapsed{grid-template-columns:1fr!important}
+.fmed-sidebar-control-btn{
+  display:inline-flex!important;
+  align-items:center!important;
+  justify-content:center!important;
+  gap:7px!important;
+  width:100%!important;
+  min-height:38px!important;
+  padding:7px 9px!important;
+  border:1px solid var(--fmed-border)!important;
+  background:var(--fmed-card)!important;
+  color:var(--fmed-text)!important;
+  box-shadow:var(--fmed-shadow-sm)!important;
+  white-space:nowrap!important;
+}
+.fmed-sidebar-control-btn:hover{
+  border-color:var(--fmed-primary)!important;
+  background:var(--fmed-primary-soft)!important;
+}
+.fmed-sidebar-logo-lockup{min-width:0}
+.fmed-sidebar-logo-title{line-height:1!important}
+.fmed-sidebar-logo-subtitle,.fmed-sidebar-logo-byline{line-height:1.25!important}
+.fmed-side-menu-btn{
+  font-size:12px!important;
+  font-weight:750!important;
+}
+.fmed-side-menu-btn .fmed-menu-info{
+  opacity:.66;
+  transition:opacity var(--fmed-transition),transform var(--fmed-transition);
+}
+.fmed-side-menu-btn:hover .fmed-menu-info{opacity:1;transform:scale(1.06)}
+
+/* Dashboard: azioni e KPI con proporzioni stabili. */
+.fmed-quick-actions-grid{
+  display:grid!important;
+  grid-template-columns:repeat(3,minmax(0,1fr))!important;
+  gap:10px!important;
+}
+.fmed-quick-action{
+  min-height:62px!important;
+  padding:10px 14px!important;
+}
+.fmed-quick-action svg{width:22px!important;height:22px!important;flex:0 0 auto}
+.fmed-dashboard-page button{overflow:visible}
+
+/* Master Data e pagine amministrative: nessuna sovrapposizione. */
+.core-page,.settings-page,.processi-page,.sicurezza-page{
+  min-width:0;
+  isolation:isolate;
+}
+.core-header,.core-toolbar,.core-tabs{
+  position:relative!important;
+  inset:auto!important;
+  z-index:auto!important;
+}
+.core-layout{
+  align-items:start!important;
+}
+.core-dictionaries,.core-values-panel{
+  min-width:0!important;
+}
+
+/* Theme: contrasto coerente. */
+body[data-theme="light"] .fmed-sidebar-control-btn{
+  background:rgba(255,255,255,.94)!important;
+  color:#092238!important;
+}
+body[data-theme="dark"] .fmed-sidebar-control-btn{
+  background:rgba(8,28,43,.94)!important;
+  color:#f4fbff!important;
+  border-color:rgba(40,181,214,.24)!important;
+}
+
+@media (max-width:1360px) and (min-width:1024px){
+  .fmed-quick-actions-grid{grid-template-columns:repeat(2,minmax(0,1fr))!important}
+  .fmed-app-root th,.fmed-app-root td{padding:10px 11px}
+}

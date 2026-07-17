@@ -1,0 +1,1297 @@
+/* FMED Enterprise — legacy inline theme bridge externalized in E2.1.
+   Preserves historical inline-style compatibility while the UI is progressively componentized. */
+
+/* FMED 3.1 CLEAN - override finale unico del layout */
+        .fmed-dark-mode {
+          background: radial-gradient(circle at 80% -10%, rgba(46,141,180,.12), transparent 34%), linear-gradient(135deg,#061520 0%,#071B27 55%,#05111C 100%) !important;
+          color: var(--fmed-text) !important;
+        }
+        .fmed-dark-mode aside {
+          background: linear-gradient(180deg, #04121E 0%, #082033 100%) !important;
+          border-right: 1px solid rgba(145,190,214,.16) !important;
+        }
+        .fmed-app-root main { min-width: 0 !important; }
+        .fmed-dark-mode [style*="background: #F4F8F7"],
+        .fmed-dark-mode [style*="background:#F4F8F7"],
+        .fmed-dark-mode [style*="background: #F7F9FB"],
+        .fmed-dark-mode [style*="background:#F7F9FB"],
+        .fmed-dark-mode [style*="background: #FBFCFD"],
+        .fmed-dark-mode [style*="background:#FBFCFD"],
+        .fmed-dark-mode [style*="background: #FFFFFF"],
+        .fmed-dark-mode [style*="background:#FFFFFF"],
+        .fmed-dark-mode [style*="background: white"],
+        .fmed-dark-mode [style*="background:white"] {
+          background: linear-gradient(145deg, rgba(10,34,51,.96), rgba(6,20,32,.96)) !important;
+          color: var(--fmed-text) !important;
+        }
+        .fmed-dark-mode [style*="color: #1A1D20"],
+        .fmed-dark-mode [style*="color:#1A1D20"],
+        .fmed-dark-mode [style*="color: #111827"],
+        .fmed-dark-mode [style*="color:#111827"],
+        .fmed-dark-mode [style*="color: #172336"],
+        .fmed-dark-mode [style*="color:#172336"] {
+          color: var(--fmed-text) !important;
+          -webkit-text-fill-color: var(--fmed-text) !important;
+        }
+        .fmed-dark-mode [style*="color: #4E5A66"],
+        .fmed-dark-mode [style*="color:#4E5A66"],
+        .fmed-dark-mode [style*="color: #5D6B7A"],
+        .fmed-dark-mode [style*="color:#5D6B7A"] {
+          color: var(--fmed-muted) !important;
+          -webkit-text-fill-color: var(--fmed-muted) !important;
+        }
+        .fmed-app-root button {
+          overflow-wrap: anywhere !important;
+          white-space: normal !important;
+        }
+        .fmed-app-root table { max-width: 100% !important; }
+        
+      
+
+        /* ========================================================
+           FMED 3.1 - DARK DASHBOARD COLOR FIX 25/06
+           Corregge caselle chiare/strane in Dashboard senza toccare la logica.
+           Target: pulsanti data/aggiornamento, box scadenze urgenti, chip,
+           card KPI e sfondi residui chiari dentro la dark mode.
+        ======================================================== */
+        .fmed-dark-mode {
+          --fmed-dark-bg-0: #061520 !important;
+          --fmed-dark-bg-1: #071B27 !important;
+          --fmed-dark-panel: rgba(8, 28, 43, .96) !important;
+          --fmed-dark-panel-2: rgba(10, 39, 58, .94) !important;
+          --fmed-dark-border: rgba(40, 181, 214, .26) !important;
+          --fmed-dark-text: #F4FBFF !important;
+          --fmed-dark-muted: #A9C2D1 !important;
+          --fmed-dark-chip: rgba(11, 37, 55, .96) !important;
+        }
+
+        .fmed-dark-mode main,
+        .fmed-dark-mode .dashboard,
+        .fmed-dark-mode [data-page="dashboard"] {
+          background: transparent !important;
+          color: var(--fmed-dark-text) !important;
+        }
+
+        .fmed-dark-mode h1,
+        .fmed-dark-mode h2,
+        .fmed-dark-mode h3,
+        .fmed-dark-mode h4,
+        .fmed-dark-mode strong,
+        .fmed-dark-mode label {
+          color: var(--fmed-dark-text) !important;
+          -webkit-text-fill-color: var(--fmed-dark-text) !important;
+        }
+
+        .fmed-dark-mode p,
+        .fmed-dark-mode small,
+        .fmed-dark-mode span {
+          -webkit-text-fill-color: currentColor;
+        }
+
+        /* Spegne i residui chiari in dark: chip data, aggiornato ora, placeholder scadenze, box vuoti. */
+        .fmed-dark-mode [style*="background: rgba(255,255,255"],
+        .fmed-dark-mode [style*="background:rgba(255,255,255"],
+        .fmed-dark-mode [style*="background: rgba(255, 255, 255"],
+        .fmed-dark-mode [style*="background:rgba(255, 255, 255"],
+        .fmed-dark-mode [style*="backgroundColor: rgba(255,255,255"],
+        .fmed-dark-mode [style*="background-color: rgba(255,255,255"],
+        .fmed-dark-mode [style*="background: #fff"],
+        .fmed-dark-mode [style*="background:#fff"],
+        .fmed-dark-mode [style*="background: #FFF"],
+        .fmed-dark-mode [style*="background:#FFF"],
+        .fmed-dark-mode [style*="background: #f"],
+        .fmed-dark-mode [style*="background:#f"],
+        .fmed-dark-mode [style*="background: #E"],
+        .fmed-dark-mode [style*="background:#E"],
+        .fmed-dark-mode [style*="background: #D"],
+        .fmed-dark-mode [style*="background:#D"] {
+          background: linear-gradient(145deg, var(--fmed-dark-panel), rgba(5, 18, 30, .98)) !important;
+          color: var(--fmed-dark-text) !important;
+          -webkit-text-fill-color: var(--fmed-dark-text) !important;
+          border-color: var(--fmed-dark-border) !important;
+          box-shadow: 0 18px 42px rgba(0,0,0,.22) !important;
+        }
+
+        /* Card dashboard e KPI: stesso tono, niente grigio slavato. */
+        .fmed-dark-mode [style*="box-shadow"],
+        .fmed-dark-mode [style*="border-radius: 18px"],
+        .fmed-dark-mode [style*="borderRadius: 18"] {
+          border-color: rgba(40, 181, 214, .18) !important;
+        }
+
+        .fmed-dark-mode input,
+        .fmed-dark-mode select,
+        .fmed-dark-mode textarea {
+          background: rgba(5, 18, 30, .98) !important;
+          color: var(--fmed-dark-text) !important;
+          -webkit-text-fill-color: var(--fmed-dark-text) !important;
+          border: 1px solid rgba(40, 181, 214, .24) !important;
+          box-shadow: none !important;
+          color-scheme: dark !important;
+        }
+
+        .fmed-dark-mode option {
+          background: #071B27 !important;
+          color: #F4FBFF !important;
+        }
+
+        .fmed-dark-mode input::placeholder,
+        .fmed-dark-mode textarea::placeholder {
+          color: rgba(244,251,255,.58) !important;
+          -webkit-text-fill-color: rgba(244,251,255,.58) !important;
+        }
+
+        /* Bottoni secondari dashboard: scuri, leggibili, bordo petrolio. */
+        .fmed-dark-mode button:not([style*="linear-gradient"]):not([style*="background: #00"]):not([style*="background:#00"]),
+        .fmed-dark-mode a[role="button"] {
+          background: rgba(8, 28, 43, .92) !important;
+          color: #F4FBFF !important;
+          -webkit-text-fill-color: #F4FBFF !important;
+          border-color: rgba(40, 181, 214, .24) !important;
+        }
+
+        .fmed-dark-mode button:hover {
+          border-color: rgba(40, 181, 214, .46) !important;
+          filter: brightness(1.08);
+        }
+
+        /* CTA principale resta azzurra, ma con testo bianco pieno. */
+        .fmed-dark-mode [style*="Alert Email"],
+        .fmed-dark-mode button[style*="linear-gradient"] {
+          color: #FFFFFF !important;
+          -webkit-text-fill-color: #FFFFFF !important;
+        }
+
+        /* Box 'Nessuna scadenza urgente' e liste scadenze: niente grigio chiaro. */
+        .fmed-dark-mode [style*="Nessuna scadenza"],
+        .fmed-dark-mode [style*="Scadenze urgenti"] {
+          background: rgba(7, 27, 42, .98) !important;
+          color: var(--fmed-dark-muted) !important;
+          -webkit-text-fill-color: var(--fmed-dark-muted) !important;
+          border-color: rgba(40, 181, 214, .18) !important;
+        }
+
+        .fmed-dark-mode table,
+        .fmed-dark-mode thead,
+        .fmed-dark-mode tbody,
+        .fmed-dark-mode tr,
+        .fmed-dark-mode td,
+        .fmed-dark-mode th {
+          background: transparent !important;
+          color: var(--fmed-dark-text) !important;
+          border-color: rgba(40, 181, 214, .12) !important;
+        }
+
+        /* ========================================================
+           FMED 3.1 - LIGHT MODE PREMIUM COME BOZZA APPROVATA
+           Dark mode resta invariata: questi override valgono SOLO in light.
+        ======================================================== */
+        .fmed-light-mode {
+          --fmed-bg: #F7FBFD !important;
+          --fmed-main-bg: radial-gradient(circle at 20% 0%, rgba(35, 198, 214, .18), transparent 28%), linear-gradient(135deg, #F8FCFE 0%, #EEF7FA 45%, #F9FBFC 100%) !important;
+          --fmed-sidebar-bg: linear-gradient(180deg, #FFFFFF 0%, #F4FBFD 58%, #EAF7FA 100%) !important;
+          --fmed-surface: rgba(255,255,255,.88) !important;
+          --fmed-surface-solid: #FFFFFF !important;
+          --fmed-surface-soft: #F3FAFC !important;
+          --fmed-text: #082033 !important;
+          --fmed-muted: #667789 !important;
+          --fmed-subtle: #8AA0AE !important;
+          --fmed-border: rgba(9, 74, 92, .12) !important;
+          --fmed-accent: #1FAE9C !important;
+          --fmed-accent-2: #087A8D !important;
+          --fmed-card-gradient: linear-gradient(145deg, rgba(255,255,255,.96), rgba(248,252,254,.92)) !important;
+          --fmed-soft-gradient: linear-gradient(145deg, rgba(255,255,255,.96), rgba(239,249,252,.88)) !important;
+          --fmed-btn: linear-gradient(135deg, #078093, #006272) !important;
+          --fmed-btn-shadow: 0 18px 38px rgba(7, 128, 147, .18) !important;
+          background: var(--fmed-main-bg) !important;
+          color: var(--fmed-text) !important;
+        }
+
+        html[data-theme="light"],
+        body[data-theme="light"],
+        body[data-theme="light"] #root {
+          background: #F7FBFD !important;
+          color: #082033 !important;
+        }
+
+        .fmed-light-mode main,
+        .fmed-light-mode section,
+        .fmed-light-mode article {
+          color: #082033 !important;
+        }
+
+        .fmed-light-mode aside {
+          background: var(--fmed-sidebar-bg) !important;
+          border-right: 1px solid rgba(9, 74, 92, .10) !important;
+          box-shadow: 18px 0 46px rgba(8, 32, 51, .08) !important;
+        }
+
+        .fmed-light-mode aside *,
+        .fmed-light-mode aside button,
+        .fmed-light-mode aside [role="button"] {
+          color: #082033 !important;
+          -webkit-text-fill-color: #082033 !important;
+        }
+
+        .fmed-light-mode aside button,
+        .fmed-light-mode aside [role="button"] {
+          background: transparent !important;
+          border-color: transparent !important;
+          box-shadow: none !important;
+        }
+
+        .fmed-light-mode aside button:hover {
+          background: rgba(13, 145, 161, .08) !important;
+          border-color: rgba(13, 145, 161, .14) !important;
+        }
+
+        .fmed-light-mode aside button[aria-current="page"],
+        .fmed-light-mode aside button[style*="linear-gradient"] {
+          background: linear-gradient(135deg, #078093 0%, #006272 100%) !important;
+          color: #FFFFFF !important;
+          -webkit-text-fill-color: #FFFFFF !important;
+          border-color: rgba(7, 128, 147, .26) !important;
+          box-shadow: 0 14px 28px rgba(7, 128, 147, .18) !important;
+        }
+
+        .fmed-light-mode aside button[aria-current="page"] *,
+        .fmed-light-mode aside button[style*="linear-gradient"] * {
+          color: #FFFFFF !important;
+          -webkit-text-fill-color: #FFFFFF !important;
+        }
+
+        .fmed-light-mode [style*="background: var(--fmed-main-bg)"],
+        .fmed-light-mode [style*="background:var(--fmed-main-bg)"] {
+          background: var(--fmed-main-bg) !important;
+        }
+
+        .fmed-light-mode [style*="background: #121212"],
+        .fmed-light-mode [style*="background:#121212"],
+        .fmed-light-mode [style*="background: #1E1E1E"],
+        .fmed-light-mode [style*="background:#1E1E1E"],
+        .fmed-light-mode [style*="background: #061520"],
+        .fmed-light-mode [style*="background:#061520"],
+        .fmed-light-mode [style*="background: #071521"],
+        .fmed-light-mode [style*="background:#071521"],
+        .fmed-light-mode [style*="background: #0A1F2F"],
+        .fmed-light-mode [style*="background:#0A1F2F"],
+        .fmed-light-mode [style*="background: var(--fmed-card-gradient)"],
+        .fmed-light-mode [style*="background:var(--fmed-card-gradient)"],
+        .fmed-light-mode [style*="background: var(--fmed-surface-solid)"],
+        .fmed-light-mode [style*="background:var(--fmed-surface-solid)"],
+        .fmed-light-mode [style*="background: var(--fmed-soft-gradient)"],
+        .fmed-light-mode [style*="background:var(--fmed-soft-gradient)"] {
+          background: var(--fmed-card-gradient) !important;
+          color: #082033 !important;
+          border-color: rgba(9, 74, 92, .12) !important;
+          box-shadow: 0 18px 45px rgba(8, 32, 51, .08) !important;
+        }
+
+        .fmed-light-mode [style*="linear-gradient(135deg,#133C55"],
+        .fmed-light-mode [style*="linear-gradient(135deg, #133C55"],
+        .fmed-light-mode [style*="linear-gradient(180deg, #061520"],
+        .fmed-light-mode [style*="linear-gradient(180deg,#061520"],
+        .fmed-light-mode [style*="linear-gradient(145deg, rgba(10,31,47"],
+        .fmed-light-mode [style*="linear-gradient(145deg,rgba(10,31,47"],
+        .fmed-light-mode [style*="linear-gradient(145deg, rgba(10,34,51"],
+        .fmed-light-mode [style*="linear-gradient(145deg,rgba(10,34,51"] {
+          background: var(--fmed-card-gradient) !important;
+          color: #082033 !important;
+          border-color: rgba(9, 74, 92, .12) !important;
+        }
+
+        .fmed-light-mode h1,
+        .fmed-light-mode h2,
+        .fmed-light-mode h3,
+        .fmed-light-mode h4,
+        .fmed-light-mode h5,
+        .fmed-light-mode h6,
+        .fmed-light-mode strong,
+        .fmed-light-mode b {
+          color: #082033 !important;
+          -webkit-text-fill-color: #082033 !important;
+        }
+
+        .fmed-light-mode p,
+        .fmed-light-mode span,
+        .fmed-light-mode small,
+        .fmed-light-mode label,
+        .fmed-light-mode div,
+        .fmed-light-mode td,
+        .fmed-light-mode th {
+          color: inherit;
+        }
+
+        .fmed-light-mode [style*="color: #F4F8F7"],
+        .fmed-light-mode [style*="color:#F4F8F7"],
+        .fmed-light-mode [style*="color: #F7F9FB"],
+        .fmed-light-mode [style*="color:#F7F9FB"],
+        .fmed-light-mode [style*="color: #FFFFFF"],
+        .fmed-light-mode [style*="color:#FFFFFF"],
+        .fmed-light-mode [style*="color: white"],
+        .fmed-light-mode [style*="color:white"] {
+          color: #082033 !important;
+          -webkit-text-fill-color: #082033 !important;
+        }
+
+        .fmed-light-mode button,
+        .fmed-light-mode [role="button"],
+        .fmed-light-mode label[style*="cursor"] {
+          border-radius: 14px !important;
+          border-color: rgba(9, 74, 92, .12) !important;
+          color: #082033 !important;
+          -webkit-text-fill-color: #082033 !important;
+          box-shadow: 0 12px 28px rgba(8, 32, 51, .07) !important;
+        }
+
+        .fmed-light-mode button[style*="linear-gradient"],
+        .fmed-light-mode button[data-primary="true"],
+        .fmed-light-mode [role="button"][style*="linear-gradient"] {
+          background: linear-gradient(135deg, #078093 0%, #006272 100%) !important;
+          color: #FFFFFF !important;
+          -webkit-text-fill-color: #FFFFFF !important;
+          border-color: rgba(7, 128, 147, .22) !important;
+          box-shadow: 0 16px 36px rgba(7, 128, 147, .18) !important;
+        }
+
+        .fmed-light-mode input,
+        .fmed-light-mode select,
+        .fmed-light-mode textarea {
+          background: rgba(255,255,255,.94) !important;
+          color: #082033 !important;
+          border: 1px solid rgba(9, 74, 92, .16) !important;
+          box-shadow: 0 10px 24px rgba(8, 32, 51, .05) !important;
+        }
+
+        .fmed-light-mode input::placeholder,
+        .fmed-light-mode textarea::placeholder {
+          color: rgba(102,119,137,.72) !important;
+        }
+
+        .fmed-light-mode table {
+          background: rgba(255,255,255,.92) !important;
+          border: 1px solid rgba(9, 74, 92, .12) !important;
+          box-shadow: 0 18px 45px rgba(8, 32, 51, .08) !important;
+        }
+
+        .fmed-light-mode thead,
+        .fmed-light-mode thead tr,
+        .fmed-light-mode th {
+          background: rgba(239,249,252,.88) !important;
+          color: #087A8D !important;
+          border-color: rgba(9, 74, 92, .10) !important;
+        }
+
+        .fmed-light-mode tbody tr,
+        .fmed-light-mode td {
+          background: transparent !important;
+          color: #082033 !important;
+          border-color: rgba(9, 74, 92, .08) !important;
+        }
+
+        .fmed-light-mode tbody tr:hover {
+          background: rgba(13, 145, 161, .06) !important;
+        }
+
+        /* ========================================================
+           FMED LIGHT MODE FIX 25/06
+           Correzione difetti: il layout Neo/Dashboard aveva ancora
+           sfondi inline petrolio/dark. Override solo in Light Mode.
+        ======================================================== */
+        .fmed-light-mode {
+          background: radial-gradient(circle at 18% 0%, rgba(50, 210, 220, .16), transparent 30%),
+                      linear-gradient(135deg, #F8FCFE 0%, #EEF7FA 46%, #FFFFFF 100%) !important;
+        }
+
+        .fmed-light-mode main {
+          background: var(--fmed-main-bg) !important;
+          color: #082033 !important;
+        }
+
+        .fmed-light-mode [style*="linear-gradient(135deg,#061622"],
+        .fmed-light-mode [style*="linear-gradient(135deg, #061622"],
+        .fmed-light-mode [style*="linear-gradient(135deg,#061520"],
+        .fmed-light-mode [style*="linear-gradient(135deg, #061520"],
+        .fmed-light-mode [style*="linear-gradient(135deg,#071B27"],
+        .fmed-light-mode [style*="linear-gradient(135deg, #071B27"] {
+          background: radial-gradient(circle at 18% 0%, rgba(50, 210, 220, .14), transparent 30%),
+                      linear-gradient(135deg, #F8FCFE 0%, #EEF7FA 50%, #FFFFFF 100%) !important;
+          color: #082033 !important;
+          box-shadow: none !important;
+        }
+
+        .fmed-light-mode [style*="linear-gradient(145deg,rgba(9,32,47"],
+        .fmed-light-mode [style*="linear-gradient(145deg, rgba(9,32,47"],
+        .fmed-light-mode [style*="linear-gradient(145deg,rgba(7,23,35"],
+        .fmed-light-mode [style*="linear-gradient(145deg, rgba(7,23,35"],
+        .fmed-light-mode [style*="linear-gradient(145deg,rgba(9,27,41"],
+        .fmed-light-mode [style*="linear-gradient(145deg, rgba(9,27,41"],
+        .fmed-light-mode [style*="linear-gradient(145deg,rgba(9,32,47,.95"],
+        .fmed-light-mode [style*="linear-gradient(145deg,rgba(9,32,47,.92"],
+        .fmed-light-mode [style*="background: rgba(11,31,46"],
+        .fmed-light-mode [style*="background:rgba(11,31,46"],
+        .fmed-light-mode [style*="background: rgba(9,27,41"],
+        .fmed-light-mode [style*="background:rgba(9,27,41"] {
+          background: linear-gradient(145deg, rgba(255,255,255,.98), rgba(247,252,254,.94)) !important;
+          color: #082033 !important;
+          border-color: rgba(9, 74, 92, .12) !important;
+          box-shadow: 0 18px 46px rgba(8, 32, 51, .08) !important;
+        }
+
+        .fmed-light-mode [style*="background: rgba(0,229,255"],
+        .fmed-light-mode [style*="background:rgba(0,229,255"] {
+          background: rgba(19, 184, 200, .10) !important;
+          color: #087A8D !important;
+          border-color: rgba(19, 184, 200, .18) !important;
+        }
+
+        .fmed-light-mode [style*="color: #E9F7FF"],
+        .fmed-light-mode [style*="color:#E9F7FF"],
+        .fmed-light-mode [style*="color: rgba(233,247,255"],
+        .fmed-light-mode [style*="color:rgba(233,247,255"],
+        .fmed-light-mode [style*="color: #F4FBFF"],
+        .fmed-light-mode [style*="color:#F4FBFF"] {
+          color: #082033 !important;
+          -webkit-text-fill-color: #082033 !important;
+        }
+
+        .fmed-light-mode svg,
+        .fmed-light-mode svg * {
+          vector-effect: non-scaling-stroke;
+        }
+
+        .fmed-light-mode [style*="box-shadow: inset 0 0 0 42px #071B27"] {
+          box-shadow: inset 0 0 0 42px #FFFFFF, 0 14px 32px rgba(8,32,51,.08) !important;
+        }
+
+        /* ========================================================
+           FMED 3.1 - LIGHT MODE FINALE ISOLATA
+           Obiettivo: light come bozza allegata, senza toccare Dark.
+           Tutte le regole sono limitate a body[data-theme="light"] / .fmed-light-mode.
+        ======================================================== */
+        body[data-theme="light"],
+        body[data-theme="light"] #root,
+        body[data-theme="light"] .fmed-app-root,
+        .fmed-light-mode {
+          --fmed-bg: #F7FBFD !important;
+          --fmed-main-bg: radial-gradient(circle at 16% -8%, rgba(42, 206, 217, .14), transparent 28%),
+                          linear-gradient(135deg, #FFFFFF 0%, #F4FBFD 46%, #F8FBFC 100%) !important;
+          --fmed-sidebar-bg: linear-gradient(180deg, #FFFFFF 0%, #F8FCFD 62%, #EFFBFC 100%) !important;
+          --fmed-surface: rgba(255,255,255,.96) !important;
+          --fmed-surface-solid: #FFFFFF !important;
+          --fmed-surface-soft: #F3FAFC !important;
+          --fmed-text: #092238 !important;
+          --fmed-muted: #637287 !important;
+          --fmed-subtle: #8B9AAF !important;
+          --fmed-border: rgba(9, 54, 78, .10) !important;
+          --fmed-accent: #1FAE9C !important;
+          --fmed-accent-2: #057588 !important;
+          --fmed-card-gradient: linear-gradient(145deg, rgba(255,255,255,.98), rgba(248,252,254,.96)) !important;
+          --fmed-soft-gradient: linear-gradient(145deg, rgba(255,255,255,.96), rgba(244,250,252,.94)) !important;
+          --fmed-btn: linear-gradient(135deg, #0B8A9B 0%, #006B7B 100%) !important;
+          --fmed-btn-shadow: 0 16px 34px rgba(6, 121, 139, .16) !important;
+          background: var(--fmed-main-bg) !important;
+          color: var(--fmed-text) !important;
+        }
+
+        body[data-theme="light"] main,
+        body[data-theme="light"] section,
+        body[data-theme="light"] article,
+        body[data-theme="light"] .fmed-light-mode,
+        body[data-theme="light"] .fmed-light-mode main {
+          background: var(--fmed-main-bg) !important;
+          color: #092238 !important;
+        }
+
+        body[data-theme="light"] aside,
+        .fmed-light-mode aside {
+          background: var(--fmed-sidebar-bg) !important;
+          border-right: 1px solid rgba(9, 54, 78, .08) !important;
+          box-shadow: 18px 0 48px rgba(8, 32, 51, .08) !important;
+          color: #092238 !important;
+        }
+
+        body[data-theme="light"] aside *,
+        .fmed-light-mode aside * {
+          color: #092238 !important;
+          -webkit-text-fill-color: #092238 !important;
+        }
+
+        body[data-theme="light"] aside button,
+        body[data-theme="light"] aside [role="button"],
+        .fmed-light-mode aside button,
+        .fmed-light-mode aside [role="button"] {
+          background: transparent !important;
+          border: 1px solid transparent !important;
+          color: #092238 !important;
+          -webkit-text-fill-color: #092238 !important;
+          box-shadow: none !important;
+        }
+
+        body[data-theme="light"] aside button:hover,
+        .fmed-light-mode aside button:hover {
+          background: rgba(16, 183, 198, .08) !important;
+          border-color: rgba(16, 183, 198, .13) !important;
+        }
+
+        body[data-theme="light"] aside button[aria-current="page"],
+        body[data-theme="light"] aside button[style*="linear-gradient"],
+        .fmed-light-mode aside button[aria-current="page"],
+        .fmed-light-mode aside button[style*="linear-gradient"] {
+          background: linear-gradient(135deg, #0B8A9B 0%, #006B7B 100%) !important;
+          color: #FFFFFF !important;
+          -webkit-text-fill-color: #FFFFFF !important;
+          border-color: rgba(6, 121, 139, .24) !important;
+          box-shadow: 0 14px 28px rgba(6, 121, 139, .18) !important;
+        }
+
+        body[data-theme="light"] aside button[aria-current="page"] *,
+        body[data-theme="light"] aside button[style*="linear-gradient"] *,
+        .fmed-light-mode aside button[aria-current="page"] *,
+        .fmed-light-mode aside button[style*="linear-gradient"] * {
+          color: #FFFFFF !important;
+          -webkit-text-fill-color: #FFFFFF !important;
+        }
+
+        body[data-theme="light"] .fmed-light-mode h1,
+        body[data-theme="light"] .fmed-light-mode h2,
+        body[data-theme="light"] .fmed-light-mode h3,
+        body[data-theme="light"] .fmed-light-mode h4,
+        body[data-theme="light"] .fmed-light-mode h5,
+        body[data-theme="light"] .fmed-light-mode h6,
+        body[data-theme="light"] .fmed-light-mode strong,
+        body[data-theme="light"] .fmed-light-mode b {
+          color: #092238 !important;
+          -webkit-text-fill-color: #092238 !important;
+        }
+
+        /* Contenitori scuri Neo/Dashboard trasformati in card bianche premium */
+        body[data-theme="light"] .fmed-light-mode [style*="background: #061520"],
+        body[data-theme="light"] .fmed-light-mode [style*="background:#061520"],
+        body[data-theme="light"] .fmed-light-mode [style*="background: #071521"],
+        body[data-theme="light"] .fmed-light-mode [style*="background:#071521"],
+        body[data-theme="light"] .fmed-light-mode [style*="background: #0A1F2F"],
+        body[data-theme="light"] .fmed-light-mode [style*="background:#0A1F2F"],
+        body[data-theme="light"] .fmed-light-mode [style*="background: #0B1D2D"],
+        body[data-theme="light"] .fmed-light-mode [style*="background:#0B1D2D"],
+        body[data-theme="light"] .fmed-light-mode [style*="background: rgba(11,31,46"],
+        body[data-theme="light"] .fmed-light-mode [style*="background:rgba(11,31,46"],
+        body[data-theme="light"] .fmed-light-mode [style*="background: rgba(9,27,41"],
+        body[data-theme="light"] .fmed-light-mode [style*="background:rgba(9,27,41"],
+        body[data-theme="light"] .fmed-light-mode [style*="linear-gradient(180deg, #071521"],
+        body[data-theme="light"] .fmed-light-mode [style*="linear-gradient(180deg,#071521"],
+        body[data-theme="light"] .fmed-light-mode [style*="linear-gradient(180deg, #061520"],
+        body[data-theme="light"] .fmed-light-mode [style*="linear-gradient(180deg,#061520"],
+        body[data-theme="light"] .fmed-light-mode [style*="linear-gradient(135deg,#061520"],
+        body[data-theme="light"] .fmed-light-mode [style*="linear-gradient(135deg, #061520"],
+        body[data-theme="light"] .fmed-light-mode [style*="linear-gradient(135deg,#061622"],
+        body[data-theme="light"] .fmed-light-mode [style*="linear-gradient(135deg, #061622"],
+        body[data-theme="light"] .fmed-light-mode [style*="linear-gradient(135deg,#071B27"],
+        body[data-theme="light"] .fmed-light-mode [style*="linear-gradient(135deg, #071B27"],
+        body[data-theme="light"] .fmed-light-mode [style*="linear-gradient(145deg,rgba(9,32,47"],
+        body[data-theme="light"] .fmed-light-mode [style*="linear-gradient(145deg, rgba(9,32,47"],
+        body[data-theme="light"] .fmed-light-mode [style*="linear-gradient(145deg,rgba(7,23,35"],
+        body[data-theme="light"] .fmed-light-mode [style*="linear-gradient(145deg, rgba(7,23,35"],
+        body[data-theme="light"] .fmed-light-mode [style*="linear-gradient(145deg,rgba(10,31,47"],
+        body[data-theme="light"] .fmed-light-mode [style*="linear-gradient(145deg, rgba(10,31,47"],
+        body[data-theme="light"] .fmed-light-mode [style*="background: var(--fmed-card-gradient)"],
+        body[data-theme="light"] .fmed-light-mode [style*="background:var(--fmed-card-gradient)"],
+        body[data-theme="light"] .fmed-light-mode [style*="background: var(--fmed-soft-gradient)"],
+        body[data-theme="light"] .fmed-light-mode [style*="background:var(--fmed-soft-gradient)"],
+        body[data-theme="light"] .fmed-light-mode [style*="background: var(--fmed-surface-solid)"],
+        body[data-theme="light"] .fmed-light-mode [style*="background:var(--fmed-surface-solid)"] {
+          background: linear-gradient(145deg, rgba(255,255,255,.99), rgba(247,252,254,.96)) !important;
+          color: #092238 !important;
+          border-color: rgba(9, 54, 78, .10) !important;
+          box-shadow: 0 18px 45px rgba(8, 32, 51, .075) !important;
+        }
+
+        /* Azioni principali in stile foto */
+        body[data-theme="light"] .fmed-light-mode button[style*="linear-gradient"],
+        body[data-theme="light"] .fmed-light-mode [role="button"][style*="linear-gradient"] {
+          background: linear-gradient(135deg, #0B8A9B 0%, #006B7B 100%) !important;
+          color: #FFFFFF !important;
+          -webkit-text-fill-color: #FFFFFF !important;
+          border-color: rgba(6, 121, 139, .22) !important;
+          box-shadow: 0 16px 34px rgba(6, 121, 139, .16) !important;
+        }
+
+        body[data-theme="light"] .fmed-light-mode button[style*="linear-gradient"] *,
+        body[data-theme="light"] .fmed-light-mode [role="button"][style*="linear-gradient"] * {
+          color: #FFFFFF !important;
+          -webkit-text-fill-color: #FFFFFF !important;
+        }
+
+        body[data-theme="light"] .fmed-light-mode button:not([style*="linear-gradient"]),
+        body[data-theme="light"] .fmed-light-mode [role="button"]:not([style*="linear-gradient"]) {
+          background: rgba(255,255,255,.94) !important;
+          color: #092238 !important;
+          -webkit-text-fill-color: #092238 !important;
+          border: 1px solid rgba(9, 54, 78, .10) !important;
+          box-shadow: 0 12px 28px rgba(8, 32, 51, .065) !important;
+        }
+
+        body[data-theme="light"] .fmed-light-mode button:not([style*="linear-gradient"]) *,
+        body[data-theme="light"] .fmed-light-mode [role="button"]:not([style*="linear-gradient"]) * {
+          color: inherit !important;
+          -webkit-text-fill-color: inherit !important;
+        }
+
+        /* Testi rimasti bianchi dalla Dark Mode */
+        body[data-theme="light"] .fmed-light-mode [style*="color: #F4F8F7"],
+        body[data-theme="light"] .fmed-light-mode [style*="color:#F4F8F7"],
+        body[data-theme="light"] .fmed-light-mode [style*="color: #E9F7FF"],
+        body[data-theme="light"] .fmed-light-mode [style*="color:#E9F7FF"],
+        body[data-theme="light"] .fmed-light-mode [style*="color: #F4FBFF"],
+        body[data-theme="light"] .fmed-light-mode [style*="color:#F4FBFF"],
+        body[data-theme="light"] .fmed-light-mode [style*="color: #F7F9FB"],
+        body[data-theme="light"] .fmed-light-mode [style*="color:#F7F9FB"],
+        body[data-theme="light"] .fmed-light-mode [style*="color: rgba(233,247,255"],
+        body[data-theme="light"] .fmed-light-mode [style*="color:rgba(233,247,255"] {
+          color: #092238 !important;
+          -webkit-text-fill-color: #092238 !important;
+        }
+
+        body[data-theme="light"] .fmed-light-mode [style*="color: #B7C8D8"],
+        body[data-theme="light"] .fmed-light-mode [style*="color:#B7C8D8"],
+        body[data-theme="light"] .fmed-light-mode [style*="color: rgba(183,200,216"],
+        body[data-theme="light"] .fmed-light-mode [style*="color:rgba(183,200,216"] {
+          color: #637287 !important;
+          -webkit-text-fill-color: #637287 !important;
+        }
+
+        body[data-theme="light"] .fmed-light-mode input,
+        body[data-theme="light"] .fmed-light-mode select,
+        body[data-theme="light"] .fmed-light-mode textarea {
+          background: rgba(255,255,255,.96) !important;
+          color: #092238 !important;
+          border: 1px solid rgba(9, 54, 78, .13) !important;
+          box-shadow: 0 10px 24px rgba(8, 32, 51, .045) !important;
+        }
+
+        body[data-theme="light"] .fmed-light-mode table {
+          background: rgba(255,255,255,.96) !important;
+          color: #092238 !important;
+          border: 1px solid rgba(9, 54, 78, .10) !important;
+          box-shadow: 0 18px 45px rgba(8, 32, 51, .07) !important;
+        }
+
+        body[data-theme="light"] .fmed-light-mode thead,
+        body[data-theme="light"] .fmed-light-mode thead tr,
+        body[data-theme="light"] .fmed-light-mode th {
+          background: rgba(240,249,252,.92) !important;
+          color: #057588 !important;
+          -webkit-text-fill-color: #057588 !important;
+          border-color: rgba(9, 54, 78, .08) !important;
+        }
+
+        body[data-theme="light"] .fmed-light-mode tbody tr,
+        body[data-theme="light"] .fmed-light-mode td {
+          background: transparent !important;
+          color: #092238 !important;
+          border-color: rgba(9, 54, 78, .07) !important;
+        }
+
+        body[data-theme="light"] .fmed-light-mode tbody tr:hover {
+          background: rgba(16, 183, 198, .055) !important;
+        }
+
+        body[data-theme="light"] .fmed-light-mode [style*="box-shadow: inset 0 0 0 42px #071B27"] {
+          box-shadow: inset 0 0 0 42px #FFFFFF, 0 14px 32px rgba(8,32,51,.08) !important;
+        }
+
+        body[data-theme="light"] .fmed-light-mode svg,
+        body[data-theme="light"] .fmed-light-mode svg * {
+          vector-effect: non-scaling-stroke;
+        }
+
+      
+
+        /* ========================================================
+           FMED LIGHT MODE DEFINITIVA 25/06
+           Solo selectors .fmed-light-mode: la Dark Mode resta invariata.
+           Obiettivo: tutte le pagine bianche/premium come mockup approvato.
+        ======================================================== */
+        body[data-theme="light"],
+        html[data-theme="light"],
+        body[data-theme="light"] #root,
+        body[data-theme="light"] .fmed-light-mode {
+          background:
+            radial-gradient(circle at 14% 0%, rgba(29, 209, 223, .12), transparent 28%),
+            radial-gradient(circle at 86% 4%, rgba(8, 128, 147, .08), transparent 30%),
+            linear-gradient(135deg, #F9FCFD 0%, #F4F9FB 48%, #FFFFFF 100%) !important;
+          color: #082033 !important;
+          color-scheme: light !important;
+        }
+
+        body[data-theme="light"] .fmed-light-mode {
+          --fmed-bg: #F9FCFD !important;
+          --fmed-main-bg: linear-gradient(135deg, #F9FCFD 0%, #F4F9FB 48%, #FFFFFF 100%) !important;
+          --fmed-sidebar-bg: linear-gradient(180deg, #FFFFFF 0%, #F7FBFD 58%, #F0FAFC 100%) !important;
+          --fmed-surface: rgba(255,255,255,.94) !important;
+          --fmed-surface-solid: #FFFFFF !important;
+          --fmed-surface-soft: #F4FAFC !important;
+          --fmed-text: #082033 !important;
+          --fmed-muted: #5E6E82 !important;
+          --fmed-border: rgba(9, 54, 78, .105) !important;
+          --fmed-accent: #1FAE9C !important;
+          --fmed-accent-2: #087A8D !important;
+          --fmed-btn: linear-gradient(135deg, #078093 0%, #006272 100%) !important;
+          --fmed-btn-shadow: 0 18px 36px rgba(7, 128, 147, .18) !important;
+          --fmed-card-gradient: linear-gradient(145deg, rgba(255,255,255,.98), rgba(248,252,254,.94)) !important;
+          --fmed-soft-gradient: linear-gradient(145deg, rgba(255,255,255,.98), rgba(241,249,252,.92)) !important;
+        }
+
+        body[data-theme="light"] .fmed-light-mode main {
+          background: transparent !important;
+          color: #082033 !important;
+        }
+
+        body[data-theme="light"] .fmed-light-mode aside {
+          background: var(--fmed-sidebar-bg) !important;
+          color: #082033 !important;
+          border-right: 1px solid rgba(9, 54, 78, .08) !important;
+          box-shadow: 18px 0 54px rgba(8, 32, 51, .075) !important;
+        }
+
+        body[data-theme="light"] .fmed-light-mode aside *,
+        body[data-theme="light"] .fmed-light-mode aside span,
+        body[data-theme="light"] .fmed-light-mode aside small,
+        body[data-theme="light"] .fmed-light-mode aside strong {
+          color: #082033 !important;
+          -webkit-text-fill-color: #082033 !important;
+        }
+
+        body[data-theme="light"] .fmed-light-mode aside button,
+        body[data-theme="light"] .fmed-light-mode aside [role="button"] {
+          background: rgba(255,255,255,.86) !important;
+          color: #082033 !important;
+          -webkit-text-fill-color: #082033 !important;
+          border: 1px solid rgba(9, 54, 78, .09) !important;
+          box-shadow: 0 8px 22px rgba(8,32,51,.035) !important;
+        }
+
+        body[data-theme="light"] .fmed-light-mode aside button[aria-current="page"],
+        body[data-theme="light"] .fmed-light-mode aside button[style*="linear-gradient"] {
+          background: linear-gradient(135deg, #078093 0%, #006272 100%) !important;
+          color: #FFFFFF !important;
+          -webkit-text-fill-color: #FFFFFF !important;
+          border-color: rgba(7, 128, 147, .26) !important;
+          box-shadow: 0 14px 30px rgba(7, 128, 147, .18) !important;
+        }
+
+        body[data-theme="light"] .fmed-light-mode aside button[aria-current="page"] *,
+        body[data-theme="light"] .fmed-light-mode aside button[style*="linear-gradient"] * {
+          color: #FFFFFF !important;
+          -webkit-text-fill-color: #FFFFFF !important;
+        }
+
+        /* qualunque card/box/pannello rimasto blu-notte o nero viene trasformato in card bianca */
+        body[data-theme="light"] .fmed-light-mode main [style*="rgb(6, 21, 32)"],
+        body[data-theme="light"] .fmed-light-mode main [style*="rgb(7, 21, 33)"],
+        body[data-theme="light"] .fmed-light-mode main [style*="rgb(8, 24, 36)"],
+        body[data-theme="light"] .fmed-light-mode main [style*="rgb(10, 31, 47)"],
+        body[data-theme="light"] .fmed-light-mode main [style*="rgb(13, 34, 52)"],
+        body[data-theme="light"] .fmed-light-mode main [style*="rgb(18, 49, 74)"],
+        body[data-theme="light"] .fmed-light-mode main [style*="rgb(19, 60, 85)"],
+        body[data-theme="light"] .fmed-light-mode main [style*="rgba(6, 21, 32"],
+        body[data-theme="light"] .fmed-light-mode main [style*="rgba(7, 21, 33"],
+        body[data-theme="light"] .fmed-light-mode main [style*="rgba(8, 24, 36"],
+        body[data-theme="light"] .fmed-light-mode main [style*="rgba(10, 31, 47"],
+        body[data-theme="light"] .fmed-light-mode main [style*="rgba(13, 34, 52"],
+        body[data-theme="light"] .fmed-light-mode main [style*="rgba(18, 49, 74"],
+        body[data-theme="light"] .fmed-light-mode main [style*="rgba(19, 60, 85"],
+        body[data-theme="light"] .fmed-light-mode main [style*="#061520"],
+        body[data-theme="light"] .fmed-light-mode main [style*="#071521"],
+        body[data-theme="light"] .fmed-light-mode main [style*="#071B27"],
+        body[data-theme="light"] .fmed-light-mode main [style*="#0A1F2F"],
+        body[data-theme="light"] .fmed-light-mode main [style*="#0D2234"],
+        body[data-theme="light"] .fmed-light-mode main [style*="#133C55"],
+        body[data-theme="light"] .fmed-light-mode main [style*="var(--fmed-header-bg)"],
+        body[data-theme="light"] .fmed-light-mode main [style*="var(--fmed-card-gradient)"],
+        body[data-theme="light"] .fmed-light-mode main [style*="var(--fmed-soft-gradient)"],
+        body[data-theme="light"] .fmed-light-mode main section,
+        body[data-theme="light"] .fmed-light-mode main article {
+          background: linear-gradient(145deg, rgba(255,255,255,.98), rgba(248,252,254,.94)) !important;
+          color: #082033 !important;
+          border-color: rgba(9, 54, 78, .105) !important;
+          box-shadow: 0 18px 45px rgba(8,32,51,.075) !important;
+        }
+
+        /* header/banner di pagina: in light diventa bianco, non più blu scuro */
+        body[data-theme="light"] .fmed-light-mode main > div,
+        body[data-theme="light"] .fmed-light-mode main > section {
+          color: #082033 !important;
+        }
+
+        /* testi scuri/chiari rimappati in light */
+        body[data-theme="light"] .fmed-light-mode main *,
+        body[data-theme="light"] .fmed-light-mode main p,
+        body[data-theme="light"] .fmed-light-mode main span,
+        body[data-theme="light"] .fmed-light-mode main label,
+        body[data-theme="light"] .fmed-light-mode main h1,
+        body[data-theme="light"] .fmed-light-mode main h2,
+        body[data-theme="light"] .fmed-light-mode main h3,
+        body[data-theme="light"] .fmed-light-mode main h4,
+        body[data-theme="light"] .fmed-light-mode main strong {
+          text-shadow: none !important;
+        }
+
+        body[data-theme="light"] .fmed-light-mode main [style*="color: rgb(234, 244, 255)"],
+        body[data-theme="light"] .fmed-light-mode main [style*="color: rgb(245, 251, 255)"],
+        body[data-theme="light"] .fmed-light-mode main [style*="color: rgb(255, 255, 255)"],
+        body[data-theme="light"] .fmed-light-mode main [style*="color: #F4F8F7"],
+        body[data-theme="light"] .fmed-light-mode main [style*="color:#F4F8F7"],
+        body[data-theme="light"] .fmed-light-mode main [style*="color: #F7F9FB"],
+        body[data-theme="light"] .fmed-light-mode main [style*="color:#F7F9FB"],
+        body[data-theme="light"] .fmed-light-mode main [style*="color: #FFFFFF"],
+        body[data-theme="light"] .fmed-light-mode main [style*="color:#FFFFFF"],
+        body[data-theme="light"] .fmed-light-mode main [style*="color: white"],
+        body[data-theme="light"] .fmed-light-mode main [style*="color:white"] {
+          color: #082033 !important;
+          -webkit-text-fill-color: #082033 !important;
+        }
+
+        body[data-theme="light"] .fmed-light-mode main [style*="color: rgb(183, 200, 216)"],
+        body[data-theme="light"] .fmed-light-mode main [style*="color: #B7C8D8"],
+        body[data-theme="light"] .fmed-light-mode main [style*="color:#B7C8D8"],
+        body[data-theme="light"] .fmed-light-mode main [style*="rgba(183, 200, 216"],
+        body[data-theme="light"] .fmed-light-mode main [style*="rgba(233, 247, 255"] {
+          color: #5E6E82 !important;
+          -webkit-text-fill-color: #5E6E82 !important;
+        }
+
+        /* pulsanti: default bianchi, azioni principali teal */
+        body[data-theme="light"] .fmed-light-mode main button,
+        body[data-theme="light"] .fmed-light-mode main [role="button"] {
+          background: rgba(255,255,255,.96) !important;
+          color: #082033 !important;
+          -webkit-text-fill-color: #082033 !important;
+          border: 1px solid rgba(9, 54, 78, .105) !important;
+          box-shadow: 0 12px 28px rgba(8,32,51,.065) !important;
+        }
+
+        body[data-theme="light"] .fmed-light-mode main button[style*="linear-gradient"],
+        body[data-theme="light"] .fmed-light-mode main button[style*="#078093"],
+        body[data-theme="light"] .fmed-light-mode main button[style*="rgb(7, 128, 147)"],
+        body[data-theme="light"] .fmed-light-mode main button[style*="var(--fmed-btn)"] {
+          background: linear-gradient(135deg, #078093 0%, #006272 100%) !important;
+          color: #FFFFFF !important;
+          -webkit-text-fill-color: #FFFFFF !important;
+          border-color: rgba(7, 128, 147, .24) !important;
+          box-shadow: 0 16px 34px rgba(7, 128, 147, .18) !important;
+        }
+
+        body[data-theme="light"] .fmed-light-mode main button[style*="linear-gradient"] *,
+        body[data-theme="light"] .fmed-light-mode main button[style*="#078093"] * {
+          color: #FFFFFF !important;
+          -webkit-text-fill-color: #FFFFFF !important;
+        }
+
+        /* campi form e filtri chiari su tutte le pagine */
+        body[data-theme="light"] .fmed-light-mode input,
+        body[data-theme="light"] .fmed-light-mode select,
+        body[data-theme="light"] .fmed-light-mode textarea {
+          background: rgba(255,255,255,.98) !important;
+          color: #082033 !important;
+          -webkit-text-fill-color: #082033 !important;
+          border: 1px solid rgba(9, 54, 78, .13) !important;
+          box-shadow: 0 10px 24px rgba(8,32,51,.045) !important;
+        }
+
+        body[data-theme="light"] .fmed-light-mode input::placeholder,
+        body[data-theme="light"] .fmed-light-mode textarea::placeholder {
+          color: #8EA0AF !important;
+          -webkit-text-fill-color: #8EA0AF !important;
+        }
+
+        body[data-theme="light"] .fmed-light-mode option {
+          background: #FFFFFF !important;
+          color: #082033 !important;
+        }
+
+        /* tabelle */
+        body[data-theme="light"] .fmed-light-mode table {
+          background: rgba(255,255,255,.98) !important;
+          color: #082033 !important;
+          border: 1px solid rgba(9, 54, 78, .10) !important;
+          box-shadow: 0 18px 45px rgba(8,32,51,.07) !important;
+        }
+
+        body[data-theme="light"] .fmed-light-mode thead,
+        body[data-theme="light"] .fmed-light-mode thead tr,
+        body[data-theme="light"] .fmed-light-mode th {
+          background: rgba(241,249,252,.95) !important;
+          color: #087A8D !important;
+          -webkit-text-fill-color: #087A8D !important;
+          border-color: rgba(9, 54, 78, .08) !important;
+        }
+
+        body[data-theme="light"] .fmed-light-mode tbody,
+        body[data-theme="light"] .fmed-light-mode tbody tr,
+        body[data-theme="light"] .fmed-light-mode td {
+          background: transparent !important;
+          color: #082033 !important;
+          -webkit-text-fill-color: #082033 !important;
+          border-color: rgba(9, 54, 78, .07) !important;
+        }
+
+        body[data-theme="light"] .fmed-light-mode tbody tr:hover {
+          background: rgba(16, 183, 198, .055) !important;
+        }
+
+        /* SVG e icone leggibili in light */
+        body[data-theme="light"] .fmed-light-mode svg {
+          color: #087A8D !important;
+        }
+
+        body[data-theme="light"] .fmed-light-mode svg path,
+        body[data-theme="light"] .fmed-light-mode svg circle,
+        body[data-theme="light"] .fmed-light-mode svg rect,
+        body[data-theme="light"] .fmed-light-mode svg line,
+        body[data-theme="light"] .fmed-light-mode svg polyline {
+          vector-effect: non-scaling-stroke;
+        }
+
+        /* badge/pill in stile mockup */
+        body[data-theme="light"] .fmed-light-mode [style*="border-radius: 999px"],
+        body[data-theme="light"] .fmed-light-mode [style*="borderRadius: 999"] {
+          background: rgba(235,249,252,.95) !important;
+          border-color: rgba(9, 54, 78, .10) !important;
+          color: #087A8D !important;
+          -webkit-text-fill-color: #087A8D !important;
+        }
+
+        /* overlay / modali */
+        body[data-theme="light"] .fmed-light-mode [role="dialog"],
+        body[data-theme="light"] .fmed-light-mode .modal,
+        body[data-theme="light"] .fmed-light-mode .fmed-modal {
+          background: #FFFFFF !important;
+          color: #082033 !important;
+          border-color: rgba(9, 54, 78, .12) !important;
+          box-shadow: 0 32px 90px rgba(8,32,51,.18) !important;
+        }
+
+        
+        
+
+        /* ========================================================
+           FMED LIGHT MODE FINAL HARD FIX - 25/06
+           Scopo: tutte le pagine operative in Light Mode devono essere
+           bianche/premium come la reference. La Dark Mode non viene toccata:
+           tutti i selettori sono sotto body[data-theme="light"] .fmed-light-mode.
+        ======================================================== */
+        body[data-theme="light"] .fmed-light-mode,
+        body[data-theme="light"] .fmed-light-mode main {
+          background:
+            radial-gradient(circle at 16% -6%, rgba(22,185,201,.14), transparent 30%),
+            radial-gradient(circle at 90% 0%, rgba(8,121,140,.08), transparent 28%),
+            linear-gradient(135deg, #F9FCFD 0%, #F3FAFC 45%, #FFFFFF 100%) !important;
+          color: #082033 !important;
+          color-scheme: light !important;
+        }
+
+        body[data-theme="light"] .fmed-light-mode main > div,
+        body[data-theme="light"] .fmed-light-mode main > section,
+        body[data-theme="light"] .fmed-light-mode main > article {
+          background: transparent !important;
+          color: #082033 !important;
+          box-shadow: none !important;
+        }
+
+        /* Trasforma TUTTI i pannelli/box scuri delle pagine Asset, Interventi,
+           Costi, Scadenze, Infrastrutture, Export e SharePoint in card bianche.
+           Non prende pulsanti/campi form/sidebar. */
+        body[data-theme="light"] .fmed-light-mode main div[style*="background"],
+        body[data-theme="light"] .fmed-light-mode main section[style*="background"],
+        body[data-theme="light"] .fmed-light-mode main article[style*="background"],
+        body[data-theme="light"] .fmed-light-mode main header[style*="background"],
+        body[data-theme="light"] .fmed-light-mode main footer[style*="background"] {
+          background: linear-gradient(145deg, rgba(255,255,255,.985), rgba(248,252,254,.955)) !important;
+          color: #082033 !important;
+          border-color: rgba(9,54,78,.105) !important;
+          box-shadow: 0 18px 45px rgba(8,32,51,.075) !important;
+          text-shadow: none !important;
+        }
+
+        /* Evita che il generico sopra sbianchi le icone/cerchi colorati troppo piccoli. */
+        body[data-theme="light"] .fmed-light-mode main div[style*="width: 30px"],
+        body[data-theme="light"] .fmed-light-mode main div[style*="width:30px"],
+        body[data-theme="light"] .fmed-light-mode main div[style*="width: 34px"],
+        body[data-theme="light"] .fmed-light-mode main div[style*="width:34px"],
+        body[data-theme="light"] .fmed-light-mode main div[style*="width: 38px"],
+        body[data-theme="light"] .fmed-light-mode main div[style*="width:38px"],
+        body[data-theme="light"] .fmed-light-mode main div[style*="width: 42px"],
+        body[data-theme="light"] .fmed-light-mode main div[style*="width:42px"],
+        body[data-theme="light"] .fmed-light-mode main div[style*="height: 30px"],
+        body[data-theme="light"] .fmed-light-mode main div[style*="height:30px"],
+        body[data-theme="light"] .fmed-light-mode main div[style*="height: 34px"],
+        body[data-theme="light"] .fmed-light-mode main div[style*="height:34px"],
+        body[data-theme="light"] .fmed-light-mode main div[style*="height: 38px"],
+        body[data-theme="light"] .fmed-light-mode main div[style*="height:38px"],
+        body[data-theme="light"] .fmed-light-mode main div[style*="height: 42px"],
+        body[data-theme="light"] .fmed-light-mode main div[style*="height:42px"] {
+          background: rgba(17,184,201,.10) !important;
+          color: #087A8D !important;
+          border-color: rgba(17,184,201,.22) !important;
+          box-shadow: none !important;
+        }
+
+        /* Testi: in Light Mode niente più scritte blu-notte su blu-notte o bianche invisibili. */
+        body[data-theme="light"] .fmed-light-mode main h1,
+        body[data-theme="light"] .fmed-light-mode main h2,
+        body[data-theme="light"] .fmed-light-mode main h3,
+        body[data-theme="light"] .fmed-light-mode main h4,
+        body[data-theme="light"] .fmed-light-mode main h5,
+        body[data-theme="light"] .fmed-light-mode main h6,
+        body[data-theme="light"] .fmed-light-mode main p,
+        body[data-theme="light"] .fmed-light-mode main span,
+        body[data-theme="light"] .fmed-light-mode main small,
+        body[data-theme="light"] .fmed-light-mode main label,
+        body[data-theme="light"] .fmed-light-mode main strong,
+        body[data-theme="light"] .fmed-light-mode main b,
+        body[data-theme="light"] .fmed-light-mode main td,
+        body[data-theme="light"] .fmed-light-mode main th {
+          color: #082033 !important;
+          -webkit-text-fill-color: #082033 !important;
+          text-shadow: none !important;
+        }
+
+        body[data-theme="light"] .fmed-light-mode main small,
+        body[data-theme="light"] .fmed-light-mode main p[style*="font-size: 11"],
+        body[data-theme="light"] .fmed-light-mode main span[style*="font-size: 11"],
+        body[data-theme="light"] .fmed-light-mode main div[style*="font-size: 11"],
+        body[data-theme="light"] .fmed-light-mode main p[style*="font-size: 12"],
+        body[data-theme="light"] .fmed-light-mode main span[style*="font-size: 12"],
+        body[data-theme="light"] .fmed-light-mode main div[style*="font-size: 12"] {
+          color: #5E6E82 !important;
+          -webkit-text-fill-color: #5E6E82 !important;
+        }
+
+        /* Form/filtri sempre chiari e leggibili in tutte le pagine. */
+        body[data-theme="light"] .fmed-light-mode main input,
+        body[data-theme="light"] .fmed-light-mode main select,
+        body[data-theme="light"] .fmed-light-mode main textarea {
+          background: #FFFFFF !important;
+          color: #082033 !important;
+          -webkit-text-fill-color: #082033 !important;
+          border: 1px solid rgba(9,54,78,.13) !important;
+          box-shadow: 0 10px 24px rgba(8,32,51,.045) !important;
+        }
+
+        body[data-theme="light"] .fmed-light-mode main input::placeholder,
+        body[data-theme="light"] .fmed-light-mode main textarea::placeholder {
+          color: #8EA0AF !important;
+          -webkit-text-fill-color: #8EA0AF !important;
+        }
+
+        /* Pulsanti: secondari bianchi, primari teal. */
+        body[data-theme="light"] .fmed-light-mode main button,
+        body[data-theme="light"] .fmed-light-mode main [role="button"] {
+          background: #FFFFFF !important;
+          color: #082033 !important;
+          -webkit-text-fill-color: #082033 !important;
+          border: 1px solid rgba(9,54,78,.12) !important;
+          box-shadow: 0 12px 28px rgba(8,32,51,.065) !important;
+        }
+
+        body[data-theme="light"] .fmed-light-mode main button[style*="linear-gradient"],
+        body[data-theme="light"] .fmed-light-mode main button[style*="var(--fmed-btn)"],
+        body[data-theme="light"] .fmed-light-mode main button[style*="#078093"],
+        body[data-theme="light"] .fmed-light-mode main button[style*="#006272"],
+        body[data-theme="light"] .fmed-light-mode main button[style*="#1FAE9C"],
+        body[data-theme="light"] .fmed-light-mode main [role="button"][style*="linear-gradient"],
+        body[data-theme="light"] .fmed-light-mode main [role="button"][style*="var(--fmed-btn)"] {
+          background: linear-gradient(135deg, #078093 0%, #006272 100%) !important;
+          color: #FFFFFF !important;
+          -webkit-text-fill-color: #FFFFFF !important;
+          border-color: rgba(7,128,147,.24) !important;
+          box-shadow: 0 16px 34px rgba(7,128,147,.18) !important;
+        }
+
+        body[data-theme="light"] .fmed-light-mode main button[style*="linear-gradient"] *,
+        body[data-theme="light"] .fmed-light-mode main button[style*="var(--fmed-btn)"] *,
+        body[data-theme="light"] .fmed-light-mode main button[style*="#078093"] *,
+        body[data-theme="light"] .fmed-light-mode main button[style*="#006272"] *,
+        body[data-theme="light"] .fmed-light-mode main button[style*="#1FAE9C"] * {
+          color: #FFFFFF !important;
+          -webkit-text-fill-color: #FFFFFF !important;
+        }
+
+        /* Tabelle e riepiloghi: stile SaaS chiaro. */
+        body[data-theme="light"] .fmed-light-mode main table,
+        body[data-theme="light"] .fmed-light-mode main thead,
+        body[data-theme="light"] .fmed-light-mode main tbody,
+        body[data-theme="light"] .fmed-light-mode main tr,
+        body[data-theme="light"] .fmed-light-mode main td,
+        body[data-theme="light"] .fmed-light-mode main th {
+          background: #FFFFFF !important;
+          color: #082033 !important;
+          -webkit-text-fill-color: #082033 !important;
+          border-color: rgba(9,54,78,.08) !important;
+        }
+
+        body[data-theme="light"] .fmed-light-mode main th,
+        body[data-theme="light"] .fmed-light-mode main thead tr {
+          background: #F1F9FC !important;
+          color: #087A8D !important;
+          -webkit-text-fill-color: #087A8D !important;
+        }
+
+        /* Sidebar rimane bianca come reference. */
+        body[data-theme="light"] .fmed-light-mode aside {
+          background: linear-gradient(180deg, #FFFFFF 0%, #F8FCFE 58%, #EEF9FB 100%) !important;
+          color: #082033 !important;
+          border-right: 1px solid rgba(9,54,78,.08) !important;
+          box-shadow: 18px 0 54px rgba(8,32,51,.075) !important;
+        }
+
+        body[data-theme="light"] .fmed-light-mode aside *:not(button):not(button *) {
+          color: #082033 !important;
+          -webkit-text-fill-color: #082033 !important;
+        }
+
+        body[data-theme="light"] .fmed-light-mode aside button {
+          background: rgba(255,255,255,.88) !important;
+          color: #082033 !important;
+          -webkit-text-fill-color: #082033 !important;
+          border: 1px solid rgba(9,54,78,.09) !important;
+          box-shadow: 0 8px 22px rgba(8,32,51,.035) !important;
+        }
+
+        body[data-theme="light"] .fmed-light-mode aside button[style*="linear-gradient"],
+        body[data-theme="light"] .fmed-light-mode aside button[aria-current="page"] {
+          background: linear-gradient(135deg, #078093 0%, #006272 100%) !important;
+          color: #FFFFFF !important;
+          -webkit-text-fill-color: #FFFFFF !important;
+          border-color: rgba(7,128,147,.24) !important;
+          box-shadow: 0 14px 30px rgba(7,128,147,.18) !important;
+        }
+
+        body[data-theme="light"] .fmed-light-mode aside button[style*="linear-gradient"] *,
+        body[data-theme="light"] .fmed-light-mode aside button[aria-current="page"] * {
+          color: #FFFFFF !important;
+          -webkit-text-fill-color: #FFFFFF !important;
+        }
+
+        /* ========================================================
+           FMED 3.1 - DARK MODE RIPRISTINO UNIFORME + LOGIN READY
+           Regole finali: vincono su vecchi inline/stili globali senza toccare logiche.
+        ======================================================== */
+        body[data-theme="dark"],
+        html[data-theme="dark"],
+        body[data-theme="dark"] #root,
+        body[data-theme="dark"] .fmed-app-root,
+        body[data-theme="dark"] .fmed-dark-mode {
+          background: radial-gradient(circle at 78% -12%, rgba(31,174,156,.09), transparent 34%), linear-gradient(135deg,#061520 0%,#071B27 58%,#04111D 100%) !important;
+          color: #F4F8F7 !important;
+        }
+        body[data-theme="dark"] .fmed-dark-mode main,
+        body[data-theme="dark"] .fmed-dark-mode section,
+        body[data-theme="dark"] .fmed-dark-mode article,
+        body[data-theme="dark"] .fmed-dark-mode div[style*="var(--fmed-card-gradient)"],
+        body[data-theme="dark"] .fmed-dark-mode div[style*="var(--fmed-soft-gradient)"],
+        body[data-theme="dark"] .fmed-dark-mode main > div[style*="background"],
+        body[data-theme="dark"] .fmed-dark-mode main > section[style*="background"],
+        body[data-theme="dark"] .fmed-dark-mode main > article[style*="background"] {
+          background: linear-gradient(145deg, rgba(10,34,51,.96), rgba(6,20,32,.96)) !important;
+          border-color: rgba(31,174,156,.18) !important;
+          color: #F4F8F7 !important;
+          box-shadow: 0 20px 50px rgba(0,0,0,.28) !important;
+        }
+        body[data-theme="dark"] .fmed-dark-mode aside {
+          background: linear-gradient(180deg, #061520 0%, #082033 100%) !important;
+          border-right: 1px solid rgba(31,174,156,.16) !important;
+          color: #F4F8F7 !important;
+        }
+        body[data-theme="dark"] .fmed-dark-mode h1,
+        body[data-theme="dark"] .fmed-dark-mode h2,
+        body[data-theme="dark"] .fmed-dark-mode h3,
+        body[data-theme="dark"] .fmed-dark-mode h4,
+        body[data-theme="dark"] .fmed-dark-mode h5,
+        body[data-theme="dark"] .fmed-dark-mode h6,
+        body[data-theme="dark"] .fmed-dark-mode p,
+        body[data-theme="dark"] .fmed-dark-mode span,
+        body[data-theme="dark"] .fmed-dark-mode small,
+        body[data-theme="dark"] .fmed-dark-mode label,
+        body[data-theme="dark"] .fmed-dark-mode strong,
+        body[data-theme="dark"] .fmed-dark-mode b,
+        body[data-theme="dark"] .fmed-dark-mode td,
+        body[data-theme="dark"] .fmed-dark-mode th {
+          color: #F4F8F7 !important;
+          -webkit-text-fill-color: #F4F8F7 !important;
+          text-shadow: none !important;
+        }
+        body[data-theme="dark"] .fmed-dark-mode h1,
+        body[data-theme="dark"] .fmed-dark-mode h2,
+        body[data-theme="dark"] .fmed-dark-mode h3,
+        body[data-theme="dark"] .fmed-dark-mode h4,
+        body[data-theme="dark"] .fmed-dark-mode h5,
+        body[data-theme="dark"] .fmed-dark-mode h6,
+        body[data-theme="dark"] .fmed-dark-mode p,
+        body[data-theme="dark"] .fmed-dark-mode span,
+        body[data-theme="dark"] .fmed-dark-mode small,
+        body[data-theme="dark"] .fmed-dark-mode label,
+        body[data-theme="dark"] .fmed-dark-mode strong,
+        body[data-theme="dark"] .fmed-dark-mode b {
+          background-color: transparent !important;
+          background-image: none !important;
+        }
+        body[data-theme="dark"] .fmed-dark-mode input,
+        body[data-theme="dark"] .fmed-dark-mode select,
+        body[data-theme="dark"] .fmed-dark-mode textarea {
+          background: #071B27 !important;
+          color: #F7F9FB !important;
+          -webkit-text-fill-color: #F7F9FB !important;
+          border: 1px solid rgba(31,174,156,.30) !important;
+          box-shadow: inset 0 0 0 1px rgba(255,255,255,.02), 0 10px 24px rgba(0,0,0,.18) !important;
+        }
+        body[data-theme="dark"] .fmed-dark-mode input::placeholder,
+        body[data-theme="dark"] .fmed-dark-mode textarea::placeholder {
+          color: rgba(210,230,242,.70) !important;
+          -webkit-text-fill-color: rgba(210,230,242,.70) !important;
+        }
+        body[data-theme="dark"] .fmed-dark-mode option {
+          background: #071B27 !important;
+          color: #F7F9FB !important;
+        }
+        body[data-theme="dark"] .fmed-dark-mode button,
+        body[data-theme="dark"] .fmed-dark-mode [role="button"] {
+          background-color: rgba(8,31,48,.88) !important;
+          color: #F7F9FB !important;
+          -webkit-text-fill-color: #F7F9FB !important;
+          border-color: rgba(31,174,156,.24) !important;
+        }
+        body[data-theme="dark"] .fmed-dark-mode button[style*="linear-gradient"],
+        body[data-theme="dark"] .fmed-dark-mode [role="button"][style*="linear-gradient"] {
+          background: linear-gradient(135deg, #078093, #1FAE9C) !important;
+          color: #FFFFFF !important;
+          -webkit-text-fill-color: #FFFFFF !important;
+        }
+        body[data-theme="dark"] .fmed-dark-mode table,
+        body[data-theme="dark"] .fmed-dark-mode thead,
+        body[data-theme="dark"] .fmed-dark-mode tbody,
+        body[data-theme="dark"] .fmed-dark-mode tr,
+        body[data-theme="dark"] .fmed-dark-mode td,
+        body[data-theme="dark"] .fmed-dark-mode th {
+          background-color: rgba(6,21,32,.74) !important;
+          border-color: rgba(31,174,156,.16) !important;
+        }
+        body[data-theme="dark"] .fmed-dark-mode th,
+        body[data-theme="dark"] .fmed-dark-mode thead tr {
+          background: rgba(31,174,156,.08) !important;
+          color: #7FE2CC !important;
+          -webkit-text-fill-color: #7FE2CC !important;
+        }
+        body[data-theme="dark"] .fmed-dark-mode [style*="position: fixed"][style*="background"],
+        body[data-theme="dark"] .fmed-dark-mode [style*="position:fixed"][style*="background"],
+        body[data-theme="dark"] .fmed-dark-mode [style*="max-height"],
+        body[data-theme="dark"] .fmed-dark-mode [style*="overflow-y"] {
+          color: #F4F8F7 !important;
+        }
+        body[data-theme="dark"] input,
+        body[data-theme="dark"] textarea,
+        body[data-theme="dark"] select { caret-color: #1FAE9C; }
+        body[data-theme="light"] input,
+        body[data-theme="light"] textarea,
+        body[data-theme="light"] select { caret-color: #078093; }

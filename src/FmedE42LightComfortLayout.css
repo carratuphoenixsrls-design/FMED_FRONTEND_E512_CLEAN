@@ -1,0 +1,829 @@
+/* FMED Enterprise 1.0 · E5.1.2 · Light Comfort compatibility layer
+   Light Mode più riposante, banner uniformi con icona di riferimento,
+   allineamento tipografico e comportamento desktop stabile.
+   Dark Mode e logiche applicative restano invariati. */
+
+/* ========================================================================== 
+   1. PALETTE LIGHT COMFORT
+   ========================================================================== */
+html[data-theme="light"],
+body[data-theme="light"],
+.fmed-app-root.fmed-light-mode,
+body[data-theme="light"] .fmed-app-root {
+  color-scheme: light;
+
+  --fmed-canvas: #eef1ed;
+  --fmed-canvas-soft: #e7ece7;
+  --fmed-surface: #f8f9f6;
+  --fmed-surface-raised: #fcfcfa;
+  --fmed-surface-muted: #e9eeea;
+  --fmed-surface-selected: #dfe9e4;
+  --fmed-input-surface: #f4f6f2;
+
+  --fmed-text-primary: #24312e;
+  --fmed-text-secondary: #5e6d68;
+  --fmed-text-tertiary: #78847f;
+
+  --fmed-line: #ced8d2;
+  --fmed-line-strong: #b6c5bd;
+  --fmed-line-soft: #dde4df;
+
+  --fmed-brand: #315f5a;
+  --fmed-brand-hover: #284f4b;
+  --fmed-brand-strong: #1f423e;
+  --fmed-brand-soft: #dfe9e4;
+
+  --fmed-sidebar: #234842;
+  --fmed-sidebar-hover: #2b554e;
+  --fmed-sidebar-active: #3a6e66;
+
+  /* In Light Mode i banner non sono più blocchi scuri e aggressivi. */
+  --fmed-hero: linear-gradient(135deg, #f8f9f6 0%, #edf2ee 100%);
+  --fmed-hero-border: #cbd7d0;
+  --fmed-hero-text: #24312e;
+  --fmed-hero-muted: #5e6d68;
+  --fmed-hero-accent: #356f68;
+
+  --fmed-shadow-1: 0 5px 16px rgba(48, 72, 64, .045);
+  --fmed-shadow-2: 0 12px 30px rgba(48, 72, 64, .07);
+  --fmed-shadow-3: 0 22px 52px rgba(48, 72, 64, .10);
+
+  /* Ponte con il sistema Dashboard/inline ancora presente. */
+  --fmed-d3-bg: #eef1ed !important;
+  --fmed-d3-card: #f8f9f6 !important;
+  --fmed-d3-soft: #e9eeea !important;
+  --fmed-d3-hero: linear-gradient(135deg, #f8f9f6 0%, #edf2ee 100%) !important;
+  --fmed-d3-title: #24312e !important;
+  --fmed-d3-text: #35433f !important;
+  --fmed-d3-muted: #65736e !important;
+  --fmed-d3-border: #ced8d2 !important;
+  --fmed-d3-shadow-soft: 0 12px 30px rgba(48, 72, 64, .07) !important;
+
+  --fmed-main-bg: linear-gradient(180deg, #eef1ed 0%, #f2f4f0 100%) !important;
+  --fmed-card-gradient: #f8f9f6 !important;
+  --fmed-soft-gradient: #e9eeea !important;
+  --fmed-table-head: #e9eeea !important;
+  --fmed-input: #f4f6f2 !important;
+}
+
+body[data-theme="light"],
+body[data-theme="light"] #root,
+body[data-theme="light"] .fmed-app-root,
+.fmed-app-root.fmed-light-mode {
+  background: #eef1ed !important;
+}
+
+body[data-theme="light"] .fmed-main-content,
+.fmed-app-root.fmed-light-mode .fmed-main-content {
+  background: linear-gradient(180deg, #eef1ed 0%, #f2f4f0 100%) !important;
+}
+
+/* Superfici principali meno bianche e meno abbaglianti. */
+body[data-theme="light"] .fmed-dashboard-page > section,
+body[data-theme="light"] .fmed-dashboard-page > div:not(.fmed-dashboard-topbar),
+body[data-theme="light"] .fmed-costi-controls,
+body[data-theme="light"] .fmed-costi-summary,
+body[data-theme="light"] .fmed-sharepoint-controls,
+body[data-theme="light"] .fmed-sharepoint-table-wrap,
+body[data-theme="light"] .fmed-process-card,
+body[data-theme="light"] .fmed-process-history,
+body[data-theme="light"] .core-toolbar,
+body[data-theme="light"] .core-dictionary-list,
+body[data-theme="light"] .core-dictionary-panel,
+body[data-theme="light"] .core-relations-panel,
+body[data-theme="light"] .fmed-settings-users,
+body[data-theme="light"] .fmed-settings-tabs,
+body[data-theme="light"] .fmed-settings-overview button,
+body[data-theme="light"] .s8108-panel,
+body[data-theme="light"] .s8108-kpi-grid article,
+body[data-theme="light"] .s8108-site-card {
+  background: var(--fmed-surface) !important;
+  border-color: var(--fmed-line) !important;
+  box-shadow: var(--fmed-shadow-1) !important;
+}
+
+body[data-theme="light"] input,
+body[data-theme="light"] select,
+body[data-theme="light"] textarea,
+.fmed-app-root.fmed-light-mode input,
+.fmed-app-root.fmed-light-mode select,
+.fmed-app-root.fmed-light-mode textarea {
+  background: var(--fmed-input-surface) !important;
+  border-color: var(--fmed-line) !important;
+}
+
+/* ========================================================================== 
+   2. ICONA DI RIFERIMENTO E STRUTTURA BANNER
+   ========================================================================== */
+.fmed-banner-heading,
+.fmed-module-hero-heading {
+  display: flex !important;
+  align-items: center !important;
+  gap: 16px !important;
+  min-width: 0 !important;
+  max-width: 100% !important;
+}
+
+.fmed-banner-copy,
+.fmed-module-hero-copy {
+  flex: 1 1 auto !important;
+  min-width: 0 !important;
+  text-align: left !important;
+}
+
+.fmed-module-icon {
+  display: inline-grid !important;
+  place-items: center !important;
+  flex: 0 0 52px !important;
+  width: 52px !important;
+  height: 52px !important;
+  min-width: 52px !important;
+  border: 1px solid rgba(255, 255, 255, .28) !important;
+  border-radius: 17px !important;
+  background: linear-gradient(135deg, #467a73 0%, #315f5a 100%) !important;
+  color: #ffffff !important;
+  -webkit-text-fill-color: #ffffff !important;
+  box-shadow: 0 10px 24px rgba(49, 95, 90, .17) !important;
+}
+.fmed-module-icon svg {
+  display: block !important;
+  width: 25px !important;
+  height: 25px !important;
+  overflow: visible !important;
+}
+
+/* Sicurezza usa lo stesso componente, mantenendo l'identità già apprezzata. */
+.s8108-heading-icon.fmed-module-icon {
+  width: 52px !important;
+  height: 52px !important;
+  min-width: 52px !important;
+  font-size: 0 !important;
+}
+
+.fmed-module-hero,
+.fmed-costi-hero,
+.fmed-sharepoint-hero,
+.fmed-report-hero,
+.fmed-process-head,
+.fmed-settings-head,
+.core-standard-head,
+.s8108-page-head,
+.fmed-wizard-head {
+  min-width: 0 !important;
+  min-height: 112px !important;
+  padding: 19px 21px !important;
+  border: 1px solid var(--fmed-hero-border) !important;
+  border-radius: 20px !important;
+  background: var(--fmed-hero) !important;
+  color: var(--fmed-hero-text) !important;
+  box-shadow: var(--fmed-shadow-2) !important;
+  overflow: hidden !important;
+}
+
+.fmed-module-hero {
+  display: grid !important;
+  grid-template-columns: minmax(0, 1fr) minmax(170px, 205px) !important;
+  align-items: center !important;
+  gap: 22px !important;
+}
+.fmed-costi-hero,
+.fmed-process-head {
+  display: flex !important;
+  align-items: center !important;
+}
+.fmed-sharepoint-hero,
+.fmed-settings-head,
+.core-standard-head,
+.s8108-page-head,
+.fmed-wizard-head {
+  align-items: center !important;
+}
+
+/* Titoli e testi: allineati, senza effetto obliquo o parole spezzate. */
+.fmed-banner-copy h1,
+.fmed-banner-copy h2,
+.fmed-banner-copy h3,
+.fmed-module-hero-title,
+.fmed-module-hero-copy h1,
+.fmed-module-hero-copy h2,
+.fmed-module-hero-copy h3 {
+  margin-top: 0 !important;
+  text-align: left !important;
+  text-wrap: wrap !important;
+  white-space: normal !important;
+  word-break: normal !important;
+  overflow-wrap: normal !important;
+  hyphens: none !important;
+  letter-spacing: -.02em !important;
+}
+.fmed-banner-copy p,
+.fmed-module-hero-subtitle,
+.fmed-module-hero-copy p {
+  max-width: 880px !important;
+  margin-bottom: 0 !important;
+  text-align: left !important;
+  white-space: normal !important;
+  word-break: normal !important;
+  overflow-wrap: break-word !important;
+  hyphens: none !important;
+  letter-spacing: 0 !important;
+  line-height: 1.48 !important;
+}
+
+.fmed-module-hero-eyebrow,
+.fmed-costi-kicker,
+.fmed-module-kicker,
+.fmed-process-kicker,
+.core-standard-kicker,
+.s8108-eyebrow,
+.fmed-report-hero-copy > span,
+.fmed-wizard-head .fmed-banner-copy > span:first-child {
+  display: block !important;
+  margin: 0 0 5px !important;
+  color: var(--fmed-hero-accent) !important;
+  -webkit-text-fill-color: var(--fmed-hero-accent) !important;
+  font-size: 10.5px !important;
+  line-height: 1.25 !important;
+  font-weight: 800 !important;
+  letter-spacing: .075em !important;
+  text-transform: uppercase !important;
+}
+
+.fmed-module-hero-title,
+.fmed-costi-title,
+.fmed-sharepoint-hero h2,
+.fmed-report-hero h2,
+.fmed-process-head h2,
+.fmed-settings-head h2,
+.core-standard-head h2,
+.s8108-page-head h1,
+.fmed-wizard-head h2 {
+  color: var(--fmed-hero-text) !important;
+  -webkit-text-fill-color: var(--fmed-hero-text) !important;
+  font-size: clamp(26px, 2vw, 34px) !important;
+  line-height: 1.08 !important;
+}
+
+.fmed-module-hero-subtitle,
+.fmed-costi-hero p,
+.fmed-sharepoint-hero p,
+.fmed-report-hero p,
+.fmed-process-head p,
+.fmed-settings-head p,
+.core-standard-head p,
+.s8108-page-head p,
+.fmed-wizard-head p {
+  color: var(--fmed-hero-muted) !important;
+  -webkit-text-fill-color: var(--fmed-hero-muted) !important;
+  font-size: 13px !important;
+}
+
+/* Metrica laterale: compatta, chiara e non più un secondo banner aggressivo. */
+body[data-theme="light"] .fmed-module-hero-metric,
+.fmed-app-root.fmed-light-mode .fmed-module-hero-metric {
+  min-height: 88px !important;
+  padding: 13px 15px !important;
+  border: 1px solid #c7d5cd !important;
+  border-radius: 15px !important;
+  background: #e4ebe6 !important;
+  color: #29433e !important;
+  box-shadow: none !important;
+}
+body[data-theme="light"] .fmed-module-hero-metric *,
+.fmed-app-root.fmed-light-mode .fmed-module-hero-metric * {
+  color: inherit !important;
+  -webkit-text-fill-color: inherit !important;
+}
+body[data-theme="light"] .fmed-module-hero-metric-value,
+.fmed-app-root.fmed-light-mode .fmed-module-hero-metric-value {
+  font-size: clamp(29px, 2.2vw, 37px) !important;
+}
+body[data-theme="light"] .fmed-module-hero-metric-label,
+body[data-theme="light"] .fmed-module-hero-metric-sub,
+.fmed-app-root.fmed-light-mode .fmed-module-hero-metric-label,
+.fmed-app-root.fmed-light-mode .fmed-module-hero-metric-sub {
+  letter-spacing: .025em !important;
+  text-transform: none !important;
+}
+
+/* Pannelli laterali del banner coerenti con il nuovo stile. */
+body[data-theme="light"] .fmed-report-environment,
+body[data-theme="light"] .fmed-settings-status,
+.fmed-app-root.fmed-light-mode .fmed-report-environment,
+.fmed-app-root.fmed-light-mode .fmed-settings-status {
+  border-color: #c7d5cd !important;
+  background: #e4ebe6 !important;
+  color: #29433e !important;
+  box-shadow: none !important;
+}
+body[data-theme="light"] .fmed-report-environment *,
+body[data-theme="light"] .fmed-settings-status *,
+.fmed-app-root.fmed-light-mode .fmed-report-environment *,
+.fmed-app-root.fmed-light-mode .fmed-settings-status * {
+  color: inherit !important;
+  -webkit-text-fill-color: inherit !important;
+}
+
+/* ========================================================================== 
+   3. ALLINEAMENTO E LAYOUT DESKTOP
+   ========================================================================== */
+.fmed-main-content,
+.fmed-dashboard-page,
+.fmed-asset-page,
+.fmed-interventi-enterprise,
+.fmed-scadenze-enterprise,
+.fmed-infrastrutture-page,
+.fmed-costi-page,
+.fmed-export-page,
+.fmed-sharepoint-page,
+.fmed-process-page,
+.core-standard-page,
+.fmed-settings-page,
+.s8108-page {
+  width: 100% !important;
+  max-width: none !important;
+  min-width: 0 !important;
+  box-sizing: border-box !important;
+}
+
+.fmed-dashboard-topbar,
+.fmed-dashboard-title-wrap,
+.fmed-dashboard-top-actions {
+  align-items: center !important;
+}
+.fmed-dashboard-title-wrap > div:last-child {
+  min-width: 0 !important;
+}
+.fmed-dashboard-title-wrap h2,
+.fmed-dashboard-title-wrap p {
+  text-align: left !important;
+  white-space: normal !important;
+  letter-spacing: 0 !important;
+}
+
+.core-standard-head > .fmed-banner-heading,
+.fmed-settings-head > .fmed-banner-heading,
+.s8108-page-head > .s8108-heading-block,
+.fmed-wizard-head > .fmed-banner-heading {
+  flex: 1 1 auto !important;
+}
+
+.core-standard-head .core-sync-button,
+.fmed-settings-status,
+.s8108-head-actions,
+.fmed-wizard-head > button {
+  flex: 0 0 auto !important;
+}
+
+/* Dizionari: colonne e testi rimangono allineati su desktop. */
+.core-dictionary-title,
+.core-section-heading,
+.core-value-row,
+.core-table-head {
+  text-align: left !important;
+}
+.core-value-row > *,
+.core-table-head > * {
+  min-width: 0 !important;
+  align-self: center !important;
+}
+.core-value-row strong,
+.core-value-row code,
+.core-value-row span {
+  line-height: 1.35 !important;
+  white-space: normal !important;
+  overflow-wrap: anywhere !important;
+}
+
+@media (min-width: 1180px) {
+  .fmed-main-content {
+    padding: 24px 28px !important;
+  }
+  .fmed-report-hero {
+    display: grid !important;
+    grid-template-columns: minmax(0, 1fr) minmax(235px, 285px) !important;
+    align-items: center !important;
+    gap: 22px !important;
+  }
+  .fmed-sharepoint-hero,
+  .fmed-settings-head,
+  .core-standard-head,
+  .s8108-page-head,
+  .fmed-wizard-head {
+    display: flex !important;
+    justify-content: space-between !important;
+    gap: 22px !important;
+  }
+  .fmed-process-catalog {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  }
+  .core-dictionary-layout {
+    grid-template-columns: minmax(300px, 340px) minmax(0, 1fr) !important;
+  }
+}
+
+@media (max-width: 1179px) {
+  .fmed-module-hero,
+  .fmed-report-hero {
+    grid-template-columns: 1fr !important;
+  }
+  .fmed-module-hero-metric,
+  .fmed-report-environment {
+    width: min(100%, 280px) !important;
+    justify-self: start !important;
+  }
+}
+
+@media (max-width: 820px) {
+  .fmed-banner-heading,
+  .fmed-module-hero-heading {
+    align-items: flex-start !important;
+    gap: 12px !important;
+  }
+  .fmed-module-icon {
+    flex-basis: 44px !important;
+    width: 44px !important;
+    height: 44px !important;
+    min-width: 44px !important;
+    border-radius: 14px !important;
+  }
+  .fmed-module-icon svg { width: 22px !important; height: 22px !important; }
+  .fmed-sharepoint-hero,
+  .fmed-settings-head,
+  .core-standard-head,
+  .s8108-page-head,
+  .fmed-wizard-head {
+    align-items: flex-start !important;
+    flex-direction: column !important;
+  }
+}
+
+/* ========================================================================== 
+   4. DARK MODE: mantiene la palette scura, uniforma soltanto icone/layout
+   ========================================================================== */
+body[data-theme="dark"] .fmed-module-icon,
+.fmed-app-root.fmed-dark-mode .fmed-module-icon {
+  background: linear-gradient(135deg, #4b8d84 0%, #2f625b 100%) !important;
+  border-color: rgba(255,255,255,.14) !important;
+  color: #f6fbf9 !important;
+  -webkit-text-fill-color: #f6fbf9 !important;
+  box-shadow: 0 12px 28px rgba(0,0,0,.20) !important;
+}
+body[data-theme="dark"] .core-standard-head,
+body[data-theme="dark"] .fmed-wizard-head,
+.fmed-app-root.fmed-dark-mode .core-standard-head,
+.fmed-app-root.fmed-dark-mode .fmed-wizard-head {
+  background: var(--fmed-hero) !important;
+  border-color: var(--fmed-hero-border) !important;
+  color: var(--fmed-hero-text) !important;
+}
+body[data-theme="dark"] .core-standard-head h2,
+body[data-theme="dark"] .core-standard-head p,
+body[data-theme="dark"] .fmed-wizard-head h2,
+body[data-theme="dark"] .fmed-wizard-head p,
+.fmed-app-root.fmed-dark-mode .core-standard-head h2,
+.fmed-app-root.fmed-dark-mode .core-standard-head p,
+.fmed-app-root.fmed-dark-mode .fmed-wizard-head h2,
+.fmed-app-root.fmed-dark-mode .fmed-wizard-head p {
+  color: inherit !important;
+  -webkit-text-fill-color: inherit !important;
+}
+
+/* ========================================================================== 
+   5. SHAREPOINT LINK SYNC — MIGRAZIONE CENTRALIZZATA E SICURA
+   ========================================================================== */
+.fmed-sharepoint-sync-panel {
+  display: grid;
+  gap: 16px;
+  padding: 20px;
+  border: 1px solid var(--fmed-line, #ced8d2);
+  border-radius: 18px;
+  background: var(--fmed-surface, #f8f9f6);
+  box-shadow: var(--fmed-shadow-1, 0 5px 16px rgba(48,72,64,.045));
+}
+.fmed-sharepoint-sync-head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 18px;
+}
+.fmed-sharepoint-sync-head > div { min-width: 0; }
+.fmed-sharepoint-sync-head h3 {
+  margin: 4px 0 7px;
+  color: var(--fmed-text-primary, #24312e);
+  font-size: clamp(20px, 1.7vw, 27px);
+  line-height: 1.15;
+  letter-spacing: -.02em;
+}
+.fmed-sharepoint-sync-head p {
+  max-width: 940px;
+  margin: 0;
+  color: var(--fmed-text-secondary, #5e6d68);
+  font-size: 13px;
+  line-height: 1.5;
+}
+.fmed-sharepoint-sync-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+}
+.fmed-sharepoint-sync-grid label {
+  display: grid;
+  gap: 7px;
+  min-width: 0;
+}
+.fmed-sharepoint-sync-grid label > span {
+  color: var(--fmed-text-secondary, #5e6d68);
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: .035em;
+  text-transform: uppercase;
+}
+.fmed-sharepoint-sync-grid input {
+  width: 100%;
+  min-width: 0;
+  min-height: 44px;
+  padding: 10px 12px;
+  border: 1px solid var(--fmed-line, #ced8d2);
+  border-radius: 11px;
+  background: var(--fmed-input-surface, #f4f6f2);
+  color: var(--fmed-text-primary, #24312e);
+  font-size: 12px;
+}
+.fmed-sharepoint-sync-actions {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+.fmed-sharepoint-sync-message {
+  padding: 11px 13px;
+  border: 1px solid color-mix(in srgb, var(--fmed-success, #2f7c65) 35%, var(--fmed-line, #ced8d2));
+  border-radius: 11px;
+  background: color-mix(in srgb, var(--fmed-success, #2f7c65) 8%, var(--fmed-surface, #f8f9f6));
+  color: var(--fmed-text-primary, #24312e);
+  font-size: 12px;
+  font-weight: 700;
+}
+.fmed-sharepoint-sync-message.is-error {
+  border-color: color-mix(in srgb, var(--fmed-danger, #b94b4b) 38%, var(--fmed-line, #ced8d2));
+  background: color-mix(in srgb, var(--fmed-danger, #b94b4b) 8%, var(--fmed-surface, #f8f9f6));
+}
+.fmed-sharepoint-sync-summary {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 10px;
+}
+.fmed-sharepoint-sync-summary article {
+  display: grid;
+  gap: 5px;
+  min-width: 0;
+  padding: 12px 13px;
+  border: 1px solid var(--fmed-line, #ced8d2);
+  border-radius: 12px;
+  background: var(--fmed-surface-muted, #e9eeea);
+}
+.fmed-sharepoint-sync-summary span {
+  color: var(--fmed-text-secondary, #5e6d68);
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: .04em;
+  text-transform: uppercase;
+}
+.fmed-sharepoint-sync-summary strong {
+  color: var(--fmed-text-primary, #24312e);
+  font-size: 25px;
+  line-height: 1;
+}
+.fmed-sharepoint-sync-preview {
+  display: grid;
+  gap: 7px;
+}
+.fmed-sharepoint-sync-preview > div {
+  display: grid;
+  grid-template-columns: minmax(100px, 150px) minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 12px;
+  padding: 9px 11px;
+  border: 1px solid var(--fmed-line-soft, #dde4df);
+  border-radius: 10px;
+  background: var(--fmed-surface-raised, #fcfcfa);
+}
+.fmed-sharepoint-sync-preview strong,
+.fmed-sharepoint-sync-preview span,
+.fmed-sharepoint-sync-preview small {
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+.fmed-sharepoint-sync-preview small {
+  color: var(--fmed-brand, #315f5a);
+  font-weight: 800;
+}
+.fmed-sharepoint-sync-preview p {
+  margin: 3px 0 0;
+  color: var(--fmed-text-secondary, #5e6d68);
+  font-size: 11px;
+}
+
+body[data-theme="dark"] .fmed-sharepoint-sync-panel,
+.fmed-app-root.fmed-dark-mode .fmed-sharepoint-sync-panel {
+  background: var(--fmed-surface, #10202b);
+  border-color: var(--fmed-line, #334b5c);
+}
+body[data-theme="dark"] .fmed-sharepoint-sync-preview > div,
+body[data-theme="dark"] .fmed-sharepoint-sync-summary article,
+.fmed-app-root.fmed-dark-mode .fmed-sharepoint-sync-preview > div,
+.fmed-app-root.fmed-dark-mode .fmed-sharepoint-sync-summary article {
+  background: var(--fmed-surface-muted, #152a37);
+  border-color: var(--fmed-line, #334b5c);
+}
+
+@media (max-width: 900px) {
+  .fmed-sharepoint-sync-grid,
+  .fmed-sharepoint-sync-summary { grid-template-columns: 1fr 1fr; }
+}
+@media (max-width: 620px) {
+  .fmed-sharepoint-sync-head { flex-direction: column; }
+  .fmed-sharepoint-sync-grid,
+  .fmed-sharepoint-sync-summary { grid-template-columns: 1fr; }
+  .fmed-sharepoint-sync-preview > div { grid-template-columns: 1fr; gap: 4px; }
+}
+
+/* ========================================================================== 
+   6. ALLINEAMENTO FINALE DESKTOP — KPI, REPORT E INTERVENTI
+   ========================================================================== */
+
+/* I KPI non devono mai comprimere o spezzare numeri/currency. */
+.fmed-dashboard-kpi-grid {
+  grid-template-columns: repeat(auto-fit, minmax(225px, 1fr)) !important;
+  gap: 14px !important;
+}
+.fmed-dashboard-kpi-card {
+  grid-template-columns: 44px minmax(0, 1fr) !important;
+  min-width: 0 !important;
+  min-height: 124px !important;
+  padding: 15px 16px !important;
+  overflow: visible !important;
+}
+.fmed-dashboard-kpi-card > span:first-child {
+  width: 42px !important;
+  min-width: 42px !important;
+  height: 42px !important;
+}
+.fmed-dashboard-kpi-card > span:nth-child(2) {
+  min-width: 0 !important;
+  overflow: visible !important;
+}
+.fmed-dashboard-kpi-value {
+  width: auto !important;
+  max-width: none !important;
+  font-size: clamp(24px, 2.25vw, 34px) !important;
+  line-height: 1.02 !important;
+  letter-spacing: -.035em !important;
+  white-space: nowrap !important;
+  overflow: visible !important;
+  text-overflow: clip !important;
+}
+.fmed-dashboard-kpi-card small {
+  font-size: 10.5px !important;
+  line-height: 1.22 !important;
+  letter-spacing: .025em !important;
+}
+.fmed-dashboard-kpi-trend {
+  width: auto !important;
+  max-width: 100% !important;
+  justify-self: start !important;
+  padding-inline: 10px !important;
+  white-space: normal !important;
+  overflow-wrap: break-word !important;
+}
+
+/* Report: metriche e accordion allineati senza colonne che escono dal pannello. */
+.fmed-report-audit {
+  min-width: 0 !important;
+  overflow: hidden !important;
+}
+.fmed-report-audit-head {
+  align-items: center !important;
+  gap: 18px !important;
+}
+.fmed-report-audit-head > div:first-child {
+  min-width: 0 !important;
+}
+.fmed-report-audit-grid {
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)) !important;
+  gap: 11px !important;
+  min-width: 0 !important;
+}
+.fmed-report-audit-grid > div {
+  min-width: 0 !important;
+  min-height: 88px !important;
+  align-content: center !important;
+}
+.fmed-report-audit-grid strong {
+  font-size: clamp(24px, 2vw, 32px) !important;
+  white-space: nowrap !important;
+}
+.fmed-report-accordion-header {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  gap: 14px !important;
+  width: 100% !important;
+  min-width: 0 !important;
+  text-align: left !important;
+}
+.fmed-report-accordion-title-wrap {
+  display: flex !important;
+  align-items: center !important;
+  gap: 13px !important;
+  min-width: 0 !important;
+}
+.fmed-report-accordion-title-wrap > div {
+  min-width: 0 !important;
+}
+.fmed-report-accordion-title-wrap > div > div {
+  text-align: left !important;
+  white-space: normal !important;
+  word-break: normal !important;
+  overflow-wrap: break-word !important;
+  letter-spacing: 0 !important;
+  line-height: 1.28 !important;
+}
+
+/* Interventi: ricerca, risultati e filtri con griglia coerente su desktop. */
+.fmed-interventi-panel {
+  width: 100% !important;
+  min-width: 0 !important;
+}
+.fmed-interventi-panel-head,
+.fmed-interventi-search-row {
+  display: flex !important;
+  align-items: center !important;
+  gap: 12px !important;
+  min-width: 0 !important;
+}
+.fmed-interventi-panel-head {
+  justify-content: space-between !important;
+}
+.fmed-interventi-panel-head > div:first-child,
+.fmed-interventi-search-row > input {
+  min-width: 0 !important;
+  flex: 1 1 auto !important;
+}
+.fmed-interventi-smart-results {
+  display: grid !important;
+  gap: 7px !important;
+  min-width: 0 !important;
+  overflow-x: auto !important;
+}
+.fmed-interventi-smart-row {
+  display: grid !important;
+  grid-template-columns: minmax(92px, .8fr) minmax(120px, 1fr) minmax(145px, 1.15fr) minmax(135px, 1fr) minmax(125px, 1fr) minmax(150px, 1.15fr) !important;
+  align-items: center !important;
+  gap: 12px !important;
+  min-width: 850px !important;
+  text-align: left !important;
+}
+.fmed-interventi-smart-row > * {
+  min-width: 0 !important;
+  text-align: left !important;
+  white-space: normal !important;
+  overflow-wrap: break-word !important;
+  line-height: 1.3 !important;
+}
+.fmed-interventi-filter-grid {
+  display: grid !important;
+  grid-template-columns: repeat(4, minmax(170px, 1fr)) !important;
+  gap: 10px !important;
+  align-items: end !important;
+  min-width: 0 !important;
+}
+.fmed-interventi-select,
+.fmed-interventi-date-field input {
+  width: 100% !important;
+  min-width: 0 !important;
+  min-height: 42px !important;
+  text-align: left !important;
+}
+.fmed-interventi-date-field {
+  display: grid !important;
+  align-content: end !important;
+  gap: 6px !important;
+  min-width: 0 !important;
+}
+
+@media (max-width: 1320px) {
+  .fmed-interventi-filter-grid { grid-template-columns: repeat(3, minmax(170px, 1fr)) !important; }
+}
+@media (max-width: 980px) {
+  .fmed-dashboard-kpi-grid { grid-template-columns: repeat(2, minmax(210px, 1fr)) !important; }
+  .fmed-interventi-filter-grid { grid-template-columns: repeat(2, minmax(160px, 1fr)) !important; }
+  .fmed-report-audit-head { align-items: flex-start !important; flex-direction: column !important; }
+}
+@media (max-width: 620px) {
+  .fmed-dashboard-kpi-grid,
+  .fmed-interventi-filter-grid { grid-template-columns: 1fr !important; }
+  .fmed-interventi-panel-head,
+  .fmed-interventi-search-row { align-items: stretch !important; flex-direction: column !important; }
+}

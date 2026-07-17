@@ -1,0 +1,722 @@
+/* FMED Enterprise 1.0 — E3.2 Semantic Color System
+   Un'unica gerarchia cromatica per Light e Dark.
+   I colori descrivono il ruolo dell'elemento, non il modulo che lo contiene.
+   Nessuna modifica alla logica applicativa. */
+
+/* ========================================================================== 
+   1. TOKENS SEMANTICI
+   ========================================================================== */
+html[data-theme="light"],
+body[data-theme="light"],
+.fmed-app-root.fmed-light-mode,
+body[data-theme="light"] .fmed-app-root {
+  color-scheme: light;
+
+  --fmed-canvas: #f4f2ec;
+  --fmed-canvas-soft: #ecefeb;
+  --fmed-surface: #fffdf8;
+  --fmed-surface-raised: #ffffff;
+  --fmed-surface-muted: #eef2ef;
+  --fmed-surface-selected: #e4efec;
+  --fmed-input-surface: #fffefa;
+
+  --fmed-text-primary: #1f2b28;
+  --fmed-text-secondary: #5f6c68;
+  --fmed-text-tertiary: #7a8783;
+  --fmed-text-inverse: #ffffff;
+
+  --fmed-line: #d5ded9;
+  --fmed-line-strong: #b9c8c2;
+  --fmed-line-soft: #e6ece8;
+
+  --fmed-brand: #1d6862;
+  --fmed-brand-hover: #15554f;
+  --fmed-brand-strong: #123f3c;
+  --fmed-brand-soft: #e4efec;
+  --fmed-secondary: #52778a;
+  --fmed-accent-warm: #a98242;
+
+  --fmed-success: #2e7d5b;
+  --fmed-success-soft: #e6f2eb;
+  --fmed-warning: #9a651d;
+  --fmed-warning-soft: #f8eedb;
+  --fmed-danger: #b74752;
+  --fmed-danger-soft: #f8e8ea;
+  --fmed-info: #3b718c;
+  --fmed-info-soft: #e7f0f4;
+  --fmed-neutral: #677570;
+  --fmed-neutral-soft: #eef1ef;
+
+  --fmed-sidebar: #123f3c;
+  --fmed-sidebar-hover: #1a504c;
+  --fmed-sidebar-active: #26756e;
+  --fmed-sidebar-text: #f6fbf9;
+  --fmed-sidebar-muted: #b9d0ca;
+  --fmed-sidebar-line: rgba(255, 255, 255, .13);
+
+  --fmed-hero: #184c49;
+  --fmed-hero-border: #2f6b66;
+  --fmed-hero-text: #ffffff;
+  --fmed-hero-muted: #c9ded9;
+  --fmed-hero-accent: #9fd5cc;
+
+  --fmed-shadow-1: 0 5px 16px rgba(31, 68, 61, .05);
+  --fmed-shadow-2: 0 12px 30px rgba(31, 68, 61, .08);
+  --fmed-shadow-3: 0 24px 58px rgba(23, 54, 49, .13);
+  --fmed-focus: 0 0 0 3px rgba(29, 104, 98, .18);
+
+  /* Ponte con i token storici ancora usati dai componenti. */
+  --fmed-bg: var(--fmed-canvas) !important;
+  --fmed-main-bg: var(--fmed-canvas) !important;
+  --fmed-sidebar-bg: var(--fmed-sidebar) !important;
+  --fmed-header-bg: var(--fmed-hero) !important;
+  --fmed-header-inner: var(--fmed-hero) !important;
+  --fmed-card: var(--fmed-surface) !important;
+  --fmed-card-strong: var(--fmed-surface-raised) !important;
+  --fmed-surface-solid: var(--fmed-surface) !important;
+  --fmed-surface-soft: var(--fmed-surface-muted) !important;
+  --fmed-soft: var(--fmed-surface-muted) !important;
+  --fmed-input: var(--fmed-input-surface) !important;
+  --fmed-text: var(--fmed-text-primary) !important;
+  --fmed-title: var(--fmed-text-primary) !important;
+  --fmed-muted: var(--fmed-text-secondary) !important;
+  --fmed-subtle: var(--fmed-text-tertiary) !important;
+  --fmed-border: var(--fmed-line) !important;
+  --fmed-border-strong: var(--fmed-line-strong) !important;
+  --fmed-d3-border: var(--fmed-line) !important;
+  --fmed-primary: var(--fmed-brand) !important;
+  --fmed-primary-hover: var(--fmed-brand-hover) !important;
+  --fmed-primary-2: var(--fmed-brand-strong) !important;
+  --fmed-primary-soft: rgba(29, 104, 98, .11) !important;
+  --fmed-accent: var(--fmed-brand) !important;
+  --fmed-accent-2: var(--fmed-brand-hover) !important;
+  --fmed-success: #2e7d5b !important;
+  --fmed-warning: #9a651d !important;
+  --fmed-danger: #b74752 !important;
+  --fmed-info: #3b718c !important;
+  --fmed-card-gradient: var(--fmed-surface) !important;
+  --fmed-soft-gradient: var(--fmed-surface-muted) !important;
+  --fmed-btn: var(--fmed-brand) !important;
+  --fmed-btn-secondary: var(--fmed-surface-raised) !important;
+  --fmed-btn-shadow: 0 10px 24px rgba(29, 104, 98, .17) !important;
+  --fmed-card-shadow: var(--fmed-shadow-2) !important;
+  --fmed-card-shadow-soft: var(--fmed-shadow-1) !important;
+  --fmed-table-head: var(--fmed-surface-muted) !important;
+}
+
+html[data-theme="dark"],
+body[data-theme="dark"],
+.fmed-app-root.fmed-dark-mode,
+body[data-theme="dark"] .fmed-app-root {
+  color-scheme: dark;
+
+  --fmed-canvas: #0e1514;
+  --fmed-canvas-soft: #121b19;
+  --fmed-surface: #17201e;
+  --fmed-surface-raised: #1e2926;
+  --fmed-surface-muted: #25322f;
+  --fmed-surface-selected: #203b36;
+  --fmed-input-surface: #111a18;
+
+  --fmed-text-primary: #f2f6f4;
+  --fmed-text-secondary: #b0bdb8;
+  --fmed-text-tertiary: #82918b;
+  --fmed-text-inverse: #0e1514;
+
+  --fmed-line: #334440;
+  --fmed-line-strong: #4a5f59;
+  --fmed-line-soft: #273632;
+
+  --fmed-brand: #68b7af;
+  --fmed-brand-hover: #80c8c1;
+  --fmed-brand-strong: #a0d8d1;
+  --fmed-brand-soft: #203c37;
+  --fmed-secondary: #7eabb9;
+  --fmed-accent-warm: #d4b06a;
+
+  --fmed-success: #6fc39c;
+  --fmed-success-soft: #18362a;
+  --fmed-warning: #d8a854;
+  --fmed-warning-soft: #3a2e17;
+  --fmed-danger: #e57c84;
+  --fmed-danger-soft: #3c2024;
+  --fmed-info: #78aec5;
+  --fmed-info-soft: #1d323b;
+  --fmed-neutral: #a6b2ae;
+  --fmed-neutral-soft: #28322f;
+
+  --fmed-sidebar: #09110f;
+  --fmed-sidebar-hover: #14231f;
+  --fmed-sidebar-active: #245e57;
+  --fmed-sidebar-text: #f2f6f4;
+  --fmed-sidebar-muted: #a5b8b1;
+  --fmed-sidebar-line: rgba(255, 255, 255, .10);
+
+  --fmed-hero: #182724;
+  --fmed-hero-border: #35504a;
+  --fmed-hero-text: #f4f8f6;
+  --fmed-hero-muted: #afc2bc;
+  --fmed-hero-accent: #76c0b8;
+
+  --fmed-shadow-1: 0 6px 18px rgba(0, 0, 0, .20);
+  --fmed-shadow-2: 0 14px 34px rgba(0, 0, 0, .27);
+  --fmed-shadow-3: 0 28px 64px rgba(0, 0, 0, .36);
+  --fmed-focus: 0 0 0 3px rgba(104, 183, 175, .22);
+
+  --fmed-bg: var(--fmed-canvas) !important;
+  --fmed-main-bg: var(--fmed-canvas) !important;
+  --fmed-sidebar-bg: var(--fmed-sidebar) !important;
+  --fmed-header-bg: var(--fmed-hero) !important;
+  --fmed-header-inner: var(--fmed-hero) !important;
+  --fmed-card: var(--fmed-surface) !important;
+  --fmed-card-strong: var(--fmed-surface-raised) !important;
+  --fmed-surface-solid: var(--fmed-surface) !important;
+  --fmed-surface-soft: var(--fmed-surface-muted) !important;
+  --fmed-soft: var(--fmed-surface-muted) !important;
+  --fmed-input: var(--fmed-input-surface) !important;
+  --fmed-text: var(--fmed-text-primary) !important;
+  --fmed-title: var(--fmed-text-primary) !important;
+  --fmed-muted: var(--fmed-text-secondary) !important;
+  --fmed-subtle: var(--fmed-text-tertiary) !important;
+  --fmed-border: var(--fmed-line) !important;
+  --fmed-border-strong: var(--fmed-line-strong) !important;
+  --fmed-d3-border: var(--fmed-line) !important;
+  --fmed-primary: var(--fmed-brand) !important;
+  --fmed-primary-hover: var(--fmed-brand-hover) !important;
+  --fmed-primary-2: var(--fmed-brand-strong) !important;
+  --fmed-primary-soft: rgba(104, 183, 175, .15) !important;
+  --fmed-accent: var(--fmed-brand) !important;
+  --fmed-accent-2: var(--fmed-brand-hover) !important;
+  --fmed-success: #6fc39c !important;
+  --fmed-warning: #d8a854 !important;
+  --fmed-danger: #e57c84 !important;
+  --fmed-info: #78aec5 !important;
+  --fmed-card-gradient: var(--fmed-surface) !important;
+  --fmed-soft-gradient: var(--fmed-surface-muted) !important;
+  --fmed-btn: var(--fmed-brand) !important;
+  --fmed-btn-secondary: var(--fmed-surface-raised) !important;
+  --fmed-btn-shadow: 0 10px 24px rgba(0, 0, 0, .28) !important;
+  --fmed-card-shadow: var(--fmed-shadow-2) !important;
+  --fmed-card-shadow-soft: var(--fmed-shadow-1) !important;
+  --fmed-table-head: var(--fmed-surface-muted) !important;
+}
+
+/* ========================================================================== 
+   2. SUPERFICI E TESTI GLOBALI
+   ========================================================================== */
+html,
+body,
+#root {
+  background: var(--fmed-canvas, #f4f2ec) !important;
+}
+
+.fmed-app-root {
+  background: var(--fmed-canvas) !important;
+  color: var(--fmed-text-primary) !important;
+}
+
+.fmed-app-root main,
+.fmed-dashboard-page,
+.fmed-asset-page,
+.fmed-interventi-enterprise,
+.fmed-infrastrutture-page,
+.fmed-scadenze-enterprise,
+.fmed-costi-page,
+.fmed-report-page,
+.fmed-sharepoint-page,
+.fmed-process-page,
+.fmed-settings-page,
+.core-standard-page,
+.s8108-page,
+.fmed-export-page {
+  background: transparent !important;
+  color: var(--fmed-text-primary) !important;
+}
+
+.fmed-app-root h1,
+.fmed-app-root h2,
+.fmed-app-root h3,
+.fmed-app-root h4,
+.fmed-app-root strong {
+  color: var(--fmed-text-primary) !important;
+  -webkit-text-fill-color: var(--fmed-text-primary) !important;
+}
+
+.fmed-app-root p,
+.fmed-app-root small,
+.fmed-app-root label,
+.fmed-app-root .fmed-ui-help {
+  color: var(--fmed-text-secondary) !important;
+  -webkit-text-fill-color: var(--fmed-text-secondary) !important;
+}
+
+/* Card e pannelli non semantici: un solo fondo, un solo bordo, un'unica ombra. */
+.fmed-quick-actions-panel,
+.fmed-dashboard-kpi-card,
+.fmed-dashboard-chart-card,
+.fmed-dashboard-activity-panel,
+.fmed-dashboard-mini-panel,
+.fmed-costi-controls,
+.fmed-costi-summary,
+.fmed-costi-accordion,
+.fmed-sharepoint-controls,
+.fmed-sharepoint-table-wrap,
+.fmed-sharepoint-kpis article,
+.fmed-report-audit,
+.fmed-report-accordion-item,
+.fmed-process-controls,
+.fmed-process-card,
+.fmed-process-history,
+.fmed-process-usage,
+.fmed-settings-overview,
+.fmed-settings-users,
+.fmed-settings-role-grid > article,
+.core-summary-grid > div,
+.core-dictionary-panel,
+.core-relations-panel,
+.core-value-row,
+.fmed-wizard-card,
+.fmed-intervention-asset-picker,
+.fmed-new-intervention-form,
+.s8108-panel,
+.s8108-kpi-grid article,
+.s8108-site-card,
+.s8108-tabs,
+.s8108-notice {
+  background: var(--fmed-surface) !important;
+  border-color: var(--fmed-line) !important;
+  color: var(--fmed-text-primary) !important;
+  box-shadow: var(--fmed-shadow-1) !important;
+}
+
+/* ========================================================================== 
+   3. SIDEBAR — SEMPRE PETROLIO, STESSA GERARCHIA IN LIGHT E DARK
+   ========================================================================== */
+.fmed-app-root aside.fmed-side-rail {
+  background: var(--fmed-sidebar) !important;
+  border-right: 1px solid var(--fmed-sidebar-line) !important;
+  box-shadow: 12px 0 32px rgba(4, 18, 16, .14) !important;
+  color: var(--fmed-sidebar-text) !important;
+}
+
+.fmed-sidebar-logo-title,
+.fmed-sidebar-logo-subtitle,
+.fmed-sidebar-logo-byline,
+.fmed-sidebar-logo-mark,
+.fmed-brand-symbol {
+  color: var(--fmed-sidebar-text) !important;
+  -webkit-text-fill-color: var(--fmed-sidebar-text) !important;
+}
+.fmed-sidebar-logo-subtitle,
+.fmed-sidebar-logo-byline { color: var(--fmed-sidebar-muted) !important; -webkit-text-fill-color: var(--fmed-sidebar-muted) !important; }
+
+.fmed-sidebar-control-btn,
+.fmed-side-menu-btn {
+  background: transparent !important;
+  border-color: transparent !important;
+  color: var(--fmed-sidebar-muted) !important;
+  -webkit-text-fill-color: var(--fmed-sidebar-muted) !important;
+  box-shadow: none !important;
+}
+.fmed-sidebar-control-btn:hover,
+.fmed-side-menu-btn:hover {
+  background: var(--fmed-sidebar-hover) !important;
+  border-color: var(--fmed-sidebar-line) !important;
+  color: var(--fmed-sidebar-text) !important;
+  -webkit-text-fill-color: var(--fmed-sidebar-text) !important;
+}
+.fmed-side-menu-btn.is-active,
+.fmed-side-menu-btn[aria-current="page"] {
+  background: var(--fmed-sidebar-active) !important;
+  border-color: rgba(255,255,255,.18) !important;
+  color: #ffffff !important;
+  -webkit-text-fill-color: #ffffff !important;
+  box-shadow: inset 4px 0 0 var(--fmed-hero-accent) !important;
+}
+.fmed-side-menu-btn *,
+.fmed-sidebar-control-btn * { color: inherit !important; -webkit-text-fill-color: inherit !important; }
+
+/* ========================================================================== 
+   4. BANNER / HEADER MODULI
+   ========================================================================== */
+.fmed-module-hero,
+.fmed-costi-hero,
+.fmed-sharepoint-hero,
+.fmed-report-hero,
+.fmed-process-head,
+.fmed-settings-head,
+.s8108-page-head {
+  background: var(--fmed-hero) !important;
+  border-color: var(--fmed-hero-border) !important;
+  color: var(--fmed-hero-text) !important;
+  box-shadow: var(--fmed-shadow-2) !important;
+}
+
+.fmed-module-hero h1,
+.fmed-module-hero h2,
+.fmed-module-hero h3,
+.fmed-costi-hero h1,
+.fmed-costi-hero h2,
+.fmed-sharepoint-hero h2,
+.fmed-report-hero h2,
+.fmed-process-head h2,
+.fmed-settings-head h2,
+.s8108-page-head h1,
+.s8108-page-head h2,
+.fmed-module-hero-title {
+  color: var(--fmed-hero-text) !important;
+  -webkit-text-fill-color: var(--fmed-hero-text) !important;
+}
+
+.fmed-module-hero p,
+.fmed-module-hero-subtitle,
+.fmed-costi-hero p,
+.fmed-sharepoint-hero p,
+.fmed-report-hero p,
+.fmed-process-head p,
+.fmed-settings-head p,
+.s8108-page-head p {
+  color: var(--fmed-hero-muted) !important;
+  -webkit-text-fill-color: var(--fmed-hero-muted) !important;
+}
+
+.fmed-module-kicker,
+.fmed-module-hero-eyebrow,
+.fmed-costi-kicker,
+.fmed-process-kicker,
+.s8108-eyebrow,
+.core-standard-kicker {
+  color: var(--fmed-hero-accent) !important;
+  -webkit-text-fill-color: var(--fmed-hero-accent) !important;
+}
+
+.fmed-module-hero-metric,
+.fmed-costi-period-pill {
+  background: rgba(255,255,255,.08) !important;
+  border-color: rgba(255,255,255,.16) !important;
+  color: var(--fmed-hero-text) !important;
+}
+.fmed-module-hero-metric *,
+.fmed-costi-period-pill * { color: inherit !important; -webkit-text-fill-color: inherit !important; }
+
+/* ========================================================================== 
+   5. PULSANTI E CONTROLLI
+   ========================================================================== */
+.fmed-btn-primary,
+.fmed-ui-button:not(.secondary):not(.ghost):not(.danger),
+.core-primary-button,
+.core-sync-button,
+.core-add-value button[type="submit"],
+.core-add-relation button[type="submit"],
+.fmed-process-card-footer button,
+.fmed-wizard-actions button:not(.secondary),
+.s8108-btn.primary,
+.s8108-page .s8108-btn:not(.secondary) {
+  background: var(--fmed-brand) !important;
+  border-color: var(--fmed-brand) !important;
+  color: #ffffff !important;
+  -webkit-text-fill-color: #ffffff !important;
+  box-shadow: 0 8px 18px color-mix(in srgb, var(--fmed-brand) 22%, transparent) !important;
+}
+.fmed-btn-primary:hover,
+.fmed-ui-button:not(.secondary):not(.ghost):not(.danger):hover,
+.core-primary-button:hover,
+.core-sync-button:hover,
+.fmed-process-card-footer button:hover,
+.fmed-wizard-actions button:not(.secondary):hover {
+  background: var(--fmed-brand-hover) !important;
+  border-color: var(--fmed-brand-hover) !important;
+}
+
+.fmed-btn-secondary,
+.fmed-ui-button.secondary,
+.fmed-ui-button.ghost,
+.fmed-sharepoint-record-action,
+.fmed-link-button,
+.fmed-sidebar-control-btn,
+.fmed-wizard-actions button.secondary,
+.s8108-btn.secondary {
+  background: var(--fmed-surface-raised) !important;
+  border-color: var(--fmed-line) !important;
+  color: var(--fmed-text-primary) !important;
+  -webkit-text-fill-color: var(--fmed-text-primary) !important;
+  box-shadow: none !important;
+}
+.fmed-btn-secondary:hover,
+.fmed-ui-button.secondary:hover,
+.fmed-ui-button.ghost:hover,
+.fmed-sharepoint-record-action:hover,
+.fmed-link-button:hover,
+.fmed-wizard-actions button.secondary:hover,
+.s8108-btn.secondary:hover {
+  background: var(--fmed-surface-muted) !important;
+  border-color: var(--fmed-line-strong) !important;
+}
+
+.fmed-app-root input,
+.fmed-app-root select,
+.fmed-app-root textarea,
+.core-search-field input,
+.core-inline-label-input input,
+.core-add-value input,
+.core-add-relation input,
+.core-add-relation select,
+.fmed-intervention-asset-picker input,
+.fmed-intervention-asset-picker select,
+.s8108-filter-grid input,
+.s8108-filter-grid select {
+  background: var(--fmed-input-surface) !important;
+  border-color: var(--fmed-line-strong) !important;
+  color: var(--fmed-text-primary) !important;
+  -webkit-text-fill-color: var(--fmed-text-primary) !important;
+}
+.fmed-app-root input::placeholder,
+.fmed-app-root textarea::placeholder { color: var(--fmed-text-tertiary) !important; opacity: 1 !important; }
+.fmed-app-root input:focus,
+.fmed-app-root select:focus,
+.fmed-app-root textarea:focus {
+  border-color: var(--fmed-brand) !important;
+  box-shadow: var(--fmed-focus) !important;
+  outline: none !important;
+}
+
+/* ========================================================================== 
+   6. DASHBOARD — COLORI IN BASE AL SIGNIFICATO
+   ========================================================================== */
+.fmed-quick-action {
+  background: var(--fmed-surface-raised) !important;
+  border-color: var(--fmed-line) !important;
+  color: var(--fmed-text-primary) !important;
+  box-shadow: none !important;
+}
+.fmed-quick-action:hover {
+  background: var(--fmed-brand-soft) !important;
+  border-color: color-mix(in srgb, var(--fmed-brand) 35%, var(--fmed-line)) !important;
+}
+.fmed-quick-action svg { color: var(--fmed-brand) !important; }
+.fmed-quick-action span { color: var(--fmed-text-primary) !important; -webkit-text-fill-color: var(--fmed-text-primary) !important; }
+
+.fmed-dashboard-kpi-card {
+  --fmed-kpi-accent: var(--fmed-brand);
+  background: var(--fmed-surface) !important;
+  border: 1px solid var(--fmed-line) !important;
+  border-left: 4px solid var(--fmed-kpi-accent) !important;
+  color: var(--fmed-text-primary) !important;
+  box-shadow: var(--fmed-shadow-1) !important;
+}
+.fmed-dashboard-kpi-card:nth-child(1) { --fmed-kpi-accent: var(--fmed-info); }
+.fmed-dashboard-kpi-card:nth-child(2) { --fmed-kpi-accent: var(--fmed-success); }
+.fmed-dashboard-kpi-card:nth-child(3) { --fmed-kpi-accent: var(--fmed-warning); }
+.fmed-dashboard-kpi-card:nth-child(4) { --fmed-kpi-accent: var(--fmed-secondary); }
+.fmed-dashboard-kpi-card:nth-child(5) { --fmed-kpi-accent: var(--fmed-brand); }
+.fmed-dashboard-kpi-card > span:first-child {
+  background: color-mix(in srgb, var(--fmed-kpi-accent) 13%, var(--fmed-surface)) !important;
+  color: var(--fmed-kpi-accent) !important;
+  border-color: color-mix(in srgb, var(--fmed-kpi-accent) 28%, var(--fmed-line)) !important;
+}
+.fmed-dashboard-kpi-value { color: var(--fmed-text-primary) !important; -webkit-text-fill-color: var(--fmed-text-primary) !important; }
+.fmed-dashboard-kpi-card small { color: var(--fmed-text-secondary) !important; -webkit-text-fill-color: var(--fmed-text-secondary) !important; }
+.fmed-dashboard-kpi-trend {
+  background: color-mix(in srgb, var(--fmed-kpi-accent) 10%, var(--fmed-surface)) !important;
+  color: var(--fmed-kpi-accent) !important;
+  -webkit-text-fill-color: var(--fmed-kpi-accent) !important;
+  border-color: color-mix(in srgb, var(--fmed-kpi-accent) 24%, var(--fmed-line)) !important;
+}
+
+/* ========================================================================== 
+   7. STATI — ROSSO SOLO ERRORE, AMBRA SOLO ATTENZIONE, VERDE SOLO OK
+   ========================================================================== */
+.fmed-ui-badge.success,
+.core-status.active,
+.fmed-status-pill.is-ok,
+.s8108-status.success,
+.fmed-process-status.is-completato,
+.fmed-process-status.is-completed {
+  background: var(--fmed-success-soft) !important;
+  color: var(--fmed-success) !important;
+  -webkit-text-fill-color: var(--fmed-success) !important;
+  border-color: color-mix(in srgb, var(--fmed-success) 32%, var(--fmed-line)) !important;
+}
+.fmed-ui-badge.warning,
+.is-warning,
+.s8108-status.warning,
+.fmed-process-status.is-in_corso,
+.fmed-process-status.is-in-corso {
+  background: var(--fmed-warning-soft) !important;
+  color: var(--fmed-warning) !important;
+  -webkit-text-fill-color: var(--fmed-warning) !important;
+  border-color: color-mix(in srgb, var(--fmed-warning) 32%, var(--fmed-line)) !important;
+}
+.fmed-ui-badge.inactive,
+.core-status.inactive,
+.s8108-status.danger,
+.fmed-process-status.is-errore,
+.fmed-process-status.is-error,
+.fmed-missing-link {
+  background: var(--fmed-danger-soft) !important;
+  color: var(--fmed-danger) !important;
+  -webkit-text-fill-color: var(--fmed-danger) !important;
+  border-color: color-mix(in srgb, var(--fmed-danger) 32%, var(--fmed-line)) !important;
+}
+.fmed-ui-badge.info,
+.fmed-source-badge,
+.fmed-status-pill,
+.s8108-cycle.active {
+  background: var(--fmed-info-soft) !important;
+  color: var(--fmed-info) !important;
+  -webkit-text-fill-color: var(--fmed-info) !important;
+  border-color: color-mix(in srgb, var(--fmed-info) 30%, var(--fmed-line)) !important;
+}
+.fmed-process-status.is-annullato,
+.s8108-status.neutral,
+.s8108-status.closed,
+.s8108-cycle.closed {
+  background: var(--fmed-neutral-soft) !important;
+  color: var(--fmed-neutral) !important;
+  -webkit-text-fill-color: var(--fmed-neutral) !important;
+  border-color: var(--fmed-line) !important;
+}
+
+/* ========================================================================== 
+   8. TABELLE, DIZIONARI, PROCESSI, REPORT, SHAREPOINT, 81/08
+   ========================================================================== */
+.fmed-app-root table,
+.fmed-sharepoint-table,
+.fmed-process-table,
+.core-value-table,
+.core-relations-table,
+.s8108-table-wrap table {
+  background: var(--fmed-surface) !important;
+  color: var(--fmed-text-primary) !important;
+}
+.fmed-app-root th,
+.fmed-sharepoint-table th,
+.fmed-process-table th,
+.core-table-head,
+.s8108-table-wrap th {
+  background: var(--fmed-surface-muted) !important;
+  border-color: var(--fmed-line) !important;
+  color: var(--fmed-text-secondary) !important;
+  -webkit-text-fill-color: var(--fmed-text-secondary) !important;
+}
+.fmed-app-root td,
+.fmed-sharepoint-table td,
+.fmed-process-table td,
+.core-value-row,
+.s8108-table-wrap td {
+  background: var(--fmed-surface) !important;
+  border-color: var(--fmed-line-soft) !important;
+  color: var(--fmed-text-primary) !important;
+  -webkit-text-fill-color: var(--fmed-text-primary) !important;
+}
+.fmed-app-root tbody tr:hover td,
+.core-value-row:hover { background: var(--fmed-surface-muted) !important; }
+
+.core-standard-tabs,
+.fmed-settings-tabs {
+  background: var(--fmed-surface-muted) !important;
+  border-color: var(--fmed-line) !important;
+}
+.core-standard-tabs button,
+.fmed-settings-tabs button { color: var(--fmed-text-secondary) !important; -webkit-text-fill-color: var(--fmed-text-secondary) !important; }
+.core-standard-tabs button.active,
+.fmed-settings-tabs button.active,
+.core-dictionary-list button.active {
+  background: var(--fmed-brand) !important;
+  color: #ffffff !important;
+  -webkit-text-fill-color: #ffffff !important;
+}
+.core-dictionary-list button:hover,
+.core-dictionary-list button.active { border-color: color-mix(in srgb, var(--fmed-brand) 32%, var(--fmed-line)) !important; }
+.core-dictionary-list button.active { box-shadow: inset 4px 0 0 var(--fmed-brand-strong) !important; }
+
+.fmed-process-use-case,
+.fmed-process-message,
+.fmed-guided-process-waiting,
+.fmed-new-intervention-status,
+.fmed-alert-dialog-status,
+.s8108-notice {
+  background: var(--fmed-info-soft) !important;
+  border-color: color-mix(in srgb, var(--fmed-info) 30%, var(--fmed-line)) !important;
+  color: var(--fmed-text-primary) !important;
+}
+
+.fmed-report-audit-head,
+.fmed-report-accordion-header,
+.fmed-sharepoint-table-head,
+.fmed-process-history-head,
+.core-dictionary-title,
+.s8108-panel-head {
+  background: var(--fmed-surface-muted) !important;
+  border-color: var(--fmed-line) !important;
+}
+
+.fmed-sharepoint-kpis .is-warning { background: var(--fmed-warning-soft) !important; border-color: color-mix(in srgb, var(--fmed-warning) 32%, var(--fmed-line)) !important; }
+.fmed-sharepoint-kpis .is-ok { background: var(--fmed-success-soft) !important; border-color: color-mix(in srgb, var(--fmed-success) 32%, var(--fmed-line)) !important; }
+
+.s8108-page {
+  --s8108-accent: var(--fmed-brand) !important;
+  --s8108-accent-2: var(--fmed-brand-hover) !important;
+  --s8108-card: var(--fmed-surface) !important;
+  --s8108-soft: var(--fmed-surface-muted) !important;
+  --s8108-input: var(--fmed-input-surface) !important;
+  --s8108-text: var(--fmed-text-primary) !important;
+  --s8108-muted: var(--fmed-text-secondary) !important;
+  --s8108-border: var(--fmed-line) !important;
+}
+
+/* ========================================================================== 
+   9. MODALI E DIALOGHI
+   ========================================================================== */
+.fmed-modal-overlay,
+.fmed-alert-dialog-overlay {
+  background: rgba(7, 18, 16, .62) !important;
+  backdrop-filter: blur(6px) !important;
+}
+.fmed-modal-card,
+.fmed-alert-dialog,
+.fmed-wizard-card {
+  background: var(--fmed-surface-raised) !important;
+  border-color: var(--fmed-line) !important;
+  color: var(--fmed-text-primary) !important;
+  box-shadow: var(--fmed-shadow-3) !important;
+}
+.fmed-alert-dialog-close {
+  background: var(--fmed-surface-muted) !important;
+  border-color: var(--fmed-line) !important;
+  color: var(--fmed-text-primary) !important;
+}
+
+/* ========================================================================== 
+   10. ACCESSIBILITÀ VISIVA
+   ========================================================================== */
+.fmed-app-root :focus-visible {
+  outline: 2px solid var(--fmed-brand) !important;
+  outline-offset: 2px !important;
+  box-shadow: var(--fmed-focus) !important;
+}
+.fmed-app-root ::selection {
+  background: color-mix(in srgb, var(--fmed-brand) 30%, transparent) !important;
+  color: var(--fmed-text-primary) !important;
+}
+.fmed-app-root ::-webkit-scrollbar-thumb {
+  background: color-mix(in srgb, var(--fmed-brand) 42%, var(--fmed-line)) !important;
+}
+
+/* Evita che le vecchie regole dark trasformino ogni section/article in un pannello. */
+body[data-theme="dark"] .fmed-app-root main,
+body[data-theme="dark"] .fmed-app-root .fmed-dashboard-page,
+body[data-theme="dark"] .fmed-app-root .fmed-asset-page,
+body[data-theme="dark"] .fmed-app-root .fmed-interventi-enterprise,
+body[data-theme="dark"] .fmed-app-root .fmed-infrastrutture-page,
+body[data-theme="dark"] .fmed-app-root .fmed-scadenze-enterprise,
+body[data-theme="dark"] .fmed-app-root .fmed-costi-page,
+body[data-theme="dark"] .fmed-app-root .fmed-report-page,
+body[data-theme="dark"] .fmed-app-root .fmed-sharepoint-page,
+body[data-theme="dark"] .fmed-app-root .fmed-process-page,
+body[data-theme="dark"] .fmed-app-root .fmed-settings-page,
+body[data-theme="dark"] .fmed-app-root .core-standard-page,
+body[data-theme="dark"] .fmed-app-root .s8108-page {
+  background: transparent !important;
+  box-shadow: none !important;
+}

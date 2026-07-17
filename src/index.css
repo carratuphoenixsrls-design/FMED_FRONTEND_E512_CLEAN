@@ -1,0 +1,623 @@
+@import url('https://fonts.googleapis.com/css2?family=Jost:wght@300;400;500;600;700&display=swap');
+
+:root {
+  font-family: "Futura Light", "Futura LT Light", "Futura PT", "Futura", "Jost", "Century Gothic", Arial, sans-serif;
+  color: #1F2933;
+  background: #F4EFE4;
+  font-synthesis: none;
+  text-rendering: geometricPrecision;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+* { box-sizing: border-box; }
+
+html,
+body,
+#root {
+  margin: 0;
+  width: 100%;
+  min-height: 100%;
+  font-family: "Futura Light", "Futura LT Light", "Futura PT", "Futura", "Jost", "Century Gothic", Arial, sans-serif;
+}
+
+body { background: #F4EFE4; }
+
+button,
+input,
+select,
+textarea { font: inherit; }
+
+/* ============================================================
+   FMED 4.0 ENTERPRISE FRONTEND PATCH 27/06
+   Nessuna logica React/API modificata.
+   ============================================================ */
+:root {
+  --fmed-font-main: "Futura Light", Futura, "Futura PT", "Avenir Next", Arial, sans-serif;
+  --fmed-petrol-950: #06151D;
+  --fmed-petrol-900: #081924;
+  --fmed-petrol-850: #0B1D29;
+  --fmed-petrol-800: #102635;
+  --fmed-petrol-700: #143346;
+  --fmed-teal: #12C6C2;
+  --fmed-teal-strong: #19DDD7;
+  --fmed-green: #2CC58A;
+  --fmed-amber: #F3B33D;
+  --fmed-red: #F15A5A;
+  --fmed-light-bg: #F5F7F9;
+  --fmed-light-card: #FFFFFF;
+  --fmed-light-border: #E6EDF2;
+  --fmed-light-title: #173042;
+  --fmed-light-text: #4F6473;
+  --fmed-light-primary: #0E8EA8;
+}
+
+html, body, #root, .fmed-app-root {
+  font-family: var(--fmed-font-main) !important;
+  letter-spacing: -0.01em;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+}
+
+.fmed-app-root {
+  min-height: 100vh !important;
+  background: var(--fmed-main-bg) !important;
+}
+
+/* ---------- Sidebar desktop: proporzionata, non tagliata ---------- */
+.fmed-app-root aside.fmed-side-rail {
+  width: 272px !important;
+  min-width: 272px !important;
+  height: 100vh !important;
+  max-height: 100vh !important;
+  padding: 18px 14px !important;
+  box-sizing: border-box !important;
+  overflow: hidden !important;
+  display: flex !important;
+  flex-direction: column !important;
+  z-index: 50 !important;
+}
+
+.fmed-app-root aside.fmed-side-rail nav {
+  flex: 1 1 auto !important;
+  min-height: 0 !important;
+  overflow-y: auto !important;
+  overflow-x: hidden !important;
+  padding: 6px 2px 14px !important;
+  gap: 8px !important;
+  scrollbar-width: thin;
+}
+
+.fmed-sidebar-logo-lockup {
+  min-height: 86px !important;
+  display: flex !important;
+  align-items: center !important;
+  gap: 14px !important;
+  padding: 14px 10px !important;
+}
+.fmed-sidebar-logo-mark {
+  width: 52px !important;
+  height: 52px !important;
+  min-width: 52px !important;
+  border-radius: 18px !important;
+}
+.fmed-sidebar-logo-title {
+  font-size: 27px !important;
+  line-height: 30px !important;
+  letter-spacing: .08em !important;
+  font-weight: 500 !important;
+}
+.fmed-sidebar-logo-subtitle {
+  font-size: 10px !important;
+  letter-spacing: .18em !important;
+}
+
+.fmed-side-menu-btn {
+  width: 100% !important;
+  min-height: 46px !important;
+  height: 46px !important;
+  padding: 0 14px !important;
+  border-radius: 14px !important;
+  justify-content: flex-start !important;
+  text-align: left !important;
+  white-space: nowrap !important;
+  overflow: visible !important;
+  opacity: 1 !important;
+  visibility: visible !important;
+  pointer-events: auto !important;
+}
+.fmed-side-menu-btn span { opacity: 1 !important; visibility: visible !important; }
+.fmed-side-menu-btn .fmed-side-chevron { margin-left: auto !important; font-size: 20px !important; }
+
+/* ---------- Dark mode: elimina azzurrino/blu elettrico ---------- */
+body[data-theme="dark"],
+body[data-theme="dark"] #root,
+body[data-theme="dark"] .fmed-app-root,
+body[data-theme="dark"] .fmed-dark-mode {
+  --fmed-bg: #081924 !important;
+  --fmed-main-bg: radial-gradient(circle at 80% -10%, rgba(18,198,194,.10), transparent 32%), linear-gradient(135deg, #081924 0%, #0B1D29 54%, #06151D 100%) !important;
+  --fmed-sidebar-bg: linear-gradient(180deg, #0B1D29 0%, #081924 52%, #06151D 100%) !important;
+  --fmed-surface: rgba(16,38,53,.94) !important;
+  --fmed-surface-solid: #102635 !important;
+  --fmed-surface-soft: #143346 !important;
+  --fmed-text: #F7F9FB !important;
+  --fmed-muted: #9CB7C8 !important;
+  --fmed-border: rgba(255,255,255,.08) !important;
+  --fmed-accent: #12C6C2 !important;
+  --fmed-accent-2: #19DDD7 !important;
+  --fmed-card-gradient: linear-gradient(145deg, rgba(16,38,53,.98), rgba(9,28,40,.96)) !important;
+  --fmed-soft-gradient: linear-gradient(145deg, rgba(20,51,70,.92), rgba(11,29,41,.96)) !important;
+  --fmed-btn: linear-gradient(135deg, #12C6C2 0%, #0E8EA8 100%) !important;
+  --fmed-btn-shadow: 0 16px 34px rgba(18,198,194,.14) !important;
+  background: var(--fmed-main-bg) !important;
+  color: #F7F9FB !important;
+}
+
+body[data-theme="dark"] .fmed-app-root main,
+body[data-theme="dark"] .fmed-app-root section,
+body[data-theme="dark"] .fmed-app-root article,
+body[data-theme="dark"] .fmed-app-root .fmed-card,
+body[data-theme="dark"] .fmed-app-root .card,
+body[data-theme="dark"] .fmed-app-root main > div[style*="background"] {
+  background: var(--fmed-card-gradient) !important;
+  border-color: rgba(255,255,255,.08) !important;
+  color: #F7F9FB !important;
+  box-shadow: 0 18px 44px rgba(0,0,0,.26) !important;
+}
+
+body[data-theme="dark"] .fmed-app-root aside.fmed-side-rail {
+  background: var(--fmed-sidebar-bg) !important;
+  border-right: 1px solid rgba(255,255,255,.08) !important;
+  box-shadow: 18px 0 54px rgba(0,0,0,.30) !important;
+  color: #F7F9FB !important;
+}
+body[data-theme="dark"] .fmed-side-menu-btn {
+  background: rgba(255,255,255,.035) !important;
+  border: 1px solid rgba(255,255,255,.075) !important;
+  color: rgba(247,249,251,.82) !important;
+  -webkit-text-fill-color: rgba(247,249,251,.82) !important;
+  box-shadow: none !important;
+}
+body[data-theme="dark"] .fmed-side-menu-btn:hover {
+  background: rgba(18,198,194,.10) !important;
+  border-color: rgba(18,198,194,.24) !important;
+  color: #FFFFFF !important;
+  -webkit-text-fill-color: #FFFFFF !important;
+}
+body[data-theme="dark"] .fmed-side-menu-btn.is-active,
+body[data-theme="dark"] .fmed-side-menu-btn[aria-current="page"] {
+  background: linear-gradient(135deg, rgba(18,198,194,.28), rgba(14,142,168,.22)) !important;
+  border-color: rgba(18,198,194,.44) !important;
+  color: #FFFFFF !important;
+  -webkit-text-fill-color: #FFFFFF !important;
+  box-shadow: inset 4px 0 0 #12C6C2, 0 18px 34px rgba(0,0,0,.24) !important;
+}
+body[data-theme="dark"] .fmed-side-menu-btn * { color: inherit !important; -webkit-text-fill-color: inherit !important; }
+
+body[data-theme="dark"] button[style*="linear-gradient"],
+body[data-theme="dark"] [role="button"][style*="linear-gradient"],
+body[data-theme="dark"] button[style*="#1FAE9C"],
+body[data-theme="dark"] button[style*="#1FAE9C"],
+body[data-theme="dark"] button[style*="#1FAE9C"],
+body[data-theme="dark"] button[style*="#1467C9"] {
+  background: linear-gradient(135deg, #12C6C2 0%, #0E8EA8 100%) !important;
+  border-color: rgba(18,198,194,.32) !important;
+  color: #FFFFFF !important;
+  -webkit-text-fill-color: #FFFFFF !important;
+  box-shadow: 0 16px 34px rgba(18,198,194,.14) !important;
+}
+body[data-theme="dark"] ::-webkit-scrollbar-thumb { background: rgba(18,198,194,.34) !important; }
+body[data-theme="dark"] ::selection { background: rgba(18,198,194,.30) !important; color: #FFFFFF !important; }
+
+/* ---------- Light mode: pulito e allineato alla reference ---------- */
+body[data-theme="light"],
+body[data-theme="light"] #root,
+body[data-theme="light"] .fmed-app-root,
+body[data-theme="light"] .fmed-light-mode {
+  --fmed-bg: #F5F7F9 !important;
+  --fmed-main-bg: radial-gradient(circle at 70% -12%, rgba(14,142,168,.12), transparent 34%), linear-gradient(135deg, #F5F7F9 0%, #EEF4F7 54%, #F8FAFB 100%) !important;
+  --fmed-sidebar-bg: linear-gradient(180deg, #FFFFFF 0%, #F8FBFC 58%, #F1F6F8 100%) !important;
+  --fmed-surface: rgba(255,255,255,.92) !important;
+  --fmed-surface-solid: #FFFFFF !important;
+  --fmed-text: #173042 !important;
+  --fmed-muted: #4F6473 !important;
+  --fmed-border: #E6EDF2 !important;
+  --fmed-accent: #0E8EA8 !important;
+  --fmed-accent-2: #14B7B3 !important;
+  --fmed-card-gradient: linear-gradient(145deg, #FFFFFF, #F8FBFC) !important;
+  --fmed-soft-gradient: linear-gradient(145deg, #FFFFFF, #F2F7F9) !important;
+  --fmed-btn: linear-gradient(135deg, #0E8EA8 0%, #087A8D 100%) !important;
+  background: var(--fmed-main-bg) !important;
+  color: #173042 !important;
+}
+body[data-theme="light"] .fmed-app-root aside.fmed-side-rail {
+  background: var(--fmed-sidebar-bg) !important;
+  color: #173042 !important;
+  border-right: 1px solid #E6EDF2 !important;
+  box-shadow: 18px 0 54px rgba(23,48,66,.07) !important;
+}
+body[data-theme="light"] .fmed-side-menu-btn {
+  background: rgba(255,255,255,.90) !important;
+  color: #173042 !important;
+  -webkit-text-fill-color: #173042 !important;
+  border: 1px solid #E6EDF2 !important;
+  box-shadow: 0 8px 22px rgba(23,48,66,.035) !important;
+}
+body[data-theme="light"] .fmed-side-menu-btn:hover {
+  border-color: rgba(14,142,168,.22) !important;
+  box-shadow: 0 12px 26px rgba(14,142,168,.09) !important;
+}
+body[data-theme="light"] .fmed-side-menu-btn.is-active,
+body[data-theme="light"] .fmed-side-menu-btn[aria-current="page"] {
+  background: linear-gradient(135deg, #0E8EA8 0%, #087A8D 100%) !important;
+  color: #FFFFFF !important;
+  -webkit-text-fill-color: #FFFFFF !important;
+  border-color: rgba(14,142,168,.28) !important;
+  box-shadow: 0 14px 30px rgba(14,142,168,.16) !important;
+}
+body[data-theme="light"] .fmed-side-menu-btn.is-active * { color: #FFFFFF !important; -webkit-text-fill-color: #FFFFFF !important; }
+
+/* ---------- Dashboard: proporzioni reference ---------- */
+.fmed-app-root main {
+  padding: 28px !important;
+  overflow-x: hidden !important;
+}
+.fmed-app-root main h1,
+.fmed-app-root main h2 {
+  font-weight: 400 !important;
+  letter-spacing: -0.025em !important;
+}
+.fmed-app-root main [style*="border-radius: 24px"],
+.fmed-app-root main [style*="borderRadius: 24"] {
+  border-radius: 24px !important;
+}
+.fmed-app-root main [style*="display: grid"] > * {
+  min-width: 0 !important;
+}
+.fmed-app-root main button,
+.fmed-app-root main [role="button"] {
+  border-radius: 14px !important;
+  min-height: 42px !important;
+}
+
+/* ============================================================
+   ============================================================ */
+
+
+
+
+
+/* ============================================================
+   ============================================================ */
+
+
+
+
+/* ======================================================================
+   FMED 4.0 — LIGHT MODE REFINEMENT 2026-07-13
+   Solo presentazione: palette, proporzioni, leggibilità e responsive.
+   Nessuna logica applicativa, API o integrazione viene modificata.
+   ====================================================================== */
+body[data-theme="light"],
+body[data-theme="light"] #root,
+body[data-theme="light"] .fmed-app-root,
+.fmed-light-mode {
+  --fmed-bg: #f3f1eb !important;
+  --fmed-main-bg: linear-gradient(145deg, #f4f2ec 0%, #edf3f2 48%, #f6f3ed 100%) !important;
+  --fmed-sidebar-bg: linear-gradient(180deg, #f7f5ef 0%, #eff4f2 56%, #ecefe9 100%) !important;
+  --fmed-surface: rgba(249, 248, 244, .96) !important;
+  --fmed-surface-solid: #f8f7f2 !important;
+  --fmed-surface-soft: #eef3f1 !important;
+  --fmed-card-gradient: linear-gradient(145deg, #faf9f5 0%, #f2f6f4 100%) !important;
+  --fmed-soft-gradient: linear-gradient(145deg, #f5f4ef 0%, #eaf1ef 100%) !important;
+  --fmed-text: #20333e !important;
+  --fmed-muted: #60717a !important;
+  --fmed-border: #dce4e1 !important;
+  --fmed-accent: #137f8f !important;
+  --fmed-accent-2: #279f98 !important;
+  --fmed-light-bg: #f3f1eb !important;
+  --fmed-light-card: #f8f7f2 !important;
+  --fmed-light-border: #dce4e1 !important;
+  --fmed-light-title: #20333e !important;
+  --fmed-light-text: #60717a !important;
+  --fmed-light-primary: #137f8f !important;
+  --fmed-shadow-sm: 0 6px 18px rgba(35, 60, 68, .055);
+  --fmed-shadow-md: 0 14px 36px rgba(35, 60, 68, .075);
+  --fmed-radius-sm: 12px;
+  --fmed-radius-md: 16px;
+  --fmed-radius-lg: 22px;
+  color: var(--fmed-text) !important;
+  background: var(--fmed-main-bg) !important;
+}
+
+body[data-theme="light"] {
+  background-color: #f3f1eb !important;
+}
+
+body[data-theme="light"] .fmed-app-root {
+  background: var(--fmed-main-bg) !important;
+}
+
+/* Superfici meno bianche, più morbide e uniformi */
+body[data-theme="light"] .fmed-app-root main,
+body[data-theme="light"] .fmed-dashboard-page,
+body[data-theme="light"] .fmed-asset-page,
+body[data-theme="light"] .fmed-interventi-enterprise,
+body[data-theme="light"] .fmed-scadenze-enterprise,
+body[data-theme="light"] .fmed-infrastrutture-page,
+body[data-theme="light"] .fmed-costi-page,
+body[data-theme="light"] .fmed-export-page,
+body[data-theme="light"] .fmed-utenti-page,
+body[data-theme="light"] .fmed-documenti-ai-page,
+body[data-theme="light"] .fmed-sicurezza-8108 {
+  color: var(--fmed-text) !important;
+}
+
+body[data-theme="light"] .fmed-app-root aside.fmed-side-rail {
+  background: var(--fmed-sidebar-bg) !important;
+  border-right: 1px solid var(--fmed-border) !important;
+  box-shadow: 14px 0 34px rgba(35, 60, 68, .055) !important;
+}
+
+body[data-theme="light"] .fmed-side-menu-btn {
+  min-height: 44px !important;
+  height: auto !important;
+  padding: 10px 13px !important;
+  background: rgba(248, 247, 242, .82) !important;
+  border-color: rgba(190, 204, 200, .72) !important;
+  box-shadow: none !important;
+  line-height: 1.18 !important;
+}
+
+body[data-theme="light"] .fmed-side-menu-btn:hover {
+  background: #f6f8f5 !important;
+  border-color: rgba(19, 127, 143, .28) !important;
+  box-shadow: 0 8px 20px rgba(19, 127, 143, .08) !important;
+}
+
+body[data-theme="light"] .fmed-side-menu-btn.is-active,
+body[data-theme="light"] .fmed-side-menu-btn[aria-current="page"] {
+  background: linear-gradient(135deg, #178798 0%, #227f82 100%) !important;
+  border-color: rgba(19, 127, 143, .32) !important;
+  box-shadow: 0 10px 24px rgba(19, 127, 143, .16) !important;
+}
+
+/* Gerarchia tipografica globale */
+.fmed-app-root h1,
+.fmed-app-root h2,
+.fmed-app-root h3,
+.fmed-app-root h4 {
+  max-width: 100%;
+  margin-top: 0;
+  overflow-wrap: anywhere;
+  text-wrap: balance;
+}
+
+.fmed-app-root h1 { line-height: 1.12 !important; }
+.fmed-app-root h2 { line-height: 1.16 !important; }
+.fmed-app-root h3 { line-height: 1.22 !important; }
+
+.fmed-app-root p,
+.fmed-app-root small,
+.fmed-app-root label,
+.fmed-app-root button,
+.fmed-app-root a,
+.fmed-app-root td,
+.fmed-app-root th,
+.fmed-app-root span,
+.fmed-app-root strong {
+  max-width: 100%;
+  overflow-wrap: anywhere;
+}
+
+/* Controlli: altezze, contrasto e focus uniformi */
+body[data-theme="light"] .fmed-app-root input,
+body[data-theme="light"] .fmed-app-root select,
+body[data-theme="light"] .fmed-app-root textarea {
+  min-height: 42px;
+  max-width: 100%;
+  color: #20333e !important;
+  background: #f9f8f4 !important;
+  border-color: #d6e0dc !important;
+  border-radius: 12px !important;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, .55) !important;
+}
+
+body[data-theme="light"] .fmed-app-root input:focus,
+body[data-theme="light"] .fmed-app-root select:focus,
+body[data-theme="light"] .fmed-app-root textarea:focus {
+  outline: none !important;
+  border-color: rgba(19, 127, 143, .62) !important;
+  box-shadow: 0 0 0 3px rgba(19, 127, 143, .11) !important;
+}
+
+.fmed-app-root button,
+.fmed-app-root [role="button"] {
+  min-width: 0;
+  max-width: 100%;
+  line-height: 1.2;
+}
+
+/* Tabelle robuste: niente testi tagliati e scroll locale quando necessario */
+.fmed-app-root table {
+  width: 100% !important;
+  max-width: 100% !important;
+  border-collapse: separate !important;
+  border-spacing: 0 !important;
+  table-layout: auto !important;
+}
+
+.fmed-app-root th,
+.fmed-app-root td {
+  min-width: 92px;
+  padding: 12px 13px !important;
+  vertical-align: middle !important;
+  line-height: 1.28 !important;
+  white-space: normal !important;
+  word-break: normal !important;
+  overflow-wrap: anywhere !important;
+}
+
+body[data-theme="light"] .fmed-app-root th {
+  color: #425c66 !important;
+  background: #eaf0ee !important;
+  border-color: #d7e0dd !important;
+}
+
+body[data-theme="light"] .fmed-app-root td {
+  color: #2b414b !important;
+  background: rgba(249, 248, 244, .84) !important;
+  border-color: #e1e7e4 !important;
+}
+
+body[data-theme="light"] .fmed-app-root tbody tr:hover td {
+  background: #f0f5f2 !important;
+}
+
+/* Dashboard: proporzioni stabili e card senza tagli */
+.fmed-dashboard-page {
+  width: 100% !important;
+  max-width: 1680px !important;
+  margin-inline: auto !important;
+}
+
+.fmed-dashboard-page > * {
+  min-width: 0 !important;
+  max-width: 100% !important;
+}
+
+.fmed-dashboard-page .fmed-quick-actions-panel {
+  overflow: visible !important;
+}
+
+.fmed-quick-actions-grid {
+  display: grid !important;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)) !important;
+  gap: 12px !important;
+  align-items: stretch !important;
+}
+
+.fmed-quick-action {
+  min-height: 82px !important;
+  height: auto !important;
+  padding: 14px !important;
+  border-radius: 16px !important;
+  white-space: normal !important;
+  overflow: visible !important;
+}
+
+.fmed-quick-action span {
+  display: block;
+  line-height: 1.18 !important;
+}
+
+body[data-theme="light"] .fmed-dashboard-page section,
+body[data-theme="light"] .fmed-dashboard-page article,
+body[data-theme="light"] .fmed-dashboard-page button[style*="borderRadius"],
+body[data-theme="light"] .fmed-dashboard-page div[style*="borderRadius"][style*="boxShadow"] {
+  border-color: #dce4e1 !important;
+  box-shadow: var(--fmed-shadow-sm) !important;
+}
+
+body[data-theme="light"] .fmed-dashboard-page section,
+body[data-theme="light"] .fmed-dashboard-page article {
+  background: var(--fmed-card-gradient) !important;
+}
+
+/* Pagine principali: larghezza e spaziature coerenti */
+.fmed-asset-page,
+.fmed-interventi-enterprise,
+.fmed-scadenze-enterprise,
+.fmed-infrastrutture-page,
+.fmed-costi-page,
+.fmed-export-page,
+.fmed-utenti-page,
+.fmed-documenti-ai-page,
+.fmed-sicurezza-8108 {
+  width: 100% !important;
+  max-width: 1680px !important;
+  margin-inline: auto !important;
+  min-width: 0 !important;
+}
+
+.fmed-asset-page > *,
+.fmed-interventi-enterprise > *,
+.fmed-scadenze-enterprise > *,
+.fmed-infrastrutture-page > *,
+.fmed-costi-page > *,
+.fmed-export-page > *,
+.fmed-utenti-page > *,
+.fmed-documenti-ai-page > *,
+.fmed-sicurezza-8108 > * {
+  min-width: 0 !important;
+  max-width: 100% !important;
+}
+
+body[data-theme="light"] .fmed-asset-page > div,
+body[data-theme="light"] .fmed-interventi-enterprise > div,
+body[data-theme="light"] .fmed-scadenze-enterprise > div,
+body[data-theme="light"] .fmed-infrastrutture-page > div,
+body[data-theme="light"] .fmed-costi-page > div,
+body[data-theme="light"] .fmed-export-page > div,
+body[data-theme="light"] .fmed-utenti-page > div,
+body[data-theme="light"] .fmed-documenti-ai-page > div {
+  border-color: #dce4e1 !important;
+}
+
+/* Modali e popup: dimensioni sane su ogni viewport */
+.fmed-app-root [role="dialog"],
+.fmed-app-root [aria-modal="true"] {
+  width: min(960px, calc(100vw - 32px)) !important;
+  max-width: calc(100vw - 32px) !important;
+  max-height: calc(100vh - 32px) !important;
+  overflow: auto !important;
+  border-radius: 20px !important;
+}
+
+body[data-theme="light"] .fmed-app-root [role="dialog"],
+body[data-theme="light"] .fmed-app-root [aria-modal="true"] {
+  color: #20333e !important;
+  background: #f8f7f2 !important;
+  border-color: #dce4e1 !important;
+  box-shadow: 0 28px 72px rgba(35, 60, 68, .18) !important;
+}
+
+/* Badge e testi brevi: no troncamenti aggressivi */
+.fmed-app-root [style*="textOverflow: ellipsis"],
+.fmed-app-root [style*="text-overflow: ellipsis"] {
+  max-width: 100% !important;
+}
+
+/* Responsive desktop/tablet */
+@media (max-width: 1180px) and (min-width: 761px) {
+  .fmed-app-root aside.fmed-side-rail {
+    width: 238px !important;
+    min-width: 238px !important;
+  }
+
+  .fmed-sidebar-logo-title {
+    font-size: 23px !important;
+  }
+
+  .fmed-quick-actions-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+  }
+}
+
+
+
+
+
+.fmed-lazy-loading{min-height:220px;display:grid;place-items:center;padding:32px;color:var(--fmed-muted,#587080);background:var(--fmed-card,rgba(255,255,255,.78));border:1px solid var(--fmed-border,rgba(24,76,95,.12));border-radius:20px}
+
+/* FMED Enterprise desktop-only baseline. */
+html,
+body,
+#root,
+.fmed-app-root {
+  min-width: 1180px;
+}
+
+body {
+  overflow-x: auto;
+}

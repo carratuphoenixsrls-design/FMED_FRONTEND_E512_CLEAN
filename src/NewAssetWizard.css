@@ -1,0 +1,174 @@
+/* FMED Enterprise 1.0 — Fase E1.3 Page Wizard Engine
+   I processi complessi sono pagine applicative, non modali. */
+.fmed-wizard-page{
+  width:100%;
+  min-width:0;
+  box-sizing:border-box;
+  overflow-x:hidden;
+  padding:0;
+}
+.fmed-wizard-card{
+  width:100%;
+  min-width:0;
+  min-height:calc(100vh - 150px);
+  display:flex;
+  flex-direction:column;
+  overflow:visible;
+  border:1px solid var(--fmed-border,#d8e3e1);
+  border-radius:22px;
+  background:var(--fmed-card,#fff);
+  color:var(--fmed-text,#263238);
+  box-shadow:0 18px 48px rgba(21,52,62,.08);
+}
+.fmed-wizard-head{
+  display:flex;
+  align-items:flex-start;
+  justify-content:space-between;
+  gap:24px;
+  min-width:0;
+  padding:22px clamp(18px,3vw,40px) 18px;
+  border-bottom:1px solid var(--fmed-border,#d8e3e1);
+}
+.fmed-wizard-head>div{min-width:0}
+.fmed-wizard-head span{font-size:11px;font-weight:800;letter-spacing:.14em;color:#0d8278}
+.fmed-wizard-head h2{margin:4px 0 5px;font-size:clamp(25px,2.3vw,36px);line-height:1.05}
+.fmed-wizard-head p{margin:0;max-width:900px;color:var(--fmed-muted,#60706d);line-height:1.45}
+.fmed-wizard-head>button{
+  flex:0 0 44px;width:44px;height:44px;
+  border:1px solid var(--fmed-border,#d8e3e1);border-radius:13px;
+  background:var(--fmed-soft,#edf4f2);color:inherit;font-size:24px;cursor:pointer
+}
+.fmed-wizard-steps{
+  display:grid;
+  grid-template-columns:repeat(5,minmax(0,1fr));
+  gap:10px;
+  min-width:0;
+  padding:14px clamp(18px,3vw,40px);
+  border-bottom:1px solid var(--fmed-border,#d8e3e1);
+}
+.fmed-wizard-steps button{
+  display:flex;align-items:center;gap:9px;min-width:0;
+  padding:11px 12px;border:1px solid var(--fmed-border,#d8e3e1);
+  border-radius:12px;background:transparent;color:inherit;text-align:left
+}
+.fmed-wizard-steps b{display:grid;place-items:center;flex:0 0 28px;height:28px;border-radius:50%;background:var(--fmed-soft,#edf4f2)}
+.fmed-wizard-steps span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:12px}
+.fmed-wizard-steps button.active{border-color:#0d8278;background:rgba(13,130,120,.08)}
+.fmed-wizard-steps button.active b,.fmed-wizard-steps button.done b{background:#0d8278;color:#fff}
+.fmed-wizard-errors{
+  margin:12px clamp(18px,3vw,40px) 0;
+  padding:11px 14px;border:1px solid #e5a3a3;border-radius:12px;
+  background:#fff0f0;color:#8e2020;font-size:13px
+}
+.fmed-wizard-body{
+  flex:1;
+  min-width:0;
+  overflow:visible;
+  padding:clamp(22px,2.5vw,36px) clamp(18px,3vw,40px) 40px;
+}
+.fmed-wizard-body>*{width:100%;max-width:1500px;margin-inline:auto}
+.fmed-wizard-grid{
+  display:grid;
+  grid-template-columns:repeat(3,minmax(0,1fr));
+  gap:20px;
+  align-items:start
+}
+.fmed-wizard-field{display:grid;gap:7px;min-width:0}
+.fmed-wizard-field.wide,.wide{grid-column:1/-1}
+.fmed-wizard-field>span{font-size:12px;font-weight:800;text-transform:uppercase;letter-spacing:.04em}
+.fmed-wizard-field input,.fmed-wizard-field select,.fmed-wizard-field textarea{
+  width:100%;min-width:0;box-sizing:border-box;
+  padding:12px 13px;border:1px solid var(--fmed-border,#cad8d5);
+  border-radius:11px;background:var(--fmed-input,#fff);color:inherit;font:inherit
+}
+.fmed-wizard-field textarea{resize:vertical;max-width:100%}
+.fmed-wizard-field small{color:var(--fmed-muted,#60706d);line-height:1.35}
+.fmed-wizard-check{display:flex;align-items:flex-start;gap:12px;padding:16px;border:1px solid var(--fmed-border,#cad8d5);border-radius:14px;background:var(--fmed-soft,#edf4f2)}
+.fmed-wizard-check input{margin-top:4px}.fmed-wizard-check span{display:grid;gap:4px}.fmed-wizard-check small{color:var(--fmed-muted,#60706d)}
+.fmed-wizard-info{padding:14px;border-left:4px solid #0d8278;border-radius:10px;background:rgba(13,130,120,.08);line-height:1.5}
+.fmed-wizard-summary{display:grid;gap:10px;max-width:900px;margin:auto}
+.fmed-wizard-summary h3{margin:0 0 4px;font-size:22px}
+.fmed-wizard-summary-row{display:grid;grid-template-columns:210px minmax(0,1fr);gap:14px;padding:13px 0;border-bottom:1px solid var(--fmed-border,#d8e3e1)}
+.fmed-wizard-summary-row span{color:var(--fmed-muted,#60706d)}
+.fmed-wizard-summary-row strong{overflow-wrap:anywhere}
+.fmed-wizard-actions{
+  position:sticky;
+  bottom:0;
+  z-index:5;
+  display:grid;
+  grid-template-columns:auto minmax(160px,1fr) auto;
+  gap:18px;align-items:center;
+  padding:14px clamp(18px,3vw,40px);
+  border-top:1px solid var(--fmed-border,#d8e3e1);
+  border-radius:0 0 22px 22px;
+  background:color-mix(in srgb,var(--fmed-card,#fff) 94%,transparent);
+  backdrop-filter:blur(12px)
+}
+.fmed-wizard-actions button{border:0;border-radius:11px;padding:12px 18px;background:#0d8278;color:#fff;font-weight:800;cursor:pointer;white-space:nowrap}
+.fmed-wizard-actions button.secondary{background:var(--fmed-soft,#edf4f2);color:inherit}
+.fmed-wizard-actions button:disabled{opacity:.55;cursor:not-allowed}
+.fmed-wizard-progress{height:7px;overflow:hidden;border-radius:999px;background:var(--fmed-soft,#edf4f2)}
+.fmed-wizard-progress span{display:block;height:100%;border-radius:inherit;background:#0d8278;transition:width .25s ease}
+.fmed-dark-mode .fmed-wizard-card,.fmed-dark-mode .fmed-wizard-actions{background:#15212b;border-color:#34424e}
+.fmed-dark-mode .fmed-wizard-field input,.fmed-dark-mode .fmed-wizard-field select,.fmed-dark-mode .fmed-wizard-field textarea{background:#0e1820;border-color:#394754}
+.fmed-dark-mode .fmed-wizard-errors{background:#3a2020;border-color:#704040;color:#ffd8d8}
+
+@media(max-width:1180px){
+  .fmed-wizard-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .fmed-wizard-steps{grid-template-columns:repeat(3,minmax(0,1fr))}
+}
+@media(max-width:820px){
+  .fmed-wizard-card{min-height:auto;border-radius:16px}
+  .fmed-wizard-head{padding:16px}
+  .fmed-wizard-head p{font-size:13px}
+  .fmed-wizard-steps{grid-template-columns:1fr;padding:12px 16px}
+  .fmed-wizard-steps button{width:100%}
+  .fmed-wizard-body{padding:18px 16px 30px}
+  .fmed-wizard-grid{grid-template-columns:1fr}
+  .fmed-wizard-field.wide,.wide{grid-column:auto}
+  .fmed-wizard-actions{padding:12px 16px;grid-template-columns:auto 1fr auto;gap:10px;border-radius:0 0 16px 16px}
+  .fmed-wizard-summary-row{grid-template-columns:1fr;gap:4px}
+}
+
+
+/* FMED Enterprise 1.0 — E1.4 Data Driven Wizard */
+.fmed-wizard-master-status{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:16px;
+  margin:14px clamp(18px,3vw,40px) 0;
+  padding:12px 14px;
+  border:1px solid var(--fmed-border,#d8e3e1);
+  border-radius:13px;
+  background:var(--fmed-soft,#edf4f2);
+}
+.fmed-wizard-master-status>div{display:grid;gap:3px;min-width:0}
+.fmed-wizard-master-status strong{font-size:13px}
+.fmed-wizard-master-status span{font-size:12px;color:var(--fmed-muted,#60706d);overflow-wrap:anywhere}
+.fmed-wizard-master-status>b{flex:0 0 auto;padding:5px 9px;border-radius:999px;background:rgba(13,130,120,.12);color:#0d8278;font-size:10px;letter-spacing:.08em}
+.fmed-wizard-master-status.loading{border-style:dashed}
+.fmed-wizard-master-status.error{border-color:#e5a3a3;background:#fff0f0}
+.fmed-wizard-master-status.error strong,.fmed-wizard-master-status.error span{color:#8e2020}
+.fmed-wizard-ocr{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:18px;
+  padding:16px;
+  border:1px solid rgba(13,130,120,.32);
+  border-radius:14px;
+  background:rgba(13,130,120,.07);
+}
+.fmed-wizard-ocr>div{display:grid;gap:4px}
+.fmed-wizard-ocr strong{font-size:14px}
+.fmed-wizard-ocr span{font-size:12px;color:var(--fmed-muted,#60706d);line-height:1.4}
+.fmed-wizard-ocr button{border:0;border-radius:11px;padding:11px 14px;background:#0d8278;color:#fff;font-weight:800;cursor:pointer;white-space:nowrap}
+.fmed-wizard-field select:disabled,.fmed-wizard-field input:disabled{cursor:not-allowed;opacity:.68}
+.fmed-dark-mode .fmed-wizard-master-status.error{background:#3a2020;border-color:#704040}
+.fmed-dark-mode .fmed-wizard-master-status.error strong,.fmed-dark-mode .fmed-wizard-master-status.error span{color:#ffd8d8}
+@media(max-width:820px){
+  .fmed-wizard-master-status{margin:12px 16px 0}
+  .fmed-wizard-ocr{align-items:stretch;flex-direction:column}
+  .fmed-wizard-ocr button{width:100%}
+}

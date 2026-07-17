@@ -1,0 +1,4589 @@
+/*
+ * FMED Enterprise 1.0 — E1.6.5 Desktop UX & Cleanup
+ * Consolidated static stylesheet extracted from obsolete runtime <style> injections.
+ * Source order is preserved to maintain the existing visual cascade.
+ * FmedLayoutIntegrity.css is intentionally imported afterwards as the final layout authority.
+ */
+
+/* ===== FMED_FIX_RICERCA_PULSANTI_STYLE (former App_nuovo.jsx line 1560) ===== */
+/* ========================================================
+         FMED V15-DESIGN — Futura normal typography + restyling
+         Solo grafica: nessuna modifica a logiche, funzioni, API.
+         ======================================================== */
+
+      html, body, #root, .fmed-app-root, button, input, select, textarea, option,
+      th, td, h1, h2, h3, h4, h5, h6, p, span, div, strong, em, label, small {
+        font-family: 'Futura', 'Futura PT', 'Jost', 'Century Gothic', sans-serif !important;
+      }
+      body, p, div, span, td, label, small, input, select, textarea, option { font-weight: 400 !important; letter-spacing: 0.01em; }
+      h1, h2, h3, h4, h5, h6 { font-weight: 500 !important; letter-spacing: 0.005em !important; }
+      strong, b { font-weight: 500 !important; }
+
+      button,
+      [role="button"] {
+        font-family: 'Futura', 'Futura PT', 'Jost', 'Century Gothic', sans-serif !important;
+        font-style: normal !important;
+        text-transform: uppercase !important;
+        letter-spacing: 0.12em !important;
+        font-weight: 400 !important;
+        font-size: 13px !important;
+        line-height: 18px !important;
+        min-height: 42px !important;
+        white-space: nowrap !important;
+        overflow: visible !important;
+        text-overflow: clip !important;
+        box-sizing: border-box !important;
+        border-radius: 10px !important;
+        transition: background-color .18s ease, color .18s ease, border-color .18s ease, transform .12s ease, box-shadow .18s ease;
+      }
+      button:active, [role="button"]:active { transform: translateY(1px); }
+
+      button span,
+      button strong,
+      button small,
+      [role="button"] span,
+      [role="button"] strong,
+      [role="button"] small {
+        font-style: normal !important;
+        text-transform: uppercase !important;
+        letter-spacing: 0.12em !important;
+        font-weight: 400 !important;
+        white-space: nowrap !important;
+      }
+
+      input,
+      textarea,
+      select,
+      option {
+        text-transform: none !important;
+        font-style: normal !important;
+        box-sizing: border-box !important;
+        letter-spacing: 0.01em !important;
+        border-radius: 10px !important;
+      }
+      input:focus, select:focus, textarea:focus {
+        outline: none !important;
+        box-shadow: 0 0 0 3px rgba(168,138,63,.18) !important;
+      }
+
+      th {
+        text-transform: uppercase !important;
+        letter-spacing: 0.16em !important;
+        font-style: normal !important;
+        font-weight: 400 !important;
+        font-size: 11px !important;
+      }
+
+      td {
+        text-transform: none !important;
+        font-style: normal !important;
+        font-weight: 400 !important;
+      }
+      tr { transition: background-color .12s ease; }
+
+      @media (max-width: 1200px) {
+        button,
+        [role="button"] {
+          font-size: 12px !important;
+          letter-spacing: 0.08em !important;
+          padding-left: 14px !important;
+          padding-right: 14px !important;
+        }
+      }
+
+      /* FMED V14 - FIX TOOLBAR MODALI / SCHEDA CESPITE (invariato) */
+      div[style*="Azioni cespite"],
+      div:has(> button) {
+        box-sizing: border-box;
+      }
+
+      .fmed-modal-actions,
+      .fmed-action-toolbar {
+        display: flex !important;
+        flex-wrap: wrap !important;
+        gap: 10px !important;
+        align-items: center !important;
+        max-width: 100% !important;
+        overflow: hidden !important;
+      }
+
+      @media (min-width: 901px) {
+        button {
+          max-width: 100% !important;
+        }
+      }
+
+      @media (max-width: 1500px) {
+        button,
+        [role="button"] {
+          font-size: 12px !important;
+          line-height: 16px !important;
+          min-height: 40px !important;
+          letter-spacing: 0.08em !important;
+          padding-left: 12px !important;
+          padding-right: 12px !important;
+        }
+      }
+
+      /* FMED V16 - correzione leggibilità e stile Emergent */
+      body, input, textarea, select, button {
+        font-family: 'Futura', 'Futura PT', 'Jost', 'Century Gothic', Arial, sans-serif !important;
+      }
+      button {
+        font-weight: 400 !important;
+        font-size: 13px !important;
+        letter-spacing: .10em !important;
+      }
+      button small {
+        text-transform: none !important;
+        letter-spacing: 0 !important;
+        font-weight: 400 !important;
+      }
+      [style*="background: var(--fmed-header-bg)"] *,
+      [style*="background: linear-gradient(135deg,#133C55"] * {
+        color: #F4F8F7 !important;
+      }
+      [style*="--fmed-bg"] {
+        scrollbar-color: #CFC9BA transparent;
+      }
+      @media (max-width: 1250px) {
+        button,
+        [role="button"] {
+          font-size: 11px !important;
+          line-height: 15px !important;
+          min-height: 38px !important;
+          letter-spacing: 0.06em !important;
+          padding-left: 10px !important;
+          padding-right: 10px !important;
+        }
+      }
+
+
+      /* FMED V17 - Sidebar blu + logo + pulsanti corretti */
+      aside button, aside [role="button"] {
+        color: rgba(255,255,255,.86) !important;
+      }
+      aside button span, aside [role="button"] span {
+        color: inherit !important;
+      }
+      aside button:hover {
+        background: rgba(255,255,255,.12) !important;
+        color: #FFFFFF !important;
+      }
+      aside img {
+        max-width: 100%;
+      }
+      /* Pulsanti con testo lungo: niente tagli, dimensione più equilibrata */
+      button {
+        min-width: fit-content;
+      }
+      .fmed-action-toolbar button,
+      .fmed-modal-actions button {
+        min-height: 38px !important;
+        padding: 0 16px !important;
+        font-size: 12px !important;
+        letter-spacing: .075em !important;
+        border-radius: 10px !important;
+      }
+      @media (min-width: 1100px) {
+        button {
+          font-size: 12px !important;
+          letter-spacing: .075em !important;
+        }
+      }
+      /* Fix dark mode: testi sempre leggibili dentro bottoni chiari/scuri */
+      button[title*="modalità"], button[title*="Modalità"], button[title*="mode"] {
+        color: #FFFFFF !important;
+      }
+
+      /* FMED V15 - Scrollbar coerente con il restyling */
+      ::-webkit-scrollbar { width: 10px; height: 10px; }
+      ::-webkit-scrollbar-thumb { background: rgba(168,138,63,.35); border-radius: 999px; }
+      ::-webkit-scrollbar-track { background: transparent; }
+
+      /* FMED V15 - Numeri tabulari nei numeri/date/importi */
+      td, th { font-variant-numeric: tabular-nums; }
+
+      /* FMED V15 - Selezione testo elegante */
+      ::selection { background: rgba(89,165,216,.30); color: inherit; }
+
+      /* FMED V19 - Dark Mode uniformata: niente card nere, tutto blu-notte coerente */
+      body[data-theme="dark"],
+      body[data-theme="dark"] #root,
+      body[data-theme="dark"] .fmed-app-root {
+        background: var(--fmed-bg) !important;
+        color: var(--fmed-text) !important;
+      }
+      body[data-theme="dark"] main,
+      body[data-theme="dark"] section,
+      body[data-theme="dark"] .fmed-card,
+      body[data-theme="dark"] .card {
+        background: var(--fmed-card-gradient) !important;
+        color: var(--fmed-text) !important;
+        border-color: var(--fmed-border) !important;
+        box-shadow: 0 12px 34px rgba(0,0,0,.22) !important;
+      }
+      body[data-theme="dark"] table,
+      body[data-theme="dark"] thead,
+      body[data-theme="dark"] tbody,
+      body[data-theme="dark"] tr,
+      body[data-theme="dark"] td,
+      body[data-theme="dark"] th {
+        background-color: transparent !important;
+        color: var(--fmed-text) !important;
+        border-color: var(--fmed-border) !important;
+      }
+      body[data-theme="dark"] input,
+      body[data-theme="dark"] textarea,
+      body[data-theme="dark"] select {
+        background: #0B1D2D !important;
+        color: var(--fmed-text) !important;
+        border-color: var(--fmed-border) !important;
+      }
+      body[data-theme="dark"] input::placeholder,
+      body[data-theme="dark"] textarea::placeholder {
+        color: rgba(183,200,216,.70) !important;
+      }
+      body[data-theme="dark"] aside {
+        background: var(--fmed-sidebar-bg) !important;
+        border-color: rgba(89,165,216,.18) !important;
+      }
+      body[data-theme="dark"] aside button {
+        background: rgba(234,244,255,.04) !important;
+        border-color: rgba(89,165,216,.18) !important;
+      }
+      body[data-theme="dark"] aside button:hover {
+        background: rgba(89,165,216,.14) !important;
+      }
+      body[data-theme="dark"] aside button[style*="linear-gradient"],
+      body[data-theme="dark"] aside button[aria-current="page"] {
+        background: linear-gradient(135deg,#169C8F,#0F4C81) !important;
+        border-color: rgba(89,165,216,.45) !important;
+      }
+
+      /* FMED V20 - Dark Mode Blue Force: elimina i residui nero/grigio (#121212/#1E1E1E) */
+      body[data-theme="dark"] {
+        background: #071521 !important;
+        color: #F4F8F7 !important;
+      }
+
+      body[data-theme="dark"] .fmed-app-root,
+      body[data-theme="dark"] main,
+      body[data-theme="dark"] [style*="--fmed-main-bg"],
+      body[data-theme="dark"] [style*="background: var(--fmed-main-bg)"] {
+        background: linear-gradient(180deg, #071521 0%, #091C2B 58%, #071521 100%) !important;
+        color: #F4F8F7 !important;
+      }
+
+      body[data-theme="dark"] div[style*="background: #121212"],
+      body[data-theme="dark"] div[style*="background:#121212"],
+      body[data-theme="dark"] div[style*="background: rgb(18, 18, 18)"],
+      body[data-theme="dark"] div[style*="background: #1E1E1E"],
+      body[data-theme="dark"] div[style*="background:#1E1E1E"],
+      body[data-theme="dark"] div[style*="background: rgb(30, 30, 30)"],
+      body[data-theme="dark"] section[style*="background: #121212"],
+      body[data-theme="dark"] section[style*="background: #1E1E1E"],
+      body[data-theme="dark"] article[style*="background: #121212"],
+      body[data-theme="dark"] article[style*="background: #1E1E1E"] {
+        background: linear-gradient(135deg, rgba(13,34,52,.98), rgba(18,49,74,.94)) !important;
+        color: #F4F8F7 !important;
+        border-color: rgba(89,165,216,.24) !important;
+      }
+
+      body[data-theme="dark"] .fmed-card,
+      body[data-theme="dark"] .card,
+      body[data-theme="dark"] [style*="var(--fmed-surface-solid)"],
+      body[data-theme="dark"] [style*="var(--fmed-card-gradient)"],
+      body[data-theme="dark"] [style*="var(--fmed-soft-gradient)"] {
+        background: linear-gradient(135deg, rgba(13,34,52,.98), rgba(18,49,74,.94)) !important;
+        color: #F4F8F7 !important;
+        border-color: rgba(89,165,216,.24) !important;
+        box-shadow: 0 12px 34px rgba(0,0,0,.22) !important;
+      }
+
+      body[data-theme="dark"] aside,
+      body[data-theme="dark"] [style*="background: #163A53"] {
+        background: linear-gradient(180deg, #0B2D45 0%, #0D3A59 48%, #071521 100%) !important;
+        border-color: rgba(89,165,216,.22) !important;
+      }
+
+      body[data-theme="dark"] [style*="linear-gradient(135deg,#133C55"],
+      body[data-theme="dark"] [style*="linear-gradient(135deg, #133C55"],
+      body[data-theme="dark"] [style*="linear-gradient(135deg,#165A52"],
+      body[data-theme="dark"] [style*="linear-gradient(135deg, #165A52"] {
+        background: linear-gradient(135deg, #0D2234 0%, #12314A 100%) !important;
+        border-color: rgba(89,165,216,.30) !important;
+      }
+
+      body[data-theme="dark"] input,
+      body[data-theme="dark"] textarea,
+      body[data-theme="dark"] select {
+        background: #0B1D2D !important;
+        color: #F4F8F7 !important;
+        border-color: rgba(89,165,216,.28) !important;
+      }
+
+      body[data-theme="dark"] button:not([style*="linear-gradient"]),
+      body[data-theme="dark"] [role="button"]:not([style*="linear-gradient"]) {
+        border-color: rgba(89,165,216,.24) !important;
+      }
+
+      /* ========================================================
+         FMED FASE 15D — Modali, Schede, Export, OCR, SharePoint
+         Dark enterprise finale: niente light, contrasti bianchi,
+         card blu scuro e proporzioni uniformi.
+         ======================================================== */
+      body[data-theme="dark"],
+      body[data-theme="dark"] .fmed-app-root {
+        --fmed-bg: #061520 !important;
+        --fmed-surface: rgba(10,31,47,.98) !important;
+        --fmed-surface-solid: #0A1F2F !important;
+        --fmed-surface-soft: #0E2A3F !important;
+        --fmed-text: #F7F9FB !important;
+        --fmed-muted: #B7C8D8 !important;
+        --fmed-border: rgba(31,174,156,.23) !important;
+        --fmed-accent: #1FAE9C !important;
+        --fmed-accent-2: #1FAE9C !important;
+        --fmed-main-bg: linear-gradient(180deg, #061520 0%, #081D2C 54%, #061520 100%) !important;
+        --fmed-sidebar-bg: linear-gradient(180deg, #061520 0%, #082237 50%, #04111D 100%) !important;
+        --fmed-card-gradient: linear-gradient(145deg, rgba(10,31,47,.98), rgba(5,18,30,.97)) !important;
+        --fmed-soft-gradient: linear-gradient(145deg, rgba(14,42,63,.94), rgba(6,21,32,.96)) !important;
+        --fmed-btn: linear-gradient(135deg,#1FAE9C,#1FAE9C) !important;
+        --fmed-btn-shadow: 0 16px 34px rgba(31,174,156,.18) !important;
+      }
+
+      body[data-theme="dark"],
+      body[data-theme="dark"] #root,
+      body[data-theme="dark"] .fmed-app-root {
+        background: var(--fmed-main-bg) !important;
+        color: var(--fmed-text) !important;
+      }
+
+      body[data-theme="dark"],
+      body[data-theme="dark"] main,
+      body[data-theme="dark"] section,
+      body[data-theme="dark"] article,
+      body[data-theme="dark"] div,
+      body[data-theme="dark"] p,
+      body[data-theme="dark"] span,
+      body[data-theme="dark"] label,
+      body[data-theme="dark"] small,
+      body[data-theme="dark"] strong,
+      body[data-theme="dark"] h1,
+      body[data-theme="dark"] h2,
+      body[data-theme="dark"] h3,
+      body[data-theme="dark"] h4,
+      body[data-theme="dark"] h5,
+      body[data-theme="dark"] h6 {
+        color: inherit;
+      }
+
+      /* Rimuove residui chiari/beige/azzurro light da tutte le sezioni operative */
+      body[data-theme="dark"] [style*="background: #FFFFFF"], [style*="background:#FFFFFF"],
+      body[data-theme="dark"] [style*="background: white"], [style*="background:white"],
+      body[data-theme="dark"] [style*="background: #F7F9FB"], [style*="background:#F7F9FB"],
+      body[data-theme="dark"] [style*="background: #F4F8F7"], [style*="background:#F4F8F7"],
+      body[data-theme="dark"] [style*="background: rgb(255, 255, 255)"],
+      body[data-theme="dark"] [style*="background: rgb(247, 249, 251)"],
+      body[data-theme="dark"] [style*="background: rgb(234, 244, 255)"] {
+        background: var(--fmed-card-gradient) !important;
+        color: var(--fmed-text) !important;
+        border-color: var(--fmed-border) !important;
+      }
+      /* Modali / popup / schede */
+      body[data-theme="dark"] [style*="position: fixed"][style*="z-index"],
+      body[data-theme="dark"] [style*="position: fixed"][style*="zIndex"] {
+        color: var(--fmed-text) !important;
+      }
+      .fmed-modal-actions, .fmed-action-toolbar {
+        padding: 12px !important;
+        border-radius: 18px !important;
+        background: rgba(31,174,156,.045) !important;
+        border: 1px solid rgba(31,174,156,.14) !important;
+      }
+
+      /* Export / OCR / SharePoint: bottoni e pannelli uniformi */
+      button, [role="button"], label[style*="cursor"] {
+        border-radius: 14px !important;
+        border-color: rgba(31,174,156,.24) !important;
+        color: #F7F9FB !important;
+      }
+      button:hover, [role="button"]:hover, label[style*="cursor"]:hover {
+        border-color: rgba(31,174,156,.48) !important;
+        box-shadow: 0 0 0 1px rgba(31,174,156,.16), 0 16px 34px rgba(0,0,0,.28) !important;
+      }
+
+      input, select, textarea {
+        background: rgba(6,21,32,.96) !important;
+        color: #FFFFFF !important;
+        border: 1px solid rgba(31,174,156,.28) !important;
+        border-radius: 14px !important;
+      }
+      input::placeholder, textarea::placeholder { color: rgba(183,200,216,.64) !important; }
+      input:focus, select:focus, textarea:focus {
+        border-color: rgba(31,174,156,.66) !important;
+        box-shadow: 0 0 0 4px rgba(31,174,156,.10) !important;
+      }
+
+      table {
+        background: rgba(6,21,32,.72) !important;
+        border: 1px solid rgba(31,174,156,.18) !important;
+        border-radius: 18px !important;
+        overflow: hidden !important;
+      }
+      thead, thead tr, th {
+        background: rgba(31,174,156,.075) !important;
+        color: #7FE2CC !important;
+        border-color: rgba(31,174,156,.20) !important;
+      }
+      tbody tr { background: rgba(10,31,47,.42) !important; }
+      tbody tr:nth-child(even) { background: rgba(14,42,63,.34) !important; }
+      tbody tr:hover { background: rgba(31,174,156,.085) !important; }
+      td { color: #EAF6FF !important; border-color: rgba(31,174,156,.13) !important; }
+
+      /* Badge e messaggi OCR: sempre leggibili */
+      [style*="rgba(30,130,76"], [style*="rgba(217,56,30"],
+      [style*="rgba(255,159,28"], [style*="rgba(47,211,125"] {
+        color: #F7F9FB !important;
+        border-color: rgba(31,174,156,.22) !important;
+      }
+
+      @media (max-width: 900px) {
+        .fmed-modal-actions, .fmed-action-toolbar { gap: 8px !important; padding: 10px !important; }
+        button, [role="button"] { min-height: 42px !important; font-size: 11px !important; }
+      }
+
+      /* ========================================================
+         FMED 25/06 - DARK MODE FINAL AUDIT
+         Correzione profonda: Dashboard, Nuova Infrastruttura, Login,
+         form, popup, select, tabelle e card. Solo data-theme=dark.
+         ======================================================== */
+      body[data-theme="dark"] {
+        color-scheme: dark !important;
+        background: #061520 !important;
+        --fmed-dark-bg: #061520 !important;
+        --fmed-dark-panel: #0B2032 !important;
+        --fmed-dark-panel-2: #0E2B42 !important;
+        --fmed-dark-panel-3: #123A57 !important;
+        --fmed-dark-border: rgba(84, 204, 255, .24) !important;
+        --fmed-dark-border-strong: rgba(84, 204, 255, .42) !important;
+        --fmed-dark-text: #F4FAFF !important;
+        --fmed-dark-muted: #B8CBDA !important;
+        --fmed-dark-cyan: #1FAE9C !important;
+        --fmed-dark-blue: #1FAE9C !important;
+        --fmed-dark-green: #38D68C !important;
+        --fmed-dark-warning: #FFB84D !important;
+        --fmed-dark-danger: #FF6B72 !important;
+      }
+
+      body[data-theme="dark"],
+      body[data-theme="dark"] #root,
+      body[data-theme="dark"] .fmed-app-root,
+      body[data-theme="dark"] main {
+        background: radial-gradient(circle at top left, rgba(31,174,156,.08), transparent 28%),
+                    linear-gradient(180deg, #061520 0%, #071A28 52%, #061520 100%) !important;
+        color: var(--fmed-dark-text) !important;
+      }
+
+      body[data-theme="dark"] aside {
+        background: linear-gradient(180deg, #071826 0%, #0B2A40 52%, #061520 100%) !important;
+        color: var(--fmed-dark-text) !important;
+        border-right: 1px solid var(--fmed-dark-border) !important;
+        box-shadow: 14px 0 34px rgba(0,0,0,.24) !important;
+      }
+
+      body[data-theme="dark"] aside h1,
+      body[data-theme="dark"] aside h2,
+      body[data-theme="dark"] aside h3,
+      body[data-theme="dark"] aside p,
+      body[data-theme="dark"] aside span,
+      body[data-theme="dark"] aside small,
+      body[data-theme="dark"] aside strong,
+      body[data-theme="dark"] aside div {
+        color: inherit !important;
+      }
+
+      body[data-theme="dark"] aside button,
+      body[data-theme="dark"] aside [role="button"],
+      body[data-theme="dark"] aside a {
+        background: rgba(14, 43, 66, .72) !important;
+        color: #EAF8FF !important;
+        border: 1px solid rgba(84,204,255,.20) !important;
+        box-shadow: none !important;
+      }
+
+      body[data-theme="dark"] aside button:hover,
+      body[data-theme="dark"] aside [role="button"]:hover,
+      body[data-theme="dark"] aside a:hover {
+        background: rgba(31,174,156,.14) !important;
+        border-color: rgba(31,174,156,.44) !important;
+      }
+
+      body[data-theme="dark"] aside button[style*="linear-gradient"],
+      body[data-theme="dark"] aside button[aria-current="page"],
+      body[data-theme="dark"] aside .active {
+        background: linear-gradient(135deg, #1FAE9C 0%, #169C8F 100%) !important;
+        color: #FFFFFF !important;
+        border-color: rgba(31,174,156,.60) !important;
+        box-shadow: 0 10px 22px rgba(0,170,220,.22) !important;
+      }
+
+      /* Pannelli operativi: Dashboard, Asset, Interventi, Costi, Scadenze, Infrastrutture, Export, SharePoint */
+      body[data-theme="dark"] main > div,
+      body[data-theme="dark"] main section,
+      body[data-theme="dark"] main article,
+      body[data-theme="dark"] .fmed-card,
+      body[data-theme="dark"] .card,
+      body[data-theme="dark"] [class*="card"],
+      body[data-theme="dark"] [style*="border-radius: 18"],
+      body[data-theme="dark"] [style*="borderRadius: 18"],
+      body[data-theme="dark"] [style*="border-radius:18"],
+      body[data-theme="dark"] [style*="borderRadius:18"],
+      body[data-theme="dark"] [style*="border-radius: 20"],
+      body[data-theme="dark"] [style*="borderRadius: 20"],
+      body[data-theme="dark"] [style*="border-radius:20"],
+      body[data-theme="dark"] [style*="borderRadius:20"],
+      body[data-theme="dark"] [style*="border-radius: 24"],
+      body[data-theme="dark"] [style*="borderRadius: 24"],
+      body[data-theme="dark"] [style*="border-radius:24"],
+      body[data-theme="dark"] [style*="borderRadius:24"] {
+        background: linear-gradient(145deg, rgba(11,32,50,.98), rgba(8,24,38,.97)) !important;
+        color: var(--fmed-dark-text) !important;
+        border-color: var(--fmed-dark-border) !important;
+        box-shadow: 0 18px 42px rgba(0,0,0,.24) !important;
+      }
+
+      /* Blocchi chiari rimasti dentro popup/modali/infrastrutture */
+      body[data-theme="dark"] [style*="background: #fff"],
+      body[data-theme="dark"] [style*="background:#fff"],
+      body[data-theme="dark"] [style*="background: #FFF"],
+      body[data-theme="dark"] [style*="background:#FFF"],
+      body[data-theme="dark"] [style*="background: white"],
+      body[data-theme="dark"] [style*="background:white"],
+      body[data-theme="dark"] [style*="background: #FFFFFF"],
+      body[data-theme="dark"] [style*="background:#FFFFFF"],
+      body[data-theme="dark"] [style*="background: rgb(255, 255, 255)"],
+      body[data-theme="dark"] [style*="background: #F8FAFC"],
+      body[data-theme="dark"] [style*="background:#F8FAFC"],
+      body[data-theme="dark"] [style*="background: #F7F9FB"],
+      body[data-theme="dark"] [style*="background:#F7F9FB"],
+      body[data-theme="dark"] [style*="background: #EFF6FA"],
+      body[data-theme="dark"] [style*="background:#EFF6FA"],
+      body[data-theme="dark"] [style*="background: #F4F8F7"],
+      body[data-theme="dark"] [style*="background:#F4F8F7"],
+      body[data-theme="dark"] [style*="background: #F3FBF7"],
+      body[data-theme="dark"] [style*="background:#F3FBF7"],
+      body[data-theme="dark"] [style*="background: #FFF7E6"],
+      body[data-theme="dark"] [style*="background:#FFF7E6"] {
+        background: linear-gradient(145deg, rgba(14,43,66,.98), rgba(9,27,42,.97)) !important;
+        color: var(--fmed-dark-text) !important;
+        border-color: var(--fmed-dark-border) !important;
+      }
+
+      body[data-theme="dark"] h1,
+      body[data-theme="dark"] h2,
+      body[data-theme="dark"] h3,
+      body[data-theme="dark"] h4,
+      body[data-theme="dark"] h5,
+      body[data-theme="dark"] h6,
+      body[data-theme="dark"] p,
+      body[data-theme="dark"] span,
+      body[data-theme="dark"] label,
+      body[data-theme="dark"] small,
+      body[data-theme="dark"] strong,
+      body[data-theme="dark"] td,
+      body[data-theme="dark"] th {
+        color: inherit !important;
+        text-shadow: none !important;
+      }
+
+      body[data-theme="dark"] small,
+      body[data-theme="dark"] .muted,
+      body[data-theme="dark"] [style*="color: #64748B"],
+      body[data-theme="dark"] [style*="color:#64748B"],
+      body[data-theme="dark"] [style*="color: #6B7280"],
+      body[data-theme="dark"] [style*="color:#6B7280"],
+      body[data-theme="dark"] [style*="color: #94A3B8"],
+      body[data-theme="dark"] [style*="color:#94A3B8"] {
+        color: var(--fmed-dark-muted) !important;
+      }
+
+      body[data-theme="dark"] [style*="color: #0F172A"],
+      body[data-theme="dark"] [style*="color:#0F172A"],
+      body[data-theme="dark"] [style*="color: #111827"],
+      body[data-theme="dark"] [style*="color:#111827"],
+      body[data-theme="dark"] [style*="color: #1F2937"],
+      body[data-theme="dark"] [style*="color:#1F2937"],
+      body[data-theme="dark"] [style*="color: #000"],
+      body[data-theme="dark"] [style*="color:#000"],
+      body[data-theme="dark"] [style*="color: black"],
+      body[data-theme="dark"] [style*="color:black"] {
+        color: var(--fmed-dark-text) !important;
+      }
+
+      body[data-theme="dark"] input,
+      body[data-theme="dark"] select,
+      body[data-theme="dark"] textarea {
+        appearance: auto !important;
+        background-color: #071B2A !important;
+        background-image: none !important;
+        color: #F7F9FB !important;
+        border: 1px solid var(--fmed-dark-border-strong) !important;
+        border-radius: 14px !important;
+        box-shadow: inset 0 1px 0 rgba(255,255,255,.03) !important;
+      }
+
+      body[data-theme="dark"] input::placeholder,
+      body[data-theme="dark"] textarea::placeholder {
+        color: rgba(184,203,218,.68) !important;
+        opacity: 1 !important;
+      }
+
+      body[data-theme="dark"] select option,
+      body[data-theme="dark"] select optgroup {
+        background-color: #071B2A !important;
+        color: #F7F9FB !important;
+      }
+
+      body[data-theme="dark"] input:focus,
+      body[data-theme="dark"] select:focus,
+      body[data-theme="dark"] textarea:focus {
+        outline: none !important;
+        border-color: rgba(31,174,156,.82) !important;
+        box-shadow: 0 0 0 4px rgba(31,174,156,.12) !important;
+      }
+
+      body[data-theme="dark"] button,
+      body[data-theme="dark"] [role="button"],
+      body[data-theme="dark"] label[style*="cursor"] {
+        color: #F7F9FB !important;
+        border-color: rgba(84,204,255,.30) !important;
+      }
+
+      body[data-theme="dark"] button:not(:disabled):hover,
+      body[data-theme="dark"] [role="button"]:not(:disabled):hover {
+        filter: brightness(1.08) !important;
+      }
+
+      body[data-theme="dark"] button:disabled,
+      body[data-theme="dark"] [aria-disabled="true"] {
+        background: rgba(148,163,184,.20) !important;
+        color: rgba(245,251,255,.54) !important;
+        border-color: rgba(148,163,184,.22) !important;
+        box-shadow: none !important;
+      }
+
+      body[data-theme="dark"] table,
+      body[data-theme="dark"] thead,
+      body[data-theme="dark"] tbody {
+        background: rgba(7,27,42,.82) !important;
+        color: var(--fmed-dark-text) !important;
+        border-color: var(--fmed-dark-border) !important;
+      }
+
+      body[data-theme="dark"] th {
+        background: rgba(31,174,156,.09) !important;
+        color: #9FEFFF !important;
+      }
+
+      body[data-theme="dark"] tr,
+      body[data-theme="dark"] td {
+        background: transparent !important;
+        color: #EAF8FF !important;
+        border-color: rgba(84,204,255,.15) !important;
+      }
+
+      body[data-theme="dark"] tbody tr:hover {
+        background: rgba(31,174,156,.08) !important;
+      }
+
+      body[data-theme="dark"] .fmed-login,
+      body[data-theme="dark"] [class*="login"],
+      body[data-theme="dark"] [class*="Login"],
+      body[data-theme="dark"] [style*="min-height: 100vh"],
+      body[data-theme="dark"] [style*="minHeight: 100vh"] {
+        background: radial-gradient(circle at 20% 20%, rgba(31,174,156,.12), transparent 30%),
+                    linear-gradient(180deg, #061520 0%, #071A28 100%) !important;
+        color: var(--fmed-dark-text) !important;
+      }
+
+      /* Nuova infrastruttura e schede tecniche: header, sezioni, gestione, documentazione */
+      body[data-theme="dark"] [style*="Nuova infrastruttura"],
+      body[data-theme="dark"] [style*="MRDB INFRASTRUTTURE"],
+      body[data-theme="dark"] [style*="Identificazione"],
+      body[data-theme="dark"] [style*="Manutenzione"],
+      body[data-theme="dark"] [style*="Gestione"],
+      body[data-theme="dark"] [style*="Documentazione"] {
+        color: var(--fmed-dark-text) !important;
+      }
+
+      body[data-theme="dark"] ::selection {
+        background: rgba(31,174,156,.30) !important;
+        color: #FFFFFF !important;
+      }
+
+      body[data-theme="dark"] ::-webkit-scrollbar-thumb {
+        background: rgba(31,174,156,.34) !important;
+      }
+
+      /* ========================================================
+         FMED 3.2 ENTERPRISE - FASE 1 UI UNIFORME
+         Solo interfaccia: maiuscolo, pulsanti, tabelle, filtri, badge.
+         NON trasforma note, descrizioni, job report e contenuti liberi.
+         ======================================================== */
+      :root {
+        --fmed-ui-radius: 12px;
+        --fmed-ui-control-height: 42px;
+        --fmed-ui-font-size: 12px;
+        --fmed-ui-letter: .08em;
+      }
+
+      .fmed-app-root aside,
+      .fmed-app-root nav,
+      .fmed-app-root header,
+      .fmed-app-root button,
+      .fmed-app-root [role="button"],
+      .fmed-app-root label,
+      .fmed-app-root th,
+      .fmed-app-root fieldset legend,
+      .fmed-app-root .fmed-ui-uppercase,
+      .fmed-app-root .fmed-action-toolbar,
+      .fmed-app-root .fmed-modal-actions {
+        text-transform: uppercase !important;
+      }
+
+      .fmed-app-root button,
+      .fmed-app-root [role="button"],
+      .fmed-app-root select,
+      .fmed-app-root input:not([type="checkbox"]):not([type="radio"]),
+      .fmed-app-root textarea {
+        border-radius: var(--fmed-ui-radius) !important;
+        min-height: var(--fmed-ui-control-height) !important;
+        box-sizing: border-box !important;
+      }
+
+      .fmed-app-root button,
+      .fmed-app-root [role="button"] {
+        display: inline-flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        gap: 8px !important;
+        min-height: var(--fmed-ui-control-height) !important;
+        padding: 0 16px !important;
+        border-radius: var(--fmed-ui-radius) !important;
+        font-size: var(--fmed-ui-font-size) !important;
+        line-height: 16px !important;
+        font-weight: 600 !important;
+        letter-spacing: var(--fmed-ui-letter) !important;
+        text-transform: uppercase !important;
+        white-space: nowrap !important;
+      }
+
+      .fmed-app-root table {
+        border-collapse: separate !important;
+        border-spacing: 0 !important;
+      }
+
+      .fmed-app-root th {
+        height: 42px !important;
+        padding: 10px 12px !important;
+        font-size: 11px !important;
+        font-weight: 700 !important;
+        letter-spacing: .10em !important;
+        text-transform: uppercase !important;
+        white-space: nowrap !important;
+      }
+
+      .fmed-app-root td {
+        min-height: 42px !important;
+        padding: 10px 12px !important;
+        font-size: 13px !important;
+        line-height: 18px !important;
+        vertical-align: middle !important;
+      }
+
+      .fmed-app-root input::placeholder,
+      .fmed-app-root textarea::placeholder {
+        text-transform: uppercase !important;
+        letter-spacing: .04em !important;
+      }
+
+      .fmed-app-root select,
+      .fmed-app-root option {
+        text-transform: uppercase !important;
+      }
+
+      /* Campi liberi: leggibilità naturale, niente maiuscolo forzato */
+      .fmed-app-root textarea,
+      .fmed-app-root [data-fmed-free-text="true"],
+      .fmed-app-root [data-field="note"],
+      .fmed-app-root [data-field="descrizione"],
+      .fmed-app-root [data-field="job_report"] {
+        text-transform: none !important;
+        letter-spacing: .01em !important;
+      }
+
+      /* Badge/stati coerenti */
+      .fmed-app-root [class*="badge"],
+      .fmed-app-root [class*="Badge"],
+      .fmed-app-root [style*="border-radius: 999"],
+      .fmed-app-root [style*="borderRadius: 999"] {
+        text-transform: uppercase !important;
+        letter-spacing: .08em !important;
+        font-weight: 700 !important;
+      }
+
+      /* Header e card: titoli uniformi senza toccare i valori dentro le celle */
+      .fmed-app-root h1,
+      .fmed-app-root h2,
+      .fmed-app-root h3,
+      .fmed-app-root h4,
+      .fmed-app-root h5,
+      .fmed-app-root h6 {
+        text-transform: uppercase !important;
+        letter-spacing: .04em !important;
+      }
+
+      
+
+
+      /* ========================================================
+         FMED 3.3 PATCH 2.3 — DARK MODE + ASSET TABLE AUDIT
+         Correzione anomalie viste in produzione:
+         - tabelle Asset più leggibili
+         - pulsanti Azioni non spezzati
+         - filtri bulk uniformi in dark
+         - KPI/card/export senza residui chiari o teal invasivo
+         Solo CSS, nessuna logica/API modificata.
+         ======================================================== */
+
+      .fmed-app-root {
+        text-rendering: optimizeLegibility;
+        -webkit-font-smoothing: antialiased;
+      }
+
+      body[data-theme="dark"] .fmed-app-root {
+        --fmed-bg: #061520 !important;
+        --fmed-panel: #0B2032 !important;
+        --fmed-panel-2: #0E2B42 !important;
+        --fmed-panel-3: #123A57 !important;
+        --fmed-text: #F4FAFF !important;
+        --fmed-muted: #B8CBDA !important;
+        --fmed-border: rgba(84,204,255,.24) !important;
+        --fmed-border-strong: rgba(84,204,255,.42) !important;
+      }
+
+      body[data-theme="dark"] .fmed-app-root main {
+        background:
+          radial-gradient(circle at 12% 0%, rgba(31,174,156,.08), transparent 30%),
+          linear-gradient(180deg, #061520 0%, #071A28 52%, #061520 100%) !important;
+      }
+
+      body[data-theme="dark"] .fmed-app-root main > div,
+      body[data-theme="dark"] .fmed-app-root section,
+      body[data-theme="dark"] .fmed-app-root article,
+      body[data-theme="dark"] .fmed-app-root .fmed-card,
+      body[data-theme="dark"] .fmed-app-root .card {
+        background: linear-gradient(145deg, rgba(11,32,50,.98), rgba(8,24,38,.97)) !important;
+        color: var(--fmed-text) !important;
+        border-color: var(--fmed-border) !important;
+        box-shadow: 0 18px 42px rgba(0,0,0,.24) !important;
+      }
+
+      body[data-theme="dark"] .fmed-app-root aside {
+        background: linear-gradient(180deg, #071826 0%, #0B2A40 52%, #061520 100%) !important;
+        color: var(--fmed-text) !important;
+        border-right: 1px solid var(--fmed-border) !important;
+        box-shadow: 14px 0 34px rgba(0,0,0,.24) !important;
+      }
+
+      body[data-theme="dark"] .fmed-app-root aside button,
+      body[data-theme="dark"] .fmed-app-root aside [role="button"] {
+        height: 38px !important;
+        min-height: 38px !important;
+        padding: 0 14px !important;
+        border-radius: 12px !important;
+        background: rgba(14,43,66,.72) !important;
+        color: #EAF8FF !important;
+        border: 1px solid rgba(84,204,255,.20) !important;
+        box-shadow: none !important;
+      }
+
+      body[data-theme="dark"] .fmed-app-root aside button[style*="linear-gradient"],
+      body[data-theme="dark"] .fmed-app-root aside button[aria-current="page"] {
+        background: linear-gradient(135deg, #1FAE9C 0%, #169C8F 100%) !important;
+        color: #FFFFFF !important;
+        border-color: rgba(31,174,156,.60) !important;
+        box-shadow: 0 10px 22px rgba(0,170,220,.22) !important;
+      }
+
+      /* Asset / tabelle: colonne leggibili e niente testi schiacciati */
+      body[data-theme="dark"] .fmed-app-root table {
+        width: 100% !important;
+        border-collapse: separate !important;
+        border-spacing: 0 !important;
+        background: rgba(7,27,42,.82) !important;
+        border: 1px solid rgba(84,204,255,.18) !important;
+        border-radius: 18px !important;
+        overflow: hidden !important;
+      }
+
+      body[data-theme="dark"] .fmed-app-root thead,
+      body[data-theme="dark"] .fmed-app-root thead tr,
+      body[data-theme="dark"] .fmed-app-root th {
+        background: linear-gradient(180deg, rgba(31,174,156,.13), rgba(31,174,156,.07)) !important;
+        color: #9FEFFF !important;
+        border-color: rgba(84,204,255,.20) !important;
+      }
+
+      body[data-theme="dark"] .fmed-app-root th {
+        padding: 13px 14px !important;
+        font-size: 11px !important;
+        line-height: 14px !important;
+        letter-spacing: .13em !important;
+        white-space: nowrap !important;
+      }
+
+      body[data-theme="dark"] .fmed-app-root td {
+        padding: 14px 14px !important;
+        font-size: 12px !important;
+        line-height: 17px !important;
+        color: #EAF8FF !important;
+        border-color: rgba(84,204,255,.14) !important;
+        vertical-align: middle !important;
+        background: rgba(10,31,47,.30) !important;
+        word-break: normal !important;
+        overflow-wrap: anywhere !important;
+      }
+
+      body[data-theme="dark"] .fmed-app-root tbody tr:nth-child(even) td {
+        background: rgba(14,43,66,.32) !important;
+      }
+
+      body[data-theme="dark"] .fmed-app-root tbody tr:hover td {
+        background: rgba(31,174,156,.075) !important;
+      }
+
+      body[data-theme="dark"] .fmed-app-root td:first-child,
+      body[data-theme="dark"] .fmed-app-root th:first-child {
+        width: 38px !important;
+        min-width: 38px !important;
+        text-align: center !important;
+      }
+
+      body[data-theme="dark"] .fmed-app-root td:last-child,
+      body[data-theme="dark"] .fmed-app-root th:last-child {
+        width: 118px !important;
+        min-width: 118px !important;
+        text-align: center !important;
+      }
+
+      body[data-theme="dark"] .fmed-app-root td button,
+      body[data-theme="dark"] .fmed-app-root td [role="button"] {
+        min-width: 94px !important;
+        width: auto !important;
+        height: 42px !important;
+        min-height: 42px !important;
+        padding: 0 12px !important;
+        border-radius: 12px !important;
+        white-space: nowrap !important;
+        word-break: keep-all !important;
+        overflow-wrap: normal !important;
+        line-height: 14px !important;
+        font-size: 11px !important;
+        letter-spacing: .05em !important;
+      }
+
+      body[data-theme="dark"] .fmed-app-root td button *,
+      body[data-theme="dark"] .fmed-app-root td [role="button"] * {
+        white-space: nowrap !important;
+        word-break: keep-all !important;
+        overflow-wrap: normal !important;
+      }
+
+      /* Toolbar modifica multipla / filtri: niente pannello grigio chiaro */
+      body[data-theme="dark"] .fmed-app-root select,
+      body[data-theme="dark"] .fmed-app-root input,
+      body[data-theme="dark"] .fmed-app-root textarea {
+        background: #071B2A !important;
+        color: #F7F9FB !important;
+        border: 1px solid rgba(84,204,255,.42) !important;
+        border-radius: 12px !important;
+        box-shadow: inset 0 1px 0 rgba(255,255,255,.03) !important;
+      }
+
+      body[data-theme="dark"] .fmed-app-root select {
+        min-height: 42px !important;
+        height: 42px !important;
+        padding: 0 14px !important;
+        max-width: 100% !important;
+      }
+
+      body[data-theme="dark"] .fmed-app-root select option,
+      body[data-theme="dark"] .fmed-app-root select optgroup {
+        background: #071B2A !important;
+        color: #F7F9FB !important;
+      }
+
+      body[data-theme="dark"] .fmed-app-root button,
+      body[data-theme="dark"] .fmed-app-root [role="button"] {
+        color: #F7F9FB !important;
+        border-color: rgba(84,204,255,.30) !important;
+      }
+
+      body[data-theme="dark"] .fmed-app-root button:disabled,
+      body[data-theme="dark"] .fmed-app-root [aria-disabled="true"] {
+        background: rgba(148,163,184,.16) !important;
+        color: rgba(245,251,255,.54) !important;
+        border-color: rgba(148,163,184,.20) !important;
+        box-shadow: none !important;
+      }
+
+      /* Fix card export/KPI rimaste troppo piene o barre teal */
+      .fmed-app-root [data-fmed-export-row],
+      .fmed-app-root .fmed-export-row {
+        min-height: 56px !important;
+        border-radius: 16px !important;
+      }
+
+      body[data-theme="dark"] .fmed-app-root [style*="background: #00838F"],
+      body[data-theme="dark"] .fmed-app-root [style*="background:#00838F"],
+      body[data-theme="dark"] .fmed-app-root [style*="background: #078093"],
+      body[data-theme="dark"] .fmed-app-root [style*="background:#078093"],
+      body[data-theme="dark"] .fmed-app-root [style*="background: #007C89"],
+      body[data-theme="dark"] .fmed-app-root [style*="background:#007C89"] {
+        background: linear-gradient(145deg, rgba(11,32,50,.98), rgba(8,24,38,.97)) !important;
+        color: #F4FAFF !important;
+        border-color: rgba(84,204,255,.24) !important;
+      }
+
+      /* Light mode: tabelle e pulsanti non devono collassare */
+      body:not([data-theme="dark"]) .fmed-app-root td button,
+      body:not([data-theme="dark"]) .fmed-app-root td [role="button"] {
+        min-width: 94px !important;
+        white-space: nowrap !important;
+        word-break: keep-all !important;
+        overflow-wrap: normal !important;
+      }
+
+      body:not([data-theme="dark"]) .fmed-app-root th {
+        white-space: nowrap !important;
+      }
+
+      @media (max-width: 1100px) {
+        body[data-theme="dark"] .fmed-app-root th,
+        body[data-theme="dark"] .fmed-app-root td {
+          padding: 11px 10px !important;
+          font-size: 11px !important;
+          line-height: 15px !important;
+        }
+
+        body[data-theme="dark"] .fmed-app-root td button,
+        body[data-theme="dark"] .fmed-app-root td [role="button"] {
+          min-width: 86px !important;
+          height: 40px !important;
+          min-height: 40px !important;
+          font-size: 10px !important;
+          letter-spacing: .04em !important;
+        }
+      }
+
+
+      /* ========================================================
+         FMED 4.0 MASTER VISUAL SYSTEM - PATCH DEFINITIVA
+         26/06/2026 - Solo frontend: design token, Futura Light,
+         pulsanti semantici, light/dark coerenti, responsive e a11y.
+         ======================================================== */
+      :root,
+      body[data-theme="light"] {
+        --fmed-font-main: 'Futura Light', 'Futura LT Light', 'Futura PT', 'Futura', 'Jost', 'Century Gothic', Arial, sans-serif;
+        --fmed-font-weight-light: 300;
+        --fmed-font-weight-regular: 400;
+        --fmed-font-weight-medium: 500;
+        --fmed-color-bg: #F4EFE4;
+        --fmed-color-bg-soft: #F8F5ED;
+        --fmed-color-surface: #FFFDF7;
+        --fmed-color-surface-2: #FDF8EC;
+        --fmed-color-primary: #123C55;
+        --fmed-color-primary-2: #0B2E44;
+        --fmed-color-primary-soft: #E7F0F4;
+        --fmed-color-secondary: #667085;
+        --fmed-color-secondary-soft: #F1F3F5;
+        --fmed-color-success: #6FA98B;
+        --fmed-color-success-2: #4D8B6C;
+        --fmed-color-warning: #C58A20;
+        --fmed-color-warning-2: #9C6B16;
+        --fmed-color-danger: #B42318;
+        --fmed-color-danger-2: #8E1B13;
+        --fmed-color-info: #2F6F9F;
+        --fmed-color-info-2: #245A82;
+        --fmed-color-text: #1F2933;
+        --fmed-color-text-soft: #52616B;
+        --fmed-color-muted: #7B8794;
+        --fmed-color-border: rgba(18,60,85,.16);
+        --fmed-color-border-strong: rgba(18,60,85,.26);
+        --fmed-radius-sm: 10px;
+        --fmed-radius-md: 14px;
+        --fmed-radius-lg: 20px;
+        --fmed-radius-xl: 26px;
+        --fmed-shadow-sm: 0 4px 14px rgba(18,60,85,.08);
+        --fmed-shadow-md: 0 12px 30px rgba(18,60,85,.12);
+        --fmed-shadow-lg: 0 22px 54px rgba(18,60,85,.16);
+        --fmed-control-height: 42px;
+        --fmed-transition: 160ms ease;
+      }
+
+      body[data-theme="dark"] {
+        --fmed-color-bg: #061520;
+        --fmed-color-bg-soft: #081D2C;
+        --fmed-color-surface: #0B2235;
+        --fmed-color-surface-2: #0E2A3F;
+        --fmed-color-primary: #6DB193;
+        --fmed-color-primary-2: #169C8F;
+        --fmed-color-primary-soft: rgba(88,191,232,.16);
+        --fmed-color-secondary: #B7C8D8;
+        --fmed-color-secondary-soft: rgba(183,200,216,.14);
+        --fmed-color-success: #79C79E;
+        --fmed-color-success-2: #54A77E;
+        --fmed-color-warning: #FFC15A;
+        --fmed-color-warning-2: #D99A2B;
+        --fmed-color-danger: #FF7A7A;
+        --fmed-color-danger-2: #E45252;
+        --fmed-color-info: #6DB193;
+        --fmed-color-info-2: #169C8F;
+        --fmed-color-text: #F7F9FB;
+        --fmed-color-text-soft: #C8D7E3;
+        --fmed-color-muted: #9FB3C4;
+        --fmed-color-border: rgba(100,200,255,.22);
+        --fmed-color-border-strong: rgba(100,200,255,.38);
+      }
+
+      html, body, #root, .fmed-app-root,
+      .fmed-app-root *:not(svg):not(path) {
+        font-family: var(--fmed-font-main) !important;
+        font-synthesis: none !important;
+        -webkit-font-smoothing: antialiased !important;
+        text-rendering: geometricPrecision !important;
+      }
+
+      body, .fmed-app-root {
+        background: linear-gradient(180deg, var(--fmed-color-bg) 0%, var(--fmed-color-bg-soft) 100%) !important;
+        color: var(--fmed-color-text) !important;
+        font-weight: var(--fmed-font-weight-light) !important;
+      }
+
+      .fmed-app-root h1 { font-size: clamp(28px, 2.4vw, 42px) !important; line-height: 1.06 !important; font-weight: 400 !important; letter-spacing: -.018em !important; }
+      .fmed-app-root h2 { font-size: clamp(22px, 1.7vw, 30px) !important; line-height: 1.16 !important; font-weight: 400 !important; letter-spacing: -.012em !important; }
+      .fmed-app-root h3 { font-size: clamp(18px, 1.25vw, 23px) !important; line-height: 1.22 !important; font-weight: 400 !important; }
+      .fmed-app-root h4, .fmed-app-root h5, .fmed-app-root h6 { font-weight: 400 !important; line-height: 1.25 !important; }
+      .fmed-app-root p, .fmed-app-root li, .fmed-app-root td, .fmed-app-root label, .fmed-app-root input, .fmed-app-root select, .fmed-app-root textarea {
+        font-size: 14px !important;
+        line-height: 1.45 !important;
+        font-weight: 300 !important;
+      }
+      .fmed-app-root small { font-size: 12px !important; line-height: 1.35 !important; color: var(--fmed-color-muted) !important; }
+      .fmed-app-root strong, .fmed-app-root b { font-weight: 400 !important; }
+
+      .fmed-app-root main,
+      .fmed-app-root section,
+      .fmed-app-root article,
+      .fmed-app-root .fmed-card,
+      .fmed-app-root .card,
+      .fmed-app-root [class*="card"],
+      .fmed-app-root [style*="border-radius: 18"],
+      .fmed-app-root [style*="borderRadius: 18"],
+      .fmed-app-root [style*="border-radius: 20"],
+      .fmed-app-root [style*="borderRadius: 20"],
+      .fmed-app-root [style*="border-radius: 24"],
+      .fmed-app-root [style*="borderRadius: 24"] {
+        border-color: var(--fmed-color-border) !important;
+      }
+
+      .fmed-app-root main > div,
+      .fmed-app-root section,
+      .fmed-app-root article,
+      .fmed-app-root .fmed-card,
+      .fmed-app-root .card,
+      .fmed-app-root [class*="card"] {
+        box-shadow: var(--fmed-shadow-sm) !important;
+      }
+
+      body[data-theme="light"] .fmed-app-root main > div,
+      body[data-theme="light"] .fmed-app-root section,
+      body[data-theme="light"] .fmed-app-root article,
+      body[data-theme="light"] .fmed-app-root .fmed-card,
+      body[data-theme="light"] .fmed-app-root .card,
+      body[data-theme="light"] .fmed-app-root [class*="card"] {
+        background: linear-gradient(145deg, rgba(255,253,247,.98), rgba(248,245,237,.94)) !important;
+        color: var(--fmed-color-text) !important;
+      }
+
+      body[data-theme="dark"] .fmed-app-root main > div,
+      body[data-theme="dark"] .fmed-app-root section,
+      body[data-theme="dark"] .fmed-app-root article,
+      body[data-theme="dark"] .fmed-app-root .fmed-card,
+      body[data-theme="dark"] .fmed-app-root .card,
+      body[data-theme="dark"] .fmed-app-root [class*="card"] {
+        background: linear-gradient(145deg, rgba(11,34,53,.98), rgba(7,24,38,.96)) !important;
+        color: var(--fmed-color-text) !important;
+        box-shadow: 0 18px 44px rgba(0,0,0,.26) !important;
+      }
+
+      .fmed-app-root aside {
+        background: linear-gradient(180deg, #123C55 0%, #0B2E44 58%, #082434 100%) !important;
+        color: #F7FBFF !important;
+        border-right: 1px solid rgba(255,255,255,.10) !important;
+        box-shadow: 14px 0 34px rgba(8,36,52,.18) !important;
+      }
+      body[data-theme="dark"] .fmed-app-root aside {
+        background: linear-gradient(180deg, #071826 0%, #0B2E44 55%, #061520 100%) !important;
+      }
+      .fmed-app-root aside * { color: inherit !important; }
+      .fmed-app-root aside button,
+      .fmed-app-root aside [role="button"] {
+        width: 100% !important;
+        justify-content: flex-start !important;
+        min-height: 44px !important;
+        color: rgba(247,251,255,.86) !important;
+        background: rgba(255,255,255,.055) !important;
+        border: 1px solid rgba(255,255,255,.10) !important;
+        box-shadow: none !important;
+      }
+      .fmed-app-root aside button:hover,
+      .fmed-app-root aside [role="button"]:hover {
+        background: rgba(255,255,255,.13) !important;
+        color: #FFFFFF !important;
+        transform: translateX(2px) !important;
+      }
+
+      .fmed-app-root button,
+      .fmed-app-root [role="button"],
+      .fmed-app-root label[style*="cursor"] {
+        min-height: var(--fmed-control-height) !important;
+        border-radius: var(--fmed-radius-md) !important;
+        border: 1px solid var(--fmed-color-border-strong) !important;
+        padding: 0 16px !important;
+        font-size: 12px !important;
+        line-height: 16px !important;
+        font-weight: 400 !important;
+        letter-spacing: .075em !important;
+        text-transform: uppercase !important;
+        display: inline-flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        gap: 8px !important;
+        transition: background var(--fmed-transition), color var(--fmed-transition), border-color var(--fmed-transition), transform var(--fmed-transition), box-shadow var(--fmed-transition), opacity var(--fmed-transition) !important;
+      }
+      .fmed-app-root button:not(:disabled):hover,
+      .fmed-app-root [role="button"]:not(:disabled):hover,
+      .fmed-app-root label[style*="cursor"]:hover {
+        transform: translateY(-1px) !important;
+        box-shadow: var(--fmed-shadow-md) !important;
+      }
+      .fmed-app-root button:focus-visible,
+      .fmed-app-root [role="button"]:focus-visible,
+      .fmed-app-root input:focus-visible,
+      .fmed-app-root select:focus-visible,
+      .fmed-app-root textarea:focus-visible {
+        outline: none !important;
+        box-shadow: 0 0 0 4px color-mix(in srgb, var(--fmed-color-primary) 20%, transparent) !important;
+      }
+      .fmed-app-root button:disabled,
+      .fmed-app-root [aria-disabled="true"] {
+        opacity: .48 !important;
+        cursor: not-allowed !important;
+        transform: none !important;
+        box-shadow: none !important;
+      }
+
+      .fmed-btn-primary,
+      .fmed-app-root button[data-fmed-action="primary"] {
+        background: linear-gradient(135deg, var(--fmed-color-primary), var(--fmed-color-primary-2)) !important;
+        color: #FFFFFF !important;
+        border-color: color-mix(in srgb, var(--fmed-color-primary) 72%, #000 0%) !important;
+      }
+      .fmed-btn-secondary,
+      .fmed-app-root button[data-fmed-action="secondary"] {
+        background: var(--fmed-color-secondary-soft) !important;
+        color: var(--fmed-color-text) !important;
+        border-color: var(--fmed-color-border) !important;
+      }
+      .fmed-btn-success,
+      .fmed-app-root button[data-fmed-action="success"] {
+        background: linear-gradient(135deg, var(--fmed-color-success), var(--fmed-color-success-2)) !important;
+        color: #FFFFFF !important;
+        border-color: rgba(77,139,108,.55) !important;
+      }
+      .fmed-btn-warning,
+      .fmed-app-root button[data-fmed-action="warning"] {
+        background: linear-gradient(135deg, var(--fmed-color-warning), var(--fmed-color-warning-2)) !important;
+        color: #FFFFFF !important;
+        border-color: rgba(197,138,32,.55) !important;
+      }
+      .fmed-btn-danger,
+      .fmed-app-root button[data-fmed-action="danger"] {
+        background: linear-gradient(135deg, var(--fmed-color-danger), var(--fmed-color-danger-2)) !important;
+        color: #FFFFFF !important;
+        border-color: rgba(180,35,24,.55) !important;
+      }
+      .fmed-btn-info,
+      .fmed-app-root button[data-fmed-action="info"] {
+        background: linear-gradient(135deg, var(--fmed-color-info), var(--fmed-color-info-2)) !important;
+        color: #FFFFFF !important;
+        border-color: rgba(47,111,159,.55) !important;
+      }
+
+      .fmed-app-root input,
+      .fmed-app-root select,
+      .fmed-app-root textarea {
+        min-height: var(--fmed-control-height) !important;
+        border-radius: var(--fmed-radius-md) !important;
+        border: 1px solid var(--fmed-color-border-strong) !important;
+        background: var(--fmed-color-surface) !important;
+        color: var(--fmed-color-text) !important;
+        box-shadow: inset 0 1px 0 rgba(255,255,255,.35) !important;
+        padding: 10px 12px !important;
+      }
+      body[data-theme="dark"] .fmed-app-root input,
+      body[data-theme="dark"] .fmed-app-root select,
+      body[data-theme="dark"] .fmed-app-root textarea {
+        background: #071B2A !important;
+        box-shadow: inset 0 1px 0 rgba(255,255,255,.04) !important;
+      }
+      .fmed-app-root input::placeholder,
+      .fmed-app-root textarea::placeholder { color: var(--fmed-color-muted) !important; opacity: .82 !important; }
+
+      .fmed-app-root table {
+        width: 100% !important;
+        border-collapse: separate !important;
+        border-spacing: 0 !important;
+        border: 1px solid var(--fmed-color-border) !important;
+        border-radius: var(--fmed-radius-lg) !important;
+        overflow: hidden !important;
+        background: var(--fmed-color-surface) !important;
+      }
+      .fmed-app-root th {
+        height: 44px !important;
+        background: var(--fmed-color-primary-soft) !important;
+        color: var(--fmed-color-primary) !important;
+        border-bottom: 1px solid var(--fmed-color-border) !important;
+        font-size: 11px !important;
+        font-weight: 400 !important;
+        letter-spacing: .12em !important;
+        text-transform: uppercase !important;
+        white-space: nowrap !important;
+      }
+      .fmed-app-root td {
+        color: var(--fmed-color-text) !important;
+        border-bottom: 1px solid var(--fmed-color-border) !important;
+        vertical-align: middle !important;
+      }
+      .fmed-app-root tbody tr:hover { background: color-mix(in srgb, var(--fmed-color-primary) 7%, transparent) !important; }
+
+      .fmed-app-root [class*="badge"],
+      .fmed-app-root [class*="Badge"],
+      .fmed-app-root [style*="border-radius: 999"],
+      .fmed-app-root [style*="borderRadius: 999"] {
+        border-radius: 999px !important;
+        padding: 6px 10px !important;
+        font-size: 10px !important;
+        line-height: 1 !important;
+        font-weight: 400 !important;
+        letter-spacing: .085em !important;
+        text-transform: uppercase !important;
+      }
+
+      .fmed-action-toolbar,
+      .fmed-modal-actions {
+        background: color-mix(in srgb, var(--fmed-color-primary) 6%, var(--fmed-color-surface)) !important;
+        border: 1px solid var(--fmed-color-border) !important;
+        border-radius: var(--fmed-radius-lg) !important;
+        padding: 12px !important;
+        gap: 10px !important;
+        overflow: visible !important;
+      }
+
+      @media (max-width: 1100px) {
+        .fmed-app-root h1 { font-size: 30px !important; }
+        .fmed-app-root button, .fmed-app-root [role="button"] { min-height: 40px !important; padding: 0 12px !important; font-size: 11px !important; letter-spacing: .055em !important; }
+      }
+
+/* ===== module-style-25844 (former App_nuovo.jsx line 25844) ===== */
+.fmed-app-root {
+      background: var(--fmed-main-bg) !important;
+      color: var(--fmed-text) !important;
+    }
+    .fmed-light-mode aside {
+      background: var(--fmed-sidebar-bg) !important;
+    }
+    .fmed-dark-mode aside {
+      background: var(--fmed-sidebar-bg) !important;
+    }
+    .fmed-app-root h1,
+    .fmed-app-root h2,
+    .fmed-app-root h3,
+    .fmed-app-root h4,
+    .fmed-app-root strong {
+      color: var(--fmed-text) !important;
+      -webkit-text-fill-color: var(--fmed-text) !important;
+    }
+    .fmed-dark-mode button,
+    .fmed-dark-mode input,
+    .fmed-dark-mode select,
+    .fmed-dark-mode textarea {
+      color-scheme: dark;
+    }
+    .fmed-dark-mode [style*="background: #FFFFFF"],
+    .fmed-dark-mode [style*="background:#FFFFFF"],
+    .fmed-dark-mode [style*="background: #fff"],
+    .fmed-dark-mode [style*="background:#fff"] {
+      background: var(--fmed-card-gradient) !important;
+      color: var(--fmed-text) !important;
+      -webkit-text-fill-color: var(--fmed-text) !important;
+      border-color: var(--fmed-border) !important;
+    }
+    .fmed-light-mode [style*="background: #061520"],
+    .fmed-light-mode [style*="background:#061520"],
+    .fmed-light-mode [style*="background: #071B27"],
+    .fmed-light-mode [style*="background:#071B27"],
+    .fmed-light-mode [style*="background: #081C2B"],
+    .fmed-light-mode [style*="background:#081C2B"] {
+      background: var(--fmed-card-gradient) !important;
+      color: var(--fmed-text) !important;
+      -webkit-text-fill-color: var(--fmed-text) !important;
+      border-color: var(--fmed-border) !important;
+    }
+    .fmed-light-mode button[style*="linear-gradient"],
+    .fmed-light-mode button[data-primary="true"],
+    .fmed-dark-mode button[style*="linear-gradient"],
+    .fmed-dark-mode button[data-primary="true"] {
+      color: #fff !important;
+      -webkit-text-fill-color: #fff !important;
+    }
+    .fmed-app-root table {
+      border-collapse: separate !important;
+      border-spacing: 0 !important;
+    }
+    .fmed-app-root th,
+    .fmed-app-root td {
+      vertical-align: middle !important;
+    }
+    @media (max-width: 1280px) {
+      .fmed-app-root [style*="repeat(6"] {
+        grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+      }
+    }
+
+/* ===== module-style-26505 (former App_nuovo.jsx line 26505) ===== */
+html, body, #root { min-height: 100%; background: var(--fmed-bg) !important; }
+    .fmed-app-root {
+      background: var(--fmed-main-bg) !important;
+      color: var(--fmed-text) !important;
+      -webkit-font-smoothing: antialiased;
+      text-rendering: geometricPrecision;
+    }
+    .fmed-app-root * { box-sizing: border-box; }
+    .fmed-app-root h1,
+    .fmed-app-root h2,
+    .fmed-app-root h3,
+    .fmed-app-root h4,
+    .fmed-app-root strong,
+    .fmed-app-root label {
+      color: var(--fmed-text) !important;
+      -webkit-text-fill-color: var(--fmed-text) !important;
+    }
+    .fmed-app-root p,
+    .fmed-app-root small,
+    .fmed-app-root span:not(svg span) {
+      max-width: 100%;
+    }
+    .fmed-app-root button,
+    .fmed-app-root input,
+    .fmed-app-root select,
+    .fmed-app-root textarea {
+      font-family: inherit !important;
+      outline: none !important;
+    }
+    .fmed-app-root button:focus-visible,
+    .fmed-app-root input:focus-visible,
+    .fmed-app-root select:focus-visible,
+    .fmed-app-root textarea:focus-visible {
+      box-shadow: var(--fmed-focus) !important;
+    }
+    .fmed-light-mode aside,
+    .fmed-dark-mode aside { background: var(--fmed-sidebar-bg) !important; }
+    .fmed-light-mode table thead th,
+    .fmed-dark-mode table thead th {
+      position: sticky;
+      top: 0;
+      z-index: 2;
+      background: color-mix(in srgb, var(--fmed-surface-solid) 88%, var(--fmed-primary) 12%) !important;
+      color: var(--fmed-text) !important;
+      -webkit-text-fill-color: var(--fmed-text) !important;
+      border-bottom: 1px solid var(--fmed-border-strong) !important;
+    }
+    .fmed-dark-mode table thead th {
+      background: #082235 !important;
+    }
+    .fmed-light-mode table tbody tr:nth-child(even) td { background: rgba(7,128,147,.025) !important; }
+    .fmed-dark-mode table tbody tr:nth-child(even) td { background: rgba(255,255,255,.018) !important; }
+    .fmed-app-root table td,
+    .fmed-app-root table th {
+      vertical-align: middle !important;
+      line-height: 1.35 !important;
+    }
+    .fmed-app-root button,
+    .fmed-app-root [role="button"] {
+      min-width: 0;
+      white-space: nowrap;
+      transition: transform .16s ease, box-shadow .16s ease, border-color .16s ease, background .16s ease;
+    }
+    .fmed-app-root button:hover,
+    .fmed-app-root [role="button"]:hover { transform: translateY(-1px); }
+    .fmed-dark-mode input,
+    .fmed-dark-mode select,
+    .fmed-dark-mode textarea {
+      color-scheme: dark;
+      background: var(--fmed-surface) !important;
+      color: var(--fmed-text) !important;
+      -webkit-text-fill-color: var(--fmed-text) !important;
+      border-color: var(--fmed-border) !important;
+    }
+    .fmed-light-mode input,
+    .fmed-light-mode select,
+    .fmed-light-mode textarea {
+      background: var(--fmed-surface) !important;
+      color: var(--fmed-text) !important;
+      -webkit-text-fill-color: var(--fmed-text) !important;
+      border-color: var(--fmed-border) !important;
+    }
+    .fmed-app-root input::placeholder,
+    .fmed-app-root textarea::placeholder { color: var(--fmed-muted) !important; opacity: .72; }
+
+    .fmed-dark-mode [style*="background: #FFFFFF"],
+    .fmed-dark-mode [style*="background:#FFFFFF"],
+    .fmed-dark-mode [style*="background: white"],
+    .fmed-dark-mode [style*="background:white"] {
+      background: var(--fmed-card-gradient) !important;
+      color: var(--fmed-text) !important;
+      -webkit-text-fill-color: var(--fmed-text) !important;
+      border-color: var(--fmed-border) !important;
+    }
+    .fmed-light-mode [style*="background: #061520"],
+    .fmed-light-mode [style*="background:#061520"],
+    .fmed-light-mode [style*="background: #071B27"],
+    .fmed-light-mode [style*="background:#071B27"],
+    .fmed-light-mode [style*="background: #081C2B"],
+    .fmed-light-mode [style*="background:#081C2B"] {
+      background: var(--fmed-card-gradient) !important;
+      color: var(--fmed-text) !important;
+      -webkit-text-fill-color: var(--fmed-text) !important;
+      border-color: var(--fmed-border) !important;
+    }
+
+    .fmed-app-root [style*="linear-gradient(135deg"],
+    .fmed-app-root [style*="linear-gradient(120deg"] {
+      color: inherit;
+    }
+    .fmed-app-root button[style*="linear-gradient"],
+    .fmed-app-root [data-primary="true"] {
+      color: #fff !important;
+      -webkit-text-fill-color: #fff !important;
+    }
+
+    .fmed-app-root svg { flex-shrink: 0; }
+    .fmed-app-root [style*="text-transform: uppercase"],
+    .fmed-app-root [style*="textTransform: uppercase"] { letter-spacing: .055em; }
+
+    @media (max-width: 1500px) {
+      .fmed-app-root [style*="repeat(6"] { grid-template-columns: repeat(3, minmax(0, 1fr)) !important; }
+    }
+    @media (max-width: 980px) {
+      .fmed-app-root [style*="repeat(6"],
+      .fmed-app-root [style*="repeat(5"],
+      .fmed-app-root [style*="repeat(4"],
+      .fmed-app-root [style*="repeat(3"] { grid-template-columns: repeat(2, minmax(0, 1fr)) !important; }
+    }
+
+/* ===== injectFmedEnterpriseDesignSystemFase21 (former App_nuovo.jsx line 27060) ===== */
+.fmed-app-root, .fmed-app-root * { box-sizing: border-box; }
+    .fmed-app-root { background: var(--fmed-main-bg) !important; color: var(--fmed-text) !important; }
+    .fmed-app-root h1, .fmed-app-root h2, .fmed-app-root h3, .fmed-app-root h4 { color: var(--fmed-text) !important; }
+    .fmed-app-root p, .fmed-app-root small, .fmed-app-root label, .fmed-app-root span { border-color: var(--fmed-border); }
+    .fmed-app-root input, .fmed-app-root select, .fmed-app-root textarea {
+      background: var(--fmed-surface-solid) !important;
+      color: var(--fmed-text) !important;
+      border: 1px solid var(--fmed-border) !important;
+      border-radius: 14px !important;
+      outline: none !important;
+      box-shadow: none !important;
+    }
+    .fmed-app-root input:focus, .fmed-app-root select:focus, .fmed-app-root textarea:focus { box-shadow: var(--fmed-focus) !important; border-color: var(--fmed-primary) !important; }
+    .fmed-app-root button { font-family: inherit; letter-spacing: .01em; transition: transform .15s ease, box-shadow .15s ease, opacity .15s ease; }
+    .fmed-app-root button:hover { transform: translateY(-1px); }
+    .fmed-app-root table { border-collapse: separate !important; border-spacing: 0 !important; }
+    .fmed-app-root th { background: var(--fmed-surface-soft) !important; color: var(--fmed-text) !important; border-bottom: 1px solid var(--fmed-border) !important; }
+    .fmed-app-root td { color: var(--fmed-text) !important; border-bottom: 1px solid var(--fmed-border) !important; }
+    .fmed-app-root tbody tr:nth-child(even) { background: rgba(127,160,136,.045) !important; }
+    .fmed-app-root tbody tr:hover { background: rgba(56,191,211,.10) !important; }
+    .fmed-app-root a { color: var(--fmed-primary) !important; }
+    .fmed-app-root [style*="linear-gradient(135deg, #1FAE9C"],
+    .fmed-app-root [style*="linear-gradient(135deg,#1FAE9C"] { background: var(--fmed-btn) !important; }
+    .fmed-app-root [style*="rgba(7,128,147"],
+    .fmed-app-root [style*="rgba(0,224,255"],
+    .fmed-app-root [style*="rgba(22,199,217"] { border-color: var(--fmed-border) !important; }
+    .fmed-app-root [style*="background: rgb(255, 255, 255)"] { background: var(--fmed-surface-solid) !important; }
+    .fmed-app-root [style*="background: #fff"],
+    .fmed-app-root [style*="background:#fff"],
+    .fmed-app-root [style*="background: white"] { background: var(--fmed-surface-solid) !important; }
+    .fmed-app-root [style*="color: #64748b"],
+    .fmed-app-root [style*="color:#64748b"] { color: var(--fmed-muted) !important; }
+    .fmed-app-root [style*="color: #0A1F33"],
+    .fmed-app-root [style*="color:#0A1F33"],
+    .fmed-app-root [style*="color: #1F2933"],
+    .fmed-app-root [style*="color:#1F2933"] { color: var(--fmed-text) !important; }
+    .fmed-app-root [style*="box-shadow"] { box-shadow: var(--fmed-card-shadow-soft); }
+    .fmed-app-root [style*="border-radius: 999"] { border-radius: 999px !important; }
+    .fmed-app-root [style*="Modifica"] { white-space: nowrap !important; }
+    @media (max-width: 1100px) {
+      .fmed-app-root main { padding: 18px !important; }
+      .fmed-app-root [style*="repeat(6"], .fmed-app-root [style*="repeat(5"], .fmed-app-root [style*="repeat(4"] { grid-template-columns: repeat(2,minmax(0,1fr)) !important; }
+    }
+
+/* ===== injectFmedEnterpriseDashboardFase22 (former App_nuovo.jsx line 27494) ===== */
+.fmed-app-root [style*="Dashboard"] { text-rendering: geometricPrecision; }
+    .fmed-app-root svg { flex-shrink: 0; }
+    .fmed-app-root button[style*="grid-template-columns: 54px"] small,
+    .fmed-app-root button[style*="grid-template-columns:54px"] small {
+      color: var(--fmed-muted) !important;
+      font-weight: 900 !important;
+      letter-spacing: .04em !important;
+      text-transform: uppercase !important;
+      font-size: 12px !important;
+    }
+    .fmed-app-root button[style*="grid-template-columns: 54px"]:hover,
+    .fmed-app-root button[style*="grid-template-columns:54px"]:hover,
+    .fmed-app-root button[style*="min-height: 86px"]:hover,
+    .fmed-app-root button[style*="min-height:86px"]:hover {
+      transform: translateY(-2px) !important;
+      box-shadow: var(--fmed-card-shadow) !important;
+      border-color: rgba(56,191,211,.34) !important;
+    }
+    .fmed-app-root [style*='stroke="rgba(255,255,255,.08)"'] { stroke: var(--fmed-border) !important; }
+    .fmed-app-root [style*="Attività recenti"] + * button strong,
+    .fmed-app-root button strong { min-width: 0; overflow: hidden; text-overflow: ellipsis; }
+    @media (max-width: 1280px) {
+      .fmed-app-root [style*="repeat(4,minmax(0,1fr))"] { grid-template-columns: repeat(2,minmax(0,1fr)) !important; }
+      .fmed-app-root [style*="minmax(0,1.35fr) minmax(340px,.65fr)"] { grid-template-columns: 1fr !important; }
+    }
+
+/* ===== injectFmedEnterpriseAssetFase3 (former App_nuovo.jsx line 28029) ===== */
+.fmed-app-root input::placeholder { color: var(--fmed-subtle) !important; opacity: .95; }
+    .fmed-app-root select, .fmed-app-root input, .fmed-app-root textarea { caret-color: var(--fmed-primary); }
+    .fmed-app-root select:focus, .fmed-app-root input:focus, .fmed-app-root textarea:focus {
+      border-color: rgba(56,191,211,.55) !important;
+      box-shadow: 0 0 0 4px rgba(56,191,211,.12) !important;
+    }
+    .fmed-app-root table tbody tr:hover td {
+      background: color-mix(in srgb, var(--fmed-primary) 7%, var(--fmed-surface-solid)) !important;
+    }
+    .fmed-app-root button:hover:not(:disabled) {
+      filter: brightness(1.02);
+    }
+    .fmed-app-root button:disabled {
+      opacity: .56 !important;
+      cursor: not-allowed !important;
+    }
+    @media (max-width: 1280px) {
+      .fmed-app-root [style*="repeat(4, minmax(190px, 1fr))"],
+      .fmed-app-root [style*="repeat(4,minmax(190px,1fr))"] {
+        grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+      }
+      .fmed-app-root [style*="repeat(4, minmax(0, 1fr))"],
+      .fmed-app-root [style*="repeat(4,minmax(0,1fr))"] {
+        grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+      }
+    }
+
+/* ===== injectFmed35EnterpriseDashboard (former App_nuovo.jsx line 28462) ===== */
+.fmed-app-root * { box-sizing: border-box; }
+    .fmed-app-root button { transition: transform .16s ease, box-shadow .16s ease, filter .16s ease, background .16s ease; }
+    .fmed-app-root button:hover:not(:disabled) { transform: translateY(-1px); }
+    .fmed-app-root button:active:not(:disabled) { transform: translateY(0); }
+    .fmed-app-root input, .fmed-app-root select, .fmed-app-root textarea {
+      background: var(--fmed-surface-solid) !important;
+      color: var(--fmed-text) !important;
+      border-color: var(--fmed-border) !important;
+    }
+    .fmed-app-root input::placeholder, .fmed-app-root textarea::placeholder {
+      color: var(--fmed-subtle) !important;
+      opacity: .9;
+    }
+    .fmed-app-root table thead th {
+      position: sticky;
+      top: 0;
+      z-index: 2;
+    }
+    .fmed-app-root table tbody tr:hover td {
+      background: color-mix(in srgb, var(--fmed-primary) 7%, var(--fmed-surface-solid)) !important;
+    }
+    @media (max-width: 1180px) {
+      .fmed-app-root [style*="repeat(4, minmax(190px, 1fr))"],
+      .fmed-app-root [style*="repeat(4,minmax(190px,1fr))"] {
+        grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+      }
+      .fmed-app-root [style*="minmax(0, 1.55fr) minmax(320px, .9fr)"] {
+        grid-template-columns: 1fr !important;
+      }
+    }
+
+/* ===== injectFmed35EnterpriseAssetTablesModals (former App_nuovo.jsx line 29029) ===== */
+.fmed-app-root input,
+    .fmed-app-root select,
+    .fmed-app-root textarea {
+      background: var(--fmed-surface-solid) !important;
+      color: var(--fmed-text) !important;
+      border-color: var(--fmed-border) !important;
+      outline: none !important;
+    }
+    .fmed-app-root input:focus,
+    .fmed-app-root select:focus,
+    .fmed-app-root textarea:focus {
+      border-color: color-mix(in srgb, var(--fmed-primary) 48%, var(--fmed-border)) !important;
+      box-shadow: 0 0 0 4px color-mix(in srgb, var(--fmed-primary) 14%, transparent) !important;
+    }
+    .fmed-app-root table {
+      border-collapse: separate !important;
+      border-spacing: 0 !important;
+    }
+    .fmed-app-root table thead th {
+      position: sticky;
+      top: 0;
+      z-index: 4;
+      backdrop-filter: blur(8px);
+    }
+    .fmed-app-root table tbody tr:nth-child(even) td {
+      background: color-mix(in srgb, var(--fmed-surface-soft) 45%, var(--fmed-surface-solid)) !important;
+    }
+    .fmed-app-root table tbody tr:hover td {
+      background: color-mix(in srgb, var(--fmed-primary) 8%, var(--fmed-surface-solid)) !important;
+    }
+    .fmed-app-root td button,
+    .fmed-app-root td a {
+      white-space: nowrap !important;
+    }
+    .fmed-app-root [style*="position: fixed"][style*="z-index"],
+    .fmed-app-root [style*="position:fixed"][style*="z-index"] {
+      color: var(--fmed-text) !important;
+    }
+    .fmed-app-root [style*="max-height: calc(100vh"],
+    .fmed-app-root [style*="maxHeight: calc(100vh"] {
+      scrollbar-width: thin;
+      scrollbar-color: color-mix(in srgb, var(--fmed-primary) 46%, transparent) transparent;
+    }
+    @media (max-width: 1280px) {
+      .fmed-app-root [style*="repeat(4, minmax(180px, 1fr))"],
+      .fmed-app-root [style*="repeat(4,minmax(180px,1fr))"],
+      .fmed-app-root [style*="repeat(4, minmax(0, 1fr))"],
+      .fmed-app-root [style*="repeat(4,minmax(0,1fr))"] {
+        grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+      }
+    }
+
+/* ===== injectFmed35EnterpriseOperativePages (former App_nuovo.jsx line 29310) ===== */
+.fmed-app-root [style*="Registro manutentivo"],
+    .fmed-app-root [style*="SCADENZIARIO TECNICO"] {
+      letter-spacing: .12em !important;
+    }
+    .fmed-app-root table td,
+    .fmed-app-root table th {
+      vertical-align: middle !important;
+    }
+    .fmed-app-root table td:nth-last-child(1) button {
+      min-width: 38px;
+    }
+    .fmed-app-root button[title*="Modifica infrastruttura"],
+    .fmed-app-root button[title*="Elimina infrastruttura"] {
+      min-width: 40px !important;
+      width: 40px !important;
+      padding-inline: 0 !important;
+      display: inline-flex !important;
+      align-items: center !important;
+      justify-content: center !important;
+    }
+    .fmed-app-root [style*="Quadro economico filtrato"] + p,
+    .fmed-app-root [style*="Il totale considera"] {
+      color: var(--fmed-muted) !important;
+    }
+    .fmed-app-root [style*="Pulizia Ditte"] {
+      color: var(--fmed-text) !important;
+    }
+    .fmed-app-root [style*="Criterio"] {
+      color: var(--fmed-muted) !important;
+    }
+    .fmed-app-root .fmed-operative-card,
+    .fmed-app-root [data-fmed-operative="card"] {
+      background: var(--fmed-card-gradient) !important;
+      border-color: var(--fmed-border) !important;
+      color: var(--fmed-text) !important;
+    }
+    @media (max-width: 1180px) {
+      .fmed-app-root [style*="repeat(5, minmax(150px, 1fr))"],
+      .fmed-app-root [style*="repeat(5,minmax(150px,1fr))"] {
+        grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+      }
+    }
+
+/* ===== injectFmed40EnterpriseStablePolish (former App_nuovo.jsx line 29363) ===== */
+/* FMED 4.0 Enterprise Stable - Final UI Polish */
+    .fmed-app-root {
+      --fmed-radius-sm: 12px;
+      --fmed-radius-md: 16px;
+      --fmed-radius-lg: 22px;
+      --fmed-radius-xl: 28px;
+      --fmed-action-height: 42px;
+    }
+
+    .fmed-app-root button,
+    .fmed-app-root a[role="button"] {
+      border-radius: var(--fmed-radius-md) !important;
+      font-weight: 800 !important;
+      letter-spacing: .01em;
+    }
+
+    .fmed-app-root input,
+    .fmed-app-root select,
+    .fmed-app-root textarea {
+      border-radius: var(--fmed-radius-md) !important;
+      min-height: 40px;
+      border-color: var(--fmed-border) !important;
+      color: var(--fmed-text) !important;
+      background: var(--fmed-surface-solid) !important;
+    }
+
+    /* Dashboard: meno altezza su Azioni rapide e KPI più consistenti */
+    .fmed-app-root [style*="Azioni rapide"] + div,
+    .fmed-app-root [style*="azioni rapide"] + div {
+      gap: 10px !important;
+    }
+    .fmed-app-root [style*="Azioni rapide"] ~ button,
+    .fmed-app-root [style*="Azioni rapide"] + div button,
+    .fmed-app-root [style*="azioni rapide"] + div button {
+      min-height: 58px !important;
+      padding: 10px 12px !important;
+      align-items: center !important;
+    }
+    .fmed-app-root [style*="minmax(235px"],
+    .fmed-app-root [style*="minmax(220px"],
+    .fmed-app-root [style*="minmax(210px"] {
+      align-items: stretch !important;
+    }
+
+    
+    .fmed-app-root [style*="position: fixed"][style*="z-index"],
+    .fmed-app-root [style*="position: fixed"][style*="zIndex"] {
+      backdrop-filter: blur(12px) !important;
+    }
+    .fmed-app-root [style*="max-width: 1120px"],
+    .fmed-app-root [style*="maxWidth: 1120px"],
+    .fmed-app-root [style*="max-width: 1200px"],
+    .fmed-app-root [style*="maxWidth: 1200px"] {
+      max-width: min(1560px, calc(100vw - 36px)) !important;
+      width: min(1560px, calc(100vw - 36px)) !important;
+    }
+    .fmed-app-root [style*="max-height: 88vh"],
+    .fmed-app-root [style*="maxHeight: 88vh"],
+    .fmed-app-root [style*="max-height: 90vh"],
+    .fmed-app-root [style*="maxHeight: 90vh"] {
+      max-height: calc(100vh - 32px) !important;
+    }
+
+    /* Tabelle operative: righe più leggibili e azioni allineate */
+    .fmed-app-root table {
+      border-collapse: separate !important;
+      border-spacing: 0 !important;
+      width: 100% !important;
+    }
+    .fmed-app-root table thead th {
+      position: sticky;
+      top: 0;
+      z-index: 2;
+      background: var(--fmed-surface-solid) !important;
+      color: var(--fmed-text) !important;
+      border-bottom: 1px solid var(--fmed-border) !important;
+      font-size: 11px !important;
+      text-transform: uppercase;
+      letter-spacing: .075em;
+      white-space: nowrap !important;
+    }
+    body[data-theme="dark"] .fmed-app-root table thead th {
+      background: #111C29 !important;
+    }
+    .fmed-app-root table tbody tr:nth-child(even) td {
+      background: color-mix(in srgb, var(--fmed-surface-soft) 48%, transparent) !important;
+    }
+    .fmed-app-root table tbody tr:hover td {
+      background: color-mix(in srgb, var(--fmed-primary) 8%, var(--fmed-surface-solid)) !important;
+    }
+    .fmed-app-root table td {
+      vertical-align: middle !important;
+      line-height: 1.28 !important;
+    }
+    .fmed-app-root table td button {
+      min-height: 36px !important;
+      white-space: nowrap !important;
+    }
+
+    /* Scadenze: evidenzia finestra operativa e riduce il rumore visivo */
+    .fmed-app-root [style*="Scadenze"],
+    .fmed-app-root [style*="scadenze"] {
+      scroll-margin-top: 16px;
+    }
+    .fmed-app-root [style*="SCADUTA"],
+    .fmed-app-root [style*="Scaduta"] {
+      font-weight: 900 !important;
+    }
+
+    /* Infrastrutture: pulsanti azione più cliccabili e tabella meno compressa */
+    .fmed-app-root button[title*="Documentazione"],
+    .fmed-app-root button[title*="Allega"],
+    .fmed-app-root button[title*="Modifica infrastruttura"],
+    .fmed-app-root button[title*="Elimina infrastruttura"],
+    .fmed-app-root button[title*="Attività"] {
+      min-width: 42px !important;
+      min-height: 38px !important;
+      display: inline-flex !important;
+      align-items: center !important;
+      justify-content: center !important;
+    }
+
+    /* Export/Costi: accordion-card più netti */
+    .fmed-app-root [data-fmed-export-row],
+    .fmed-app-root .fmed-export-row,
+    .fmed-app-root [style*="Export"],
+    .fmed-app-root [style*="export"] {
+      border-radius: var(--fmed-radius-lg) !important;
+    }
+
+    @media (min-width: 1181px) {
+      .fmed-app-root [style*="repeat(auto-fit, minmax(145px"],
+      .fmed-app-root [style*="repeat(auto-fit,minmax(145px"] {
+        grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
+      }
+    }
+
+/* ===== injectFmed40NoAzzurroThemeFinal (former App_nuovo.jsx line 29554) ===== */
+/* Dark Mode: niente azzurro acceso, solo petrolio/grafite */
+    body[data-theme="dark"] .fmed-app-root,
+    .fmed-app-root[data-theme="dark"] {
+      --fmed-bg: #08131E !important;
+      --fmed-main-bg: linear-gradient(180deg, #08131E 0%, #0B1623 52%, #07111B 100%) !important;
+      --fmed-sidebar-bg: linear-gradient(180deg, #07111B 0%, #0B1623 62%, #07111B 100%) !important;
+      --fmed-header-bg: linear-gradient(145deg, rgba(12,29,43,.96), rgba(8,19,30,.94)) !important;
+      --fmed-header-inner: linear-gradient(145deg, rgba(18,33,49,.98), rgba(11,22,35,.96)) !important;
+      --fmed-surface: rgba(18,33,49,.94) !important;
+      --fmed-surface-solid: #122131 !important;
+      --fmed-surface-soft: #0E1B29 !important;
+      --fmed-text: #F4F8FB !important;
+      --fmed-muted: #AAB8C5 !important;
+      --fmed-subtle: #7F91A2 !important;
+      --fmed-border: rgba(148,173,194,.18) !important;
+      --fmed-primary: #0F7C90 !important;
+      --fmed-primary-2: #0A5968 !important;
+      --fmed-accent: #0F7C90 !important;
+      --fmed-accent-2: #0A5968 !important;
+      --fmed-btn: linear-gradient(135deg, #0F7C90 0%, #0A5968 100%) !important;
+      --fmed-card-gradient: linear-gradient(145deg, rgba(18,33,49,.98), rgba(10,23,36,.96)) !important;
+      --fmed-soft-gradient: linear-gradient(145deg, rgba(18,33,49,.92), rgba(11,22,35,.88)) !important;
+    }
+
+    body[data-theme="dark"] .fmed-app-root {
+      background: var(--fmed-main-bg) !important;
+      color: var(--fmed-text) !important;
+    }
+
+    body[data-theme="dark"] .fmed-app-root * {
+      scrollbar-color: #314A5D #0B1623;
+    }
+
+    body[data-theme="dark"] .fmed-app-root aside,
+    body[data-theme="dark"] .fmed-app-root nav,
+    body[data-theme="dark"] .fmed-app-root [style*="GESTIONE TECNICA"] {
+      background: var(--fmed-sidebar-bg) !important;
+    }
+
+    body[data-theme="dark"] .fmed-app-root [style*="rgb(14, 165, 233)"],
+    body[data-theme="dark"] .fmed-app-root [style*="#169C8F"],
+    body[data-theme="dark"] .fmed-app-root [style*="#1FAE9C"],
+    body[data-theme="dark"] .fmed-app-root [style*="#1FAE9C"],
+    body[data-theme="dark"] .fmed-app-root [style*="#1FAE9C"],
+    body[data-theme="dark"] .fmed-app-root [style*="#1FAE9C"] {
+      color: #0F7C90 !important;
+      border-color: rgba(15,124,144,.36) !important;
+      background-color: rgba(15,124,144,.12) !important;
+    }
+
+    body[data-theme="dark"] .fmed-app-root button:not([style*="DC3545"]),
+    body[data-theme="dark"] .fmed-app-root a[role="button"] {
+      border-color: rgba(148,173,194,.18) !important;
+    }
+
+    body[data-theme="dark"] .fmed-app-root button[style*="linear-gradient"],
+    body[data-theme="dark"] .fmed-app-root [style*="linear-gradient(135deg"] {
+      box-shadow: 0 14px 30px rgba(0,0,0,.22) !important;
+    }
+
+    body[data-theme="dark"] .fmed-app-root [style*="background: rgb(14"],
+    body[data-theme="dark"] .fmed-app-root [style*="background:#169C8F"],
+    body[data-theme="dark"] .fmed-app-root [style*="background: #169C8F"],
+    body[data-theme="dark"] .fmed-app-root [style*="background:#1FAE9C"],
+    body[data-theme="dark"] .fmed-app-root [style*="background: #1FAE9C"],
+    body[data-theme="dark"] .fmed-app-root [style*="background:#1FAE9C"],
+    body[data-theme="dark"] .fmed-app-root [style*="background: #1FAE9C"] {
+      background: linear-gradient(135deg, #0F7C90 0%, #0A5968 100%) !important;
+      color: #FFFFFF !important;
+    }
+
+    body[data-theme="dark"] .fmed-app-root input,
+    body[data-theme="dark"] .fmed-app-root select,
+    body[data-theme="dark"] .fmed-app-root textarea {
+      background: #0E1B29 !important;
+      color: #F4F8FB !important;
+      border-color: rgba(148,173,194,.22) !important;
+    }
+
+    body[data-theme="dark"] .fmed-app-root input::placeholder,
+    body[data-theme="dark"] .fmed-app-root textarea::placeholder {
+      color: #7F91A2 !important;
+    }
+
+    body[data-theme="dark"] .fmed-app-root table thead th {
+      background: #122131 !important;
+      color: #F4F8FB !important;
+      border-color: rgba(148,173,194,.18) !important;
+    }
+
+    body[data-theme="dark"] .fmed-app-root table tbody td {
+      border-color: rgba(148,173,194,.12) !important;
+    }
+
+    body[data-theme="dark"] .fmed-app-root table tbody tr:nth-child(even) td {
+      background: rgba(14,27,41,.58) !important;
+    }
+
+    body[data-theme="dark"] .fmed-app-root table tbody tr:hover td {
+      background: rgba(15,124,144,.10) !important;
+    }
+
+    /* Rende meno “sparato” il box numerico grande delle pagine operative */
+    body[data-theme="dark"] .fmed-app-root [style*="Scadenze visibili"],
+    body[data-theme="dark"] .fmed-app-root [style*="scadenze visibili"],
+    body[data-theme="dark"] .fmed-app-root [style*="Asset visualizzati"],
+    body[data-theme="dark"] .fmed-app-root [style*="Interventi visualizzati"] {
+      background: rgba(15,124,144,.14) !important;
+      border-color: rgba(15,124,144,.28) !important;
+    }
+
+/* ===== injectFmed40DarkReferencePaletteFinal (former App_nuovo.jsx line 30056) ===== */
+body[data-theme="dark"] .fmed-app-root,
+    .fmed-app-root[data-theme="dark"] {
+      --fmed-bg: #06121D !important;
+      --fmed-main-bg: linear-gradient(180deg, #06121D 0%, #081724 52%, #050E17 100%) !important;
+      --fmed-sidebar-bg: linear-gradient(180deg, #06111B 0%, #0A1825 58%, #06111B 100%) !important;
+      --fmed-surface-solid: #0C1F2E !important;
+      --fmed-surface-soft: #081A28 !important;
+      --fmed-text: #F6FBFF !important;
+      --fmed-muted: #B7C6D4 !important;
+      --fmed-subtle: #7F92A2 !important;
+      --fmed-border: rgba(88,126,151,.30) !important;
+      --fmed-primary: #147D86 !important;
+      --fmed-primary-2: #0D636C !important;
+      --fmed-accent: #147D86 !important;
+      --fmed-accent-2: #0D636C !important;
+      --fmed-btn: linear-gradient(135deg, #147D86 0%, #0D636C 100%) !important;
+      --fmed-card-gradient: linear-gradient(145deg, rgba(13,34,50,.98), rgba(7,20,32,.98)) !important;
+      --fmed-soft-gradient: linear-gradient(145deg, rgba(11,28,42,.96), rgba(7,19,31,.94)) !important;
+      text-transform: uppercase !important;
+    }
+
+    body[data-theme="dark"] .fmed-app-root {
+      background: var(--fmed-main-bg) !important;
+      color: var(--fmed-text) !important;
+      letter-spacing: .01em;
+    }
+
+    body[data-theme="dark"] .fmed-app-root *:not(input):not(textarea) {
+      text-transform: uppercase !important;
+    }
+
+    body[data-theme="dark"] .fmed-app-root input,
+    body[data-theme="dark"] .fmed-app-root textarea,
+    body[data-theme="dark"] .fmed-app-root select {
+      text-transform: uppercase !important;
+      background: #081A28 !important;
+      color: #F6FBFF !important;
+      border: 1px solid rgba(88,126,151,.34) !important;
+      border-radius: 10px !important;
+      min-height: 42px !important;
+      font-weight: 800 !important;
+      letter-spacing: .035em !important;
+    }
+
+    body[data-theme="dark"] .fmed-app-root input::placeholder,
+    body[data-theme="dark"] .fmed-app-root textarea::placeholder {
+      color: #7F92A2 !important;
+      text-transform: uppercase !important;
+    }
+
+    /* Palette reference: nessun azzurro acceso/cyan */
+    body[data-theme="dark"] .fmed-app-root [style*="#1FAE9C"],
+    body[data-theme="dark"] .fmed-app-root [style*="#169C8F"],
+    body[data-theme="dark"] .fmed-app-root [style*="#1FAE9C"],
+    body[data-theme="dark"] .fmed-app-root [style*="#1FAE9C"],
+    body[data-theme="dark"] .fmed-app-root [style*="#1FAE9C"],
+    body[data-theme="dark"] .fmed-app-root [style*="#1FAE9C"],
+    body[data-theme="dark"] .fmed-app-root [style*="0,229,255"],
+    body[data-theme="dark"] .fmed-app-root [style*="86,203,255"] {
+      color: #7CC7CD !important;
+      border-color: rgba(124,199,205,.24) !important;
+      background-color: rgba(20,125,134,.10) !important;
+      box-shadow: none !important;
+      text-shadow: none !important;
+    }
+
+    body[data-theme="dark"] .fmed-app-root aside,
+    body[data-theme="dark"] .fmed-app-root nav {
+      background: var(--fmed-sidebar-bg) !important;
+      border-color: var(--fmed-border) !important;
+    }
+
+    body[data-theme="dark"] .fmed-app-root button {
+      text-transform: uppercase !important;
+      letter-spacing: .045em !important;
+      font-weight: 950 !important;
+      border-radius: 10px !important;
+    }
+
+    body[data-theme="dark"] .fmed-app-root table {
+      width: 100% !important;
+      border-collapse: separate !important;
+      border-spacing: 0 !important;
+      color: #F6FBFF !important;
+      font-size: 12px !important;
+      text-transform: uppercase !important;
+    }
+
+    body[data-theme="dark"] .fmed-app-root table thead th {
+      position: sticky !important;
+      top: 0 !important;
+      z-index: 4 !important;
+      background: #0F2637 !important;
+      color: #F6FBFF !important;
+      border-bottom: 1px solid rgba(88,126,151,.30) !important;
+      padding: 14px 14px !important;
+      font-size: 12px !important;
+      font-weight: 950 !important;
+      letter-spacing: .04em !important;
+      text-align: left !important;
+      white-space: nowrap !important;
+    }
+
+    body[data-theme="dark"] .fmed-app-root table tbody td {
+      background: rgba(9,26,39,.72) !important;
+      color: #F6FBFF !important;
+      border-bottom: 1px solid rgba(88,126,151,.18) !important;
+      padding: 15px 14px !important;
+      font-size: 12px !important;
+      font-weight: 800 !important;
+      line-height: 1.35 !important;
+      vertical-align: middle !important;
+      text-transform: uppercase !important;
+      height: auto !important;
+      min-height: 0 !important;
+    }
+
+    body[data-theme="dark"] .fmed-app-root table tbody tr:nth-child(even) td {
+      background: rgba(12,31,46,.74) !important;
+    }
+
+    body[data-theme="dark"] .fmed-app-root table tbody tr:hover td {
+      background: rgba(20,125,134,.13) !important;
+    }
+
+    /* Infrastrutture: azioni orizzontali e proporzionate */
+    body[data-theme="dark"] .fmed-app-root table td:last-child,
+    body[data-theme="dark"] .fmed-app-root table td:nth-last-child(1) {
+      min-width: 360px !important;
+      white-space: nowrap !important;
+    }
+
+    body[data-theme="dark"] .fmed-app-root table td:last-child > div,
+    body[data-theme="dark"] .fmed-app-root table td:nth-last-child(1) > div,
+    body[data-theme="dark"] .fmed-app-root [style*="row"] [style*="flex"] {
+      flex-direction: row !important;
+      flex-wrap: nowrap !important;
+      align-items: center !important;
+      justify-content: flex-end !important;
+      gap: 8px !important;
+    }
+
+    body[data-theme="dark"] .fmed-app-root button[title*="Attività"],
+    body[data-theme="dark"] .fmed-app-root button[title*="Documentazione"],
+    body[data-theme="dark"] .fmed-app-root button[title*="Allega"],
+    body[data-theme="dark"] .fmed-app-root button[title*="Modifica infrastruttura"],
+    body[data-theme="dark"] .fmed-app-root button[title*="Elimina infrastruttura"] {
+      width: auto !important;
+      min-width: 96px !important;
+      min-height: 40px !important;
+      padding: 0 12px !important;
+      display: inline-flex !important;
+      align-items: center !important;
+      justify-content: center !important;
+      background: rgba(8,26,40,.92) !important;
+      color: #F6FBFF !important;
+      border: 1px solid rgba(88,126,151,.30) !important;
+      box-shadow: none !important;
+      white-space: nowrap !important;
+      font-size: 11px !important;
+      line-height: 1 !important;
+    }
+
+    body[data-theme="dark"] .fmed-app-root button[title*="Elimina infrastruttura"] {
+      color: #FF5B68 !important;
+      border-color: rgba(255,91,104,.48) !important;
+      background: rgba(220,53,69,.12) !important;
+    }
+
+    /* Hero e card numeriche come reference */
+    body[data-theme="dark"] .fmed-app-root [style*="MANUTENZIONI INFRASTRUTTURALI"],
+    body[data-theme="dark"] .fmed-app-root [style*="GESTIONE INFRASTRUTTURE"] {
+      text-transform: uppercase !important;
+      letter-spacing: .02em !important;
+    }
+
+    body[data-theme="dark"] .fmed-app-root [style*="Scadenze visibili"],
+    body[data-theme="dark"] .fmed-app-root [style*="scadenze visibili"],
+    body[data-theme="dark"] .fmed-app-root [style*="Asset visualizzati"],
+    body[data-theme="dark"] .fmed-app-root [style*="Interventi visualizzati"] {
+      background: linear-gradient(145deg, rgba(20,125,134,.88), rgba(13,99,108,.78)) !important;
+      border-color: rgba(124,199,205,.22) !important;
+      color: #FFFFFF !important;
+      border-radius: 18px !important;
+    }
+
+    @media (max-width: 1180px) {
+      body[data-theme="dark"] .fmed-app-root table {
+        min-width: 1180px !important;
+      }
+      body[data-theme="dark"] .fmed-app-root table td:last-child {
+        min-width: 320px !important;
+      }
+    }
+
+/* ===== injectFmed40MasterVisualSystemFinal (former App_nuovo.jsx line 30266) ===== */
+:root {
+      --fmed-font-enterprise: "Futura", "Futura PT", "Avenir Next", "Montserrat", "Inter", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      --fmed-radius-xs: 8px;
+      --fmed-radius-sm: 12px;
+      --fmed-radius-md: 16px;
+      --fmed-radius-lg: 22px;
+      --fmed-radius-xl: 28px;
+      --fmed-ease: cubic-bezier(.2,.8,.2,1);
+    }
+
+    html, body, #root, .fmed-app-root {
+      min-height: 100% !important;
+      font-family: var(--fmed-font-enterprise) !important;
+      font-synthesis: none !important;
+      text-rendering: geometricPrecision !important;
+      -webkit-font-smoothing: antialiased !important;
+      -moz-osx-font-smoothing: grayscale !important;
+    }
+
+    .fmed-app-root,
+    .fmed-app-root * {
+      box-sizing: border-box !important;
+      font-family: var(--fmed-font-enterprise) !important;
+    }
+
+    /* Coerenza richiesta: UI in maiuscolo, dati e input compresi. */
+    .fmed-app-root h1,
+    .fmed-app-root h2,
+    .fmed-app-root h3,
+    .fmed-app-root h4,
+    .fmed-app-root h5,
+    .fmed-app-root h6,
+    .fmed-app-root p,
+    .fmed-app-root small,
+    .fmed-app-root span,
+    .fmed-app-root strong,
+    .fmed-app-root label,
+    .fmed-app-root button,
+    .fmed-app-root input,
+    .fmed-app-root textarea,
+    .fmed-app-root select,
+    .fmed-app-root table,
+    .fmed-app-root th,
+    .fmed-app-root td,
+    .fmed-app-root a {
+      text-transform: uppercase !important;
+      letter-spacing: .035em !important;
+    }
+
+    .fmed-app-root button,
+    .fmed-app-root [role="button"],
+    .fmed-app-root input,
+    .fmed-app-root select,
+    .fmed-app-root textarea {
+      outline: none !important;
+      transition: background .18s var(--fmed-ease), border-color .18s var(--fmed-ease), box-shadow .18s var(--fmed-ease), transform .18s var(--fmed-ease) !important;
+    }
+
+    .fmed-app-root button:hover,
+    .fmed-app-root [role="button"]:hover {
+      transform: translateY(-1px) !important;
+    }
+
+    .fmed-app-root button:active,
+    .fmed-app-root [role="button"]:active {
+      transform: translateY(0) !important;
+    }
+
+    /* =========================
+       LIGHT MODE MASTER
+       ========================= */
+    body[data-theme="light"],
+    body[data-theme="light"] #root,
+    body[data-theme="light"] .fmed-light-mode {
+      --fmed-bg: #EEF5F7 !important;
+      --fmed-main-bg: linear-gradient(180deg, #EEF5F7 0%, #F7FBFC 44%, #EAF3F5 100%) !important;
+      --fmed-sidebar-bg: linear-gradient(180deg, #FFFFFF 0%, #F3F8FA 56%, #E6F0F3 100%) !important;
+      --fmed-surface: rgba(255,255,255,.88) !important;
+      --fmed-surface-solid: #FFFFFF !important;
+      --fmed-surface-soft: #F3F8FA !important;
+      --fmed-card-gradient: linear-gradient(145deg, rgba(255,255,255,.96), rgba(245,250,252,.90)) !important;
+      --fmed-soft-gradient: linear-gradient(145deg, rgba(252,254,255,.96), rgba(238,247,250,.92)) !important;
+      --fmed-text: #071C2D !important;
+      --fmed-muted: #51677A !important;
+      --fmed-subtle: #7A8D9D !important;
+      --fmed-border: rgba(7, 33, 51, .13) !important;
+      --fmed-primary: #0F7C90 !important;
+      --fmed-primary-2: #095D6D !important;
+      --fmed-primary-soft: rgba(15,124,144,.10) !important;
+      --fmed-btn: linear-gradient(135deg, #0F7C90 0%, #095D6D 100%) !important;
+      --fmed-btn-shadow: 0 14px 30px rgba(15,124,144,.18) !important;
+      --fmed-card-shadow: 0 18px 42px rgba(7,28,45,.08) !important;
+      background: var(--fmed-main-bg) !important;
+      color: var(--fmed-text) !important;
+    }
+
+    body[data-theme="light"] .fmed-app-root main,
+    body[data-theme="light"] .fmed-app-root [style*="--fmed-main-bg"] {
+      background: var(--fmed-main-bg) !important;
+      color: var(--fmed-text) !important;
+    }
+
+    /* =========================
+       DARK MODE MASTER - reference palette
+       ========================= */
+    body[data-theme="dark"],
+    body[data-theme="dark"] #root,
+    body[data-theme="dark"] .fmed-dark-mode {
+      --fmed-bg: #07131D !important;
+      --fmed-main-bg: radial-gradient(circle at 18% 0%, rgba(23, 69, 89, .18), transparent 32%), linear-gradient(180deg, #07131D 0%, #091B29 54%, #07131D 100%) !important;
+      --fmed-sidebar-bg: linear-gradient(180deg, #07131D 0%, #0A1E2C 58%, #06101A 100%) !important;
+      --fmed-surface: rgba(12, 31, 45, .86) !important;
+      --fmed-surface-solid: #0B1D2B !important;
+      --fmed-surface-soft: #102B3E !important;
+      --fmed-card-gradient: linear-gradient(145deg, rgba(13, 33, 48, .96), rgba(8, 24, 37, .96)) !important;
+      --fmed-soft-gradient: linear-gradient(145deg, rgba(16, 43, 62, .90), rgba(8, 24, 37, .94)) !important;
+      --fmed-text: #F4F8FC !important;
+      --fmed-muted: #B5C4D0 !important;
+      --fmed-subtle: #8298A8 !important;
+      --fmed-border: rgba(82, 124, 150, .28) !important;
+      --fmed-primary: #0F7C90 !important;
+      --fmed-primary-2: #0A6172 !important;
+      --fmed-primary-soft: rgba(15,124,144,.16) !important;
+      --fmed-btn: linear-gradient(135deg, #0F7C90 0%, #0A6172 100%) !important;
+      --fmed-btn-shadow: 0 14px 32px rgba(15,124,144,.20) !important;
+      --fmed-card-shadow: 0 18px 45px rgba(0,0,0,.28) !important;
+      background: var(--fmed-main-bg) !important;
+      color: var(--fmed-text) !important;
+    }
+
+    body[data-theme="dark"] .fmed-app-root main,
+    body[data-theme="dark"] .fmed-app-root [style*="--fmed-main-bg"] {
+      background: var(--fmed-main-bg) !important;
+      color: var(--fmed-text) !important;
+    }
+
+    /* Uccide definitivamente azzurro elettrico/cyan/neon in dark e mantiene petrolio. */
+    body[data-theme="dark"] .fmed-app-root [style*="#1FAE9C"],
+    body[data-theme="dark"] .fmed-app-root [style*="#1FAE9C"],
+    body[data-theme="dark"] .fmed-app-root [style*="#1FAE9C"],
+    body[data-theme="dark"] .fmed-app-root [style*="#1FAE9C"],
+    body[data-theme="dark"] .fmed-app-root [style*="rgb(0, 229, 255)"],
+    body[data-theme="dark"] .fmed-app-root [style*="rgb(31,174,156)"] {
+      background: var(--fmed-btn) !important;
+      border-color: rgba(82,124,150,.34) !important;
+      color: #FFFFFF !important;
+      box-shadow: var(--fmed-btn-shadow) !important;
+    }
+
+    /* Layout generale: niente effetto giocattolo, spazi coerenti. */
+    .fmed-app-root main,
+    .fmed-app-root [style*="padding"] {
+      scrollbar-color: rgba(82,124,150,.48) transparent !important;
+    }
+
+    .fmed-app-root aside {
+      background: var(--fmed-sidebar-bg) !important;
+      border-right: 1px solid var(--fmed-border) !important;
+      box-shadow: 16px 0 50px rgba(0,0,0,.08) !important;
+    }
+
+    .fmed-app-root aside,
+    .fmed-app-root aside * {
+      color: var(--fmed-text) !important;
+    }
+
+    .fmed-app-root aside button,
+    .fmed-app-root aside [role="button"] {
+      min-height: 44px !important;
+      border-radius: var(--fmed-radius-sm) !important;
+      border: 1px solid var(--fmed-border) !important;
+      background: rgba(255,255,255,.035) !important;
+      color: var(--fmed-text) !important;
+      font-weight: 850 !important;
+      font-size: 13px !important;
+      letter-spacing: .075em !important;
+      justify-content: flex-start !important;
+    }
+
+    body[data-theme="light"] .fmed-app-root aside button,
+    body[data-theme="light"] .fmed-app-root aside [role="button"] {
+      background: rgba(255,255,255,.72) !important;
+      color: #071C2D !important;
+    }
+
+    .fmed-app-root aside button:hover,
+    .fmed-app-root aside [role="button"]:hover {
+      background: var(--fmed-primary-soft) !important;
+      border-color: rgba(15,124,144,.42) !important;
+      box-shadow: 0 12px 30px rgba(0,0,0,.10) !important;
+    }
+
+    .fmed-app-root aside button[style*="linear-gradient"],
+    .fmed-app-root aside [aria-current="page"],
+    .fmed-app-root aside button[style*="#159"],
+    .fmed-app-root aside button[style*="#0F7C90"] {
+      background: var(--fmed-btn) !important;
+      border-color: rgba(255,255,255,.12) !important;
+      color: #FFFFFF !important;
+      box-shadow: var(--fmed-btn-shadow) !important;
+    }
+
+    .fmed-app-root [style*="Gestione Tecnica"],
+    .fmed-app-root [style*="CMMS Enterprise"] {
+      letter-spacing: .08em !important;
+    }
+
+    /* Card e pannelli: un solo linguaggio visivo. */
+    .fmed-app-root section,
+    .fmed-app-root article,
+    .fmed-app-root .card,
+    .fmed-app-root .fmed-card,
+    .fmed-app-root [style*="var(--fmed-card-gradient)"],
+    .fmed-app-root [style*="var(--fmed-soft-gradient)"],
+    .fmed-app-root [style*="var(--fmed-surface-solid)"],
+    .fmed-app-root [style*="borderRadius: 24"],
+    .fmed-app-root [style*="border-radius: 24"] {
+      background: var(--fmed-card-gradient) !important;
+      color: var(--fmed-text) !important;
+      border: 1px solid var(--fmed-border) !important;
+      border-radius: var(--fmed-radius-lg) !important;
+      box-shadow: var(--fmed-card-shadow) !important;
+    }
+
+    body[data-theme="light"] .fmed-app-root section,
+    body[data-theme="light"] .fmed-app-root article,
+    body[data-theme="light"] .fmed-app-root .card,
+    body[data-theme="light"] .fmed-app-root .fmed-card {
+      box-shadow: 0 18px 45px rgba(7,28,45,.075) !important;
+    }
+
+    /* Header pagina: basso, elegante, non banner gigante. */
+    .fmed-app-root [style*="fmedNeoHeader"],
+    .fmed-app-root [style*="assetHeroPanel"],
+    .fmed-app-root [style*="heroPanel"],
+    .fmed-app-root [style*="Hero"] {
+      min-height: auto !important;
+      padding: 22px 24px !important;
+      border-radius: var(--fmed-radius-xl) !important;
+      background: var(--fmed-card-gradient) !important;
+      border: 1px solid var(--fmed-border) !important;
+      box-shadow: var(--fmed-card-shadow) !important;
+    }
+
+    .fmed-app-root h1,
+    .fmed-app-root h2 {
+      color: var(--fmed-text) !important;
+      font-size: clamp(28px, 2.25vw, 42px) !important;
+      line-height: 1.04 !important;
+      font-weight: 900 !important;
+      letter-spacing: .035em !important;
+      margin-top: 0 !important;
+      margin-bottom: 8px !important;
+      text-shadow: none !important;
+    }
+
+    .fmed-app-root h3 {
+      color: var(--fmed-text) !important;
+      font-size: clamp(17px, 1.2vw, 22px) !important;
+      line-height: 1.14 !important;
+      font-weight: 900 !important;
+      margin-top: 0 !important;
+      margin-bottom: 8px !important;
+    }
+
+    .fmed-app-root p,
+    .fmed-app-root small {
+      color: var(--fmed-muted) !important;
+      line-height: 1.45 !important;
+      font-weight: 650 !important;
+    }
+
+    /* KPI: grandi, leggibili, sempre proporzionate. */
+    .fmed-app-root [style*="Kpi"],
+    .fmed-app-root [style*="kpi"],
+    .fmed-app-root [style*="Metric"],
+    .fmed-app-root [style*="metric"],
+    .fmed-app-root [style*="Stat"],
+    .fmed-app-root [style*="stat"] {
+      border-radius: var(--fmed-radius-lg) !important;
+      background: var(--fmed-card-gradient) !important;
+      border: 1px solid var(--fmed-border) !important;
+      box-shadow: var(--fmed-card-shadow) !important;
+      color: var(--fmed-text) !important;
+    }
+
+    .fmed-app-root [style*="fmedNeoKpiGrid"],
+    .fmed-app-root [style*="kpiGrid"],
+    .fmed-app-root [style*="metricGrid"],
+    .fmed-app-root [style*="statsGrid"] {
+      display: grid !important;
+      grid-template-columns: repeat(auto-fit, minmax(205px, 1fr)) !important;
+      gap: 14px !important;
+      align-items: stretch !important;
+    }
+
+    .fmed-app-root [style*="fmedNeoKpiCard"],
+    .fmed-app-root [style*="kpiCard"],
+    .fmed-app-root [style*="statCard"],
+    .fmed-app-root [style*="metricCard"] {
+      min-height: 92px !important;
+      padding: 18px 20px !important;
+      display: flex !important;
+      align-items: center !important;
+      gap: 16px !important;
+      overflow: hidden !important;
+    }
+
+    .fmed-app-root [style*="fmedNeoKpiMainNumber"],
+    .fmed-app-root [style*="MainNumber"],
+    .fmed-app-root [style*="BadgeNumber"],
+    .fmed-app-root [style*="Number"] {
+      font-size: clamp(30px, 2.2vw, 44px) !important;
+      line-height: 1 !important;
+      font-weight: 900 !important;
+      color: var(--fmed-text) !important;
+      white-space: nowrap !important;
+    }
+
+    /* Azioni rapide: basse e pulite. */
+    .fmed-app-root [style*="Quick"],
+    .fmed-app-root [style*="quick"] {
+      border-radius: var(--fmed-radius-lg) !important;
+    }
+
+    .fmed-app-root [style*="fmedNeoQuickGrid"],
+    .fmed-app-root [style*="quickGrid"] {
+      display: grid !important;
+      grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)) !important;
+      gap: 10px !important;
+    }
+
+    .fmed-app-root [style*="fmedNeoQuickBtn"],
+    .fmed-app-root [style*="quickBtn"] {
+      min-height: 54px !important;
+      padding: 10px 16px !important;
+      border-radius: var(--fmed-radius-sm) !important;
+      background: rgba(255,255,255,.035) !important;
+      border: 1px solid var(--fmed-border) !important;
+      color: var(--fmed-text) !important;
+      font-size: 12px !important;
+      font-weight: 900 !important;
+    }
+
+    /* Buttons: no giocattolo, no neon. */
+    .fmed-app-root button,
+    .fmed-app-root [role="button"],
+    .fmed-app-root label[style*="cursor"] {
+      min-height: 42px !important;
+      padding: 0 16px !important;
+      border-radius: var(--fmed-radius-sm) !important;
+      border: 1px solid var(--fmed-border) !important;
+      background: rgba(255,255,255,.035) !important;
+      color: var(--fmed-text) !important;
+      font-size: 12px !important;
+      line-height: 1.05 !important;
+      font-weight: 900 !important;
+      white-space: nowrap !important;
+      box-shadow: none !important;
+    }
+
+    body[data-theme="light"] .fmed-app-root button,
+    body[data-theme="light"] .fmed-app-root [role="button"],
+    body[data-theme="light"] .fmed-app-root label[style*="cursor"] {
+      background: rgba(255,255,255,.78) !important;
+      color: #071C2D !important;
+    }
+
+    .fmed-app-root button[style*="linear-gradient"],
+    .fmed-app-root button[style*="078093"],
+    .fmed-app-root button[style*="0F7C90"],
+    .fmed-app-root button[style*="teal"],
+    .fmed-app-root button[style*="primary"],
+    .fmed-app-root button[type="submit"] {
+      background: var(--fmed-btn) !important;
+      color: #FFFFFF !important;
+      border-color: rgba(255,255,255,.10) !important;
+      box-shadow: var(--fmed-btn-shadow) !important;
+    }
+
+    .fmed-app-root button:hover,
+    .fmed-app-root [role="button"]:hover,
+    .fmed-app-root label[style*="cursor"]:hover {
+      border-color: rgba(15,124,144,.48) !important;
+      background: var(--fmed-primary-soft) !important;
+      box-shadow: 0 16px 34px rgba(0,0,0,.14) !important;
+    }
+
+    /* Inputs e filtri. */
+    .fmed-app-root input,
+    .fmed-app-root select,
+    .fmed-app-root textarea {
+      min-height: 44px !important;
+      border-radius: var(--fmed-radius-sm) !important;
+      border: 1px solid var(--fmed-border) !important;
+      background: rgba(255,255,255,.045) !important;
+      color: var(--fmed-text) !important;
+      padding: 0 14px !important;
+      font-size: 12px !important;
+      font-weight: 850 !important;
+      box-shadow: inset 0 1px 0 rgba(255,255,255,.045) !important;
+    }
+
+    body[data-theme="light"] .fmed-app-root input,
+    body[data-theme="light"] .fmed-app-root select,
+    body[data-theme="light"] .fmed-app-root textarea {
+      background: rgba(255,255,255,.86) !important;
+      color: #071C2D !important;
+      box-shadow: inset 0 1px 0 rgba(255,255,255,.65) !important;
+    }
+
+    .fmed-app-root textarea {
+      padding-top: 12px !important;
+      line-height: 1.45 !important;
+    }
+
+    .fmed-app-root input::placeholder,
+    .fmed-app-root textarea::placeholder {
+      color: var(--fmed-subtle) !important;
+      opacity: 1 !important;
+    }
+
+    .fmed-app-root input:focus,
+    .fmed-app-root select:focus,
+    .fmed-app-root textarea:focus {
+      border-color: rgba(15,124,144,.72) !important;
+      box-shadow: 0 0 0 4px rgba(15,124,144,.13) !important;
+    }
+
+    /* Tabelle: proporzioni enterprise, niente colonne verticali. */
+    .fmed-app-root [style*="overflow"] > table,
+    .fmed-app-root table {
+      width: 100% !important;
+      min-width: 1180px !important;
+      table-layout: auto !important;
+      border-collapse: separate !important;
+      border-spacing: 0 !important;
+      background: transparent !important;
+      color: var(--fmed-text) !important;
+      font-size: 12px !important;
+      border: 0 !important;
+      overflow: visible !important;
+    }
+
+    .fmed-app-root [style*="overflow-x"],
+    .fmed-app-root [style*="overflowX"],
+    .fmed-app-root [style*="tableWrap"] {
+      border-radius: var(--fmed-radius-lg) !important;
+      border: 1px solid var(--fmed-border) !important;
+      background: var(--fmed-card-gradient) !important;
+      box-shadow: inset 0 1px 0 rgba(255,255,255,.035) !important;
+      overflow-x: auto !important;
+      overflow-y: auto !important;
+    }
+
+    .fmed-app-root thead th,
+    .fmed-app-root th {
+      position: sticky !important;
+      top: 0 !important;
+      z-index: 8 !important;
+      background: rgba(16,43,62,.92) !important;
+      color: var(--fmed-text) !important;
+      border-bottom: 1px solid var(--fmed-border) !important;
+      padding: 14px 14px !important;
+      font-size: 11px !important;
+      font-weight: 950 !important;
+      line-height: 1.15 !important;
+      white-space: nowrap !important;
+      text-align: left !important;
+    }
+
+    body[data-theme="light"] .fmed-app-root thead th,
+    body[data-theme="light"] .fmed-app-root th {
+      background: rgba(238,247,250,.96) !important;
+      color: #071C2D !important;
+    }
+
+    .fmed-app-root tbody tr {
+      background: transparent !important;
+    }
+
+    .fmed-app-root tbody td,
+    .fmed-app-root td {
+      background: rgba(255,255,255,.025) !important;
+      color: var(--fmed-text) !important;
+      border-bottom: 1px solid var(--fmed-border) !important;
+      border-right: 1px solid rgba(82,124,150,.10) !important;
+      padding: 16px 14px !important;
+      font-size: 11.5px !important;
+      font-weight: 760 !important;
+      line-height: 1.38 !important;
+      vertical-align: middle !important;
+      word-break: normal !important;
+      overflow-wrap: normal !important;
+      hyphens: none !important;
+      white-space: normal !important;
+      min-height: 64px !important;
+    }
+
+    body[data-theme="light"] .fmed-app-root tbody td,
+    body[data-theme="light"] .fmed-app-root td {
+      background: rgba(255,255,255,.74) !important;
+      color: #071C2D !important;
+    }
+
+    .fmed-app-root tbody tr:nth-child(even) td {
+      background: rgba(255,255,255,.04) !important;
+    }
+
+    body[data-theme="light"] .fmed-app-root tbody tr:nth-child(even) td {
+      background: rgba(238,247,250,.74) !important;
+    }
+
+    .fmed-app-root tbody tr:hover td {
+      background: rgba(15,124,144,.11) !important;
+    }
+
+    .fmed-app-root table td:first-child,
+    .fmed-app-root table th:first-child {
+      min-width: 92px !important;
+      width: 92px !important;
+      white-space: nowrap !important;
+      font-weight: 950 !important;
+    }
+
+    .fmed-app-root table td:nth-child(2),
+    .fmed-app-root table th:nth-child(2) {
+      min-width: 220px !important;
+      width: 240px !important;
+      max-width: 300px !important;
+      white-space: normal !important;
+    }
+
+    .fmed-app-root table td:nth-child(3),
+    .fmed-app-root table th:nth-child(3),
+    .fmed-app-root table td:nth-child(5),
+    .fmed-app-root table th:nth-child(5),
+    .fmed-app-root table td:nth-child(6),
+    .fmed-app-root table th:nth-child(6),
+    .fmed-app-root table td:nth-child(7),
+    .fmed-app-root table th:nth-child(7),
+    .fmed-app-root table td:nth-child(8),
+    .fmed-app-root table th:nth-child(8),
+    .fmed-app-root table td:nth-child(9),
+    .fmed-app-root table th:nth-child(9) {
+      min-width: 112px !important;
+      white-space: nowrap !important;
+    }
+
+    .fmed-app-root table td:nth-child(4),
+    .fmed-app-root table th:nth-child(4) {
+      min-width: 190px !important;
+      max-width: 260px !important;
+      white-space: normal !important;
+    }
+
+    .fmed-app-root table td:last-child,
+    .fmed-app-root table th:last-child {
+      min-width: 380px !important;
+      width: 380px !important;
+      white-space: nowrap !important;
+    }
+
+    .fmed-app-root table td:last-child > div,
+    .fmed-app-root table td:last-child [style*="display: flex"] {
+      display: flex !important;
+      flex-direction: row !important;
+      flex-wrap: nowrap !important;
+      align-items: center !important;
+      justify-content: flex-start !important;
+      gap: 8px !important;
+      width: max-content !important;
+      max-width: none !important;
+    }
+
+    .fmed-app-root table td:last-child button,
+    .fmed-app-root table td:last-child [role="button"] {
+      min-width: 70px !important;
+      max-width: 118px !important;
+      min-height: 40px !important;
+      padding: 0 10px !important;
+      font-size: 10px !important;
+      border-radius: 10px !important;
+      white-space: nowrap !important;
+      flex: 0 0 auto !important;
+    }
+
+    /* Badge stato/priorità. */
+    .fmed-app-root table span,
+    .fmed-app-root [style*="badge"],
+    .fmed-app-root [style*="Pill"],
+    .fmed-app-root [style*="pill"] {
+      border-radius: 999px !important;
+      font-weight: 950 !important;
+      letter-spacing: .045em !important;
+      white-space: nowrap !important;
+    }
+
+    /* Modali / schede: quasi fullscreen e finalmente lavorabili. */
+    .fmed-app-root [style*="position: fixed"],
+    .fmed-app-root [style*="position:fixed"] {
+      color: var(--fmed-text) !important;
+    }
+
+    .fmed-app-root [style*="maxWidth: 900"],
+    .fmed-app-root [style*="max-width: 900"],
+    .fmed-app-root [style*="maxWidth: 1000"],
+    .fmed-app-root [style*="max-width: 1000"],
+    .fmed-app-root [style*="maxWidth: 1100"],
+    .fmed-app-root [style*="max-width: 1100"],
+    .fmed-app-root [style*="modalCard"],
+    .fmed-app-root [style*="scheda"] {
+      max-width: min(1540px, calc(100vw - 44px)) !important;
+      width: min(1540px, calc(100vw - 44px)) !important;
+    }
+
+    .fmed-app-root [style*="maxHeight"],
+    .fmed-app-root [style*="max-height"] {
+      max-height: calc(100vh - 44px) !important;
+    }
+
+    .fmed-app-root [style*="editGrid"],
+    .fmed-app-root [style*="formGrid"],
+    .fmed-app-root [style*="gridTemplateColumns"] {
+      gap: 14px !important;
+    }
+
+    /* Export accordion / barre: diventano card pulite. */
+    .fmed-app-root [style*="EXPORT"],
+    .fmed-app-root [style*="Export"],
+    .fmed-app-root [style*="export"] {
+      color: var(--fmed-text) !important;
+    }
+
+
+    /* === FMED SIDEBAR LOGO PREMIUM 27/06/2026 === */
+    @font-face { font-family: "FuturaLightLocal"; src: local("Futura Light"), local("Futura PT Light"), local("Futura"); font-weight: 300; font-style: normal; }
+
+    .fmed-app-root, .fmed-app-root * {
+      font-family: "FuturaLightLocal", "Futura PT", "Century Gothic", "Avenir Next", Arial, sans-serif !important;
+    }
+
+    .fmed-side-rail {
+      position: relative !important;
+      overflow: hidden !important;
+      border-radius: 0 18px 18px 0 !important;
+      transition: background .28s ease, box-shadow .28s ease, color .28s ease !important;
+    }
+
+    .fmed-light-mode .fmed-side-rail {
+      background: radial-gradient(circle at 22% 5%, rgba(42,214,201,.16), transparent 26%), linear-gradient(180deg,#FFFDF8 0%,#FBF8EF 58%,#F4EFE5 100%) !important;
+      border-right: 1px solid rgba(12,55,78,.08) !important;
+      box-shadow: 20px 0 54px rgba(18,42,56,.10) !important;
+      color: #0B2239 !important;
+    }
+
+    .fmed-dark-mode .fmed-side-rail {
+      background: radial-gradient(circle at 35% -8%, rgba(31,235,225,.20), transparent 28%), linear-gradient(180deg,#062337 0%,#041A2A 56%,#02111D 100%) !important;
+      border-right: 1px solid rgba(45,232,223,.14) !important;
+      box-shadow: 22px 0 62px rgba(0,0,0,.38) !important;
+      color: #F6FBFF !important;
+    }
+
+    .fmed-side-rail::before {
+      content: "";
+      position: absolute;
+      left: 0;
+      top: 154px;
+      width: 8px;
+      height: 74px;
+      border-radius: 0 999px 999px 0;
+      background: linear-gradient(180deg,#33F1DF,#165A52);
+      box-shadow: 0 0 28px rgba(45,232,223,.55);
+      pointer-events: none;
+    }
+
+    .fmed-sidebar-logo-lockup {
+      min-height: 156px;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      padding: 20px 16px 18px 16px;
+    }
+
+    .fmed-sidebar-logo-mark {
+      position: relative;
+      width: 78px;
+      min-width: 78px;
+      height: 78px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .fmed-sidebar-logo-ring {
+      position: absolute;
+      inset: 4px;
+      border-radius: 50%;
+      border: 5px solid transparent;
+      background: linear-gradient(135deg,#30EBDD,#0D6F8B 48%,transparent 49%) border-box;
+      -webkit-mask: linear-gradient(#fff 0 0) padding-box, linear-gradient(#fff 0 0);
+      -webkit-mask-composite: xor;
+      mask-composite: exclude;
+      filter: drop-shadow(0 0 18px rgba(45,232,223,.38));
+    }
+
+    .fmed-sidebar-logo-pulse {
+      position: relative;
+      z-index: 1;
+      color: #25E6DA;
+      font-size: 58px;
+      line-height: 1;
+      font-weight: 300;
+      transform: translateY(-2px) scaleX(1.35);
+      text-shadow: 0 0 18px rgba(45,232,223,.46);
+    }
+
+    .fmed-sidebar-logo-title {
+      font-size: 47px;
+      line-height: 48px;
+      letter-spacing: .20em;
+      font-weight: 300;
+      color: #073657;
+      text-shadow: 0 14px 30px rgba(7,54,87,.14);
+    }
+
+    .fmed-dark-mode .fmed-sidebar-logo-title {
+      color: #FFFFFF;
+      text-shadow: 0 0 22px rgba(255,255,255,.22);
+    }
+
+    .fmed-sidebar-logo-subtitle {
+      margin-top: 8px;
+      font-size: 13px;
+      line-height: 16px;
+      letter-spacing: .42em;
+      font-weight: 300;
+      color: #0A7C8C;
+      white-space: nowrap;
+    }
+
+    .fmed-dark-mode .fmed-sidebar-logo-subtitle { color: #20EEE2; }
+
+    .fmed-side-rail nav {
+      gap: 12px !important;
+      padding: 12px 16px 18px 16px !important;
+    }
+
+    .fmed-side-menu-btn {
+      position: relative !important;
+      min-height: 64px !important;
+      height: 64px !important;
+      padding: 0 18px !important;
+      border-radius: 18px !important;
+      font-size: 21px !important;
+      font-weight: 300 !important;
+      letter-spacing: -.02em !important;
+      box-shadow: none !important;
+      transition: transform .18s ease, background .18s ease, color .18s ease, box-shadow .18s ease !important;
+    }
+
+    .fmed-light-mode .fmed-side-menu-btn {
+      color: #0C1B2F !important;
+      background: transparent !important;
+      border: 1px solid transparent !important;
+    }
+
+    .fmed-dark-mode .fmed-side-menu-btn {
+      color: rgba(255,255,255,.94) !important;
+      background: transparent !important;
+      border: 1px solid transparent !important;
+    }
+
+    .fmed-light-mode .fmed-side-menu-btn.is-active {
+      color: #07475D !important;
+      background: linear-gradient(135deg,rgba(216,249,244,.82),rgba(255,255,255,.78)) !important;
+      border-color: rgba(38,226,214,.20) !important;
+      box-shadow: 0 18px 40px rgba(20,93,106,.10), inset 0 1px 0 rgba(255,255,255,.85) !important;
+    }
+
+    .fmed-dark-mode .fmed-side-menu-btn.is-active {
+      color: #28F1E6 !important;
+      background: linear-gradient(135deg,rgba(25,232,221,.12),rgba(40,110,139,.18)) !important;
+      border-color: rgba(45,232,223,.18) !important;
+      box-shadow: 0 18px 42px rgba(0,0,0,.28), inset 0 1px 0 rgba(255,255,255,.08) !important;
+    }
+
+    .fmed-side-menu-btn:hover { transform: translateX(2px); }
+    .fmed-side-menu-btn span[style*="border"] { border: 0 !important; width: 34px !important; height: 34px !important; }
+    .fmed-side-menu-btn svg { width: 28px !important; height: 28px !important; stroke-width: 1.75 !important; }
+    .fmed-light-mode .fmed-side-menu-btn:not(.is-active) svg { color: rgba(10,20,32,.70) !important; }
+    .fmed-dark-mode .fmed-side-menu-btn:not(.is-active) svg { color: rgba(150,190,210,.76) !important; }
+    .fmed-side-menu-btn.is-active svg { color: #21EADD !important; filter: drop-shadow(0 0 12px rgba(33,234,221,.38)); }
+    .fmed-side-chevron { margin-left: auto; font-size: 44px; line-height: 1; font-weight: 300; color: currentColor; }
+
+    .fmed-side-rail [style*="sidebarDivider"] { opacity: .32 !important; }
+
+    
+
+    /* Scrollbar */
+    .fmed-app-root ::-webkit-scrollbar { width: 10px !important; height: 10px !important; }
+    .fmed-app-root ::-webkit-scrollbar-track { background: transparent !important; }
+    .fmed-app-root ::-webkit-scrollbar-thumb { background: rgba(82,124,150,.55) !important; border-radius: 999px !important; border: 2px solid transparent !important; background-clip: padding-box !important; }
+    .fmed-app-root ::selection { background: rgba(15,124,144,.28) !important; color: var(--fmed-text) !important; }
+
+    @media (max-width: 1280px) {
+      .fmed-app-root table { min-width: 1120px !important; }
+      .fmed-app-root table td:last-child,
+      .fmed-app-root table th:last-child { min-width: 340px !important; width: 340px !important; }
+      .fmed-app-root h1, .fmed-app-root h2 { font-size: clamp(26px, 2.4vw, 36px) !important; }
+    }
+
+/* ===== injectFmed40SidebarPhase1Final (former App_nuovo.jsx line 31095) ===== */
+:root {
+      --fmed-side-w: 284px;
+      --fmed-ref-bg-dark: #08131C;
+      --fmed-ref-side-dark: #091824;
+      --fmed-ref-side-dark-2: #07111A;
+      --fmed-ref-card-dark: #0D1F2D;
+      --fmed-ref-line-dark: rgba(134,161,180,.22);
+      --fmed-ref-text-dark: #F3F7FA;
+      --fmed-ref-muted-dark: #AEBECA;
+      --fmed-ref-green: #1FAE9C;
+      --fmed-ref-green-2: #36BFA9;
+      --fmed-ref-green-soft: rgba(31,174,156,.16);
+      --fmed-ref-light-side: #FFFFFF;
+      --fmed-ref-light-bg: #F7F9FA;
+      --fmed-ref-light-line: #E8EDF1;
+      --fmed-ref-light-text: #071C2D;
+      --fmed-ref-light-muted: #51677A;
+    }
+
+    .fmed-app-root aside.fmed-side-rail {
+      width: var(--fmed-side-w) !important;
+      min-width: var(--fmed-side-w) !important;
+      max-width: var(--fmed-side-w) !important;
+      height: 100vh !important;
+      max-height: 100vh !important;
+      padding: 22px 18px !important;
+      border-radius: 0 !important;
+      overflow: hidden !important;
+      display: flex !important;
+      flex-direction: column !important;
+      flex-shrink: 0 !important;
+      box-sizing: border-box !important;
+      z-index: 80 !important;
+    }
+
+    body[data-theme="dark"] .fmed-app-root aside.fmed-side-rail,
+    .fmed-dark-mode aside.fmed-side-rail {
+      background: linear-gradient(180deg, var(--fmed-ref-side-dark) 0%, #0A1A26 52%, var(--fmed-ref-side-dark-2) 100%) !important;
+      border-right: 1px solid var(--fmed-ref-line-dark) !important;
+      box-shadow: 16px 0 46px rgba(0,0,0,.34) !important;
+      color: var(--fmed-ref-text-dark) !important;
+    }
+
+    body[data-theme="light"] .fmed-app-root aside.fmed-side-rail,
+    .fmed-light-mode aside.fmed-side-rail {
+      background: linear-gradient(180deg, #FFFFFF 0%, #FCFDFD 60%, #F4F7F8 100%) !important;
+      border-right: 1px solid var(--fmed-ref-light-line) !important;
+      box-shadow: 14px 0 36px rgba(7,28,45,.06) !important;
+      color: var(--fmed-ref-light-text) !important;
+    }
+
+    /* logo: dimensione reference, non tagliato */
+    .fmed-sidebar-logo-lockup {
+      min-height: 82px !important;
+      height: 82px !important;
+      padding: 0 6px !important;
+      margin: 0 0 28px 0 !important;
+      display: flex !important;
+      align-items: center !important;
+      gap: 13px !important;
+      overflow: visible !important;
+    }
+
+    .fmed-sidebar-logo-mark {
+      width: 58px !important;
+      min-width: 58px !important;
+      height: 58px !important;
+      border-radius: 50% !important;
+      background: transparent !important;
+      border: 2px solid var(--fmed-ref-green) !important;
+      box-shadow: none !important;
+      position: relative !important;
+      overflow: hidden !important;
+    }
+
+    .fmed-sidebar-logo-ring {
+      inset: 0 !important;
+      border-radius: 50% !important;
+      background: transparent !important;
+      border: 0 !important;
+      box-shadow: inset 0 0 0 1px rgba(255,255,255,.04) !important;
+    }
+
+    .fmed-sidebar-logo-pulse {
+      color: var(--fmed-ref-green-2) !important;
+      -webkit-text-fill-color: var(--fmed-ref-green-2) !important;
+      font-size: 34px !important;
+      font-weight: 300 !important;
+      line-height: 1 !important;
+      filter: none !important;
+      text-shadow: none !important;
+    }
+
+    .fmed-sidebar-logo-title {
+      font-size: 31px !important;
+      line-height: 32px !important;
+      letter-spacing: .18em !important;
+      font-weight: 400 !important;
+      color: inherit !important;
+      -webkit-text-fill-color: currentColor !important;
+      text-shadow: none !important;
+      white-space: nowrap !important;
+    }
+
+    .fmed-sidebar-logo-subtitle {
+      margin-top: 6px !important;
+      font-size: 9px !important;
+      line-height: 10px !important;
+      letter-spacing: .24em !important;
+      font-weight: 600 !important;
+      color: currentColor !important;
+      opacity: .82 !important;
+      white-space: nowrap !important;
+    }
+
+    body[data-theme="dark"] .fmed-sidebar-logo-title,
+    body[data-theme="dark"] .fmed-sidebar-logo-subtitle,
+    .fmed-dark-mode .fmed-sidebar-logo-title,
+    .fmed-dark-mode .fmed-sidebar-logo-subtitle {
+      color: #F4F8FC !important;
+      -webkit-text-fill-color: #F4F8FC !important;
+    }
+
+    body[data-theme="light"] .fmed-sidebar-logo-title,
+    body[data-theme="light"] .fmed-sidebar-logo-subtitle,
+    .fmed-light-mode .fmed-sidebar-logo-title,
+    .fmed-light-mode .fmed-sidebar-logo-subtitle {
+      color: #071C2D !important;
+      -webkit-text-fill-color: #071C2D !important;
+    }
+
+    .fmed-side-rail nav,
+    .fmed-app-root aside.fmed-side-rail nav {
+      flex: 1 1 auto !important;
+      min-height: 0 !important;
+      overflow-y: auto !important;
+      overflow-x: hidden !important;
+      display: flex !important;
+      flex-direction: column !important;
+      gap: 8px !important;
+      padding: 0 0 18px 0 !important;
+      margin: 0 !important;
+      background: transparent !important;
+      scrollbar-width: thin !important;
+    }
+
+    .fmed-side-menu-btn,
+    .fmed-app-root aside.fmed-side-rail .fmed-side-menu-btn {
+      width: 100% !important;
+      min-height: 48px !important;
+      height: 48px !important;
+      padding: 0 14px !important;
+      border-radius: 10px !important;
+      display: flex !important;
+      align-items: center !important;
+      justify-content: flex-start !important;
+      gap: 12px !important;
+      border: 1px solid transparent !important;
+      box-shadow: none !important;
+      text-transform: none !important;
+      letter-spacing: -.01em !important;
+      font-size: 16px !important;
+      font-weight: 400 !important;
+      line-height: 1 !important;
+      overflow: visible !important;
+      opacity: 1 !important;
+      visibility: visible !important;
+      pointer-events: auto !important;
+      transform: none !important;
+      transition: background .18s ease, border-color .18s ease, color .18s ease, box-shadow .18s ease, transform .18s ease !important;
+    }
+
+    body[data-theme="dark"] .fmed-side-menu-btn,
+    .fmed-dark-mode .fmed-side-menu-btn {
+      background: transparent !important;
+      color: rgba(243,247,250,.88) !important;
+      -webkit-text-fill-color: rgba(243,247,250,.88) !important;
+    }
+
+    body[data-theme="light"] .fmed-side-menu-btn,
+    .fmed-light-mode .fmed-side-menu-btn {
+      background: transparent !important;
+      color: #071C2D !important;
+      -webkit-text-fill-color: #071C2D !important;
+    }
+
+    .fmed-side-menu-btn:hover {
+      transform: translateX(2px) !important;
+    }
+
+    body[data-theme="dark"] .fmed-side-menu-btn:hover,
+    .fmed-dark-mode .fmed-side-menu-btn:hover {
+      background: rgba(31,174,156,.12) !important;
+      border-color: rgba(31,174,156,.22) !important;
+      color: #FFFFFF !important;
+      -webkit-text-fill-color: #FFFFFF !important;
+    }
+
+    body[data-theme="light"] .fmed-side-menu-btn:hover,
+    .fmed-light-mode .fmed-side-menu-btn:hover {
+      background: rgba(31,174,156,.08) !important;
+      border-color: rgba(31,174,156,.18) !important;
+      color: #071C2D !important;
+      -webkit-text-fill-color: #071C2D !important;
+    }
+
+    .fmed-side-menu-btn.is-active,
+    .fmed-app-root aside.fmed-side-rail .fmed-side-menu-btn.is-active {
+      background: linear-gradient(135deg, #1FAE9C 0%, #158A7E 100%) !important;
+      border-color: rgba(255,255,255,.10) !important;
+      color: #FFFFFF !important;
+      -webkit-text-fill-color: #FFFFFF !important;
+      box-shadow: 0 12px 24px rgba(31,174,156,.22) !important;
+    }
+
+    body[data-theme="dark"] .fmed-side-menu-btn.is-active,
+    .fmed-dark-mode .fmed-side-menu-btn.is-active {
+      background: linear-gradient(135deg, rgba(31,174,156,.84), rgba(21,138,126,.74)) !important;
+      border-color: rgba(31,174,156,.34) !important;
+      box-shadow: 0 18px 38px rgba(0,0,0,.24), inset 0 1px 0 rgba(255,255,255,.10) !important;
+    }
+
+    .fmed-side-menu-btn.is-active *,
+    .fmed-side-menu-btn:hover * {
+      color: currentColor !important;
+      -webkit-text-fill-color: currentColor !important;
+      filter: none !important;
+      text-shadow: none !important;
+    }
+
+    .fmed-side-menu-btn span[style*="border"],
+    .fmed-side-menu-btn span[style*="width: 24"] {
+      width: 30px !important;
+      min-width: 30px !important;
+      height: 30px !important;
+      border: 0 !important;
+      border-radius: 9px !important;
+      background: transparent !important;
+      color: currentColor !important;
+      -webkit-text-fill-color: currentColor !important;
+    }
+
+    .fmed-side-menu-btn svg {
+      width: 21px !important;
+      height: 21px !important;
+      stroke-width: 1.8 !important;
+      color: currentColor !important;
+      filter: none !important;
+    }
+
+    .fmed-side-menu-btn:not(.is-active) svg {
+      opacity: .86 !important;
+    }
+
+    .fmed-side-menu-btn .fmed-side-chevron {
+      margin-left: auto !important;
+      font-size: 22px !important;
+      line-height: 1 !important;
+      font-weight: 300 !important;
+      color: currentColor !important;
+      -webkit-text-fill-color: currentColor !important;
+    }
+
+    .fmed-side-rail > div[style*="border-top"],
+    .fmed-side-rail > div[style*="borderTop"],
+    .fmed-side-rail [style*="sidebarDivider"] {
+      border-color: var(--fmed-ref-line-dark) !important;
+      opacity: .55 !important;
+    }
+
+    /* profilo e logout: blocco basso pulito */
+    .fmed-app-root aside.fmed-side-rail > div:last-child {
+      flex: 0 0 auto !important;
+      margin-top: 18px !important;
+      padding-top: 18px !important;
+      border-top: 1px solid var(--fmed-ref-line-dark) !important;
+      background: transparent !important;
+      box-shadow: none !important;
+    }
+
+    body[data-theme="light"] .fmed-app-root aside.fmed-side-rail > div:last-child,
+    .fmed-light-mode aside.fmed-side-rail > div:last-child {
+      border-top-color: var(--fmed-ref-light-line) !important;
+    }
+
+    .fmed-app-root aside.fmed-side-rail > div:last-child > div {
+      border-radius: 12px !important;
+      border: 1px solid var(--fmed-ref-line-dark) !important;
+      background: rgba(255,255,255,.03) !important;
+      box-shadow: none !important;
+    }
+
+    body[data-theme="light"] .fmed-app-root aside.fmed-side-rail > div:last-child > div,
+    .fmed-light-mode aside.fmed-side-rail > div:last-child > div {
+      border-color: var(--fmed-ref-light-line) !important;
+      background: rgba(255,255,255,.90) !important;
+    }
+
+    
+    .fmed-app-root > button[aria-label*="menu"],
+    .fmed-app-root > button[aria-label*="Menu"],
+    button[aria-label="Apri menu"],
+    button[aria-label="Chiudi menu"] {
+      background: linear-gradient(135deg, #1FAE9C 0%, #158A7E 100%) !important;
+      border: 1px solid rgba(255,255,255,.16) !important;
+      color: #FFFFFF !important;
+      -webkit-text-fill-color: #FFFFFF !important;
+      box-shadow: 0 12px 28px rgba(0,0,0,.20) !important;
+    }
+
+    
+
+    @media (min-width: 761px) {
+      .fmed-app-root aside.fmed-side-rail[style*="width: 74"],
+      .fmed-app-root aside.fmed-side-rail[style*="min-width: 74"] {
+        width: 86px !important;
+        min-width: 86px !important;
+        max-width: 86px !important;
+        padding-left: 12px !important;
+        padding-right: 12px !important;
+      }
+      .fmed-app-root aside.fmed-side-rail[style*="width: 74"] .fmed-side-menu-btn,
+      .fmed-app-root aside.fmed-side-rail[style*="min-width: 74"] .fmed-side-menu-btn {
+        justify-content: center !important;
+        padding: 0 !important;
+      }
+    }
+
+/* ===== injectFmed40Phase25EnterpriseCleanup (former App_nuovo.jsx line 31435) ===== */
+:root {
+      --fmed-e-bg: #F6F7F8 !important;
+      --fmed-e-surface: #FFFFFF !important;
+      --fmed-e-surface-soft: #F9FBFA !important;
+      --fmed-e-text: #102532 !important;
+      --fmed-e-muted: #667985 !important;
+      --fmed-e-line: #E4EBE9 !important;
+      --fmed-e-primary: #1FAE9C !important;
+      --fmed-e-primary-2: #158A7E !important;
+      --fmed-e-primary-soft: rgba(31,174,156,.10) !important;
+      --fmed-e-success: #39C97C !important;
+      --fmed-e-warning: #D89A2A !important;
+      --fmed-e-danger: #D45A5A !important;
+      --fmed-e-dark-bg: #08141C !important;
+      --fmed-e-dark-rail: #0B1823 !important;
+      --fmed-e-dark-card: #101C26 !important;
+      --fmed-e-dark-card-2: #142532 !important;
+      --fmed-e-dark-line: rgba(255,255,255,.085) !important;
+      --fmed-e-dark-text: #F4F8F7 !important;
+      --fmed-e-dark-muted: #9FB3BD !important;
+      --fmed-blue: var(--fmed-e-primary) !important;
+      --fmed-btn-blue: linear-gradient(135deg,#1FAE9C 0%,#158A7E 100%) !important;
+      --fmed-accent: var(--fmed-e-primary) !important;
+      --fmed-primary: var(--fmed-e-primary) !important;
+    }
+
+    html, body, #root, .fmed-app-root {
+      font-family: "Futura Light", Futura, "Avenir Next", Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif !important;
+      text-rendering: geometricPrecision !important;
+    }
+
+    body[data-theme="dark"],
+    body[data-theme="dark"] #root,
+    body[data-theme="dark"] .fmed-app-root,
+    .fmed-dark-mode,
+    .fmed-dark-mode .fmed-app-root {
+      background: var(--fmed-e-dark-bg) !important;
+      color: var(--fmed-e-dark-text) !important;
+    }
+
+    body[data-theme="light"],
+    body[data-theme="light"] #root,
+    body[data-theme="light"] .fmed-app-root,
+    .fmed-light-mode,
+    .fmed-light-mode .fmed-app-root {
+      background: var(--fmed-e-bg) !important;
+      color: var(--fmed-e-text) !important;
+    }
+
+    /* Header fase 2: enterprise, pulito, senza banner vecchi */
+    .fmed-app-root main > header,
+    .fmed-app-root header[style] {
+      min-height: 82px !important;
+      border-radius: 24px !important;
+      margin: 0 0 20px 0 !important;
+      padding: 18px 22px !important;
+      display: flex !important;
+      align-items: center !important;
+      justify-content: space-between !important;
+      gap: 18px !important;
+      box-shadow: 0 18px 45px rgba(11,24,35,.08) !important;
+      overflow: visible !important;
+      position: relative !important;
+      isolation: isolate !important;
+    }
+
+    body[data-theme="dark"] .fmed-app-root main > header,
+    .fmed-dark-mode .fmed-app-root main > header,
+    body[data-theme="dark"] .fmed-app-root header[style],
+    .fmed-dark-mode .fmed-app-root header[style] {
+      background: linear-gradient(135deg, rgba(16,28,38,.98) 0%, rgba(11,24,35,.98) 100%) !important;
+      border: 1px solid var(--fmed-e-dark-line) !important;
+      color: var(--fmed-e-dark-text) !important;
+      box-shadow: 0 20px 55px rgba(0,0,0,.22) !important;
+    }
+
+    body[data-theme="light"] .fmed-app-root main > header,
+    .fmed-light-mode .fmed-app-root main > header,
+    body[data-theme="light"] .fmed-app-root header[style],
+    .fmed-light-mode .fmed-app-root header[style] {
+      background: rgba(255,255,255,.96) !important;
+      border: 1px solid var(--fmed-e-line) !important;
+      color: var(--fmed-e-text) !important;
+    }
+
+    .fmed-app-root header h1,
+    .fmed-app-root header h2,
+    .fmed-app-root header strong,
+    .fmed-app-root header [style*="pageTitle"] {
+      color: inherit !important;
+      -webkit-text-fill-color: currentColor !important;
+      letter-spacing: -.035em !important;
+      font-weight: 500 !important;
+    }
+
+    .fmed-app-root header p,
+    .fmed-app-root header small,
+    .fmed-app-root header span:not(button span) {
+      color: var(--fmed-e-muted) !important;
+      -webkit-text-fill-color: var(--fmed-e-muted) !important;
+    }
+    body[data-theme="dark"] .fmed-app-root header p,
+    body[data-theme="dark"] .fmed-app-root header small,
+    body[data-theme="dark"] .fmed-app-root header span:not(button span),
+    .fmed-dark-mode .fmed-app-root header p,
+    .fmed-dark-mode .fmed-app-root header small,
+    .fmed-dark-mode .fmed-app-root header span:not(button span) {
+      color: var(--fmed-e-dark-muted) !important;
+      -webkit-text-fill-color: var(--fmed-e-dark-muted) !important;
+    }
+
+    /* Dashboard/card reference: superfici morbide e proporzionate */
+    .fmed-app-root section,
+    .fmed-app-root article,
+    .fmed-app-root [class*="Card"],
+    .fmed-app-root [class*="Panel"],
+    .fmed-app-root [style*="box-shadow"],
+    .fmed-app-root [style*="boxShadow"] {
+      box-shadow: 0 18px 45px rgba(8,20,28,.08) !important;
+    }
+
+    body[data-theme="dark"] .fmed-app-root section,
+    body[data-theme="dark"] .fmed-app-root article,
+    body[data-theme="dark"] .fmed-app-root [class*="Card"],
+    body[data-theme="dark"] .fmed-app-root [class*="Panel"],
+    .fmed-dark-mode .fmed-app-root section,
+    .fmed-dark-mode .fmed-app-root article,
+    .fmed-dark-mode .fmed-app-root [class*="Card"],
+    .fmed-dark-mode .fmed-app-root [class*="Panel"] {
+      background-color: var(--fmed-e-dark-card) !important;
+      border-color: var(--fmed-e-dark-line) !important;
+      color: var(--fmed-e-dark-text) !important;
+      box-shadow: 0 22px 55px rgba(0,0,0,.20) !important;
+    }
+
+    body[data-theme="light"] .fmed-app-root section,
+    body[data-theme="light"] .fmed-app-root article,
+    body[data-theme="light"] .fmed-app-root [class*="Card"],
+    body[data-theme="light"] .fmed-app-root [class*="Panel"],
+    .fmed-light-mode .fmed-app-root section,
+    .fmed-light-mode .fmed-app-root article,
+    .fmed-light-mode .fmed-app-root [class*="Card"],
+    .fmed-light-mode .fmed-app-root [class*="Panel"] {
+      background-color: var(--fmed-e-surface) !important;
+      border-color: var(--fmed-e-line) !important;
+      color: var(--fmed-e-text) !important;
+    }
+
+    /* Kill-switch azzurro/blu elettrico/cyan residuo */
+    .fmed-app-root [style*="#1FAE9C"],
+    .fmed-app-root [style*="#35C2A9"],
+    .fmed-app-root [style*="#1FAE9C"],
+    .fmed-app-root [style*="#169C8F"],
+    .fmed-app-root [style*="#165A52"],
+    .fmed-app-root [style*="#6DB193"],
+    .fmed-app-root [style*="#169C8F"],
+    .fmed-app-root [style*="#1FAE9C"],
+    .fmed-app-root [style*="#169C8F"],
+    .fmed-app-root [style*="#6DB193"],
+    .fmed-app-root [style*="#1FAE9C"],
+    .fmed-app-root [style*="rgb(31,174,156)"],
+    .fmed-app-root [style*="rgb(31,174,156)"],
+    .fmed-app-root [style*="rgb(31,174,156)"],
+    .fmed-app-root [style*="rgb(31,174,156)"] {
+      color: var(--fmed-e-primary) !important;
+      -webkit-text-fill-color: var(--fmed-e-primary) !important;
+      border-color: rgba(31,174,156,.24) !important;
+    }
+
+    .fmed-app-root [style*="rgba(32,151,255"],
+    .fmed-app-root [style*="rgba(32, 151, 255"],
+    .fmed-app-root [style*="rgba(47,128,237"],
+    .fmed-app-root [style*="rgba(47, 128, 237"],
+    .fmed-app-root [style*="rgba(36,155,255"],
+    .fmed-app-root [style*="rgba(36, 155, 255"] {
+      background: rgba(31,174,156,.10) !important;
+      border-color: rgba(31,174,156,.20) !important;
+      color: var(--fmed-e-primary) !important;
+      -webkit-text-fill-color: var(--fmed-e-primary) !important;
+    }
+
+    .fmed-app-root svg [stroke="#1FAE9C"],
+    .fmed-app-root svg [stroke="#35C2A9"],
+    .fmed-app-root svg [stroke="#1FAE9C"],
+    .fmed-app-root svg [stroke="#169C8F"],
+    .fmed-app-root svg [stroke="#165A52"],
+    .fmed-app-root svg [stroke="#6DB193"],
+    .fmed-app-root svg [stroke="#169C8F"],
+    .fmed-app-root svg [stroke="#1FAE9C"],
+    .fmed-app-root svg [fill="#1FAE9C"],
+    .fmed-app-root svg [fill="#35C2A9"],
+    .fmed-app-root svg [fill="#1FAE9C"],
+    .fmed-app-root svg [fill="#169C8F"],
+    .fmed-app-root svg [fill="#165A52"],
+    .fmed-app-root svg [fill="#6DB193"],
+    .fmed-app-root svg [fill="#169C8F"],
+    .fmed-app-root svg [fill="#1FAE9C"] {
+      stroke: var(--fmed-e-primary) !important;
+      fill: var(--fmed-e-primary) !important;
+    }
+
+    .fmed-app-root svg circle[stroke="#1FAE9C"],
+    .fmed-app-root svg path[stroke="#1FAE9C"],
+    .fmed-app-root svg circle[stroke="#35C2A9"],
+    .fmed-app-root svg path[stroke="#35C2A9"] {
+      stroke: var(--fmed-e-primary) !important;
+    }
+
+    .fmed-app-root [style*="linear-gradient"] {
+      --fmed-clean-gradient: linear-gradient(135deg, #1FAE9C 0%, #158A7E 100%) !important;
+    }
+
+    /* Bottoni coerenti */
+    .fmed-app-root button:not(.fmed-side-menu-btn),
+    .fmed-app-root a[role="button"],
+    .fmed-app-root input[type="button"],
+    .fmed-app-root input[type="submit"] {
+      border-radius: 14px !important;
+      font-weight: 500 !important;
+      letter-spacing: -.01em !important;
+      transition: transform .18s ease, box-shadow .18s ease, background .18s ease, border-color .18s ease !important;
+    }
+
+    .fmed-app-root button:not(.fmed-side-menu-btn):hover {
+      transform: translateY(-1px) !important;
+    }
+
+    .fmed-app-root button[style*="#1FAE9C"],
+    .fmed-app-root button[style*="#169C8F"],
+    .fmed-app-root button[style*="rgb(31,174,156)"],
+    .fmed-app-root button[style*="rgb(31,174,156)"] {
+      background: linear-gradient(135deg,#1FAE9C,#158A7E) !important;
+      border-color: rgba(31,174,156,.28) !important;
+      color: #FFFFFF !important;
+      -webkit-text-fill-color: #FFFFFF !important;
+      box-shadow: 0 14px 30px rgba(31,174,156,.20) !important;
+    }
+
+    /* Tabelle/input/select puliti */
+    .fmed-app-root table {
+      border-collapse: separate !important;
+      border-spacing: 0 !important;
+    }
+    .fmed-app-root th {
+      font-size: 12px !important;
+      text-transform: uppercase !important;
+      letter-spacing: .08em !important;
+      font-weight: 500 !important;
+    }
+    .fmed-app-root input,
+    .fmed-app-root select,
+    .fmed-app-root textarea {
+      border-radius: 14px !important;
+      border: 1px solid var(--fmed-e-line) !important;
+      box-shadow: none !important;
+      outline: none !important;
+    }
+    body[data-theme="dark"] .fmed-app-root input,
+    body[data-theme="dark"] .fmed-app-root select,
+    body[data-theme="dark"] .fmed-app-root textarea,
+    .fmed-dark-mode .fmed-app-root input,
+    .fmed-dark-mode .fmed-app-root select,
+    .fmed-dark-mode .fmed-app-root textarea {
+      background: rgba(255,255,255,.045) !important;
+      border-color: var(--fmed-e-dark-line) !important;
+      color: var(--fmed-e-dark-text) !important;
+    }
+
+    /* Testi: rimuove fill vecchi/gradient-text */
+    .fmed-app-root h1,
+    .fmed-app-root h2,
+    .fmed-app-root h3,
+    .fmed-app-root h4,
+    .fmed-app-root strong {
+      text-shadow: none !important;
+      font-weight: 500 !important;
+    }
+    body[data-theme="dark"] .fmed-app-root h1,
+    body[data-theme="dark"] .fmed-app-root h2,
+    body[data-theme="dark"] .fmed-app-root h3,
+    body[data-theme="dark"] .fmed-app-root h4,
+    body[data-theme="dark"] .fmed-app-root strong,
+    .fmed-dark-mode .fmed-app-root h1,
+    .fmed-dark-mode .fmed-app-root h2,
+    .fmed-dark-mode .fmed-app-root h3,
+    .fmed-dark-mode .fmed-app-root h4,
+    .fmed-dark-mode .fmed-app-root strong {
+      color: var(--fmed-e-dark-text) !important;
+      -webkit-text-fill-color: var(--fmed-e-dark-text) !important;
+    }
+
+/* ===== injectFmed40Phase3DashboardEnterprise (former App_nuovo.jsx line 32334) ===== */
+:root {
+      --fmed-d3-bg: #F4F7F5 !important;
+      --fmed-d3-card: #FFFFFF !important;
+      --fmed-d3-soft: #F7FAF8 !important;
+      --fmed-d3-hero: linear-gradient(135deg, #FFFFFF 0%, #F6FAF8 100%) !important;
+      --fmed-d3-pill: rgba(255,255,255,.72) !important;
+      --fmed-d3-title: #173042 !important;
+      --fmed-d3-text: #304754 !important;
+      --fmed-d3-muted: #687E88 !important;
+      --fmed-d3-border: #E3EBE7 !important;
+      --fmed-d3-primary: #1FAE9C !important;
+      --fmed-d3-primary-dark: #147C72 !important;
+      --fmed-d3-sage: #6DB193 !important;
+      --fmed-d3-shadow: 0 22px 54px rgba(23,48,66,.10) !important;
+      --fmed-d3-shadow-soft: 0 16px 38px rgba(23,48,66,.075) !important;
+      --fmed-primary: #1FAE9C !important;
+      --fmed-primary-2: #147C72 !important;
+      --fmed-accent: #1FAE9C !important;
+      --fmed-accent-2: #147C72 !important;
+      --fmed-btn: linear-gradient(135deg,#1FAE9C 0%,#147C72 100%) !important;
+      --fmed-btn-blue: linear-gradient(135deg,#1FAE9C 0%,#147C72 100%) !important;
+    }
+
+    body[data-theme="dark"], .fmed-dark-mode {
+      --fmed-d3-bg: #07151C !important;
+      --fmed-d3-card: #0F1E27 !important;
+      --fmed-d3-soft: #132934 !important;
+      --fmed-d3-hero: linear-gradient(135deg, #102635 0%, #0B1D29 100%) !important;
+      --fmed-d3-pill: rgba(255,255,255,.055) !important;
+      --fmed-d3-title: #F7F9FB !important;
+      --fmed-d3-text: #D7E4E5 !important;
+      --fmed-d3-muted: #9FB4B8 !important;
+      --fmed-d3-border: rgba(255,255,255,.085) !important;
+      --fmed-d3-shadow: 0 24px 58px rgba(0,0,0,.24) !important;
+      --fmed-d3-shadow-soft: 0 18px 42px rgba(0,0,0,.19) !important;
+      --fmed-surface-solid: #0F1E27 !important;
+      --fmed-surface-soft: #132934 !important;
+      --fmed-card-gradient: linear-gradient(145deg,#0F1E27 0%,#101F29 100%) !important;
+      --fmed-border: rgba(255,255,255,.085) !important;
+      --fmed-text: #F7F9FB !important;
+      --fmed-muted: #9FB4B8 !important;
+      --fmed-card-shadow: var(--fmed-d3-shadow-soft) !important;
+      --fmed-card-shadow-soft: var(--fmed-d3-shadow-soft) !important;
+      background: #07151C !important;
+    }
+
+    body[data-theme="light"], .fmed-light-mode {
+      --fmed-surface-solid: #FFFFFF !important;
+      --fmed-surface-soft: #F7FAF8 !important;
+      --fmed-card-gradient: linear-gradient(145deg,#FFFFFF 0%,#F8FBF9 100%) !important;
+      --fmed-border: #E3EBE7 !important;
+      --fmed-text: #173042 !important;
+      --fmed-muted: #687E88 !important;
+      --fmed-card-shadow: var(--fmed-d3-shadow-soft) !important;
+      --fmed-card-shadow-soft: var(--fmed-d3-shadow-soft) !important;
+      background: #F4F7F5 !important;
+    }
+
+    body, .fmed-app-root {
+      background: var(--fmed-d3-bg) !important;
+    }
+
+    .fmed-app-root main {
+      background: transparent !important;
+    }
+
+    .fmed-app-root button,
+    .fmed-app-root input,
+    .fmed-app-root select,
+    .fmed-app-root textarea {
+      font-family: "Futura Light", Futura, "Avenir Next", Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif !important;
+    }
+
+    .fmed-app-root main button:not(.fmed-side-menu-btn):hover {
+      transform: translateY(-2px) !important;
+      border-color: rgba(31,174,156,.32) !important;
+      box-shadow: 0 18px 42px rgba(23,48,66,.10) !important;
+    }
+    body[data-theme="dark"] .fmed-app-root main button:not(.fmed-side-menu-btn):hover,
+    .fmed-dark-mode .fmed-app-root main button:not(.fmed-side-menu-btn):hover {
+      box-shadow: 0 18px 42px rgba(0,0,0,.24) !important;
+    }
+
+    /* Rimozione definitiva azzurrino/celeste/blu elettrico dalla dashboard */
+    .fmed-app-root svg [stroke="#1FAE9C"], .fmed-app-root svg [stroke="#35C2A9"],
+    .fmed-app-root svg [stroke="#1FAE9C"], .fmed-app-root svg [fill="#1FAE9C"],
+    .fmed-app-root [style*="#1FAE9C"], .fmed-app-root [style*="#35C2A9"],
+    .fmed-app-root [style*="#1FAE9C"] {
+      border-color: rgba(31,174,156,.24) !important;
+    }
+
+    .fmed-app-root svg circle[stroke="#1FAE9C"],
+    .fmed-app-root svg circle[stroke="#35C2A9"],
+    .fmed-app-root svg circle[stroke="#1FAE9C"] {
+      stroke: #1FAE9C !important;
+    }
+
+    .fmed-app-root svg circle[stroke="#7C6A45"] { stroke: #7C6A45 !important; }
+    .fmed-app-root svg circle[stroke="#D89A2A"],
+    .fmed-app-root svg circle[stroke="#FFB020"] { stroke: #D89A2A !important; }
+    .fmed-app-root svg circle[stroke="#2FE58B"],
+    .fmed-app-root svg circle[stroke="#39C97C"] { stroke: #39C97C !important; }
+
+    .fmed-app-root h1, .fmed-app-root h2, .fmed-app-root h3, .fmed-app-root strong {
+      font-weight: 500 !important;
+      text-shadow: none !important;
+    }
+
+    .fmed-app-root h1, .fmed-app-root h2, .fmed-app-root h3 {
+      color: var(--fmed-d3-title) !important;
+      -webkit-text-fill-color: var(--fmed-d3-title) !important;
+    }
+
+    .fmed-app-root p, .fmed-app-root small, .fmed-app-root em {
+      -webkit-text-fill-color: currentColor !important;
+    }
+
+    @media (max-width: 1400px) {
+      .fmed-app-root main [style*="repeat(5, minmax(0, 1fr)"] {
+        grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+      }
+      .fmed-app-root main [style*="repeat(6, minmax(0, 1fr)"] {
+        grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+      }
+    }
+
+    @media (max-width: 980px) {
+      .fmed-app-root main [style*="repeat(5, minmax(0, 1fr)"] {
+        grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+      }
+      .fmed-app-root main [style*="repeat(6, minmax(0, 1fr)"] {
+        grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+      }
+      .fmed-app-root main [style*="minmax(0, 1.55fr) minmax(340px"] {
+        grid-template-columns: 1fr !important;
+      }
+    }
+
+/* ===== injectFmed40Phase4AssetEnterpriseSidebarFix (former App_nuovo.jsx line 32787) ===== */
+:root {
+      --fmed-side-w: 284px !important;
+      --fmed-side-w-collapsed: 86px !important;
+      --fmed-d3-primary: #1FAE9C !important;
+      --fmed-d3-primary-dark: #147C72 !important;
+      --fmed-btn: linear-gradient(135deg,#1FAE9C 0%,#147C72 100%) !important;
+      --fmed-btn-blue: linear-gradient(135deg,#1FAE9C 0%,#147C72 100%) !important;
+    }
+
+    /* FIX COLLAPSE: la sidebar ridotta deve ridurre davvero la colonna e liberare spazio */
+    @media (min-width: 761px) {
+      .fmed-app-root {
+        display: flex !important;
+        width: 100vw !important;
+        overflow: hidden !important;
+      }
+
+      .fmed-app-root aside.fmed-side-rail.is-expanded {
+        --fmed-side-w: 284px !important;
+        width: 284px !important;
+        min-width: 284px !important;
+        max-width: 284px !important;
+        flex: 0 0 284px !important;
+      }
+
+      .fmed-app-root aside.fmed-side-rail.is-collapsed {
+        --fmed-side-w: var(--fmed-side-w-collapsed) !important;
+        width: var(--fmed-side-w-collapsed) !important;
+        min-width: var(--fmed-side-w-collapsed) !important;
+        max-width: var(--fmed-side-w-collapsed) !important;
+        flex: 0 0 var(--fmed-side-w-collapsed) !important;
+        padding: 18px 12px !important;
+        align-items: center !important;
+        overflow: hidden !important;
+      }
+
+      .fmed-app-root aside.fmed-side-rail.is-collapsed nav {
+        width: 100% !important;
+        align-items: center !important;
+        gap: 9px !important;
+      }
+
+      .fmed-app-root aside.fmed-side-rail.is-collapsed .fmed-side-menu-btn {
+        width: 52px !important;
+        min-width: 52px !important;
+        max-width: 52px !important;
+        min-height: 50px !important;
+        height: 50px !important;
+        padding: 0 !important;
+        justify-content: center !important;
+        gap: 0 !important;
+        border-radius: 16px !important;
+      }
+
+      .fmed-app-root aside.fmed-side-rail.is-collapsed .fmed-side-menu-btn > span:first-child,
+      .fmed-app-root aside.fmed-side-rail.is-collapsed .fmed-side-menu-btn span[style*="width: 28"],
+      .fmed-app-root aside.fmed-side-rail.is-collapsed .fmed-side-menu-btn span[style*="width: 24"] {
+        margin: 0 !important;
+        width: 32px !important;
+        min-width: 32px !important;
+        height: 32px !important;
+      }
+
+      .fmed-app-root aside.fmed-side-rail.is-collapsed .fmed-sidebar-logo-lockup {
+        display: none !important;
+      }
+
+      .fmed-app-root aside.fmed-side-rail.is-collapsed a[title="FMED · Facility Management di Fabio Carratù"] {
+        width: 54px !important;
+        min-height: 58px !important;
+        display: grid !important;
+        place-items: center !important;
+        margin: 6px 0 16px !important;
+        border-radius: 18px !important;
+        background: rgba(31,174,156,.12) !important;
+        border: 1px solid rgba(31,174,156,.22) !important;
+        color: #1FAE9C !important;
+        -webkit-text-fill-color: #1FAE9C !important;
+      }
+
+      .fmed-app-root aside.fmed-side-rail.is-collapsed .fmed-side-chevron,
+      .fmed-app-root aside.fmed-side-rail.is-collapsed .fmed-sidebar-logo-text {
+        display: none !important;
+      }
+
+      .fmed-app-root aside.fmed-side-rail.is-collapsed > div:last-child {
+        width: 100% !important;
+        padding-top: 12px !important;
+        margin-top: 12px !important;
+      }
+
+      .fmed-app-root aside.fmed-side-rail.is-collapsed > div:last-child button {
+        width: 52px !important;
+        min-width: 52px !important;
+        max-width: 52px !important;
+        padding: 0 !important;
+        justify-content: center !important;
+      }
+
+      .fmed-app-root main {
+        flex: 1 1 auto !important;
+        min-width: 0 !important;
+        width: auto !important;
+        max-width: none !important;
+        margin-left: 0 !important;
+      }
+    }
+
+    /* Palette finale: niente azzurrino/celeste in Asset e layout operativo */
+    .fmed-app-root [style*="rgba(0,229,255"],
+    .fmed-app-root [style*="rgba(86,203,255"],
+    .fmed-app-root [style*="rgba(24,216,255"],
+    .fmed-app-root [style*="rgba(32,151,255"],
+    .fmed-app-root [style*="rgba(47,128,237"],
+    .fmed-app-root [style*="#9EEBFF"],
+    .fmed-app-root [style*="#D6ECFF"] {
+      background: rgba(31,174,156,.12) !important;
+      border-color: rgba(31,174,156,.24) !important;
+      color: #7FE2CC !important;
+      -webkit-text-fill-color: #7FE2CC !important;
+      box-shadow: none !important;
+      text-shadow: none !important;
+    }
+
+    .fmed-app-root main table,
+    .fmed-app-root main thead,
+    .fmed-app-root main tbody,
+    .fmed-app-root main tr,
+    .fmed-app-root main td,
+    .fmed-app-root main th {
+      border-color: var(--fmed-d3-border) !important;
+    }
+
+    body[data-theme="dark"] .fmed-app-root main table,
+    body[data-theme="dark"] .fmed-app-root main thead,
+    body[data-theme="dark"] .fmed-app-root main tbody,
+    body[data-theme="dark"] .fmed-app-root main tr,
+    body[data-theme="dark"] .fmed-app-root main td,
+    body[data-theme="dark"] .fmed-app-root main th,
+    .fmed-dark-mode .fmed-app-root main table,
+    .fmed-dark-mode .fmed-app-root main thead,
+    .fmed-dark-mode .fmed-app-root main tbody,
+    .fmed-dark-mode .fmed-app-root main tr,
+    .fmed-dark-mode .fmed-app-root main td,
+    .fmed-dark-mode .fmed-app-root main th {
+      background: #0F1E27 !important;
+      color: #D7E4E5 !important;
+      -webkit-text-fill-color: #D7E4E5 !important;
+      border-color: rgba(255,255,255,.085) !important;
+    }
+
+    body[data-theme="dark"] .fmed-app-root main th,
+    .fmed-dark-mode .fmed-app-root main th {
+      background: #132934 !important;
+      color: #9FB4B8 !important;
+      -webkit-text-fill-color: #9FB4B8 !important;
+    }
+
+    body[data-theme="light"] .fmed-app-root main table,
+    body[data-theme="light"] .fmed-app-root main thead,
+    body[data-theme="light"] .fmed-app-root main tbody,
+    body[data-theme="light"] .fmed-app-root main tr,
+    body[data-theme="light"] .fmed-app-root main td,
+    body[data-theme="light"] .fmed-app-root main th,
+    .fmed-light-mode .fmed-app-root main table,
+    .fmed-light-mode .fmed-app-root main thead,
+    .fmed-light-mode .fmed-app-root main tbody,
+    .fmed-light-mode .fmed-app-root main tr,
+    .fmed-light-mode .fmed-app-root main td,
+    .fmed-light-mode .fmed-app-root main th {
+      background: #FFFFFF !important;
+      color: #304754 !important;
+      -webkit-text-fill-color: #304754 !important;
+      border-color: #E3EBE7 !important;
+    }
+
+    body[data-theme="light"] .fmed-app-root main th,
+    .fmed-light-mode .fmed-app-root main th {
+      background: #F7FAF8 !important;
+      color: #687E88 !important;
+      -webkit-text-fill-color: #687E88 !important;
+    }
+
+/* ===== injectFmed40Phase5InterventiEnterprise (former App_nuovo.jsx line 33389) ===== */
+:root {
+      --fmed-d3-primary: #1FAE9C !important;
+      --fmed-d3-primary-dark: #147C72 !important;
+      --fmed-d3-border: rgba(18, 52, 62, .12);
+      --fmed-card: #FFFFFF;
+      --fmed-soft-panel: #F6F9F8;
+      --fmed-input-bg: #FFFFFF;
+      --fmed-table-head: #F6FAF8;
+      --fmed-title: #142B32;
+      --fmed-text: #35515A;
+      --fmed-muted: #71858C;
+    }
+
+    body[data-theme="dark"], .fmed-dark-mode {
+      --fmed-d3-border: rgba(255,255,255,.085);
+      --fmed-card: #0F1E27;
+      --fmed-soft-panel: #0B1823;
+      --fmed-input-bg: #0C1A24;
+      --fmed-table-head: #132934;
+      --fmed-title: #F5FBFA;
+      --fmed-text: #D5E5E4;
+      --fmed-muted: #91A7AA;
+      background: #08141C !important;
+    }
+
+    body[data-theme="light"], .fmed-light-mode {
+      --fmed-d3-border: rgba(18, 52, 62, .12);
+      --fmed-card: #FFFFFF;
+      --fmed-soft-panel: #F6F9F8;
+      --fmed-input-bg: #FFFFFF;
+      --fmed-table-head: #F6FAF8;
+      --fmed-title: #142B32;
+      --fmed-text: #35515A;
+      --fmed-muted: #71858C;
+    }
+
+    .fmed-interventi-enterprise * {
+      font-family: "Futura Light", Futura, "Trebuchet MS", Arial, sans-serif !important;
+    }
+
+    .fmed-interventi-enterprise button,
+    .fmed-interventi-enterprise select,
+    .fmed-interventi-enterprise input {
+      transition: transform .16s ease, border-color .16s ease, box-shadow .16s ease, background .16s ease !important;
+    }
+
+    .fmed-interventi-enterprise button:hover {
+      transform: translateY(-1px) !important;
+      box-shadow: 0 16px 32px rgba(31,174,156,.18) !important;
+    }
+
+    .fmed-interventi-enterprise input:focus,
+    .fmed-interventi-enterprise select:focus {
+      border-color: rgba(31,174,156,.48) !important;
+      box-shadow: 0 0 0 4px rgba(31,174,156,.10) !important;
+    }
+
+    /* Eliminazione definitiva azzurrino/celeste nella pagina Interventi */
+    .fmed-interventi-enterprise [style*="#169C8F"],
+    .fmed-interventi-enterprise [style*="#2FD37D"],
+    .fmed-interventi-enterprise [style*="#D99A00"] {
+      -webkit-text-fill-color: currentColor !important;
+    }
+
+    .fmed-interventi-enterprise [style*="#2196F3"],
+    .fmed-interventi-enterprise [style*="#1976D2"],
+    .fmed-interventi-enterprise [style*="#42A5F5"],
+    .fmed-interventi-enterprise [style*="#1E88E5"],
+    .fmed-interventi-enterprise [style*="#00B0FF"],
+    .fmed-interventi-enterprise [style*="#3FA9F5"],
+    .fmed-interventi-enterprise [style*="#0A84FF"],
+    .fmed-interventi-enterprise [style*="rgba(0,229,255"],
+    .fmed-interventi-enterprise [style*="rgba(86,203,255"],
+    .fmed-interventi-enterprise [style*="rgba(47,128,237"] {
+      background: rgba(31,174,156,.10) !important;
+      border-color: rgba(31,174,156,.24) !important;
+      color: #1FAE9C !important;
+      -webkit-text-fill-color: #1FAE9C !important;
+      box-shadow: none !important;
+      text-shadow: none !important;
+    }
+
+    body[data-theme="dark"] .fmed-interventi-enterprise [style*="color: #169C8F"],
+    .fmed-dark-mode .fmed-interventi-enterprise [style*="color: #169C8F"] {
+      color: #7FE2CC !important;
+      -webkit-text-fill-color: #7FE2CC !important;
+    }
+
+    body[data-theme="dark"] .fmed-interventi-enterprise [style*="color: #2FD37D"],
+    .fmed-dark-mode .fmed-interventi-enterprise [style*="color: #2FD37D"] {
+      color: #39C97C !important;
+      -webkit-text-fill-color: #39C97C !important;
+    }
+
+    body[data-theme="dark"] .fmed-interventi-enterprise [style*="color: #D99A00"],
+    .fmed-dark-mode .fmed-interventi-enterprise [style*="color: #D99A00"] {
+      color: #D89A2A !important;
+      -webkit-text-fill-color: #D89A2A !important;
+    }
+
+    body[data-theme="dark"] .fmed-interventi-enterprise table,
+    body[data-theme="dark"] .fmed-interventi-enterprise td,
+    body[data-theme="dark"] .fmed-interventi-enterprise th,
+    .fmed-dark-mode .fmed-interventi-enterprise table,
+    .fmed-dark-mode .fmed-interventi-enterprise td,
+    .fmed-dark-mode .fmed-interventi-enterprise th {
+      background: #0F1E27 !important;
+      border-color: rgba(255,255,255,.085) !important;
+      color: #D5E5E4 !important;
+      -webkit-text-fill-color: #D5E5E4 !important;
+    }
+
+    body[data-theme="dark"] .fmed-interventi-enterprise th,
+    .fmed-dark-mode .fmed-interventi-enterprise th {
+      background: #132934 !important;
+      color: #91A7AA !important;
+      -webkit-text-fill-color: #91A7AA !important;
+    }
+
+    body[data-theme="dark"] .fmed-interventi-enterprise td:first-child,
+    .fmed-dark-mode .fmed-interventi-enterprise td:first-child {
+      color: #7FE2CC !important;
+      -webkit-text-fill-color: #7FE2CC !important;
+    }
+
+/* ===== injectFmed40Phase51NoAzzurroQuickAssetFix (former App_nuovo.jsx line 33523) ===== */
+/* ========================================================
+       FMED 4.0 - FASE 5.1
+       Fix richiesto: zero azzurrino, toolbar asset coerente,
+       azioni rapide con colore semantico per funzione.
+       Solo CSS/UI: nessuna logica React/API/backend modificata.
+       ======================================================== */
+
+    :root,
+    body[data-theme="light"] {
+      --fmed-petrol-bg: #F6F8F7;
+      --fmed-petrol-card: #FFFFFF;
+      --fmed-petrol-line: #E3EAE8;
+      --fmed-petrol-text: #071C2D;
+      --fmed-petrol-muted: #60736F;
+      --fmed-teal: #1FAE9C;
+      --fmed-teal-2: #178D80;
+      --fmed-green: #39C97C;
+      --fmed-sage: #6DB193;
+      --fmed-amber: #D89A2A;
+      --fmed-red: #D45A5A;
+      --fmed-slate: #526A66;
+      --fmed-bulk-panel-bg: linear-gradient(180deg, rgba(255,255,255,.96), rgba(246,249,248,.96));
+      --fmed-bulk-panel-border: rgba(31,174,156,.18);
+      --fmed-bulk-panel-shadow: 0 12px 28px rgba(7,28,45,.08);
+      --fmed-bulk-title: #0F4C45;
+      --fmed-bulk-muted: #60736F;
+    }
+
+    body[data-theme="dark"],
+    body.fmed-dark-mode,
+    .fmed-dark-mode {
+      --fmed-petrol-bg: #08141C;
+      --fmed-petrol-card: #101C26;
+      --fmed-petrol-line: rgba(255,255,255,.085);
+      --fmed-petrol-text: #F4F7F7;
+      --fmed-petrol-muted: #91A7AA;
+      --fmed-teal: #1FAE9C;
+      --fmed-teal-2: #178D80;
+      --fmed-green: #39C97C;
+      --fmed-sage: #6DB193;
+      --fmed-amber: #D89A2A;
+      --fmed-red: #D45A5A;
+      --fmed-slate: #708780;
+      --fmed-bulk-panel-bg: linear-gradient(145deg, rgba(16,28,38,.98), rgba(10,22,30,.98));
+      --fmed-bulk-panel-border: rgba(31,174,156,.22);
+      --fmed-bulk-panel-shadow: 0 18px 42px rgba(0,0,0,.28);
+      --fmed-bulk-title: #F4F7F7;
+      --fmed-bulk-muted: #91A7AA;
+    }
+
+    /* Kill finale del celeste/blu elettrico rimasto nei vecchi override. */
+    body[data-theme="dark"] .fmed-app-root,
+    body[data-theme="dark"] .fmed-app-root * {
+      --fmed-border: rgba(31,174,156,.18) !important;
+      --fmed-border-strong: rgba(31,174,156,.30) !important;
+      --fmed-primary: #1FAE9C !important;
+      --fmed-accent: #1FAE9C !important;
+      --fmed-info: #6DB193 !important;
+      --fmed-btn: linear-gradient(135deg, #1FAE9C 0%, #178D80 100%) !important;
+    }
+
+    body[data-theme="dark"] .fmed-app-root input,
+    body[data-theme="dark"] .fmed-app-root select,
+    body[data-theme="dark"] .fmed-app-root textarea {
+      background: #0C1B24 !important;
+      color: #F4F7F7 !important;
+      -webkit-text-fill-color: #F4F7F7 !important;
+      border-color: rgba(31,174,156,.26) !important;
+      box-shadow: inset 0 1px 0 rgba(255,255,255,.035) !important;
+    }
+
+    body[data-theme="dark"] .fmed-app-root th,
+    body[data-theme="dark"] .fmed-app-root thead,
+    body[data-theme="dark"] .fmed-app-root thead tr {
+      color: #91A7AA !important;
+      -webkit-text-fill-color: #91A7AA !important;
+      background: #13232D !important;
+      border-color: rgba(31,174,156,.14) !important;
+    }
+
+    body[data-theme="dark"] .fmed-app-root td {
+      background: #101F29 !important;
+      border-color: rgba(31,174,156,.10) !important;
+      color: #DCE8E7 !important;
+      -webkit-text-fill-color: #DCE8E7 !important;
+    }
+
+    body[data-theme="dark"] .fmed-app-root tbody tr:nth-child(even) td {
+      background: #0D1A23 !important;
+    }
+
+    body[data-theme="dark"] .fmed-app-root tbody tr:hover td {
+      background: rgba(31,174,156,.07) !important;
+    }
+
+    /* Toolbar modifica multipla asset: elimina il pannello chiaro in dark mode. */
+    .fmed-asset-bulk-toolbar {
+      background: var(--fmed-bulk-panel-bg) !important;
+      border-color: var(--fmed-bulk-panel-border) !important;
+      box-shadow: var(--fmed-bulk-panel-shadow) !important;
+      color: var(--fmed-petrol-text) !important;
+    }
+
+    .fmed-asset-bulk-title {
+      color: var(--fmed-bulk-title) !important;
+      -webkit-text-fill-color: var(--fmed-bulk-title) !important;
+      letter-spacing: .08em !important;
+      font-weight: 700 !important;
+    }
+
+    .fmed-asset-bulk-count {
+      color: var(--fmed-bulk-muted) !important;
+      -webkit-text-fill-color: var(--fmed-bulk-muted) !important;
+      font-weight: 600 !important;
+    }
+
+    body[data-theme="dark"] .fmed-asset-bulk-toolbar select,
+    body[data-theme="dark"] .fmed-asset-bulk-toolbar input,
+    body[data-theme="dark"] .fmed-asset-bulk-toolbar textarea {
+      background: #081821 !important;
+      color: #F4F7F7 !important;
+      -webkit-text-fill-color: #F4F7F7 !important;
+      border-color: rgba(31,174,156,.32) !important;
+      box-shadow: none !important;
+    }
+
+    body[data-theme="dark"] .fmed-asset-bulk-toolbar select option {
+      background: #081821 !important;
+      color: #F4F7F7 !important;
+    }
+
+    /* Azioni rapide: ogni funzione ha colore logico, ma senza effetto giocattolo. */
+    .fmed-quick-actions-panel {
+      background: var(--fmed-petrol-card) !important;
+      border-color: var(--fmed-petrol-line) !important;
+      box-shadow: 0 14px 34px rgba(7,28,45,.08) !important;
+    }
+
+    body[data-theme="dark"] .fmed-quick-actions-panel {
+      background: linear-gradient(145deg, #101C26 0%, #0B1822 100%) !important;
+      border-color: rgba(255,255,255,.08) !important;
+      box-shadow: 0 20px 48px rgba(0,0,0,.28) !important;
+    }
+
+    .fmed-quick-actions-grid {
+      display: grid !important;
+      grid-template-columns: repeat(6, minmax(0, 1fr)) !important;
+      gap: 12px !important;
+    }
+
+    .fmed-quick-action {
+      position: relative !important;
+      min-height: 72px !important;
+      border-radius: 16px !important;
+      overflow: hidden !important;
+      isolation: isolate !important;
+      background: linear-gradient(180deg, rgba(255,255,255,.98), rgba(247,250,249,.96)) !important;
+      color: #071C2D !important;
+      -webkit-text-fill-color: #071C2D !important;
+      border: 1px solid rgba(7,28,45,.10) !important;
+      box-shadow: 0 10px 24px rgba(7,28,45,.055) !important;
+      transform: translateY(0) !important;
+    }
+
+    .fmed-quick-action::before {
+      content: "";
+      position: absolute;
+      inset: 0 auto 0 0;
+      width: 4px;
+      background: var(--qa-color, var(--fmed-teal));
+      opacity: .95;
+      z-index: -1;
+    }
+
+    .fmed-quick-action::after {
+      content: "";
+      position: absolute;
+      width: 64px;
+      height: 64px;
+      right: -20px;
+      top: -22px;
+      border-radius: 999px;
+      background: color-mix(in srgb, var(--qa-color, var(--fmed-teal)) 16%, transparent);
+      z-index: -1;
+    }
+
+    .fmed-quick-action svg,
+    .fmed-quick-action span {
+      color: var(--qa-color, var(--fmed-teal)) !important;
+      -webkit-text-fill-color: var(--qa-color, var(--fmed-teal)) !important;
+    }
+
+    .fmed-quick-action span {
+      font-weight: 700 !important;
+      letter-spacing: .06em !important;
+    }
+
+    .fmed-quick-action:hover {
+      border-color: color-mix(in srgb, var(--qa-color, var(--fmed-teal)) 42%, transparent) !important;
+      box-shadow: 0 16px 32px rgba(7,28,45,.10) !important;
+      transform: translateY(-1px) !important;
+    }
+
+    body[data-theme="dark"] .fmed-quick-action {
+      background: linear-gradient(145deg, rgba(16,28,38,.98), rgba(9,20,28,.98)) !important;
+      color: #F4F7F7 !important;
+      -webkit-text-fill-color: #F4F7F7 !important;
+      border-color: rgba(255,255,255,.075) !important;
+      box-shadow: none !important;
+    }
+
+    body[data-theme="dark"] .fmed-quick-action:hover {
+      background: linear-gradient(145deg, rgba(21,38,49,.98), rgba(12,26,35,.98)) !important;
+      border-color: color-mix(in srgb, var(--qa-color, var(--fmed-teal)) 38%, rgba(255,255,255,.06)) !important;
+      box-shadow: 0 16px 34px rgba(0,0,0,.20) !important;
+    }
+
+    .fmed-quick-intervento { --qa-color: #1FAE9C; }
+    .fmed-quick-asset { --qa-color: #39C97C; }
+    .fmed-quick-scadenze { --qa-color: #D89A2A; }
+    .fmed-quick-export { --qa-color: #6DB193; }
+    .fmed-quick-alert { --qa-color: #178D80; }
+    .fmed-quick-sharepoint { --qa-color: #526A66; }
+
+    .fmed-quick-alert {
+      background: linear-gradient(135deg, rgba(31,174,156,.18), rgba(57,201,124,.08)) !important;
+      border-color: rgba(31,174,156,.30) !important;
+    }
+
+    body[data-theme="dark"] .fmed-quick-alert {
+      background: linear-gradient(135deg, rgba(31,174,156,.26), rgba(16,28,38,.98)) !important;
+      border-color: rgba(31,174,156,.34) !important;
+    }
+
+    /* Pulsanti operativi nella pagina asset: non grigio/azzurro residuo. */
+    .fmed-asset-bulk-toolbar button {
+      background: linear-gradient(135deg, #1FAE9C 0%, #178D80 100%) !important;
+      color: #FFFFFF !important;
+      -webkit-text-fill-color: #FFFFFF !important;
+      border-color: rgba(255,255,255,.12) !important;
+      box-shadow: none !important;
+    }
+
+    .fmed-asset-bulk-toolbar button:nth-of-type(2) {
+      background: linear-gradient(135deg, #526A66 0%, #405955 100%) !important;
+    }
+
+    .fmed-asset-bulk-toolbar button:nth-of-type(3) {
+      background: linear-gradient(135deg, #708780 0%, #526A66 100%) !important;
+    }
+
+    .fmed-asset-bulk-toolbar button:disabled {
+      background: rgba(112,135,128,.26) !important;
+      color: rgba(244,247,247,.62) !important;
+      -webkit-text-fill-color: rgba(244,247,247,.62) !important;
+      border-color: rgba(112,135,128,.22) !important;
+    }
+
+    body[data-theme="light"] .fmed-asset-bulk-toolbar button:disabled,
+    body:not([data-theme="dark"]) .fmed-asset-bulk-toolbar button:disabled {
+      color: rgba(7,28,45,.48) !important;
+      -webkit-text-fill-color: rgba(7,28,45,.48) !important;
+    }
+
+    @media (max-width: 1180px) {
+      .fmed-quick-actions-grid { grid-template-columns: repeat(3, minmax(0, 1fr)) !important; }
+    }
+
+/* ===== injectFmed40Phase6ScadenzeEnterprise (former App_nuovo.jsx line 34204) ===== */
+.fmed-scadenze-enterprise * {
+      font-family: "Futura Light", Futura, "Trebuchet MS", Arial, sans-serif !important;
+    }
+
+    .fmed-scadenze-enterprise button,
+    .fmed-scadenze-enterprise select,
+    .fmed-scadenze-enterprise input {
+      transition: transform .16s ease, border-color .16s ease, box-shadow .16s ease, background .16s ease !important;
+    }
+
+    .fmed-scadenze-enterprise button:hover {
+      transform: translateY(-1px) !important;
+      box-shadow: 0 16px 32px rgba(31,174,156,.16) !important;
+    }
+
+    .fmed-scadenze-enterprise input:focus,
+    .fmed-scadenze-enterprise select:focus {
+      border-color: rgba(31,174,156,.48) !important;
+      box-shadow: 0 0 0 4px rgba(31,174,156,.10) !important;
+    }
+
+    body[data-theme="dark"] .fmed-scadenze-enterprise,
+    .fmed-dark-mode .fmed-scadenze-enterprise {
+      color: #D5E5E4 !important;
+      -webkit-text-fill-color: currentColor !important;
+    }
+
+    body[data-theme="dark"] .fmed-scadenze-enterprise input,
+    body[data-theme="dark"] .fmed-scadenze-enterprise select,
+    .fmed-dark-mode .fmed-scadenze-enterprise input,
+    .fmed-dark-mode .fmed-scadenze-enterprise select {
+      background: #0C1A24 !important;
+      color: #F4F7F7 !important;
+      -webkit-text-fill-color: #F4F7F7 !important;
+      border-color: rgba(31,174,156,.28) !important;
+      box-shadow: none !important;
+    }
+
+    body[data-theme="dark"] .fmed-scadenze-enterprise select option,
+    .fmed-dark-mode .fmed-scadenze-enterprise select option {
+      background: #0C1A24 !important;
+      color: #F4F7F7 !important;
+    }
+
+    body[data-theme="dark"] .fmed-scadenze-enterprise table,
+    body[data-theme="dark"] .fmed-scadenze-enterprise td,
+    body[data-theme="dark"] .fmed-scadenze-enterprise th,
+    .fmed-dark-mode .fmed-scadenze-enterprise table,
+    .fmed-dark-mode .fmed-scadenze-enterprise td,
+    .fmed-dark-mode .fmed-scadenze-enterprise th {
+      background: #0F1E27 !important;
+      border-color: rgba(31,174,156,.12) !important;
+      color: #D5E5E4 !important;
+      -webkit-text-fill-color: #D5E5E4 !important;
+    }
+
+    body[data-theme="dark"] .fmed-scadenze-enterprise th,
+    .fmed-dark-mode .fmed-scadenze-enterprise th {
+      background: #13232D !important;
+      color: #91A7AA !important;
+      -webkit-text-fill-color: #91A7AA !important;
+    }
+
+    body[data-theme="dark"] .fmed-scadenze-enterprise tbody tr:nth-child(even) td,
+    .fmed-dark-mode .fmed-scadenze-enterprise tbody tr:nth-child(even) td {
+      background: #0D1A23 !important;
+    }
+
+    body[data-theme="dark"] .fmed-scadenze-enterprise tbody tr:hover td,
+    .fmed-dark-mode .fmed-scadenze-enterprise tbody tr:hover td {
+      background: rgba(31,174,156,.07) !important;
+    }
+
+    body[data-theme="light"] .fmed-scadenze-enterprise table,
+    body[data-theme="light"] .fmed-scadenze-enterprise td,
+    body[data-theme="light"] .fmed-scadenze-enterprise th,
+    .fmed-light-mode .fmed-scadenze-enterprise table,
+    .fmed-light-mode .fmed-scadenze-enterprise td,
+    .fmed-light-mode .fmed-scadenze-enterprise th {
+      background: #FFFFFF !important;
+      color: #304754 !important;
+      -webkit-text-fill-color: #304754 !important;
+      border-color: #E3EAE8 !important;
+    }
+
+    body[data-theme="light"] .fmed-scadenze-enterprise th,
+    .fmed-light-mode .fmed-scadenze-enterprise th {
+      background: #F6FAF8 !important;
+      color: #71858C !important;
+      -webkit-text-fill-color: #71858C !important;
+    }
+
+    body[data-theme="dark"] .fmed-scadenze-enterprise [style*="#D99A00"],
+    .fmed-dark-mode .fmed-scadenze-enterprise [style*="#D99A00"] {
+      color: #D89A2A !important;
+      -webkit-text-fill-color: #D89A2A !important;
+    }
+
+    body[data-theme="dark"] .fmed-scadenze-enterprise [style*="#FF4D5E"],
+    .fmed-dark-mode .fmed-scadenze-enterprise [style*="#FF4D5E"] {
+      color: #D45A5A !important;
+      -webkit-text-fill-color: #D45A5A !important;
+    }
+
+    body[data-theme="dark"] .fmed-scadenze-enterprise [style*="#169C8F"],
+    .fmed-dark-mode .fmed-scadenze-enterprise [style*="#169C8F"] {
+      color: #7FE2CC !important;
+      -webkit-text-fill-color: #7FE2CC !important;
+    }
+
+    /* Kill pagina Scadenze: niente blu/azzurrino/celeste residuo. */
+    .fmed-scadenze-enterprise [style*="#2196F3"],
+    .fmed-scadenze-enterprise [style*="#1976D2"],
+    .fmed-scadenze-enterprise [style*="#42A5F5"],
+    .fmed-scadenze-enterprise [style*="#1E88E5"],
+    .fmed-scadenze-enterprise [style*="#00B0FF"],
+    .fmed-scadenze-enterprise [style*="#3FA9F5"],
+    .fmed-scadenze-enterprise [style*="#0A84FF"],
+    .fmed-scadenze-enterprise [style*="rgba(0,229,255"],
+    .fmed-scadenze-enterprise [style*="rgba(86,203,255"],
+    .fmed-scadenze-enterprise [style*="rgba(47,128,237"] {
+      background: rgba(31,174,156,.10) !important;
+      border-color: rgba(31,174,156,.24) !important;
+      color: #1FAE9C !important;
+      -webkit-text-fill-color: #1FAE9C !important;
+      box-shadow: none !important;
+      text-shadow: none !important;
+    }
+
+    @media (max-width: 980px) {
+      .fmed-scadenze-enterprise [style*="repeat(4, minmax(190px"] {
+        grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+      }
+      .fmed-scadenze-enterprise [style*="repeat(4, minmax(0, 1fr)"] {
+        grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+      }
+    }
+
+/* ===== injectFmedFullscreenOperationalPages (former App_nuovo.jsx line 34418) ===== */
+.fmed-interventi-enterprise, .fmed-scadenze-enterprise, .fmed-sicurezza-8108 {
+      width: 100% !important;
+      max-width: none !important;
+      margin: 0 !important;
+      box-sizing: border-box !important;
+    }
+    .fmed-interventi-enterprise table, .fmed-scadenze-enterprise table, .fmed-sicurezza-8108 table {
+      width: 100% !important;
+    }
+    @media (min-width: 1280px) {
+      .fmed-interventi-enterprise, .fmed-scadenze-enterprise, .fmed-sicurezza-8108 { gap: 16px !important; }
+    }
+    @media (max-width: 1500px) and (min-width: 761px) {
+      .fmed-interventi-enterprise, .fmed-scadenze-enterprise, .fmed-sicurezza-8108 { gap: 14px !important; }
+    }

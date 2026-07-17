@@ -1,0 +1,891 @@
+/* =====================================================================
+   FMED ENTERPRISE 1.0 — E1.6.5 DESKTOP SHELL & CLEANUP
+   Desktop-only: proporzioni globali, zero testi tagliati o sovrapposti.
+   Questa patch non modifica logiche, API, dati o permessi.
+   ===================================================================== */
+
+:root {
+  --fmed-layout-sidebar: 276px;
+  --fmed-layout-sidebar-collapsed: 76px;
+  --fmed-layout-gap: 16px;
+  --fmed-layout-control-min: 42px;
+  --fmed-layout-page-max: 1760px;
+}
+
+html,
+body,
+#root,
+.fmed-app-root {
+  min-width: 1180px !important;
+  min-height: 100% !important;
+}
+
+body {
+  overflow: auto !important;
+}
+
+/* ---------- Struttura applicativa ---------- */
+.fmed-app-root {
+  display: flex !important;
+  width: 100% !important;
+  min-height: 100vh !important;
+  height: 100vh !important;
+  overflow: hidden !important;
+}
+
+.fmed-app-root > main,
+.fmed-app-root main {
+  flex: 1 1 auto !important;
+  min-width: 0 !important;
+  width: auto !important;
+  max-width: none !important;
+  height: 100vh !important;
+  padding: clamp(18px, 1.75vw, 28px) !important;
+  overflow-x: hidden !important;
+  overflow-y: auto !important;
+  box-sizing: border-box !important;
+}
+
+.fmed-app-root main > *,
+.fmed-app-root main section,
+.fmed-app-root main article,
+.fmed-app-root main form,
+.fmed-app-root main header,
+.fmed-app-root main footer,
+.fmed-app-root main div {
+  min-width: 0;
+  box-sizing: border-box;
+}
+
+.fmed-dashboard-page,
+.fmed-asset-page,
+.fmed-interventi-enterprise,
+.fmed-scadenze-enterprise,
+.fmed-infrastrutture-page,
+.fmed-costi-page,
+.fmed-export-page,
+.fmed-process-page,
+.fmed-settings-page,
+.core-standard-page,
+.fmed-wizard-page,
+.s8108-page,
+.fmed-sicurezza-8108 {
+  width: 100% !important;
+  max-width: var(--fmed-layout-page-max) !important;
+  min-width: 0 !important;
+  margin-inline: auto !important;
+  box-sizing: border-box !important;
+}
+
+/* ---------- Sidebar: tutte le voci leggibili ---------- */
+.fmed-app-root aside.fmed-side-rail.is-expanded,
+.fmed-app-root aside.fmed-side-rail:not(.is-collapsed) {
+  width: var(--fmed-layout-sidebar) !important;
+  min-width: var(--fmed-layout-sidebar) !important;
+  max-width: var(--fmed-layout-sidebar) !important;
+  flex: 0 0 var(--fmed-layout-sidebar) !important;
+  height: 100vh !important;
+  max-height: 100vh !important;
+  padding: 9px 12px 10px !important;
+  overflow: hidden !important;
+  box-sizing: border-box !important;
+}
+
+.fmed-app-root aside.fmed-side-rail.is-collapsed {
+  width: var(--fmed-layout-sidebar-collapsed) !important;
+  min-width: var(--fmed-layout-sidebar-collapsed) !important;
+  max-width: var(--fmed-layout-sidebar-collapsed) !important;
+  flex: 0 0 var(--fmed-layout-sidebar-collapsed) !important;
+}
+
+.fmed-app-root aside.fmed-side-rail .fmed-sidebar-logo-lockup {
+  min-height: 58px !important;
+  height: auto !important;
+  padding: 7px 7px 8px !important;
+  gap: 11px !important;
+  overflow: visible !important;
+}
+
+.fmed-app-root aside.fmed-side-rail .fmed-sidebar-logo-mark {
+  width: 43px !important;
+  min-width: 43px !important;
+  height: 43px !important;
+  border-radius: 14px !important;
+}
+
+.fmed-app-root aside.fmed-side-rail .fmed-sidebar-logo-title {
+  font-size: 23px !important;
+  line-height: 1.05 !important;
+  letter-spacing: .07em !important;
+  white-space: normal !important;
+  overflow: visible !important;
+}
+
+.fmed-app-root aside.fmed-side-rail .fmed-sidebar-logo-subtitle {
+  font-size: 9px !important;
+  line-height: 1.25 !important;
+  letter-spacing: .14em !important;
+  white-space: normal !important;
+  overflow: visible !important;
+}
+
+.fmed-app-root aside.fmed-side-rail nav {
+  display: flex !important;
+  flex: 1 1 auto !important;
+  flex-direction: column !important;
+  width: 100% !important;
+  min-height: 0 !important;
+  margin-top: 5px !important;
+  padding: 2px 2px 8px !important;
+  gap: 5px !important;
+  overflow-x: hidden !important;
+  overflow-y: auto !important;
+  scrollbar-width: thin !important;
+  scroll-behavior: smooth;
+}
+
+.fmed-app-root aside.fmed-side-rail .fmed-side-menu-btn {
+  display: grid !important;
+  grid-template-columns: 32px minmax(0, 1fr) 19px 12px !important;
+  align-items: center !important;
+  justify-content: stretch !important;
+  column-gap: 8px !important;
+  width: 100% !important;
+  min-width: 0 !important;
+  max-width: 100% !important;
+  min-height: 40px !important;
+  height: auto !important;
+  padding: 5px 9px !important;
+  border-radius: 11px !important;
+  line-height: 1.15 !important;
+  overflow: visible !important;
+  white-space: normal !important;
+  text-align: left !important;
+}
+
+.fmed-app-root aside.fmed-side-rail .fmed-side-menu-btn > span:first-child {
+  width: 32px !important;
+  min-width: 32px !important;
+  height: 32px !important;
+  margin: 0 !important;
+}
+
+.fmed-app-root aside.fmed-side-rail .fmed-side-menu-btn > span:first-child > span {
+  width: 24px !important;
+  min-width: 24px !important;
+  height: 24px !important;
+}
+
+.fmed-app-root aside.fmed-side-rail .fmed-side-menu-btn > span:nth-child(2) {
+  display: block !important;
+  min-width: 0 !important;
+  max-width: none !important;
+  overflow: visible !important;
+  text-overflow: clip !important;
+  white-space: normal !important;
+  word-break: normal !important;
+  overflow-wrap: normal !important;
+  font-size: 12px !important;
+  line-height: 1.18 !important;
+  letter-spacing: .025em !important;
+}
+
+.fmed-app-root aside.fmed-side-rail .fmed-side-menu-btn > span[title] {
+  grid-column: 3 !important;
+  width: 19px !important;
+  min-width: 19px !important;
+  height: 19px !important;
+  margin: 0 !important;
+}
+
+.fmed-app-root aside.fmed-side-rail .fmed-side-chevron {
+  grid-column: 4 !important;
+  margin: 0 !important;
+  justify-self: end !important;
+  line-height: 1 !important;
+}
+
+.fmed-app-root aside.fmed-side-rail.is-collapsed .fmed-side-menu-btn {
+  display: flex !important;
+  width: 52px !important;
+  min-width: 52px !important;
+  max-width: 52px !important;
+  height: 48px !important;
+  min-height: 48px !important;
+  padding: 0 !important;
+  align-items: center !important;
+  justify-content: center !important;
+}
+
+.fmed-app-root aside.fmed-side-rail.is-collapsed .fmed-side-menu-btn > span:not(:first-child) {
+  display: none !important;
+}
+
+.fmed-app-root aside.fmed-side-rail > div:last-child {
+  flex: 0 0 auto !important;
+  min-width: 0 !important;
+  max-width: 100% !important;
+  padding-top: 7px !important;
+  margin-top: 5px !important;
+  overflow: visible !important;
+}
+
+/* ---------- Testi: nessun taglio o ellissi ---------- */
+.fmed-app-root h1,
+.fmed-app-root h2,
+.fmed-app-root h3,
+.fmed-app-root h4,
+.fmed-app-root h5,
+.fmed-app-root h6,
+.fmed-app-root p,
+.fmed-app-root label,
+.fmed-app-root small,
+.fmed-app-root strong,
+.fmed-app-root a,
+.fmed-app-root button,
+.fmed-app-root td,
+.fmed-app-root th {
+  max-width: 100% !important;
+  text-overflow: clip !important;
+  word-break: normal !important;
+  overflow-wrap: break-word !important;
+}
+
+.fmed-app-root h1,
+.fmed-app-root h2,
+.fmed-app-root h3,
+.fmed-app-root h4,
+.fmed-app-root h5,
+.fmed-app-root h6,
+.fmed-app-root p {
+  white-space: normal !important;
+  overflow: visible !important;
+}
+
+.fmed-app-root [style*="text-overflow"],
+.fmed-app-root [style*="textOverflow"],
+.fmed-app-root .s8108-doc-title strong,
+.fmed-app-root .s8108-doc-title small,
+.fmed-app-root .s8108-doc-meta dd,
+.fmed-app-root .fmed-wizard-steps span {
+  max-width: 100% !important;
+  overflow: visible !important;
+  text-overflow: clip !important;
+  white-space: normal !important;
+}
+
+/* ---------- Pulsanti e barre azioni ---------- */
+.fmed-app-root main button,
+.fmed-app-root main [role="button"],
+.fmed-ui-button,
+.core-primary-button,
+.core-add-value button,
+.core-add-relation button,
+.fmed-wizard-actions button,
+.fmed-process-card button,
+.fmed-process-refresh {
+  min-width: 0 !important;
+  min-height: var(--fmed-layout-control-min) !important;
+  height: auto !important;
+  max-width: 100% !important;
+  padding-block: 9px !important;
+  white-space: normal !important;
+  overflow: visible !important;
+  text-overflow: clip !important;
+  line-height: 1.2 !important;
+  text-align: center !important;
+}
+
+.fmed-app-root main [style*="display: flex"][style*="justify-content: space-between"],
+.fmed-app-root main [style*="display:flex"][style*="justify-content:space-between"],
+.fmed-process-head,
+.fmed-process-card-top,
+.fmed-process-card-footer,
+.fmed-process-history-head,
+.fmed-process-usage,
+.fmed-settings-head,
+.core-standard-head,
+.core-dictionary-title,
+.s8108-page-head,
+.s8108-panel-head,
+.fmed-wizard-head,
+.fmed-wizard-ocr,
+.fmed-wizard-master-status {
+  flex-wrap: wrap !important;
+  align-items: flex-start !important;
+}
+
+/* ---------- Form e filtri ---------- */
+.fmed-app-root input,
+.fmed-app-root select,
+.fmed-app-root textarea {
+  min-width: 0 !important;
+  max-width: 100% !important;
+  min-height: var(--fmed-layout-control-min) !important;
+  box-sizing: border-box !important;
+}
+
+.fmed-app-root textarea {
+  height: auto !important;
+  min-height: 96px !important;
+  resize: vertical !important;
+}
+
+.fmed-app-root main [style*="display: grid"],
+.fmed-app-root main [style*="display:grid"],
+.fmed-app-root main [class*="grid"] {
+  min-width: 0 !important;
+  max-width: 100% !important;
+}
+
+.fmed-app-root main [style*="display: grid"] > *,
+.fmed-app-root main [style*="display:grid"] > *,
+.fmed-app-root main [class*="grid"] > * {
+  min-width: 0 !important;
+  max-width: 100% !important;
+}
+
+/* ---------- Tabelle: contenuto integro, scroll solo del contenitore ---------- */
+.fmed-app-root table {
+  width: 100% !important;
+  table-layout: auto !important;
+  border-collapse: separate !important;
+  border-spacing: 0 !important;
+}
+
+.fmed-app-root th,
+.fmed-app-root td {
+  min-width: 92px !important;
+  height: auto !important;
+  padding: 11px 12px !important;
+  white-space: normal !important;
+  overflow: visible !important;
+  text-overflow: clip !important;
+  line-height: 1.3 !important;
+  vertical-align: middle !important;
+}
+
+.fmed-app-root th:first-child,
+.fmed-app-root td:first-child {
+  min-width: 115px !important;
+}
+
+.fmed-app-root [class*="table-wrap"],
+.fmed-app-root [class*="tableWrap"],
+.fmed-process-table-wrap,
+.s8108-table-wrap {
+  width: 100% !important;
+  max-width: 100% !important;
+  overflow-x: auto !important;
+  overflow-y: visible !important;
+}
+
+/* ---------- Processi: card ampie e pulsanti completi ---------- */
+.fmed-process-page {
+  gap: 14px !important;
+}
+
+.fmed-process-head {
+  padding: 20px 22px !important;
+  gap: 16px !important;
+}
+
+.fmed-process-head > div {
+  flex: 1 1 620px !important;
+  min-width: 0 !important;
+}
+
+.fmed-process-refresh {
+  flex: 0 1 190px !important;
+}
+
+.fmed-process-usage {
+  display: grid !important;
+  grid-template-columns: minmax(180px, .35fr) minmax(0, 1.65fr) !important;
+  align-items: start !important;
+  gap: 14px 22px !important;
+  margin: 0 !important;
+}
+
+.fmed-process-usage > strong {
+  min-width: 0 !important;
+  white-space: normal !important;
+}
+
+.fmed-process-usage > div {
+  grid-template-columns: repeat(2, minmax(250px, 1fr)) !important;
+  min-width: 0 !important;
+}
+
+.fmed-process-summary {
+  grid-template-columns: repeat(4, minmax(150px, 1fr)) !important;
+}
+
+.fmed-process-catalog {
+  grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  gap: 14px !important;
+}
+
+.fmed-process-card {
+  min-width: 0 !important;
+  min-height: 270px !important;
+  padding: 18px !important;
+  overflow: visible !important;
+}
+
+.fmed-process-card > p,
+.fmed-process-card h3,
+.fmed-process-card small,
+.fmed-process-code {
+  overflow: visible !important;
+  white-space: normal !important;
+}
+
+.fmed-process-card-footer {
+  display: grid !important;
+  grid-template-columns: minmax(0, 1fr) minmax(190px, auto) !important;
+  align-items: center !important;
+}
+
+.fmed-process-card-footer button {
+  width: 100% !important;
+  min-width: 190px !important;
+}
+
+.fmed-process-history-head > div:first-child {
+  flex: 1 1 420px !important;
+}
+
+.fmed-process-filters {
+  flex: 1 1 430px !important;
+  flex-wrap: wrap !important;
+  justify-content: flex-end !important;
+}
+
+.fmed-process-filters input {
+  width: min(100%, 320px) !important;
+  flex: 1 1 240px !important;
+}
+
+.fmed-process-filters select {
+  flex: 0 1 190px !important;
+}
+
+/* ---------- Dizionari / impostazioni ---------- */
+.core-standard-page {
+  padding: 0 !important;
+}
+
+.core-standard-tabs,
+.fmed-settings-tabs {
+  display: flex !important;
+  flex-wrap: wrap !important;
+  overflow: visible !important;
+}
+
+.core-standard-tabs button,
+.fmed-settings-tabs button {
+  flex: 0 1 auto !important;
+  white-space: normal !important;
+}
+
+.core-toolbar {
+  grid-template-columns: repeat(2, minmax(220px, 1fr)) auto !important;
+}
+
+.core-dictionary-layout {
+  grid-template-columns: minmax(260px, 320px) minmax(0, 1fr) !important;
+}
+
+.core-table-head,
+.core-value-row {
+  grid-template-columns: minmax(130px, .75fr) minmax(200px, 1.5fr) minmax(95px, .55fr) minmax(105px, auto) !important;
+}
+
+.core-add-value {
+  grid-template-columns: minmax(130px, .75fr) minmax(200px, 1.5fr) minmax(95px, .55fr) minmax(130px, auto) !important;
+}
+
+.core-relation-row {
+  grid-template-columns: minmax(100px, .55fr) minmax(150px, 1fr) 28px minmax(150px, 1fr) minmax(100px, .6fr) minmax(90px, auto) !important;
+}
+
+.core-add-relation {
+  grid-template-columns: repeat(3, minmax(180px, 1fr)) !important;
+}
+
+.core-add-relation h4 {
+  grid-column: 1 / -1 !important;
+}
+
+.core-dictionary-list button,
+.core-value-row,
+.core-relation-row {
+  height: auto !important;
+  overflow: visible !important;
+}
+
+/* ---------- Wizard ---------- */
+.fmed-wizard-steps {
+  grid-template-columns: repeat(5, minmax(150px, 1fr)) !important;
+  overflow-x: auto !important;
+}
+
+.fmed-wizard-steps button {
+  height: auto !important;
+  min-height: 54px !important;
+  overflow: visible !important;
+}
+
+.fmed-wizard-grid {
+  grid-template-columns: repeat(3, minmax(220px, 1fr)) !important;
+}
+
+.fmed-wizard-actions {
+  grid-template-columns: minmax(130px, auto) minmax(180px, 1fr) minmax(130px, auto) !important;
+}
+
+/* ---------- Sicurezza 81/08 ---------- */
+.s8108-kpi-grid,
+.s8108-kpi-grid-documental {
+  grid-template-columns: repeat(3, minmax(180px, 1fr)) !important;
+}
+
+.s8108-filter-grid,
+.s8108-filter-grid.is-operational {
+  grid-template-columns: repeat(3, minmax(210px, 1fr)) !important;
+}
+
+.s8108-doc-card {
+  grid-template-columns: minmax(260px, 1.25fr) minmax(360px, 1.75fr) minmax(160px, auto) !important;
+  align-items: start !important;
+  overflow: visible !important;
+}
+
+.s8108-doc-title strong,
+.s8108-doc-title small,
+.s8108-doc-meta dd {
+  overflow: visible !important;
+  white-space: normal !important;
+}
+
+.s8108-doc-actions {
+  flex-wrap: wrap !important;
+  white-space: normal !important;
+}
+
+/* ---------- Modali ---------- */
+.fmed-app-root [role="dialog"],
+.fmed-app-root [aria-modal="true"],
+.fmed-app-root [style*="position: fixed"][style*="max-height"],
+.fmed-app-root [style*="position:fixed"][style*="max-height"] {
+  width: min(1180px, calc(100vw - 36px)) !important;
+  max-width: calc(100vw - 36px) !important;
+  max-height: calc(100vh - 28px) !important;
+  overflow: auto !important;
+  box-sizing: border-box !important;
+}
+
+/* ---------- Desktop più stretto, sempre senza tagli ---------- */
+@media (max-width: 1450px) and (min-width: 1180px) {
+  :root {
+    --fmed-layout-sidebar: 282px;
+  }
+
+  .fmed-app-root > main,
+  .fmed-app-root main {
+    padding: 18px !important;
+  }
+
+  .fmed-process-summary {
+    grid-template-columns: repeat(2, minmax(180px, 1fr)) !important;
+  }
+
+  .fmed-process-usage > div {
+    grid-template-columns: 1fr !important;
+  }
+
+  .fmed-wizard-grid {
+    grid-template-columns: repeat(2, minmax(240px, 1fr)) !important;
+  }
+
+  .s8108-filter-grid,
+  .s8108-filter-grid.is-operational {
+    grid-template-columns: repeat(2, minmax(220px, 1fr)) !important;
+  }
+}
+
+/* =====================================================================
+   E1.6.5 — Desktop shell definitivo
+   Un solo comando tema, sidebar proporzionata, brand professionale,
+   nessuna sovrapposizione nei Dizionari.
+   ===================================================================== */
+.fmed-app-root aside.fmed-side-rail {
+  position: relative !important;
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 0 !important;
+  isolation: isolate !important;
+}
+
+.fmed-sidebar-controls {
+  display: grid !important;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) !important;
+  gap: 7px !important;
+  width: 100% !important;
+  min-height: 40px !important;
+  margin: 0 0 7px !important;
+  padding: 0 !important;
+}
+.fmed-sidebar-controls.is-collapsed {
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  gap: 6px !important;
+}
+.fmed-sidebar-control-btn {
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 7px !important;
+  width: 100% !important;
+  min-width: 0 !important;
+  min-height: 38px !important;
+  height: auto !important;
+  margin: 0 !important;
+  padding: 7px 9px !important;
+  border: 1px solid rgba(14, 142, 168, .18) !important;
+  border-radius: 11px !important;
+  background: rgba(255, 255, 255, .72) !important;
+  color: #173042 !important;
+  box-shadow: 0 6px 16px rgba(23, 48, 66, .05) !important;
+  font-size: 10px !important;
+  font-weight: 800 !important;
+  line-height: 1.15 !important;
+  letter-spacing: .02em !important;
+  white-space: normal !important;
+  cursor: pointer !important;
+}
+.fmed-sidebar-control-btn > span:first-child {
+  display: grid !important;
+  place-items: center !important;
+  width: 22px !important;
+  min-width: 22px !important;
+  height: 22px !important;
+  border-radius: 7px !important;
+  background: rgba(14, 142, 168, .10) !important;
+  font-size: 16px !important;
+  line-height: 1 !important;
+}
+.fmed-sidebar-control-btn:hover {
+  transform: translateY(-1px) !important;
+  border-color: rgba(14, 142, 168, .34) !important;
+  box-shadow: 0 10px 20px rgba(14, 142, 168, .10) !important;
+}
+body[data-theme="dark"] .fmed-sidebar-control-btn,
+.fmed-dark-mode .fmed-sidebar-control-btn {
+  border-color: rgba(18, 198, 194, .22) !important;
+  background: rgba(18, 198, 194, .075) !important;
+  color: #f2f8fa !important;
+  box-shadow: none !important;
+}
+body[data-theme="dark"] .fmed-sidebar-control-btn > span:first-child,
+.fmed-dark-mode .fmed-sidebar-control-btn > span:first-child {
+  background: rgba(18, 198, 194, .13) !important;
+}
+.fmed-sidebar-controls.is-collapsed .fmed-sidebar-control-btn {
+  width: 46px !important;
+  min-width: 46px !important;
+  max-width: 46px !important;
+  min-height: 38px !important;
+  padding: 6px !important;
+}
+
+.fmed-app-root aside.fmed-side-rail .fmed-sidebar-logo-lockup {
+  display: grid !important;
+  grid-template-columns: 42px minmax(0, 1fr) !important;
+  align-items: center !important;
+  min-height: 66px !important;
+  margin: 0 !important;
+  padding: 8px 7px !important;
+  border-radius: 14px !important;
+}
+.fmed-app-root aside.fmed-side-rail .fmed-sidebar-logo-mark {
+  width: 42px !important;
+  min-width: 42px !important;
+  height: 42px !important;
+  border-radius: 13px !important;
+}
+.fmed-sidebar-logo-text {
+  display: grid !important;
+  gap: 1px !important;
+  min-width: 0 !important;
+  padding: 0 !important;
+}
+.fmed-app-root aside.fmed-side-rail .fmed-sidebar-logo-title {
+  font-size: 22px !important;
+  line-height: 1 !important;
+  letter-spacing: .08em !important;
+}
+.fmed-app-root aside.fmed-side-rail .fmed-sidebar-logo-subtitle {
+  margin-top: 3px !important;
+  font-size: 8.5px !important;
+  line-height: 1.2 !important;
+  letter-spacing: .115em !important;
+  white-space: normal !important;
+}
+.fmed-sidebar-logo-byline {
+  color: var(--fmed-muted, #647784) !important;
+  font-size: 9px !important;
+  font-weight: 700 !important;
+  line-height: 1.2 !important;
+  letter-spacing: .015em !important;
+  text-transform: none !important;
+  white-space: normal !important;
+}
+body[data-theme="dark"] .fmed-sidebar-logo-byline,
+.fmed-dark-mode .fmed-sidebar-logo-byline { color: rgba(220, 238, 244, .72) !important; }
+
+.fmed-app-root aside.fmed-side-rail nav {
+  flex: 1 1 auto !important;
+  min-height: 0 !important;
+  margin: 4px 0 0 !important;
+  padding: 1px 1px 5px !important;
+  gap: 4px !important;
+  overflow-y: auto !important;
+  overflow-x: hidden !important;
+  scrollbar-width: none !important;
+}
+.fmed-app-root aside.fmed-side-rail nav::-webkit-scrollbar { display: none !important; }
+.fmed-app-root aside.fmed-side-rail .fmed-side-menu-btn {
+  grid-template-columns: 30px minmax(0, 1fr) 18px 9px !important;
+  column-gap: 7px !important;
+  min-height: 38px !important;
+  padding: 4px 8px !important;
+  border-radius: 10px !important;
+  box-shadow: none !important;
+}
+.fmed-app-root aside.fmed-side-rail .fmed-side-menu-btn > span:first-child {
+  width: 30px !important;
+  min-width: 30px !important;
+  height: 30px !important;
+}
+.fmed-app-root aside.fmed-side-rail .fmed-side-menu-btn > span:first-child > span {
+  width: 24px !important;
+  min-width: 24px !important;
+  height: 24px !important;
+  border-radius: 7px !important;
+}
+.fmed-app-root aside.fmed-side-rail .fmed-side-menu-btn > span:nth-child(2) {
+  font-size: 11.4px !important;
+  font-weight: 760 !important;
+  line-height: 1.14 !important;
+  letter-spacing: .01em !important;
+}
+.fmed-menu-info {
+  display: grid !important;
+  place-items: center !important;
+  width: 18px !important;
+  min-width: 18px !important;
+  height: 18px !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  border: 1px solid currentColor !important;
+  border-radius: 999px !important;
+  opacity: .62 !important;
+  font-size: 11px !important;
+  font-weight: 900 !important;
+  line-height: 1 !important;
+  cursor: help !important;
+}
+.fmed-side-menu-btn:hover .fmed-menu-info,
+.fmed-side-menu-btn.is-active .fmed-menu-info { opacity: .95 !important; }
+.fmed-app-root aside.fmed-side-rail .fmed-side-chevron {
+  font-size: 16px !important;
+  opacity: .8 !important;
+}
+
+.fmed-app-root aside.fmed-side-rail > div:last-child {
+  display: grid !important;
+  gap: 5px !important;
+  margin: 4px 0 0 !important;
+  padding: 7px 0 0 !important;
+  border-top: 1px solid rgba(14, 142, 168, .12) !important;
+}
+.fmed-app-root aside.fmed-side-rail > div:last-child > div {
+  min-width: 0 !important;
+  max-width: 100% !important;
+}
+.fmed-app-root aside.fmed-side-rail > div:last-child button {
+  min-height: 36px !important;
+  height: auto !important;
+  padding: 7px 10px !important;
+  border-radius: 10px !important;
+  white-space: normal !important;
+}
+
+/* Master Data: una sola testata e nessun elemento sticky sovrapposto. */
+.fmed-settings-page,
+.core-standard-page,
+.core-standard-head,
+.core-standard-tabs,
+.core-dictionary-list,
+.core-dictionary-panel,
+.core-relations-panel {
+  position: relative !important;
+  top: auto !important;
+  bottom: auto !important;
+  z-index: auto !important;
+  max-height: none !important;
+  overflow: visible !important;
+}
+.core-dictionary-scroll,
+.core-value-table,
+.core-relations-table {
+  max-height: none !important;
+  overflow: visible !important;
+}
+.core-standard-head + .core-summary-grid { margin-top: 0 !important; }
+.core-standard-tabs { margin-top: 0 !important; }
+
+/* Header di sezione: firma professionale, senza troncamento. */
+.fmed-app-root main > header [style*="headerBrandText"] { min-width: 0 !important; }
+.fmed-app-root main > header span {
+  white-space: normal !important;
+  overflow: visible !important;
+  text-overflow: clip !important;
+}
+
+@media (max-height: 850px) and (min-width: 1180px) {
+  .fmed-app-root aside.fmed-side-rail .fmed-sidebar-logo-lockup { min-height: 58px !important; padding-block: 5px !important; }
+  .fmed-app-root aside.fmed-side-rail .fmed-side-menu-btn { min-height: 35px !important; padding-block: 3px !important; }
+  .fmed-app-root aside.fmed-side-rail nav { gap: 3px !important; }
+  .fmed-app-root aside.fmed-side-rail > div:last-child { gap: 3px !important; padding-top: 5px !important; }
+}
+
+.fmed-header-brand {
+  display: grid !important;
+  gap: 3px !important;
+  min-width: 0 !important;
+  max-width: 320px !important;
+  text-align: right !important;
+}
+.fmed-header-brand-main,
+.fmed-header-brand-sub {
+  display: block !important;
+  max-width: 100% !important;
+  white-space: normal !important;
+  overflow: visible !important;
+  text-overflow: clip !important;
+}
+.fmed-header-brand-main {
+  font-size: 13px !important;
+  line-height: 1.15 !important;
+  letter-spacing: .09em !important;
+}
+.fmed-header-brand-sub {
+  font-size: 9px !important;
+  line-height: 1.2 !important;
+  letter-spacing: .07em !important;
+  text-transform: none !important;
+}

@@ -1,0 +1,13 @@
+{
+  "product": "FMED Enterprise 1.0",
+  "release": "E5.1.2 Clean Rebuild",
+  "build": "FMED_ENTERPRISE_1_0_E5_1_2_CLEAN_REBUILD_2026_07_17",
+  "frontend": true,
+  "backend_required": "E5.1 or newer",
+  "features": [
+    "Light Comfort",
+    "SharePoint Sync",
+    "Master Data Governance",
+    "Clean Frontend Rebuild"
+  ]
+}

@@ -1,0 +1,112 @@
+/* FMED Enterprise 1.0 · E3.1 UX Review operativa */
+
+.fmed-intervention-selected-summary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 18px;
+  margin: 0 0 14px;
+  padding: 14px 16px;
+  border: 1px solid color-mix(in srgb, var(--fmed-primary, #087f86) 26%, var(--fmed-border, #dbe5ea));
+  border-radius: 14px;
+  background: color-mix(in srgb, var(--fmed-primary, #087f86) 6%, var(--fmed-card, #fff));
+}
+.fmed-intervention-selected-summary-copy { min-width: 0; }
+.fmed-intervention-selected-summary-copy > span {
+  display: block;
+  margin-bottom: 4px;
+  color: var(--fmed-primary, #087f86);
+  font-size: 10px;
+  font-weight: 850;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+}
+.fmed-intervention-selected-summary h3 {
+  margin: 0;
+  color: var(--fmed-text, #102a3a);
+  font-size: 17px;
+  line-height: 1.25;
+}
+.fmed-intervention-selected-summary p,
+.fmed-intervention-selected-summary small {
+  display: block;
+  margin: 4px 0 0;
+  color: var(--fmed-muted, #647784);
+  font-size: 12px;
+  line-height: 1.4;
+  overflow-wrap: anywhere;
+}
+.fmed-intervention-search-meta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  min-height: 30px;
+  color: var(--fmed-muted, #647784);
+  font-size: 11px;
+  font-weight: 700;
+}
+.fmed-intervention-search-meta button {
+  border: 0;
+  background: transparent;
+  color: var(--fmed-primary, #087f86);
+  font: inherit;
+  cursor: pointer;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+.fmed-intervention-result-limit {
+  padding: 8px 10px;
+  border-radius: 9px;
+  background: color-mix(in srgb, var(--fmed-warning, #d99a00) 8%, var(--fmed-card, #fff));
+  color: var(--fmed-muted, #647784);
+  font-size: 11px;
+  line-height: 1.4;
+}
+
+.fmed-process-use-case {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  margin: 0;
+  padding: 9px 10px;
+  border-radius: 10px;
+  background: color-mix(in srgb, var(--fmed-primary, #087f86) 5%, var(--fmed-card, #fff));
+  color: var(--fmed-muted, #647784);
+  font-size: 11px;
+  line-height: 1.4;
+}
+.fmed-process-use-case strong { flex: 0 0 auto; color: var(--fmed-text, #102a3a); }
+.fmed-process-card .fmed-process-steps span { text-transform: none; }
+
+.fmed-sharepoint-record-action {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  border: 0;
+  background: transparent;
+  color: var(--fmed-primary, #087f86);
+  font-size: 11px;
+  font-weight: 800;
+  cursor: pointer;
+}
+.fmed-sharepoint-record-action:hover { text-decoration: underline; text-underline-offset: 3px; }
+
+.fmed-new-intervention-status {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-top: 10px;
+  padding: 10px 12px;
+  border-radius: 10px;
+  background: color-mix(in srgb, var(--fmed-primary, #087f86) 5%, var(--fmed-card, #fff));
+  color: var(--fmed-muted, #647784);
+  font-size: 11px;
+  line-height: 1.4;
+}
+.fmed-new-intervention-status strong { color: var(--fmed-text, #102a3a); }
+
+@media (max-width: 1250px) {
+  .fmed-intervention-selected-summary { align-items: flex-start; }
+}
