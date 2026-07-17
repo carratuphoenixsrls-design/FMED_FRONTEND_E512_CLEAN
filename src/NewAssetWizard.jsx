@@ -1,4 +1,5 @@
 import FmedModuleIcon from "./components/FmedModuleIcon.jsx";
+import CanonicalSelect from "./components/masterdata/CanonicalSelect.jsx";
 import { useEffect, useMemo, useState } from "react";
 import "./NewAssetWizard.css";
 
@@ -241,6 +242,7 @@ export default function NewAssetWizard({
   const [masterLoading, setMasterLoading] = useState(true);
   const [masterError, setMasterError] = useState("");
   const [masterStatus, setMasterStatus] = useState(null);
+  const [masterRevision, setMasterRevision] = useState(0);
 
   useEffect(() => {
     const onKeyDown = (event) => {
@@ -249,6 +251,12 @@ export default function NewAssetWizard({
     window.addEventListener("keydown", onKeyDown);
     return () => window.removeEventListener("keydown", onKeyDown);
   }, [busy, onClose]);
+
+  useEffect(() => {
+    const refreshMasterData = () => setMasterRevision((current) => current + 1);
+    window.addEventListener("fmed:master-data-updated", refreshMasterData);
+    return () => window.removeEventListener("fmed:master-data-updated", refreshMasterData);
+  }, []);
 
 
   useEffect(() => {
@@ -290,7 +298,7 @@ export default function NewAssetWizard({
 
     loadMasterData();
     return () => { active = false; };
-  }, [apiBaseUrl]);
+  }, [apiBaseUrl, masterRevision]);
 
   const masterData = useMemo(() => mergeDictionaries(dizionari || {}, remoteMasterData), [dizionari, remoteMasterData]);
 
@@ -609,9 +617,9 @@ export default function NewAssetWizard({
               <button type="button" onClick={() => onOpenOcr(form)}>Apri scansione targhetta</button>
             </div>}
             <Field label="Codice inventario" hint="Lascia vuoto per generazione automatica"><input value={form.codicestrumento || ""} onChange={(event) => update("codicestrumento", event.target.value.toUpperCase())} /></Field>
-            <Select label="Sede *" value={form.sede} onChange={(value) => update("sede", value)} items={options.sedi} loading={masterLoading} />
-            <Select label="Tipologia *" value={form.tipologia} onChange={(value) => update("tipologia", value)} items={options.tipologie} allowCode loading={masterLoading} />
-            <Select label="Costruttore" value={form.costruttore} onChange={(value) => update("costruttore", value)} items={options.costruttori} emptyText="Seleziona costruttore" loading={masterLoading} />
+            <Select label="Sede *" dictionary="SEDI" value={form.sede} onChange={(value) => update("sede", value)} items={options.sedi} loading={masterLoading} apiBaseUrl={apiBaseUrl} form={form} />
+            <Select label="Tipologia *" dictionary="TIPOLOGIE_ASSET" value={form.tipologia} onChange={(value) => update("tipologia", value)} items={options.tipologie} loading={masterLoading} apiBaseUrl={apiBaseUrl} form={form} />
+            <Select label="Costruttore" dictionary="COSTRUTTORI" value={form.costruttore} onChange={(value) => update("costruttore", value)} items={options.costruttori} emptyText="Seleziona costruttore" loading={masterLoading} apiBaseUrl={apiBaseUrl} form={form} />
             <Select
               label="Modello"
               value={form.modello}
@@ -620,6 +628,10 @@ export default function NewAssetWizard({
               disabled={!form.costruttore || masterLoading}
               emptyText={!form.costruttore ? "Prima seleziona il costruttore" : "Seleziona modello"}
               hint={form.costruttore ? relationHint(modelState, "Modelli") : ""}
+              dictionary="MODELLI"
+              apiBaseUrl={apiBaseUrl}
+              form={form}
+              restrictToOptions
             />
             <Field label="Matricola"><input value={form.matricola || ""} onChange={(event) => update("matricola", event.target.value)} /></Field>
             <Field label="Anno di fabbricazione"><input inputMode="numeric" value={form.anno_di_fabbricazione || ""} onChange={(event) => update("anno_di_fabbricazione", event.target.value.replace(/\D/g, "").slice(0, 4))} /></Field>
@@ -627,9 +639,9 @@ export default function NewAssetWizard({
           </div>}
 
           {step === 1 && <div className="fmed-wizard-grid">
-            <Select label="Società *" value={form.societa} onChange={(value) => update("societa", value)} items={companyState.items.length ? companyState.items : options.societa} hint={form.sede ? relationHint(companyState, "Società") : ""} />
-            <Select label="Categoria *" value={form.categoria} onChange={(value) => update("categoria", value)} items={options.categorie} allowCode />
-            <Select label="Branca medica" value={form.branca_medica} onChange={(value) => update("branca_medica", value)} items={branchByCategoryState.items.length ? branchByCategoryState.items : options.branche} hint={form.categoria ? relationHint(branchByCategoryState, "Branche") : ""} />
+            <Select label="Società *" dictionary="SOCIETA" value={form.societa} onChange={(value) => update("societa", value)} items={companyState.items.length ? companyState.items : options.societa} hint={form.sede ? relationHint(companyState, "Società") : ""} apiBaseUrl={apiBaseUrl} form={form} restrictToOptions />
+            <Select label="Categoria *" dictionary="CATEGORIE_ASSET" value={form.categoria} onChange={(value) => update("categoria", value)} items={options.categorie} apiBaseUrl={apiBaseUrl} form={form} />
+            <Select label="Branca medica" dictionary="BRANCHE_MEDICHE" value={form.branca_medica} onChange={(value) => update("branca_medica", value)} items={branchByCategoryState.items.length ? branchByCategoryState.items : options.branche} hint={form.categoria ? relationHint(branchByCategoryState, "Branche") : ""} apiBaseUrl={apiBaseUrl} form={form} restrictToOptions />
             <Select
               label="Reparto"
               value={form.reparto}
@@ -638,6 +650,10 @@ export default function NewAssetWizard({
               disabled={!form.sede || masterLoading}
               emptyText={!form.sede ? "Prima seleziona la sede" : "Seleziona reparto"}
               hint={form.sede ? relationHint(departmentState, "Reparti") : ""}
+              dictionary="REPARTI"
+              apiBaseUrl={apiBaseUrl}
+              form={form}
+              restrictToOptions
             />
             <Select
               label="Locazione"
@@ -647,9 +663,13 @@ export default function NewAssetWizard({
               disabled={!form.sede || masterLoading}
               emptyText={!form.sede ? "Prima seleziona la sede" : "Seleziona locazione"}
               hint={form.sede ? relationHint(locationState, "Locazioni") : ""}
+              dictionary="LOCAZIONI"
+              apiBaseUrl={apiBaseUrl}
+              form={form}
+              restrictToOptions
             />
-            <Select label="Possesso" value={form.possesso} onChange={(value) => update("possesso", value)} items={options.possesso} />
-            <Select label="Fornitore" value={form.fornitore} onChange={(value) => update("fornitore", value)} items={options.fornitori} />
+            <Select label="Possesso" dictionary="POSSESSO" value={form.possesso} onChange={(value) => update("possesso", value)} items={options.possesso} apiBaseUrl={apiBaseUrl} form={form} />
+            <Select label="Fornitore" dictionary="FORNITORI" value={form.fornitore} onChange={(value) => update("fornitore", value)} items={options.fornitori} apiBaseUrl={apiBaseUrl} form={form} />
           </div>}
 
           {step === 2 && <div className="fmed-wizard-grid">
@@ -657,7 +677,7 @@ export default function NewAssetWizard({
             <Field label="Data collaudo"><input type="date" max={todayIso} value={form.data_di_collaudo || ""} onChange={(event) => update("data_di_collaudo", event.target.value)} /></Field>
             {form.data_di_collaudo && <>
               <label className="fmed-wizard-check wide"><input type="checkbox" checked={Boolean(form.registra_collaudo_storico)} onChange={(event) => update("registra_collaudo_storico", event.target.checked)} /><span><b>Registra automaticamente il collaudo nello storico</b><small>FMED creerà un intervento concluso con la data indicata. Il piano manutentivo futuro resta separato.</small></span></label>
-              {form.registra_collaudo_storico && <Select label="Esito collaudo *" value={form.esito_collaudo} onChange={(value) => update("esito_collaudo", value)} items={options.esiti} allowCode />}
+              {form.registra_collaudo_storico && <Select label="Esito collaudo *" dictionary="ESITI_INTERVENTO" value={form.esito_collaudo} onChange={(value) => update("esito_collaudo", value)} items={options.esiti} apiBaseUrl={apiBaseUrl} form={form} />}
             </>}
             <Field label="Note operative" wide><textarea rows="6" value={form.note || ""} onChange={(event) => update("note", event.target.value)} /></Field>
             <div className="fmed-wizard-info wide">La conferma crea o collega automaticamente la cartella SharePoint e restituisce i dati per QR ed etichetta. Nessun percorso deve essere scritto manualmente.</div>
@@ -674,8 +694,12 @@ export default function NewAssetWizard({
                 items={activityState.items.length ? activityState.items : options.attivita}
                 emptyText="Seleziona attività"
                 hint={relationHint(activityState, "Attività") || (!options.attivita.length ? "Configurare attività o piani manutentivi nel Master Data." : "")}
+                dictionary="ATTIVITA_INTERVENTO"
+                apiBaseUrl={apiBaseUrl}
+                form={form}
+                restrictToOptions
               />
-              <Select label="Periodicità *" value={form.periodicita} onChange={(value) => update("periodicita", value)} items={options.periodicita} allowCode />
+              <Select label="Periodicità *" dictionary="PERIODICITA" value={form.periodicita} onChange={(value) => update("periodicita", value)} items={options.periodicita} apiBaseUrl={apiBaseUrl} form={form} />
               <Field label="Data iniziale *"><input type="date" max={todayIso} value={form.data_ultimo_intervento || ""} onChange={(event) => update("data_ultimo_intervento", event.target.value)} /></Field>
             </>}
           </div>}
@@ -710,19 +734,26 @@ function Field({ label, hint, wide, children }) {
   return <label className={`fmed-wizard-field ${wide ? "wide" : ""}`}><span>{label}</span>{children}{hint && <small>{hint}</small>}</label>;
 }
 
-function Select({ label, value, onChange, items, allowCode = false, disabled = false, loading = false, emptyText = "Seleziona", hint = "" }) {
+function Select({ label, value, onChange, items, dictionary, disabled = false, loading = false, emptyText = "Seleziona", hint = "", apiBaseUrl = "", form = {}, restrictToOptions = false }) {
   const safeItems = uniqueOptions(items);
-  return <label className="fmed-wizard-field">
-    <span>{label}</span>
-    <select value={value || ""} disabled={disabled || loading} onChange={(event) => onChange(event.target.value)}>
-      <option value="">{loading ? "Caricamento…" : emptyText}</option>
-      {safeItems.map((item) => {
-        const optionValue = allowCode ? codeOf(item) : labelOf(item);
-        return <option key={`${normalizedCode(codeOf(item))}-${normalizedLabel(item)}`} value={optionValue}>{labelOf(item)}</option>;
-      })}
-    </select>
-    {hint && <small>{hint}</small>}
-  </label>;
+  const selected = safeItems.find((item) =>
+    normalizedCode(codeOf(item)) === normalizedCode(value) || normalizedLabel(item) === normalizedLabel(value)
+  );
+  const displayValue = selected ? labelOf(selected) : String(value || "");
+  return <CanonicalSelect
+    label={label}
+    dictionary={dictionary}
+    value={displayValue}
+    onChange={onChange}
+    options={safeItems.map(labelOf)}
+    disabled={disabled}
+    loading={loading}
+    placeholder={loading ? "Caricamento…" : emptyText}
+    hint={hint}
+    apiBaseUrl={apiBaseUrl}
+    form={form}
+    restrictToOptions={restrictToOptions}
+  />;
 }
 
 function Summary({ label, value }) {

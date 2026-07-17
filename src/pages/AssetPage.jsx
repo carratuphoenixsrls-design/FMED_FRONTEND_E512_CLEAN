@@ -1,5 +1,6 @@
 import AssetControls from "../components/asset/AssetControls";
 import AssetHero from "../components/asset/AssetHero";
+import CanonicalSelect from "../components/masterdata/CanonicalSelect.jsx";
 
 export default function AssetPage(props) {
   const {
@@ -53,7 +54,11 @@ export default function AssetPage(props) {
     annullaModificaRapidaAsset,
     apriModificaRapidaAsset,
     setAssetRenderLimit,
-    FMED_RENDER_BATCH_ASSET
+    FMED_RENDER_BATCH_ASSET,
+    apiBaseUrl,
+    listaTipologie,
+    listaCostruttori,
+    listaModelli
   } = props;
   return (
 <div className="fmed-asset-page">
@@ -160,49 +165,11 @@ export default function AssetPage(props) {
               color: "var(--fmed-bulk-muted, #475569)",
               fontSize: 13
             }}>{assetSelezionatiBulk.length} SELEZIONATI</span>
-                  <select value={assetBulkBranca} disabled={assetBulkSaving} onChange={e => setAssetBulkBranca(e.target.value)} style={{
-              ...styles.assetQuickSelect,
-              minWidth: 230,
-              maxWidth: 320
-            }}>
-                    <option value="">BRANCA: NON MODIFICARE</option>
-                    {listaBranche.map(r => <option key={r} value={r}>{r}</option>)}
-                  </select>
-                  <select value={assetBulkSocieta} disabled={assetBulkSaving} onChange={e => setAssetBulkSocieta(e.target.value)} style={{
-              ...styles.assetQuickSelect,
-              minWidth: 210,
-              maxWidth: 280
-            }}>
-                    <option value="">SOCIETÀ: NON MODIFICARE</option>
-                    {listaSocieta.map(soc => <option key={soc} value={soc}>{soc}</option>)}
-                  </select>
-                  <select value={assetBulkSede} disabled={assetBulkSaving} onChange={e => {
-              setAssetBulkSede(e.target.value);
-              setAssetBulkLocazione("");
-            }} style={{
-              ...styles.assetQuickSelect,
-              minWidth: 240,
-              maxWidth: 360
-            }}>
-                    <option value="">SEDE: NON MODIFICARE</option>
-                    {listaSedi.map(s => <option key={s} value={s}>{s}</option>)}
-                  </select>
-                  <select value={assetBulkLocazione} disabled={assetBulkSaving || !assetBulkSede} onChange={e => setAssetBulkLocazione(e.target.value)} style={{
-              ...styles.assetQuickSelect,
-              minWidth: 220,
-              maxWidth: 320
-            }}>
-                    <option value="">LOCAZIONE: NON MODIFICARE</option>
-                    {getListaLocazioniPerSede(assetBulkSede || "TUTTE", assetBulkLocazione, true).map(loc => <option key={loc} value={loc}>{loc}</option>)}
-                  </select>
-                  <select value={assetBulkStato} disabled={assetBulkSaving} onChange={e => setAssetBulkStato(e.target.value)} style={{
-              ...styles.assetQuickSelect,
-              minWidth: 190,
-              maxWidth: 260
-            }}>
-                    <option value="">STATO: NON MODIFICARE</option>
-                    {STATI_ASSET_STANDARD.map(stato => <option key={stato} value={stato}>{stato}</option>)}
-                  </select>
+                  <CanonicalSelect label="" dictionary="BRANCHE_MEDICHE" value={assetBulkBranca} disabled={assetBulkSaving} onChange={setAssetBulkBranca} options={listaBranche} placeholder="BRANCA: NON MODIFICARE" apiBaseUrl={apiBaseUrl} style={{ minWidth: 260, maxWidth: 340 }} />
+                  <CanonicalSelect label="" dictionary="SOCIETA" value={assetBulkSocieta} disabled={assetBulkSaving} onChange={setAssetBulkSocieta} options={listaSocieta} placeholder="SOCIETÀ: NON MODIFICARE" apiBaseUrl={apiBaseUrl} style={{ minWidth: 230, maxWidth: 300 }} />
+                  <CanonicalSelect label="" dictionary="SEDI" value={assetBulkSede} disabled={assetBulkSaving} onChange={(value) => { setAssetBulkSede(value); setAssetBulkLocazione(""); }} options={listaSedi} placeholder="SEDE: NON MODIFICARE" apiBaseUrl={apiBaseUrl} style={{ minWidth: 260, maxWidth: 380 }} />
+                  <CanonicalSelect label="" dictionary="LOCAZIONI" value={assetBulkLocazione} disabled={assetBulkSaving || !assetBulkSede} onChange={setAssetBulkLocazione} options={getListaLocazioniPerSede(assetBulkSede || "TUTTE", assetBulkLocazione, true)} placeholder="LOCAZIONE: NON MODIFICARE" apiBaseUrl={apiBaseUrl} restrictToOptions style={{ minWidth: 240, maxWidth: 340 }} />
+                  <CanonicalSelect label="" dictionary="STATI_ASSET" value={assetBulkStato} disabled={assetBulkSaving} onChange={setAssetBulkStato} options={STATI_ASSET_STANDARD} placeholder="STATO: NON MODIFICARE" apiBaseUrl={apiBaseUrl} style={{ minWidth: 210, maxWidth: 280 }} />
                   <button type="button" style={{
               ...styles.assetQuickSaveBtn,
               padding: "9px 14px",
@@ -278,39 +245,25 @@ export default function AssetPage(props) {
                       ...styles.assetStickyColBody
                     }}>{codiceRiga}</td>
                               <td style={styles.tdLarge}>
-                                {inEdit ? <input style={styles.assetQuickInput} value={assetQuickEditForm.tipologia || ""} onClick={e => e.stopPropagation()} onChange={e => aggiornaCampoModificaRapidaAsset("tipologia", e.target.value)} /> : c.tipologia}
+                                {inEdit ? <div onClick={e => e.stopPropagation()}><CanonicalSelect dictionary="TIPOLOGIE_ASSET" value={assetQuickEditForm.tipologia || ""} onChange={(value) => aggiornaCampoModificaRapidaAsset("tipologia", value)} options={listaTipologie} apiBaseUrl={apiBaseUrl} /></div> : c.tipologia}
                               </td>
                               <td style={styles.tdLarge}>
-                                {inEdit ? <select style={styles.assetQuickSelect} value={assetQuickEditForm.sede || c.sede || ""} onClick={e => e.stopPropagation()} onChange={e => {
-                        aggiornaCampoModificaRapidaAsset("sede", e.target.value);
-                        aggiornaCampoModificaRapidaAsset("locazione", "");
-                      }}>
-                                    <option value="">NON SPECIFICATA</option>
-                                    {listaSedi.map(s => <option key={s} value={s}>{s}</option>)}
-                                  </select> : c.sede}
+                                {inEdit ? <div onClick={e => e.stopPropagation()}><CanonicalSelect dictionary="SEDI" value={assetQuickEditForm.sede || c.sede || ""} onChange={(value) => { aggiornaCampoModificaRapidaAsset("sede", value); aggiornaCampoModificaRapidaAsset("locazione", ""); }} options={listaSedi} apiBaseUrl={apiBaseUrl} /></div> : c.sede}
                               </td>
                               <td style={styles.tdLarge}>
-                                {inEdit ? <select style={styles.assetQuickSelect} value={assetQuickEditForm.branca_medica || ""} onClick={e => e.stopPropagation()} onChange={e => aggiornaCampoModificaRapidaAsset("branca_medica", e.target.value)}>
-                                    <option value="">Non specificata</option>
-                                    {listaBranche.map(r => <option key={r} value={r}>{r}</option>)}
-                                  </select> : getBrancaAsset(c) || "-"}
+                                {inEdit ? <div onClick={e => e.stopPropagation()}><CanonicalSelect dictionary="BRANCHE_MEDICHE" value={assetQuickEditForm.branca_medica || ""} onChange={(value) => aggiornaCampoModificaRapidaAsset("branca_medica", value)} options={listaBranche} apiBaseUrl={apiBaseUrl} /></div> : getBrancaAsset(c) || "-"}
                               </td>
                               <td style={styles.tdLarge}>
-                                {inEdit ? <select style={styles.assetQuickSelect} value={assetQuickEditForm.locazione || ""} onClick={e => e.stopPropagation()} onChange={e => aggiornaCampoModificaRapidaAsset("locazione", e.target.value)}>
-                                    <option value="">NON SPECIFICATA</option>
-                                    {getListaLocazioniPerSede(assetQuickEditForm.sede || c.sede || "TUTTE", assetQuickEditForm.locazione || getLocazioneFmed(c), true).map(loc => <option key={loc} value={loc}>{loc}</option>)}
-                                  </select> : getLocazioneFmed(c) || "-"}
+                                {inEdit ? <div onClick={e => e.stopPropagation()}><CanonicalSelect dictionary="LOCAZIONI" value={assetQuickEditForm.locazione || ""} onChange={(value) => aggiornaCampoModificaRapidaAsset("locazione", value)} options={getListaLocazioniPerSede(assetQuickEditForm.sede || c.sede || "TUTTE", assetQuickEditForm.locazione || getLocazioneFmed(c), true)} apiBaseUrl={apiBaseUrl} restrictToOptions /></div> : getLocazioneFmed(c) || "-"}
                               </td>
                               <td style={styles.tdLarge}>
-                                {inEdit ? <input style={styles.assetQuickInput} value={assetQuickEditForm.costruttore || ""} onClick={e => e.stopPropagation()} onChange={e => aggiornaCampoModificaRapidaAsset("costruttore", e.target.value)} /> : c.costruttore}
+                                {inEdit ? <div onClick={e => e.stopPropagation()}><CanonicalSelect dictionary="COSTRUTTORI" value={assetQuickEditForm.costruttore || ""} onChange={(value) => aggiornaCampoModificaRapidaAsset("costruttore", value)} options={listaCostruttori} apiBaseUrl={apiBaseUrl} /></div> : c.costruttore}
                               </td>
                               <td style={styles.tdLarge}>
-                                {inEdit ? <input style={styles.assetQuickInput} value={assetQuickEditForm.modello || ""} onClick={e => e.stopPropagation()} onChange={e => aggiornaCampoModificaRapidaAsset("modello", e.target.value)} /> : c.modello}
+                                {inEdit ? <div onClick={e => e.stopPropagation()}><CanonicalSelect dictionary="MODELLI" value={assetQuickEditForm.modello || ""} onChange={(value) => aggiornaCampoModificaRapidaAsset("modello", value)} options={listaModelli} apiBaseUrl={apiBaseUrl} /></div> : c.modello}
                               </td>
                               <td style={styles.tdLarge}>
-                                {inEdit ? <select style={styles.assetQuickSelect} value={assetQuickEditForm.stato_asset || statoCespite(c)} onClick={e => e.stopPropagation()} onChange={e => aggiornaCampoModificaRapidaAsset("stato_asset", e.target.value)}>
-                                    {STATI_ASSET_STANDARD.map(stato => <option key={stato} value={stato}>{stato}</option>)}
-                                  </select> : <>
+                                {inEdit ? <div onClick={e => e.stopPropagation()}><CanonicalSelect dictionary="STATI_ASSET" value={assetQuickEditForm.stato_asset || statoCespite(c)} onChange={(value) => aggiornaCampoModificaRapidaAsset("stato_asset", value)} options={STATI_ASSET_STANDARD} apiBaseUrl={apiBaseUrl} /></div> : <>
                                     <span style={{
                           ...styles.statusDot,
                           background: coloreStatoAsset(statoCespite(c))

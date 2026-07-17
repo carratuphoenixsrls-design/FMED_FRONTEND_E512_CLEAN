@@ -1,4 +1,4 @@
-/* FMED ENTERPRISE 1.0 · E5.2.1 DATA HYGIENE · FRONTEND COMPLETO */
+/* FMED ENTERPRISE 1.0 · E5.2.2 CATALOGO CANONICO GLOBALE · FRONTEND COMPLETO */
 /*
   FMED CLEANUP 2026-06-25
   - Verifica JSX eseguita con esbuild: sintassi OK.
@@ -23,6 +23,7 @@ const ExportPage = lazy(() => import("./pages/ExportPage.jsx"));
 const SharePointPage = lazy(() => import("./pages/SharePointPage.jsx"));
 import NewInterventionAssetPicker from "./components/interventi/NewInterventionAssetPicker.jsx";
 import AlertMailDialog from "./components/alerts/AlertMailDialog.jsx";
+import CanonicalSelect from "./components/masterdata/CanonicalSelect.jsx";
 const nomiCategorie = {
   E: "Elettromedicale",
   A: "Arredo",
@@ -47,8 +48,8 @@ const API_BASE_URL = ENV_API_BASE_URL || (IS_LOCAL_FRONTEND ? "http://127.0.0.1:
 const API_BASE_CANDIDATES = [API_BASE_URL, ...(ENV_API_BASE_URL ? [] : IS_LOCAL_FRONTEND ? ["http://localhost:8000", "http://10.10.10.31:8000"] : [])].filter((value, index, array) => value && array.indexOf(value) === index);
 
 // Versione frontend visibile per evitare dubbi da cache, browser o PWA.
-const MRDB_APP_VERSION = "FMED_ENTERPRISE_1_0_E5_2_1_DATA_HYGIENE_2026_07_17";
-const MRDB_APP_BUILD_LABEL = "FMED ENTERPRISE 1.0 · E5.2.1 DATA HYGIENE";
+const MRDB_APP_VERSION = "FMED_ENTERPRISE_1_0_E5_2_2_CATALOGO_CANONICO_GLOBALE_2026_07_17";
+const MRDB_APP_BUILD_LABEL = "FMED ENTERPRISE 1.0 · E5.2.2 CATALOGO CANONICO GLOBALE";
 // FMED PERFORMANCE SAFE MODE
 // Render progressivo degli elenchi lunghi: filtri/export restano completi, si alleggerisce solo il DOM visibile.
 const FMED_RENDER_BATCH_ASSET = 100;
@@ -7147,6 +7148,7 @@ ${messaggio}`);
 
         {paginaAssetAttiva && <Suspense fallback={<div className="fmed-lazy-loading">Caricamento modulo…</div>}><AssetPage {...{
           styles,
+          apiBaseUrl: API_BASE_URL,
           filtrati,
           cespiti,
           sede,
@@ -7460,7 +7462,8 @@ ${messaggio}`);
           messaggioInfra,
           salvaInfrastruttura,
           salvataggioInfraLoading,
-          setFormInfrastrutturaOpen
+          setFormInfrastrutturaOpen,
+          apiBaseUrl: API_BASE_URL
         }} /></Suspense>}
 
 {paginaExportAttiva && permessiRuoloFmed.canExport && <Suspense fallback={<div className="fmed-lazy-loading">Caricamento modulo…</div>}><ExportPage {...{
@@ -7680,7 +7683,7 @@ ${messaggio}`);
               ...styles.editGrid,
               ...{}
             }}>
-          <SelectField label="Codice strumento" field="codice_strumento" options={listaCodiciStrumentoInterventi} formCespite={formNuovoIntervento} setFormCespite={setFormNuovoIntervento} />
+          <SelectField label="Codice strumento" field="codice_strumento" allowQuickAdd={false} options={listaCodiciStrumentoInterventi} formCespite={formNuovoIntervento} setFormCespite={setFormNuovoIntervento} />
 
           <SelectField label="Sede" field="sede" options={listaSediFormInterventi} formCespite={formNuovoIntervento} setFormCespite={setFormNuovoIntervento} />
 
@@ -7710,13 +7713,17 @@ ${messaggio}`);
 
           <SelectField label="Ditta esecutrice" field="ditta_esecutrice" options={listaDitteEsecutriciFormInterventi} formCespite={formNuovoIntervento} setFormCespite={setFormNuovoIntervento} />
 
-          <div style={styles.editField}>
-            <label style={styles.editLabel}>Periodicità</label>
-            <select style={styles.editInput} value={formNuovoIntervento.periodicita || ""} onChange={e => setFormNuovoIntervento(prev => aggiornaFormInterventoConScadenza(prev, "periodicita", e.target.value))}>
-              <option value="">Seleziona periodicità</option>
-              {listaPeriodicitaFormInterventi.map(p => <option key={p} value={p}>{p}</option>)}
-            </select>
-          </div>
+          <CanonicalSelect
+            label="Periodicità"
+            field="periodicita"
+            dictionary="PERIODICITA"
+            value={formNuovoIntervento.periodicita || ""}
+            options={listaPeriodicitaFormInterventi}
+            form={formNuovoIntervento}
+            apiBaseUrl={API_BASE_URL}
+            style={styles.editField}
+            onChange={value => setFormNuovoIntervento(prev => aggiornaFormInterventoConScadenza(prev, "periodicita", value))}
+          />
 
           <div style={styles.editField}>
             <label style={styles.editLabel}>Data ultimo intervento</label>
@@ -7747,16 +7754,17 @@ ${messaggio}`);
                 })} placeholder="€ 80,00" />
           </div>
 
-          <div style={styles.editField}>
-            <label style={styles.editLabel}>Esito</label>
-            <select style={styles.editInput} value={formNuovoIntervento.esito || ""} onChange={e => setFormNuovoIntervento({
-                  ...formNuovoIntervento,
-                  esito: e.target.value
-                })}>
-              <option value="">Seleziona esito</option>
-              {listaEsitiInterventi.map(esito => <option key={esito} value={esito}>{esito}</option>)}
-            </select>
-          </div>
+          <CanonicalSelect
+            label="Esito"
+            field="esito"
+            dictionary="ESITI_INTERVENTO"
+            value={formNuovoIntervento.esito || ""}
+            options={listaEsitiInterventi}
+            form={formNuovoIntervento}
+            apiBaseUrl={API_BASE_URL}
+            style={styles.editField}
+            onChange={value => setFormNuovoIntervento(prev => ({ ...prev, esito: value }))}
+          />
 
           <div style={styles.editField}>
             <label style={styles.editLabel}>Link documento / Job report</label>
@@ -7819,7 +7827,7 @@ ${messaggio}`);
               ...styles.editGrid,
               ...{}
             }}>
-          <SelectField label="Codice strumento" field="codice_strumento" options={listaCodiciStrumentoInterventi} formCespite={formModificaIntervento} setFormCespite={setFormModificaIntervento} />
+          <SelectField label="Codice strumento" field="codice_strumento" allowQuickAdd={false} options={listaCodiciStrumentoInterventi} formCespite={formModificaIntervento} setFormCespite={setFormModificaIntervento} />
 
           <SelectField label="Sede" field="sede" options={listaSediFormInterventi} formCespite={formModificaIntervento} setFormCespite={setFormModificaIntervento} />
 
@@ -7845,13 +7853,17 @@ ${messaggio}`);
 
           <SelectField label="Ditta esecutrice" field="ditta_esecutrice" options={listaDitteEsecutriciFormInterventi} formCespite={formModificaIntervento} setFormCespite={setFormModificaIntervento} />
 
-          <div style={styles.editField}>
-            <label style={styles.editLabel}>Periodicità</label>
-            <select style={styles.editInput} value={formModificaIntervento.periodicita || ""} onChange={e => setFormModificaIntervento(prev => aggiornaFormInterventoConScadenza(prev, "periodicita", e.target.value))}>
-              <option value="">Seleziona periodicità</option>
-              {listaPeriodicitaFormInterventi.map(p => <option key={p} value={p}>{p}</option>)}
-            </select>
-          </div>
+          <CanonicalSelect
+            label="Periodicità"
+            field="periodicita"
+            dictionary="PERIODICITA"
+            value={formModificaIntervento.periodicita || ""}
+            options={listaPeriodicitaFormInterventi}
+            form={formModificaIntervento}
+            apiBaseUrl={API_BASE_URL}
+            style={styles.editField}
+            onChange={value => setFormModificaIntervento(prev => aggiornaFormInterventoConScadenza(prev, "periodicita", value))}
+          />
 
           <div style={styles.editField}>
             <label style={styles.editLabel}>Ultimo intervento</label>
@@ -7866,16 +7878,17 @@ ${messaggio}`);
                 })} />
           </div>
 
-          <div style={styles.editField}>
-            <label style={styles.editLabel}>Esito</label>
-            <select style={styles.editInput} value={formModificaIntervento.esito || ""} onChange={e => setFormModificaIntervento({
-                  ...formModificaIntervento,
-                  esito: e.target.value
-                })}>
-              <option value="">Seleziona esito</option>
-              {listaEsitiInterventi.map(esito => <option key={esito} value={esito}>{esito}</option>)}
-            </select>
-          </div>
+          <CanonicalSelect
+            label="Esito"
+            field="esito"
+            dictionary="ESITI_INTERVENTO"
+            value={formModificaIntervento.esito || ""}
+            options={listaEsitiInterventi}
+            form={formModificaIntervento}
+            apiBaseUrl={API_BASE_URL}
+            style={styles.editField}
+            onChange={value => setFormModificaIntervento(prev => ({ ...prev, esito: value }))}
+          />
 
           <div style={styles.editField}>
             <label style={styles.editLabel}>Costo (€)</label>
@@ -8182,49 +8195,41 @@ ${messaggio}`);
 
           <SelectField label="Possesso" field="possesso" options={listaPossesso} formCespite={formNuovoCespite} setFormCespite={setFormNuovoCespite} />
 
-          <div style={styles.editField}>
-            <label style={styles.editLabel}>Sede</label>
-            <select style={styles.editInput} value={formNuovoCespite.sede || ""} onChange={async e => {
-                  const nuovaSede = e.target.value;
-                  setCodiceCespiteAutomatico(true);
-                  setFormNuovoCespite(prev => ({
-                    ...prev,
-                    sede: nuovaSede,
-                    codicestrumento: ""
-                  }));
-                  if (!nuovaSede) return;
-                  const codiceGenerato = await generaCodiceCespiteDaBackend(nuovaSede);
-                  if (!codiceGenerato) return;
-                  setFormNuovoCespite(prev => ({
-                    ...prev,
-                    sede: nuovaSede,
-                    codicestrumento: codiceGenerato
-                  }));
-                }}>
-              <option value="">Seleziona sede</option>
-              {listaSediFormInterventi.map(opzione => <option key={opzione} value={opzione}>
-                  {opzione}
-                </option>)}
-            </select>
-          </div>
+          <CanonicalSelect
+            label="Sede"
+            field="sede"
+            dictionary="SEDI"
+            value={formNuovoCespite.sede || ""}
+            options={listaSediFormInterventi}
+            form={formNuovoCespite}
+            apiBaseUrl={API_BASE_URL}
+            style={styles.editField}
+            onChange={async nuovaSede => {
+              setCodiceCespiteAutomatico(true);
+              setFormNuovoCespite(prev => ({ ...prev, sede: nuovaSede, codicestrumento: "" }));
+              if (!nuovaSede) return;
+              const codiceGenerato = await generaCodiceCespiteDaBackend(nuovaSede);
+              if (!codiceGenerato) return;
+              setFormNuovoCespite(prev => ({ ...prev, sede: nuovaSede, codicestrumento: codiceGenerato }));
+            }}
+          />
 
           <SelectField label="Reparto" field="reparto" options={listaRepartiFormInterventi} formCespite={formNuovoCespite} setFormCespite={setFormNuovoCespite} />
 
-          <div style={styles.editField}>
-            <label style={styles.editLabel}>BRANCA MEDICA</label>
-            <select style={styles.editInput} value={formNuovoCespite.branca_medica || ""} onChange={e => {
-                  const nuovaBranca = e.target.value;
-                  const tipologiaSuggerita = fmedSuggerisciTipologiaDaBranca(nuovaBranca);
-                  setFormNuovoCespite(prev => ({
-                    ...prev,
-                    branca_medica: nuovaBranca,
-                    tipologia: prev.tipologia || tipologiaSuggerita || ""
-                  }));
-                }}>
-              <option value="">SELEZIONA BRANCA MEDICA</option>
-              {listaBrancheForm.map(v => <option key={`branca-form-${v}`} value={v}>{v}</option>)}
-            </select>
-          </div>
+          <CanonicalSelect
+            label="Branca medica"
+            field="branca_medica"
+            dictionary="BRANCHE_MEDICHE"
+            value={formNuovoCespite.branca_medica || ""}
+            options={listaBrancheForm}
+            form={formNuovoCespite}
+            apiBaseUrl={API_BASE_URL}
+            style={styles.editField}
+            onChange={nuovaBranca => {
+              const tipologiaSuggerita = fmedSuggerisciTipologiaDaBranca(nuovaBranca);
+              setFormNuovoCespite(prev => ({ ...prev, branca_medica: nuovaBranca, tipologia: prev.tipologia || tipologiaSuggerita || "" }));
+            }}
+          />
 
           <SelectField label="Locazione" field="locazione" options={listaLocazioniNuovoCespite} formCespite={formNuovoCespite} setFormCespite={setFormNuovoCespite} />
 
@@ -9202,30 +9207,22 @@ function SelectField({
   field,
   options = [],
   formCespite,
-  setFormCespite
+  setFormCespite,
+  dictionary = "",
+  allowQuickAdd = true,
 }) {
-  const valoreCorrente = formCespite?.[field] ? String(formCespite[field]) : "";
-  const valoriPuliti = [...new Set([...(Array.isArray(options) ? options.filter(v => v !== null && v !== undefined && typeof v !== "object").map(v => String(v).trim()) : []), valoreCorrente].filter(Boolean))].sort((a, b) => a.localeCompare(b, "it", {
-    numeric: true,
-    sensitivity: "base"
-  }));
-  return <div style={styles.editField}>
-      <label style={styles.editLabel}>{label}</label>
-      <select style={styles.editInput} value={valoreCorrente} onChange={e => setFormCespite({
-      ...formCespite,
-      [field]: e.target.value
-    })}>
-        <option value="">SELEZIONA {String(label || "").toUpperCase()}</option>
-
-        {valoriPuliti.length === 0 && <option value="" disabled>
-            NESSUNA VOCE DISPONIBILE
-          </option>}
-
-        {valoriPuliti.map(v => <option key={`${field}-${v}`} value={v}>
-            {v}
-          </option>)}
-      </select>
-    </div>;
+  return <CanonicalSelect
+    label={label}
+    field={field}
+    dictionary={dictionary}
+    value={formCespite?.[field] || ""}
+    options={options}
+    form={formCespite || {}}
+    apiBaseUrl={API_BASE_URL}
+    allowQuickAdd={allowQuickAdd}
+    style={styles.editField}
+    onChange={value => setFormCespite(prev => ({ ...prev, [field]: value }))}
+  />;
 }
 function valorePulitoDizionarioBox(tipo, valore) {
   try {

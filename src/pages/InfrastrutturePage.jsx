@@ -1,6 +1,7 @@
 import InfrastruttureControls from "../components/infrastrutture/InfrastruttureControls";
 import InfrastruttureHero from "../components/infrastrutture/InfrastruttureHero";
 import InfrastruttureRowActions from "../components/infrastrutture/InfrastruttureRowActions";
+import CanonicalSelect from "../components/masterdata/CanonicalSelect.jsx";
 
 export default function InfrastrutturePage(props) {
   const {
@@ -31,6 +32,7 @@ export default function InfrastrutturePage(props) {
     salvaInfrastruttura,
     salvataggioInfraLoading,
     setFormInfrastrutturaOpen,
+    apiBaseUrl,
   } = props;
   return (
     <>
@@ -269,50 +271,50 @@ export default function InfrastrutturePage(props) {
                       ...styles.input,
                       minHeight: 38,
                       width: "100%"
-                    }} value={formInfra.codice || ""} onChange={e => aggiornaFormInfra("codice", e.target.value)} placeholder="Automatico" />
+                    }} value={formInfra.codice || ""} readOnly placeholder="Assegnato automaticamente" />
               </div>
-              <div>
-                <div style={styles.smallLabel}>Sede</div>
-                <select style={{
-                      ...styles.input,
-                      minHeight: 38,
-                      width: "100%"
-                    }} value={formInfra.sede || ""} onChange={e => aggiornaFormInfra("sede", e.target.value)}>
-                  {SEDI_STANDARD_LIST.map(s => <option key={s} value={s}>{s}</option>)}
-                </select>
-              </div>
-              <div>
-                <div style={styles.smallLabel}>Categoria</div>
-                <select style={{
-                      ...styles.input,
-                      minHeight: 38,
-                      width: "100%"
-                    }} value={formInfra.categoria || ""} onChange={e => aggiornaFormInfra("categoria", e.target.value)}>
-                  {infraCategorieStandard.map(c => <option key={c} value={c}>{c}</option>)}
-                </select>
-              </div>
-              <div>
-                <div style={styles.smallLabel}>Ditta esecutrice</div>
-                <select style={{
-                      ...styles.input,
-                      minHeight: 38,
-                      width: "100%"
-                    }} value={formInfra.ditta || ""} onChange={e => aggiornaFormInfra("ditta", e.target.value)}>
-                  <option value="">Seleziona ditta</option>
-                  {infraDitteOptions.map(d => <option key={d} value={d}>{d}</option>)}
-                </select>
-              </div>
-              <div style={{
-                    gridColumn: "span 4"
-                  }}>
-                <div style={styles.smallLabel}>Attività / impianto</div>
-                <input style={{
-                      ...styles.input,
-                      minHeight: 40,
-                      width: "100%",
-                      fontSize: 14
-                    }} value={formInfra.descrizione || ""} onChange={e => aggiornaFormInfra("descrizione", e.target.value.toUpperCase())} placeholder="ES. UTA, CHILLER, QUADRO ELETTRICO, IMPIANTO ANTINCENDIO..." />
-              </div>
+              <CanonicalSelect
+                label="Sede"
+                field="sede"
+                dictionary="SEDI"
+                value={formInfra.sede || ""}
+                options={SEDI_STANDARD_LIST}
+                form={formInfra}
+                apiBaseUrl={apiBaseUrl}
+                onChange={value => aggiornaFormInfra("sede", value)}
+              />
+              <CanonicalSelect
+                label="Categoria infrastruttura"
+                field="categoria"
+                dictionary="CATEGORIE_INFRASTRUTTURE"
+                value={formInfra.categoria || ""}
+                options={infraCategorieStandard}
+                form={formInfra}
+                apiBaseUrl={apiBaseUrl}
+                onChange={value => aggiornaFormInfra("categoria", value)}
+              />
+              <CanonicalSelect
+                label="Ditta esecutrice"
+                field="ditta"
+                dictionary="DITTE_ESECUTRICI"
+                value={formInfra.ditta || ""}
+                options={infraDitteOptions}
+                form={formInfra}
+                apiBaseUrl={apiBaseUrl}
+                onChange={value => aggiornaFormInfra("ditta", value)}
+              />
+              <CanonicalSelect
+                label="Attività / impianto"
+                field="descrizione"
+                dictionary="ITEM_INFRASTRUTTURE"
+                value={formInfra.descrizione || ""}
+                options={[]}
+                form={formInfra}
+                apiBaseUrl={apiBaseUrl}
+                style={{ gridColumn: "span 4" }}
+                onChange={value => aggiornaFormInfra("descrizione", value)}
+                hint="Se la voce manca, aggiungila senza uscire dalla scheda."
+              />
             </div>
           </div>
 
@@ -334,26 +336,8 @@ export default function InfrastrutturePage(props) {
                   gridTemplateColumns: "1fr 1fr",
                   gap: 12
                 }}>
-              <div>
-                <div style={styles.smallLabel}>Periodicità</div>
-                <select style={{
-                      ...styles.input,
-                      minHeight: 38,
-                      width: "100%"
-                    }} value={formInfra.periodicita || ""} onChange={e => aggiornaFormInfra("periodicita", e.target.value)}>
-                  {infraPeriodicitaStandard.map(p => <option key={p} value={p}>{p}</option>)}
-                </select>
-              </div>
-              <div>
-                <div style={styles.smallLabel}>Stato</div>
-                <select style={{
-                      ...styles.input,
-                      minHeight: 38,
-                      width: "100%"
-                    }} value={formInfra.stato || "DA_VERIFICARE"} onChange={e => aggiornaFormInfra("stato", e.target.value)}>
-                  {infraStatiStandard.map(s => <option key={s} value={s}>{s}</option>)}
-                </select>
-              </div>
+              <CanonicalSelect label="Periodicità" field="periodicita" dictionary="PERIODICITA" value={formInfra.periodicita || ""} options={infraPeriodicitaStandard} form={formInfra} apiBaseUrl={apiBaseUrl} onChange={value => aggiornaFormInfra("periodicita", value)} />
+              <CanonicalSelect label="Stato" field="stato" dictionary="STATI_INFRASTRUTTURA" value={formInfra.stato || "DA_VERIFICARE"} options={infraStatiStandard} form={formInfra} apiBaseUrl={apiBaseUrl} onChange={value => aggiornaFormInfra("stato", value)} />
               <div>
                 <div style={styles.smallLabel}>Ultimo intervento</div>
                 <input type="date" style={{
@@ -370,16 +354,7 @@ export default function InfrastrutturePage(props) {
                       width: "100%"
                     }} value={formInfra.prossimo_intervento || ""} onChange={e => aggiornaFormInfra("prossimo_intervento", e.target.value)} />
               </div>
-              <div>
-                <div style={styles.smallLabel}>Priorità</div>
-                <select style={{
-                      ...styles.input,
-                      minHeight: 38,
-                      width: "100%"
-                    }} value={formInfra.priorita || "MEDIA"} onChange={e => aggiornaFormInfra("priorita", e.target.value)}>
-                  {PRIORITA_STANDARD.map(p => <option key={p} value={p}>{p}</option>)}
-                </select>
-              </div>
+              <CanonicalSelect label="Priorità" field="priorita" dictionary="PRIORITA" value={formInfra.priorita || "MEDIA"} options={PRIORITA_STANDARD} form={formInfra} apiBaseUrl={apiBaseUrl} onChange={value => aggiornaFormInfra("priorita", value)} />
             </div>
           </div>
 
@@ -401,17 +376,7 @@ export default function InfrastrutturePage(props) {
                   gridTemplateColumns: "1fr 1fr",
                   gap: 12
                 }}>
-              <div>
-                <div style={styles.smallLabel}>Società</div>
-                <select style={{
-                      ...styles.input,
-                      minHeight: 38,
-                      width: "100%"
-                    }} value={formInfra.societa || ""} onChange={e => aggiornaFormInfra("societa", e.target.value)}>
-                  <option value="">Seleziona società</option>
-                  {infraSocietaOptions.map(soc => <option key={soc} value={soc}>{soc}</option>)}
-                </select>
-              </div>
+              <CanonicalSelect label="Società" field="societa" dictionary="SOCIETA" value={formInfra.societa || ""} options={infraSocietaOptions} form={formInfra} apiBaseUrl={apiBaseUrl} onChange={value => aggiornaFormInfra("societa", value)} />
               <div>
                 <div style={styles.smallLabel}>Helpdesk</div>
                 <input style={{
@@ -420,25 +385,8 @@ export default function InfrastrutturePage(props) {
                       width: "100%"
                     }} value={formInfra.numero_helpdesk || ""} onChange={e => aggiornaFormInfra("numero_helpdesk", e.target.value)} />
               </div>
-              <div>
-                <div style={styles.smallLabel}>Responsabile</div>
-                <input style={{
-                      ...styles.input,
-                      minHeight: 38,
-                      width: "100%"
-                    }} value={formInfra.responsabile || ""} onChange={e => aggiornaFormInfra("responsabile", e.target.value)} />
-              </div>
-              <div>
-                <div style={styles.smallLabel}>Centro costo</div>
-                <select style={{
-                      ...styles.input,
-                      minHeight: 38,
-                      width: "100%"
-                    }} value={formInfra.centro_costo || ""} onChange={e => aggiornaFormInfra("centro_costo", e.target.value)}>
-                  <option value="">Seleziona centro costo</option>
-                  {infraCentroCostoOptions.map(cc => <option key={cc} value={cc}>{cc}</option>)}
-                </select>
-              </div>
+              <CanonicalSelect label="Responsabile" field="responsabile" dictionary="RESPONSABILI" value={formInfra.responsabile || ""} options={[]} form={formInfra} apiBaseUrl={apiBaseUrl} onChange={value => aggiornaFormInfra("responsabile", value)} />
+              <CanonicalSelect label="Centro costo" field="centro_costo" dictionary="CENTRI_COSTO" value={formInfra.centro_costo || ""} options={infraCentroCostoOptions} form={formInfra} apiBaseUrl={apiBaseUrl} onChange={value => aggiornaFormInfra("centro_costo", value)} />
               <div>
                 <div style={styles.smallLabel}>Importo annuo</div>
                 <input style={{

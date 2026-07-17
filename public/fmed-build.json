@@ -1,15 +1,18 @@
 {
   "product": "FMED Enterprise 1.0",
-  "release": "E5.2.1 Data Hygiene",
-  "build": "FMED_ENTERPRISE_1_0_E5_2_1_DATA_HYGIENE_2026_07_17",
+  "release": "E5.2.2 Catalogo Canonico Globale",
+  "build": "FMED_ENTERPRISE_1_0_E5_2_2_CATALOGO_CANONICO_GLOBALE_2026_07_17",
   "frontend": true,
-  "backend_required": "E5.2.1 or newer",
+  "backend_required": "E5.2.2 or newer",
   "features": [
     "Light Comfort",
     "SharePoint Sync",
     "Master Data Governance",
     "Motore Cicli Unificato",
-    "Data Hygiene sedi"
+    "Data Hygiene sedi",
+    "Catalogo Canonico Globale",
+    "Quick Add contestuale",
+    "Relazioni storico-futuro"
   ],
-  "description": "Sei sedi ufficiali, menu deduplicati e normalizzazione non distruttiva con storico audit."
+  "description": "Valori strutturati univoci e codificati, dropdown governati, Quick Add contestuale, unificazione alias e relazioni intelligenti tra passato e futuro."
 }

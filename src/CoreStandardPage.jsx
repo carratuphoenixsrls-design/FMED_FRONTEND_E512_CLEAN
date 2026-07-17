@@ -2,26 +2,12 @@ import FmedModuleIcon from "./components/FmedModuleIcon.jsx";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import "./CoreStandardPage.css";
 import DizionariControls from "./components/DizionariControls.jsx";
+import { fmedAuthHeaders, fmedFetchJson, fmedSession } from "./fmedApiClient.js";
 
 const emptyValue = { dizionario: "", codice: "", etichetta: "", ordine: 100, attivo: true, metadati: {} };
 const emptyRelation = { tipo: "CONSENTE", sorgente_dizionario: "SEDI", sorgente_codice: "", destinazione_dizionario: "REPARTI", destinazione_codice: "", priorita: 100, obbligatoria: false, attivo: true, metadati: {} };
 
-function apiHeaders() {
-  let token = "";
-  try {
-    const raw = localStorage.getItem("fmed_login_session") || sessionStorage.getItem("fmed_login_session");
-    if (raw) {
-      const session = JSON.parse(raw);
-      token = String(session?.access_token || session?.token || "").trim();
-    }
-  } catch {
-    token = "";
-  }
-  return {
-    "Content-Type": "application/json",
-    ...(token ? { Authorization: `Bearer ${token}` } : {}),
-  };
-}
+const apiHeaders = () => fmedAuthHeaders();
 const normalizeText = (value) => String(value || "").toLocaleLowerCase("it-IT").trim();
 
 const formatCount = (value) => new Intl.NumberFormat("it-IT").format(Number(value || 0));
@@ -184,12 +170,16 @@ export default function CoreStandardPage({ apiBaseUrl, onDataChanged, canManage 
   const [tab, setTab] = useState(initialTab);
   const [relazioni, setRelazioni] = useState([]);
   const [relationDraft, setRelationDraft] = useState(emptyRelation);
+  const [relationHistoryPreview, setRelationHistoryPreview] = useState(null);
+  const [relationHistoryBusy, setRelationHistoryBusy] = useState(false);
   const [dictionarySearch, setDictionarySearch] = useState("");
   const [valueSearch, setValueSearch] = useState("");
   const [showInactive, setShowInactive] = useState(false);
   const [nextCode, setNextCode] = useState("");
   const [editingValueId, setEditingValueId] = useState(null);
   const [editingLabel, setEditingLabel] = useState("");
+  const [mergeSource, setMergeSource] = useState(null);
+  const [mergeTargetId, setMergeTargetId] = useState("");
   const [quality, setQuality] = useState(null);
   const [qualityLoading, setQualityLoading] = useState(false);
   const [qualityBusy, setQualityBusy] = useState(false);
@@ -201,18 +191,27 @@ export default function CoreStandardPage({ apiBaseUrl, onDataChanged, canManage 
 
   const load = useCallback(async () => {
     setLoading(true); setMessage("");
-    try {
-      const [d, r] = await Promise.all([
-        fetch(`${apiBaseUrl}/core/dizionari/amministrazione`).then(x => x.json()),
-        fetch(`${apiBaseUrl}/core/relazioni?solo_attive=false`).then(x => x.json()),
-      ]);
-      const dictionaries = Array.isArray(d?.dizionari) ? d.dizionari : [];
+    const [dictionaryResult, relationResult] = await Promise.allSettled([
+      fmedFetchJson("/core/dizionari/amministrazione", { apiBaseUrl, retries: 3, timeoutMs: 60000 }),
+      fmedFetchJson("/core/relazioni?solo_attive=false", { apiBaseUrl, retries: 3, timeoutMs: 60000 }),
+    ]);
+    const warnings = [];
+    if (dictionaryResult.status === "fulfilled") {
+      const dictionaries = Array.isArray(dictionaryResult.value?.dizionari) ? dictionaryResult.value.dizionari : [];
       setCatalogo(dictionaries);
-      setRelazioni(Array.isArray(r?.relazioni) ? r.relazioni : []);
       setSelected(prev => prev || dictionaries[0]?.codice || "");
-    } catch (error) {
-      setMessage(`Impossibile caricare il Master Data: ${error.message}`);
-    } finally { setLoading(false); }
+    } else {
+      warnings.push(`Dizionari: ${dictionaryResult.reason?.message || "backend non raggiungibile"}`);
+    }
+    if (relationResult.status === "fulfilled") {
+      setRelazioni(Array.isArray(relationResult.value?.relazioni) ? relationResult.value.relazioni : []);
+    } else {
+      warnings.push(`Relazioni: ${relationResult.reason?.message || "backend non raggiungibile"}`);
+    }
+    if (warnings.length) {
+      setMessage(`Sincronizzazione parziale. ${warnings.join(" · ")}. FMED riprova automaticamente anche dopo il riavvio di Render.`);
+    }
+    setLoading(false);
   }, [apiBaseUrl]);
 
   useEffect(() => { load(); }, [load]);
@@ -220,9 +219,7 @@ export default function CoreStandardPage({ apiBaseUrl, onDataChanged, canManage 
   const loadQuality = useCallback(async (force = true) => {
     setQualityLoading(true);
     try {
-      const response = await fetch(`${apiBaseUrl}/master-data/audit?limit=6000&force=${force ? "true" : "false"}`);
-      const data = await response.json().catch(() => ({}));
-      if (!response.ok) throw new Error(data?.detail || "Audit Master Data non disponibile");
+      const data = await fmedFetchJson(`/master-data/audit?limit=6000&force=${force ? "true" : "false"}`, { apiBaseUrl, retries: 2, timeoutMs: 60000 });
       setQuality(data);
     } catch (error) {
       setMessage(`Audit Master Data: ${error.message}`);
@@ -234,10 +231,7 @@ export default function CoreStandardPage({ apiBaseUrl, onDataChanged, canManage 
   const loadSiteHygiene = useCallback(async (force = true) => {
     setSiteHygieneLoading(true);
     try {
-      const response = await fetch(`${apiBaseUrl}/data-hygiene/sedi/audit?limit=10000&force=${force ? "true" : "false"}`);
-      const data = await response.json().catch(() => ({}));
-      const detail = data?.detail;
-      if (!response.ok) throw new Error(typeof detail === "string" ? detail : detail?.messaggio || "Audit sedi non disponibile");
+      const data = await fmedFetchJson(`/data-hygiene/sedi/audit?limit=10000&force=${force ? "true" : "false"}`, { apiBaseUrl, retries: 2, timeoutMs: 90000 });
       setSiteHygiene(data);
     } catch (error) {
       setMessage(`Data Hygiene sedi: ${error.message}`);
@@ -255,9 +249,7 @@ export default function CoreStandardPage({ apiBaseUrl, onDataChanged, canManage 
   async function masterAction(endpoint, payload, type) {
     setQualityBusy(true); setMessage("");
     try {
-      const response = await fetch(`${apiBaseUrl}${endpoint}`, { method: "POST", headers: apiHeaders(), body: JSON.stringify(payload) });
-      const data = await response.json().catch(() => ({}));
-      if (!response.ok) throw new Error(typeof data?.detail === "string" ? data.detail : "Operazione Master Data non riuscita");
+      const data = await fmedFetchJson(endpoint, { apiBaseUrl, method: "POST", headers: apiHeaders(), body: JSON.stringify(payload), retries: 1, timeoutMs: 120000 });
       if (!payload.apply) {
         setQualityPreview({ tipo: type, data });
         setMessage(type === "ACQUISIZIONE" ? `Anteprima pronta: ${data.totale_candidati || 0} valori acquisibili.` : `Anteprima pronta: ${data.totale_modifiche || 0} correzioni sicure.`);
@@ -298,7 +290,8 @@ export default function CoreStandardPage({ apiBaseUrl, onDataChanged, canManage 
         const session = raw ? JSON.parse(raw) : null;
         actor = String(session?.email || session?.nome || actor);
       } catch { actor = "FMED_ADMIN"; }
-      const response = await fetch(`${apiBaseUrl}/data-hygiene/sedi/normalizza`, {
+      const data = await fmedFetchJson("/data-hygiene/sedi/normalizza", {
+        apiBaseUrl,
         method: "POST",
         headers: apiHeaders(),
         body: JSON.stringify({
@@ -308,10 +301,9 @@ export default function CoreStandardPage({ apiBaseUrl, onDataChanged, canManage 
           max_modifiche: 10000,
           eseguito_da: actor,
         }),
+        retries: apply ? 0 : 1,
+        timeoutMs: 180000,
       });
-      const data = await response.json().catch(() => ({}));
-      const detail = data?.detail;
-      if (!response.ok) throw new Error(typeof detail === "string" ? detail : detail?.messaggio || "Pulizia sedi non riuscita");
       if (!apply) {
         setSiteHygienePreview(data);
         setMessage(`Anteprima sedi pronta: ${data.totale_modifiche || 0} correzioni sicure.`);
@@ -344,9 +336,7 @@ export default function CoreStandardPage({ apiBaseUrl, onDataChanged, canManage 
       return "";
     }
     try {
-      const response = await fetch(`${apiBaseUrl}/core/dizionari/prossimo-codice/${encodeURIComponent(code)}`);
-      const data = await response.json().catch(() => ({}));
-      if (!response.ok) throw new Error(data?.detail || "Codice automatico non disponibile");
+      const data = await fmedFetchJson(`/core/dizionari/prossimo-codice/${encodeURIComponent(code)}`, { apiBaseUrl, retries: 2 });
       const generated = String(data?.prossimo_codice || "");
       setNextCode(generated);
       return generated;
@@ -363,6 +353,7 @@ export default function CoreStandardPage({ apiBaseUrl, onDataChanged, canManage 
   const current = useMemo(() => catalogo.find(x => x.codice === selected) || catalogo[0], [catalogo, selected]);
   const totalValues = useMemo(() => catalogo.reduce((sum, item) => sum + (item.valori?.length || 0), 0), [catalogo]);
   const activeValues = useMemo(() => catalogo.reduce((sum, item) => sum + (item.valori || []).filter(v => v.attivo !== false).length, 0), [catalogo]);
+  const pendingValues = useMemo(() => catalogo.reduce((sum, item) => sum + (item.valori || []).filter(v => String(v.stato_governance || "").toUpperCase() === "RICHIESTA_APPROVAZIONE").length, 0), [catalogo]);
   const filteredCatalog = useMemo(() => {
     const q = normalizeText(dictionarySearch);
     if (!q) return catalogo;
@@ -370,7 +361,10 @@ export default function CoreStandardPage({ apiBaseUrl, onDataChanged, canManage 
   }, [catalogo, dictionarySearch]);
   const filteredValues = useMemo(() => {
     const q = normalizeText(valueSearch);
-    return (current?.valori || []).filter(v => (showInactive || v.attivo !== false) && (!q || normalizeText(`${v.codice} ${v.etichetta}`).includes(q)));
+    return (current?.valori || []).filter(v => {
+      const pending = String(v.stato_governance || "").toUpperCase() === "RICHIESTA_APPROVAZIONE";
+      return (showInactive || v.attivo !== false || pending) && (!q || normalizeText(`${v.codice} ${v.etichetta} ${v.stato_governance || ""}`).includes(q));
+    });
   }, [current, valueSearch, showInactive]);
   const filteredRelations = useMemo(() => {
     const q = normalizeText(valueSearch);
@@ -388,9 +382,7 @@ export default function CoreStandardPage({ apiBaseUrl, onDataChanged, canManage 
         codice: null,
         etichetta: draft.etichetta.trim(),
       };
-      const r = await fetch(`${apiBaseUrl}/core/dizionari/valori`, { method: "POST", headers: apiHeaders(), body: JSON.stringify(payload) });
-      const data = await r.json();
-      if (!r.ok || data?.status === "ko") throw new Error(data?.detail || data?.errore || "Salvataggio non riuscito");
+      const data = await fmedFetchJson("/core/dizionari/valori", { apiBaseUrl, method: "POST", headers: apiHeaders(), body: JSON.stringify(payload), retries: 1 });
       const savedCode = data?.codice || nextCode || "codice automatico";
       setDraft({ ...emptyValue, dizionario: dictionaryCode });
       await load();
@@ -405,11 +397,50 @@ export default function CoreStandardPage({ apiBaseUrl, onDataChanged, canManage 
     if (!canManage) return;
     setSaving(true);
     try {
-      const r = await fetch(`${apiBaseUrl}/core/dizionari/valori/${value.id}`, { method: "PATCH", headers: apiHeaders(), body: JSON.stringify({ attivo: !value.attivo }) });
-      if (!r.ok) throw new Error("Aggiornamento non riuscito");
+      const pending = String(value.stato_governance || "").toUpperCase() === "RICHIESTA_APPROVAZIONE";
+      const session = fmedSession();
+      const actor = String(session?.email || session?.nome || "FMED_ADMIN");
+      const patch = pending || value.attivo === false
+        ? { attivo: true, stato_governance: "APPROVATO", approvato_da: actor }
+        : { attivo: false };
+      await fmedFetchJson(`/core/dizionari/valori/${value.id}`, { apiBaseUrl, method: "PATCH", headers: apiHeaders(), body: JSON.stringify(patch), retries: 1 });
       await load();
-      await onDataChanged?.({ tipo: "DIZIONARIO_STATO", dizionario: value.dizionario, codice: value.codice });
+      await onDataChanged?.({ tipo: pending ? "DIZIONARIO_APPROVATO" : "DIZIONARIO_STATO", dizionario: value.dizionario, codice: value.codice });
+      setMessage(pending ? `Voce ${value.etichetta} approvata e resa disponibile nei menu.` : "Stato della voce aggiornato.");
     } catch (error) { setMessage(error.message); }
+    finally { setSaving(false); }
+  }
+
+  function startMerge(value) {
+    setMergeSource(value);
+    setMergeTargetId("");
+    setMessage("");
+  }
+
+  async function applyMerge() {
+    if (!canManage || !mergeSource?.id || !mergeTargetId) return;
+    const target = (current?.valori || []).find((item) => String(item.id) === String(mergeTargetId));
+    if (!target) return setMessage("Seleziona la voce canonica di destinazione.");
+    if (!window.confirm(`Confermi l'unificazione di “${mergeSource.etichetta}” dentro “${target.etichetta}”? Il valore precedente resterà nello storico come alias e non verrà eliminato.`)) return;
+    setSaving(true);
+    try {
+      const session = fmedSession();
+      const actor = String(session?.email || session?.nome || "FMED_ADMIN");
+      const data = await fmedFetchJson("/core/dizionari/valori/unifica", {
+        apiBaseUrl, method: "POST", headers: apiHeaders(), retries: 1,
+        body: JSON.stringify({
+          dizionario: current?.codice || mergeSource.dizionario,
+          valore_canonico_id: Number(mergeTargetId),
+          valori_alias_id: [Number(mergeSource.id)],
+          utente: actor,
+        }),
+      });
+      setMergeSource(null);
+      setMergeTargetId("");
+      await load();
+      await onDataChanged?.({ tipo: "CATALOGO_UNIFICATO", risultato: data });
+      setMessage(`Voce unificata: ${mergeSource.etichetta} è ora alias di ${target.etichetta}.`);
+    } catch (error) { setMessage(error.message || "Unificazione non riuscita"); }
     finally { setSaving(false); }
   }
 
@@ -429,13 +460,13 @@ export default function CoreStandardPage({ apiBaseUrl, onDataChanged, canManage 
     if (!label) return setMessage("L'etichetta non può essere vuota.");
     setSaving(true); setMessage("");
     try {
-      const response = await fetch(`${apiBaseUrl}/core/dizionari/valori/${value.id}`, {
+      await fmedFetchJson(`/core/dizionari/valori/${value.id}`, {
+        apiBaseUrl,
         method: "PATCH",
         headers: apiHeaders(),
         body: JSON.stringify({ etichetta: label }),
+        retries: 1,
       });
-      const data = await response.json().catch(() => ({}));
-      if (!response.ok) throw new Error(data?.detail || "Aggiornamento non riuscito");
       cancelEditValue();
       await load();
       await onDataChanged?.({ tipo: "DIZIONARIO_ETICHETTA", dizionario: value.dizionario, codice: value.codice, etichetta: label });
@@ -444,14 +475,50 @@ export default function CoreStandardPage({ apiBaseUrl, onDataChanged, canManage 
     finally { setSaving(false); }
   }
 
+  async function historicalRelationsAction(apply = false) {
+    setRelationHistoryBusy(true);
+    setMessage("");
+    try {
+      const session = fmedSession();
+      const actor = String(session?.email || session?.nome || "FMED_ADMIN");
+      const data = await fmedFetchJson("/core/relazioni/acquisisci-storico", {
+        apiBaseUrl, method: "POST", headers: apiHeaders(), retries: apply ? 0 : 1, timeoutMs: 120000,
+        body: JSON.stringify({
+          apply,
+          conferma: apply ? "ACQUISISCI_RELAZIONI_E5_2_2" : null,
+          limite: 10000,
+          utente: actor,
+        }),
+      });
+      if (!apply) {
+        setRelationHistoryPreview(data);
+        setMessage(`Anteprima pronta: ${data.totale_da_creare || 0} relazioni storiche trasformabili in automatismi.`);
+      } else {
+        setRelationHistoryPreview(null);
+        await load();
+        await onDataChanged?.({ tipo: "RELAZIONI_STORICHE_E5_2_2", risultato: data });
+        setMessage(`Relazioni storiche acquisite: ${data.totale_create || 0}. Errori: ${data.errori?.length || 0}.`);
+      }
+    } catch (error) {
+      setMessage(error.message || "Acquisizione relazioni storiche non riuscita");
+    } finally {
+      setRelationHistoryBusy(false);
+    }
+  }
+
+  function applyHistoricalRelations() {
+    const count = Number(relationHistoryPreview?.totale_da_creare || 0);
+    if (!count) return;
+    if (!window.confirm(`Confermi la creazione di ${count} relazioni dedotte dal passato? Nessun record operativo verrà modificato.`)) return;
+    historicalRelationsAction(true);
+  }
+
   async function saveRelation() {
     const d = relationDraft;
     if (!d.tipo || !d.sorgente_dizionario || !d.sorgente_codice || !d.destinazione_dizionario || !d.destinazione_codice) return setMessage("Completa tutti i campi della relazione.");
     setSaving(true); setMessage("");
     try {
-      const r = await fetch(`${apiBaseUrl}/core/relazioni`, { method: "POST", headers: apiHeaders(), body: JSON.stringify(d) });
-      const data = await r.json();
-      if (!r.ok || data?.status === "ko") throw new Error(data?.detail || data?.errore || "Relazione non salvata");
+      await fmedFetchJson("/core/relazioni", { apiBaseUrl, method: "POST", headers: apiHeaders(), body: JSON.stringify(d), retries: 1 });
       setRelationDraft({ ...emptyRelation, sorgente_dizionario: d.sorgente_dizionario, destinazione_dizionario: d.destinazione_dizionario });
       await load();
       await onDataChanged?.({ tipo: "RELAZIONE", relazione: d });
@@ -464,8 +531,7 @@ export default function CoreStandardPage({ apiBaseUrl, onDataChanged, canManage 
     if (!canManage) return;
     setSaving(true);
     try {
-      const r = await fetch(`${apiBaseUrl}/core/relazioni/${value.id}`, { method: "PATCH", headers: apiHeaders(), body: JSON.stringify({ attivo: !value.attivo }) });
-      if (!r.ok) throw new Error("Aggiornamento relazione non riuscito");
+      await fmedFetchJson(`/core/relazioni/${value.id}`, { apiBaseUrl, method: "PATCH", headers: apiHeaders(), body: JSON.stringify({ attivo: !value.attivo }), retries: 1 });
       await load();
       await onDataChanged?.({ tipo: "RELAZIONE_STATO", relazione: value });
     } catch (error) { setMessage(error.message); }
@@ -480,7 +546,7 @@ export default function CoreStandardPage({ apiBaseUrl, onDataChanged, canManage 
         <div className="fmed-banner-heading">
           <FmedModuleIcon module="Dizionari" />
           <div className="fmed-banner-copy">
-            <span className="core-standard-kicker">MASTER DATA CENTRALIZZATI</span>
+            <span className="core-standard-kicker">CATALOGO CANONICO GLOBALE E5.2.2</span>
             <h2>Dizionari FMED</h2>
             <p>Aggiungi e modifica i valori utilizzati nei menu a tendina di Asset, Interventi, Infrastrutture, Sicurezza 81/08 e degli altri moduli. Le modifiche restano centralizzate e sincronizzate.</p>
           </div>
@@ -494,6 +560,7 @@ export default function CoreStandardPage({ apiBaseUrl, onDataChanged, canManage 
       <div className="core-summary-grid">
         <article><span>Dizionari</span><strong>{catalogo.length}</strong><small>fonti dati centrali</small></article>
         <article><span>Valori attivi</span><strong>{activeValues}</strong><small>su {totalValues} complessivi</small></article>
+        <article className={pendingValues ? "is-warning" : "is-ok"}><span>Da approvare</span><strong>{pendingValues}</strong><small>richieste Quick Add</small></article>
         <article><span>Relazioni</span><strong>{relazioni.filter(r => r.attivo !== false).length}</strong><small>automatismi configurati</small></article>
       </div>
 
@@ -529,18 +596,34 @@ export default function CoreStandardPage({ apiBaseUrl, onDataChanged, canManage 
               {editingValueId === v.id ? (
                 <input className="core-inline-label-input" value={editingLabel} onChange={(event) => setEditingLabel(event.target.value)} autoFocus />
               ) : <strong>{v.etichetta}</strong>}
-              <span className={`core-status ${v.attivo ? "active" : "inactive"}`}>{v.attivo ? "Attivo" : "Disattivato"}</span>
+              {(() => {
+                const governance = String(v.stato_governance || (v.attivo ? "APPROVATO" : "DISATTIVATO")).toUpperCase();
+                const statusLabel = governance === "RICHIESTA_APPROVAZIONE" ? "Da approvare" : governance === "SOSTITUITO" ? "Alias storico" : v.attivo ? "Attivo" : "Disattivato";
+                const statusClass = governance === "RICHIESTA_APPROVAZIONE" ? "pending" : governance === "SOSTITUITO" ? "replaced" : v.attivo ? "active" : "inactive";
+                return <span className={`core-status ${statusClass}`}>{statusLabel}</span>;
+              })()}
               {canManage ? <div className="core-value-actions">
                 {editingValueId === v.id ? <>
                   <button type="button" onClick={() => saveValueLabel(v)} disabled={saving}>Salva nome</button>
                   <button type="button" className="secondary" onClick={cancelEditValue}>Annulla</button>
                 </> : <>
                   <button type="button" onClick={() => startEditValue(v)}>Modifica nome</button>
-                  <button type="button" className="secondary" onClick={() => toggleValue(v)}>{v.attivo ? "Disattiva" : "Riattiva"}</button>
+                  {String(v.stato_governance || "").toUpperCase() !== "SOSTITUITO" && <button type="button" className="secondary" onClick={() => startMerge(v)}>Unifica</button>}
+                  <button type="button" className="secondary" onClick={() => toggleValue(v)}>{String(v.stato_governance || "").toUpperCase() === "RICHIESTA_APPROVAZIONE" ? "Approva" : v.attivo ? "Disattiva" : "Riattiva"}</button>
                 </>}
               </div> : <span>—</span>}
             </div>) : <div className="core-empty-state">Nessun valore corrispondente ai filtri.</div>}
           </div>
+
+          {canManage && mergeSource && <div className="core-merge-value">
+            <div><h4>Unifica duplicato nel valore canonico</h4><p><b>{mergeSource.etichetta}</b> resterà nello storico e diventerà un alias della voce scelta.</p></div>
+            <select value={mergeTargetId} onChange={(event) => setMergeTargetId(event.target.value)}>
+              <option value="">Seleziona la voce canonica</option>
+              {(current?.valori || []).filter((item) => item.attivo !== false && String(item.id) !== String(mergeSource.id)).map((item) => <option key={item.id} value={item.id}>{item.etichetta} · {item.codice}</option>)}
+            </select>
+            <button type="button" disabled={saving || !mergeTargetId} onClick={applyMerge}>Conferma unificazione</button>
+            <button type="button" className="secondary" onClick={() => { setMergeSource(null); setMergeTargetId(""); }}>Annulla</button>
+          </div>}
 
           {canManage && <div className="core-add-value"><h4>Aggiungi valore standard</h4>
             <div className="core-auto-code-preview" title="Il codice viene assegnato dal backend e resta stabile anche se l'etichetta viene modificata">
@@ -557,6 +640,17 @@ export default function CoreStandardPage({ apiBaseUrl, onDataChanged, canManage 
 
       {tab === "RELAZIONI" && <div className="core-relations-panel">
         <div className="core-dictionary-title"><div><h3>Relazioni intelligenti</h3><p>Configura i collegamenti che guidano automaticamente i moduli FMED.</p></div><span>{filteredRelations.length} relazioni</span></div>
+        {canManage && <div className="core-historical-relations">
+          <div><strong>Passato → futuro</strong><span>Rileva combinazioni già usate tra sedi, reparti, modelli, attività e item infrastrutturali e le trasforma in proposte guidate.</span></div>
+          <button type="button" onClick={() => historicalRelationsAction(false)} disabled={relationHistoryBusy}>{relationHistoryBusy ? "Analisi…" : "Anteprima relazioni storiche"}</button>
+          {relationHistoryPreview && <button type="button" className="core-danger-safe-button" onClick={applyHistoricalRelations} disabled={relationHistoryBusy || !relationHistoryPreview.totale_da_creare}>Acquisisci {relationHistoryPreview.totale_da_creare || 0}</button>}
+        </div>}
+        {relationHistoryPreview && <div className="core-relation-preview">
+          <div className="core-section-heading"><h3>Relazioni storiche acquisibili</h3><span>{relationHistoryPreview.totale_da_creare || 0}</span></div>
+          <p>{relationHistoryPreview.criterio}</p>
+          {(relationHistoryPreview.piano || []).slice(0, 120).map((item, index) => <div key={`${item.sorgente_dizionario}-${item.sorgente_codice}-${item.destinazione_dizionario}-${item.destinazione_codice}-${index}`}><code>{item.sorgente_dizionario}:{item.sorgente_codice}</code><span>→</span><code>{item.destinazione_dizionario}:{item.destinazione_codice}</code></div>)}
+          {(relationHistoryPreview.piano || []).length > 120 && <small>Mostrate le prime 120 relazioni su {relationHistoryPreview.piano.length}.</small>}
+        </div>}
         <div className="core-relations-table">
           {filteredRelations.length ? filteredRelations.map(r => <div className={`core-relation-row ${r.attivo ? "" : "disabled"}`} key={r.id}>
             <span className="relation-type">{r.tipo}</span><strong>{r.sorgente_dizionario}: {r.sorgente_codice}</strong><span className="relation-arrow">→</span><strong>{r.destinazione_dizionario}: {r.destinazione_codice}</strong><span>{r.obbligatoria ? "Obbligatoria" : "Opzionale"}</span>
