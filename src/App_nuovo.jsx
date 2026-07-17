@@ -1,4 +1,4 @@
-/* FMED ENTERPRISE 1.0 · E5.1.2 CLEAN REBUILD · FRONTEND COMPLETO */
+/* FMED ENTERPRISE 1.0 · E5.2 MOTORE CICLI UNIFICATO · FRONTEND COMPLETO */
 /*
   FMED CLEANUP 2026-06-25
   - Verifica JSX eseguita con esbuild: sintassi OK.
@@ -47,8 +47,8 @@ const API_BASE_URL = ENV_API_BASE_URL || (IS_LOCAL_FRONTEND ? "http://127.0.0.1:
 const API_BASE_CANDIDATES = [API_BASE_URL, ...(ENV_API_BASE_URL ? [] : IS_LOCAL_FRONTEND ? ["http://localhost:8000", "http://10.10.10.31:8000"] : [])].filter((value, index, array) => value && array.indexOf(value) === index);
 
 // Versione frontend visibile per evitare dubbi da cache, browser o PWA.
-const MRDB_APP_VERSION = "FMED_ENTERPRISE_1_0_E5_1_2_CLEAN_REBUILD_2026_07_17";
-const MRDB_APP_BUILD_LABEL = "FMED ENTERPRISE 1.0 · E5.1.2 CLEAN REBUILD";
+const MRDB_APP_VERSION = "FMED_ENTERPRISE_1_0_E5_2_UNIFIED_CYCLE_ENGINE_2026_07_17";
+const MRDB_APP_BUILD_LABEL = "FMED ENTERPRISE 1.0 · E5.2 MOTORE CICLI UNIFICATO";
 // FMED PERFORMANCE SAFE MODE
 // Render progressivo degli elenchi lunghi: filtri/export restano completi, si alleggerisce solo il DOM visibile.
 const FMED_RENDER_BATCH_ASSET = 100;
@@ -770,68 +770,6 @@ function giorniAllaScadenza(data) {
   dataParsed.setHours(0, 0, 0, 0);
   return Math.ceil((dataParsed - oggi) / (1000 * 60 * 60 * 24));
 }
-function aggiungiPeriodoAData(dataBase, periodicita) {
-  const data = parseDataFMED(dataBase);
-  if (!data) return null;
-  const p = String(periodicita || "").trim().toUpperCase();
-  const nuova = new Date(data);
-  if (p.includes("MENSILE")) {
-    nuova.setMonth(nuova.getMonth() + 1);
-    return nuova;
-  }
-  if (p.includes("TRIMESTRALE")) {
-    nuova.setMonth(nuova.getMonth() + 3);
-    return nuova;
-  }
-  if (p.includes("SEMESTRALE")) {
-    nuova.setMonth(nuova.getMonth() + 6);
-    return nuova;
-  }
-  if (p.includes("ANNUALE")) {
-    nuova.setFullYear(nuova.getFullYear() + 1);
-    return nuova;
-  }
-  if (p.includes("BIENNALE")) {
-    nuova.setFullYear(nuova.getFullYear() + 2);
-    return nuova;
-  }
-  if (p.includes("TRIENNALE")) {
-    nuova.setFullYear(nuova.getFullYear() + 3);
-    return nuova;
-  }
-  if (p.includes("QUINQUENNALE")) {
-    nuova.setFullYear(nuova.getFullYear() + 5);
-    return nuova;
-  }
-  return null;
-}
-function getDataProssimaScadenzaIntervento(intervento) {
-  const ultimo = intervento?.data_ultimo_intervento || intervento?.data_intervento;
-  const prossimo = intervento?.data_prossimo_intervento;
-  const periodicita = intervento?.periodicita;
-  const dataUltimo = parseDataFMED(ultimo);
-  const dataProssimo = parseDataFMED(prossimo);
-  if (!dataUltimo) return null;
-  if (dataProssimo) {
-    dataUltimo.setHours(0, 0, 0, 0);
-    dataProssimo.setHours(0, 0, 0, 0);
-
-    // Regola corretta: una scadenza è valida solo se è DOPO l'ultimo intervento.
-    // Se è uguale o precedente, è un dato sporco/importato male e NON va mostrato come scadenza.
-    if (dataProssimo > dataUltimo) {
-      return dataProssimo;
-    }
-  }
-
-  // Se la data prossima è assente/uguale/precedente, proviamo a ricostruirla solo se c'è periodicità.
-  const scadenzaCalcolata = aggiungiPeriodoAData(dataUltimo, periodicita);
-  if (scadenzaCalcolata && scadenzaCalcolata > dataUltimo) {
-    return scadenzaCalcolata;
-  }
-
-  // Se non possiamo calcolarla, la riga viene esclusa dalla pagina Scadenze.
-  return null;
-}
 function statoScadenza(data) {
   const giorni = giorniAllaScadenza(data);
   if (giorni === null) {
@@ -874,148 +812,6 @@ function statoScadenza(data) {
   };
 }
 
-// ========================================================
-// FMED FASE 3 - MOTORE SCADENZE UNICO
-// Unica fonte per Scadenziario, KPI ed Export.
-// Non modifica API/backend: normalizza solo i dati già caricati.
-// ========================================================
-function periodicitaMesiFmed(intervento) {
-  const testo = [intervento?.periodicita, intervento?.attivita, intervento?.descrizione_attivita, intervento?.tipologia_intervento].filter(Boolean).join(" ").normalize("NFD").replace(/[\u0300-\u036f]/g, "").toUpperCase();
-  if (testo.includes("QUINQUENNALE") || testo.includes("5 ANNI") || testo.includes("60 MESI")) return 60;
-  if (testo.includes("QUADRIENNALE") || testo.includes("4 ANNI") || testo.includes("48 MESI")) return 48;
-  if (testo.includes("TRIENNALE") || testo.includes("3 ANNI") || testo.includes("36 MESI")) return 36;
-  if (testo.includes("BIENNALE") || testo.includes("2 ANNI") || testo.includes("24 MESI")) return 24;
-  if (testo.includes("ANNUALE") || testo.includes("12 MESI")) return 12;
-  if (testo.includes("SEMESTRALE") || testo.includes("6 MESI")) return 6;
-  if (testo.includes("TRIMESTRALE") || testo.includes("3 MESI")) return 3;
-  if (testo.includes("MENSILE") || testo.includes("1 MESE")) return 1;
-  return 12;
-}
-function testoOperativoScadenzaFmed(intervento) {
-  return [intervento?.attivita, intervento?.tipologia_intervento, intervento?.descrizione_attivita].filter(Boolean).join(" ").normalize("NFD").replace(/[\u0300-\u036f]/g, "").toUpperCase();
-}
-function interventoAnnullatoPerScadenzeFmed(intervento) {
-  // Non analizziamo note/esito: parole come "chiuso" o "sostituito" possono
-  // descrivere un intervento correttamente completato o un ricambio sostituito.
-  const statoEsplicito = [intervento?.stato, intervento?.stato_attivita, intervento?.status].filter(Boolean).join(" ").normalize("NFD").replace(/[\u0300-\u036f]/g, "").toUpperCase();
-  return ["ANNULLAT", "ELIMINAT", "BOZZA", "DUPLICAT", "NON ESEGUIT"].some(parola => statoEsplicito.includes(parola));
-}
-function interventoValidoPerScadenzeFmed(intervento) {
-  if (!intervento || interventoAnnullatoPerScadenzeFmed(intervento)) return false;
-  const attivita = testoOperativoScadenzaFmed(intervento);
-  if (!attivita.trim()) return true;
-
-  // Escludiamo soltanto tipologie che non generano una manutenzione ricorrente.
-  // Lo stato del cespite viene già verificato separatamente.
-  return !["INSTALLAZIONE", "DISINSTALLAZIONE", "SMONTAGGIO", "SPOSTAMENTO", "FERMO MACCHINA"].some(parola => attivita.includes(parola));
-}
-function famigliaScadenzaFmed(intervento) {
-  const attivita = normalizzaAttivitaIntervento(intervento?.attivita || "NON SPECIFICATA") || "NON SPECIFICATA";
-  const testo = testoOperativoScadenzaFmed(intervento);
-
-  // Le verifiche normative devono convivere con la manutenzione ordinaria.
-  // Le combinazioni restano distinte per evitare che una verifica elettrica
-  // cancelli, ad esempio, un controllo qualità o una taratura.
-  if (testo.includes("CONTROLLO QUALIT")) return "CONTROLLO QUALITA";
-  if (testo.includes("TARATURA")) return "TARATURA";
-  if (testo.includes("VERIFICA PARTICOLARE") && testo.includes("SICUREZZA ELETTRICA")) return "VSE+VP";
-  if (testo.includes("VERIFICA PARTICOLARE")) return "VERIFICA PARTICOLARE";
-  if (testo.includes("SICUREZZA ELETTRICA")) return "VERIFICA SICUREZZA ELETTRICA";
-  if (testo.includes("VERIFICA FUNZIONALE")) return "VERIFICA FUNZIONALE";
-  if (testo.includes("MANUTENZIONE PREVENTIVA")) return "MANUTENZIONE PREVENTIVA";
-  if (testo.includes("MANUTENZIONE ORDINARIA")) return "MANUTENZIONE ORDINARIA";
-  return attivita.toUpperCase();
-}
-function interventoNelPeriodoScadenzeFmed(intervento, dataUltimo, dataProssimo) {
-  if (!dataUltimo && !dataProssimo) return false;
-  const oggi = new Date();
-  oggi.setHours(0, 0, 0, 0);
-  const inizioStorico = new Date(oggi);
-  inizioStorico.setMonth(inizioStorico.getMonth() - 12);
-  const finePiano = new Date(oggi);
-  finePiano.setMonth(finePiano.getMonth() + 12);
-  const ultimo = dataUltimo ? new Date(dataUltimo) : null;
-  const prossimo = dataProssimo ? new Date(dataProssimo) : null;
-  if (ultimo) ultimo.setHours(0, 0, 0, 0);
-  if (prossimo) prossimo.setHours(0, 0, 0, 0);
-  const periodicitaMesi = periodicitaMesiFmed(intervento);
-  const pluriennale = periodicitaMesi > 12;
-  if (ultimo && ultimo >= inizioStorico) return true;
-  if (prossimo && prossimo >= oggi && prossimo <= finePiano) return true;
-  if (pluriennale && prossimo) {
-    const margineRitardo = new Date(oggi);
-    margineRitardo.setMonth(margineRitardo.getMonth() - 3);
-    return prossimo >= margineRitardo;
-  }
-  return false;
-}
-function calcolaScadenzeFmed({
-  cespiti = [],
-  interventi = []
-} = {}) {
-  const mappaCespitiAttivi = new Map();
-  (Array.isArray(cespiti) ? cespiti : []).forEach(c => {
-    const codice = String(c?.codicestrumento || c?.codice_strumento || c?.codice || "").trim();
-    if (!codice || statoCespite(c) !== "Attivo") return;
-    mappaCespitiAttivi.set(codice, c);
-  });
-  const ultimiPerFamiglia = new Map();
-
-  // REGOLA CENTRALE: scegliamo prima l'ultimo intervento reale della famiglia.
-  // Solo dopo calcoliamo la sua scadenza. In questo modo una riga vecchia non
-  // riappare come scaduta quando l'attività più recente non ha ancora una data
-  // prossima compilata oppure contiene un dato da correggere.
-  (Array.isArray(interventi) ? interventi : []).forEach((i, indice) => {
-    const codice = String(i?.codice_strumento || i?.codicestrumento || i?.codice || "").trim();
-    if (!codice || !mappaCespitiAttivi.has(codice) || !interventoValidoPerScadenzeFmed(i)) return;
-    const dataUltimo = parseDataFMED(i?.data_ultimo_intervento || i?.data_intervento);
-    if (!dataUltimo) return;
-    dataUltimo.setHours(0, 0, 0, 0);
-    const famiglia = famigliaScadenzaFmed(i);
-    const periodicitaMesi = periodicitaMesiFmed(i);
-    const chiave = `${codice}|${famiglia}|${periodicitaMesi > 12 ? periodicitaMesi : "ORD"}`;
-    const precedente = ultimiPerFamiglia.get(chiave);
-    const precedenteData = precedente?._dataUltimoInterventoParsed;
-    if (!precedente || dataUltimo > precedenteData || dataUltimo.getTime() === precedenteData.getTime() && indice > precedente._indiceOrigine) {
-      ultimiPerFamiglia.set(chiave, {
-        ...i,
-        _indiceOrigine: indice,
-        _famigliaScadenza: famiglia,
-        _dataUltimoInterventoParsed: dataUltimo
-      });
-    }
-  });
-  return Array.from(ultimiPerFamiglia.values()).map(i => {
-    const codice = String(i?.codice_strumento || i?.codicestrumento || i?.codice || "").trim();
-    const cespite = mappaCespitiAttivi.get(codice) || {};
-    const dataProssimo = getDataProssimaScadenzaIntervento(i);
-
-    // L'ultima attività sostituisce sempre le precedenti. Se non produce una
-    // scadenza valida, la famiglia non compare: non ricadiamo sulla vecchia riga.
-    if (!dataProssimo) return null;
-    dataProssimo.setHours(0, 0, 0, 0);
-    const periodicitaMesi = periodicitaMesiFmed(i);
-    return {
-      ...i,
-      codice_strumento: codice,
-      codicestrumento: codice,
-      attivita: normalizzaAttivitaIntervento(i?.attivita || "NON SPECIFICATA"),
-      sede: i?.sede || cespite?.sede || "",
-      tipologia: i?.tipologia || cespite?.tipologia || "",
-      costruttore: i?.costruttore || cespite?.costruttore || "",
-      modello: i?.modello || cespite?.modello || "",
-      matricola: i?.matricola || cespite?.matricola || "",
-      stato_asset: "Attivo",
-      _cespite: cespite,
-      _dataUltimoIntervento: i?.data_ultimo_intervento || i?.data_intervento,
-      _dataScadenza: dataProssimo,
-      _dataScadenzaParsed: dataProssimo,
-      _periodicitaMesi: periodicitaMesi,
-      _finestraOperativa: periodicitaMesi > 12 ? "Pluriennale mantenuta fino alla prossima scadenza" : "Ultimi 12 mesi + prossimi 12 mesi",
-      _statoScadenza: statoScadenza(dataProssimo)
-    };
-  }).filter(Boolean).filter(i => interventoNelPeriodoScadenzeFmed(i, i?._dataUltimoInterventoParsed, i?._dataScadenzaParsed)).sort((a, b) => a._dataScadenzaParsed - b._dataScadenzaParsed);
-}
 function getProssimoInterventoValido(interventi = []) {
   const oggi = new Date();
   oggi.setHours(0, 0, 0, 0);
@@ -1669,6 +1465,7 @@ function AppNuovoCore({
   const [ordineInterventi, setOrdineInterventi] = useState("RECENTI");
   const [scadenze, setScadenze] = useState([]);
   const [filtroScadenze, setFiltroScadenze] = useState("TUTTE");
+  const [filtroScadenzeModulo, setFiltroScadenzeModulo] = useState("TUTTI");
   const [filtroScadenzeCodice, setFiltroScadenzeCodice] = useState("TUTTE");
   const [filtroScadenzeSede, setFiltroScadenzeSede] = useState("TUTTE");
   const [filtroScadenzeTipologia, setFiltroScadenzeTipologia] = useState("TUTTE");
@@ -2053,7 +1850,7 @@ function AppNuovoCore({
     if (!force && (scadenzeLoaded || scadenzeLoading)) return scadenze;
     setScadenzeLoading(true);
     try {
-      const dati = await caricaJsonDaApi("/alert/scadenze-uniche", [], {
+      const dati = await caricaJsonDaApi("/cicli-unificati/attivi", [], {
         force
       });
       const normalizzati = Array.isArray(dati) ? dati : [];
@@ -2179,9 +1976,10 @@ function AppNuovoCore({
       caricaInterventiOnDemand({
         source: "export"
       });
+      caricaScadenzeOnDemand();
       setExportLoaded(true);
     }
-  }, [paginaExportAttiva, caricaCespitiOnDemand, caricaInterventiOnDemand]);
+  }, [paginaExportAttiva, caricaCespitiOnDemand, caricaInterventiOnDemand, caricaScadenzeOnDemand]);
   useEffect(() => {
     setAssetRenderLimit(FMED_RENDER_BATCH_ASSET);
   }, [ricercaDeferred, sede, categoriaFiltro, assetRepartoFiltro, assetLocazioneFiltro, assetCostruttoreFiltro, assetTipologiaFiltro, assetModelloFiltro, assetSocietaFiltro, assetStatoFiltro, ordineCodiceAsset]);
@@ -2190,7 +1988,7 @@ function AppNuovoCore({
   }, [filtroInterventiSede, filtroInterventiSocieta, filtroInterventiCodice, filtroInterventiTipologia, filtroInterventiAttivita, filtroInterventiUltimoDa, filtroInterventiUltimoA, filtroInterventiProssimoDa, filtroInterventiProssimoA, filtroInterventiAnnoContabile, filtroInterventiPeriodoContabile, filtroInterventiPeriodoDa, filtroInterventiPeriodoA, ordineInterventi]);
   useEffect(() => {
     setScadenzeRenderLimit(FMED_RENDER_BATCH_SCADENZE);
-  }, [filtroScadenze, filtroScadenzeSede, filtroScadenzeCodice, filtroScadenzeTipologia, filtroScadenzeAttivita, filtroScadenzeDitta, filtroScadenzeProssimaDa, filtroScadenzeProssimaA, ordineScadenze]);
+  }, [filtroScadenze, filtroScadenzeModulo, filtroScadenzeSede, filtroScadenzeCodice, filtroScadenzeTipologia, filtroScadenzeAttivita, filtroScadenzeDitta, filtroScadenzeProssimaDa, filtroScadenzeProssimaA, ordineScadenze]);
   useEffect(() => {
     if (!nuovoCespiteOpen || !codiceCespiteAutomatico || !formNuovoCespite.sede) return;
     try {
@@ -3377,18 +3175,13 @@ function AppNuovoCore({
   }, [paginaCostiAttiva, interventi]);
   const puliziaSocietaDaCorreggere = useMemo(() => puliziaSocietaDitte.filter(r => pulisciValoreDizionario(r.originale) !== pulisciValoreDizionario(r.standard)), [puliziaSocietaDitte]);
   const scadenzeFiltrate = useMemo(() => {
-    // FASE 3: motore Scadenze unico.
-    // In Scadenze/Export calcoliamo sempre dagli interventi reali e dai cespiti attivi.
-    // Fuori da queste pagine manteniamo il caricamento leggero dal backend per non appesantire la Dashboard.
-    if (!paginaScadenzeAttiva && !paginaExportAttiva) return Array.isArray(scadenze) ? scadenze : [];
-    return calcolaScadenzeFmed({
-      cespiti,
-      interventi
-    });
-  }, [paginaScadenzeAttiva, paginaExportAttiva, scadenze, cespiti, interventi]);
+    // E5.2: il backend è l'unica fonte dello scadenziario operativo globale.
+    // Asset, infrastrutture e 81/08 condividono la stessa regola di sostituzione.
+    return Array.isArray(scadenze) ? scadenze : [];
+  }, [scadenze]);
   const scadenzeConStatoBase = useMemo(() => {
-    // Stessa base per tabella, KPI, selezione visibili, PDF ed Excel.
-    return (Array.isArray(scadenzeFiltrate) ? scadenzeFiltrate : []).filter(s => interventoValidoPerScadenzeFmed(s)).map(s => {
+    // Il backend ha già escluso cicli annullati, non applicabili e sostituiti.
+    return (Array.isArray(scadenzeFiltrate) ? scadenzeFiltrate : []).map(s => {
       const data = s._dataScadenza || s.data_prossimo_intervento || s.prossima_scadenza || s.data_scadenza;
       return {
         ...s,
@@ -3401,6 +3194,7 @@ function AppNuovoCore({
       return da - db;
     });
   }, [scadenzeFiltrate]);
+  const listaModuliFiltroScadenze = pulisciLista(scadenzeConStatoBase.map(s => s.modulo));
   const listaCodiciFiltroScadenze = pulisciLista(scadenzeConStatoBase.map(s => s.codice_strumento || s.codicestrumento));
   const listaSediFiltroScadenze = pulisciLista(scadenzeConStatoBase.map(s => s.sede));
   const listaTipologieFiltroScadenze = pulisciLista(scadenzeConStatoBase.map(s => s.tipologia));
@@ -3408,6 +3202,7 @@ function AppNuovoCore({
   const listaDitteFiltroScadenze = pulisciLista(scadenzeConStatoBase.map(s => normalizzaSocietaDitta(s.ditta_esecutrice || s.ditta)));
   function resetFiltriScadenze() {
     setFiltroScadenze("TUTTE");
+    setFiltroScadenzeModulo("TUTTI");
     setFiltroScadenzeCodice("TUTTE");
     setFiltroScadenzeSede("TUTTE");
     setFiltroScadenzeTipologia("TUTTE");
@@ -3420,7 +3215,7 @@ function AppNuovoCore({
   useEffect(() => {
     // Vista principale Scadenze: consentiamo tutti gli stati.
     // I KPI indicano l'urgenza, la tabella resta il piano manutentivo completo filtrabile.
-    const statiAmmessi = ["TUTTE", "SCADUTA", "30_GIORNI", "60_GIORNI", "REGOLARE", "NON_DISPONIBILE"];
+    const statiAmmessi = ["TUTTE", "SCADUTA", "30_GIORNI", "60_GIORNI", "REGOLARE", "DA_PIANIFICARE", "NON_DISPONIBILE"];
     if (paginaScadenzeAttiva && !statiAmmessi.includes(filtroScadenze)) {
       setFiltroScadenze("TUTTE");
     }
@@ -3433,7 +3228,7 @@ function AppNuovoCore({
       const codice = s.codice_strumento || s.codicestrumento || "";
       const ditta = normalizzaSocietaDitta(s.ditta_esecutrice || s.ditta || "");
       const attivita = normalizzaAttivitaIntervento(s.attivita || "");
-      return (filtroScadenze === "TUTTE" || s._statoScadenza.codice === filtroScadenze) && (filtroScadenzeCodice === "TUTTE" || codice === filtroScadenzeCodice) && (filtroScadenzeSede === "TUTTE" || normalizzaSedePerConfronto(s.sede) === normalizzaSedePerConfronto(filtroScadenzeSede)) && (filtroScadenzeTipologia === "TUTTE" || s.tipologia === filtroScadenzeTipologia) && (filtroScadenzeAttivita === "TUTTE" || attivita === filtroScadenzeAttivita) && (filtroScadenzeDitta === "TUTTE" || ditta === filtroScadenzeDitta) && dataNelRange(s._dataScadenza, filtroScadenzeProssimaDa, filtroScadenzeProssimaA);
+      return (filtroScadenze === "TUTTE" || s._statoScadenza.codice === filtroScadenze) && (filtroScadenzeModulo === "TUTTI" || s.modulo === filtroScadenzeModulo) && (filtroScadenzeCodice === "TUTTE" || codice === filtroScadenzeCodice) && (filtroScadenzeSede === "TUTTE" || normalizzaSedePerConfronto(s.sede) === normalizzaSedePerConfronto(filtroScadenzeSede)) && (filtroScadenzeTipologia === "TUTTE" || s.tipologia === filtroScadenzeTipologia) && (filtroScadenzeAttivita === "TUTTE" || attivita === filtroScadenzeAttivita) && (filtroScadenzeDitta === "TUTTE" || ditta === filtroScadenzeDitta) && dataNelRange(s._dataScadenza, filtroScadenzeProssimaDa, filtroScadenzeProssimaA);
     }).sort((a, b) => {
       const dataA = a._dataScadenzaParsed || parseDataFMED(a._dataScadenza) || new Date(8640000000000000);
       const dataB = b._dataScadenzaParsed || parseDataFMED(b._dataScadenza) || new Date(8640000000000000);
@@ -3454,13 +3249,13 @@ function AppNuovoCore({
       }
       return dataA - dataB;
     });
-  }, [scadenzeConStatoBase, filtroScadenze, filtroScadenzeCodice, filtroScadenzeSede, filtroScadenzeTipologia, filtroScadenzeAttivita, filtroScadenzeDitta, filtroScadenzeProssimaDa, filtroScadenzeProssimaA, ordineScadenze]);
+  }, [scadenzeConStatoBase, filtroScadenze, filtroScadenzeModulo, filtroScadenzeCodice, filtroScadenzeSede, filtroScadenzeTipologia, filtroScadenzeAttivita, filtroScadenzeDitta, filtroScadenzeProssimaDa, filtroScadenzeProssimaA, ordineScadenze]);
   const scadenzeScadute = scadenzeConStatoBase.filter(s => s._statoScadenza.codice === "SCADUTA");
   const scadenzeImminenti = scadenzeConStatoBase.filter(s => s._statoScadenza.codice === "30_GIORNI");
     const scadenzeVisualizzate = scadenzeConStato;
   const scadenzeRenderizzate = useMemo(() => scadenzeVisualizzate.slice(0, scadenzeRenderLimit), [scadenzeVisualizzate, scadenzeRenderLimit]);
   function chiaveScadenzaExport(s) {
-    return [s.codice_strumento || s.codicestrumento || "", s.sede || "", s.tipologia || "", s.attivita || "", s.ditta_esecutrice || s.ditta || "", formattaData(s._dataUltimoIntervento || s.data_ultimo_intervento), formattaData(s._dataScadenza || s.data_prossimo_intervento || s.prossima_scadenza || s.data_scadenza)].join("|");
+    return [s.modulo || "", s.record_id || "", s.famiglia_codice || "", s.codice_strumento || s.codicestrumento || "", s.sede || "", s.tipologia || "", s.attivita || "", s.ditta_esecutrice || s.ditta || "", formattaData(s._dataUltimoIntervento || s.data_ultimo_intervento), formattaData(s._dataScadenza || s.data_prossimo_intervento || s.prossima_scadenza || s.data_scadenza)].join("|");
   }
   const chiaviScadenzeVisualizzate = scadenzeVisualizzate.map(s => chiaveScadenzaExport(s));
   const scadenzeSelezionateVisualizzate = scadenzeVisualizzate.filter(s => scadenzeSelezionateExport.includes(chiaveScadenzaExport(s)));
@@ -7560,6 +7355,9 @@ ${messaggio}`);
           scadenzeSelezionateVisualizzate,
           filtroScadenze,
           setFiltroScadenze,
+          filtroScadenzeModulo,
+          setFiltroScadenzeModulo,
+          listaModuliFiltroScadenze,
           setScadenzeElencoAperto,
           filtroScadenzeCodice,
           setFiltroScadenzeCodice,

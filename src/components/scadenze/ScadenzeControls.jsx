@@ -28,6 +28,9 @@ export default function ScadenzeControls(props) {
     scadenzeSelezionateVisualizzate,
     filtroScadenze,
     setFiltroScadenze,
+    filtroScadenzeModulo,
+    setFiltroScadenzeModulo,
+    listaModuliFiltroScadenze,
     setScadenzeElencoAperto,
     filtroScadenzeCodice,
     setFiltroScadenzeCodice,
@@ -69,7 +72,7 @@ export default function ScadenzeControls(props) {
         <div>
           <h3 style={styles.scadenzeSectionTitle}>Filtri scadenze</h3>
           <p style={styles.scadenzeSectionSubtitle}>
-            Le attività non valide, superate o sostituite restano escluse dal piano operativo tramite il motore scadenze centrale.
+            Il Motore Cicli E5.2 mostra una sola scadenza operativa per elemento e famiglia. Le attività precedenti restano soltanto nello storico.
           </p>
         </div>
         <div style={styles.scadenzeFilterChips}>
@@ -90,16 +93,27 @@ export default function ScadenzeControls(props) {
           <option value="30_GIORNI">Entro 30 giorni</option>
           <option value="60_GIORNI">Da 31 a 60 giorni</option>
           <option value="REGOLARE">Future / regolari</option>
+          <option value="DA_PIANIFICARE">Da pianificare</option>
           <option value="NON_DISPONIBILE">Data non disponibile</option>
         </ScadenzeSelect>
 
         <ScadenzeSelect
-          ariaLabel="Filtra scadenze per codice cespite"
+          ariaLabel="Filtra scadenze per modulo"
+          value={filtroScadenzeModulo}
+          onChange={aggiornaFiltro(setFiltroScadenzeModulo)}
+          style={styles.scadenzeSelectLarge}
+        >
+          <option value="TUTTI">Tutti i moduli</option>
+          {listaModuliFiltroScadenze.map((modulo) => <option key={modulo} value={modulo}>{modulo.replaceAll("_", " ")}</option>)}
+        </ScadenzeSelect>
+
+        <ScadenzeSelect
+          ariaLabel="Filtra scadenze per elemento"
           value={filtroScadenzeCodice}
           onChange={aggiornaFiltro(setFiltroScadenzeCodice)}
           style={styles.scadenzeSelectLarge}
         >
-          <option value="TUTTE">Tutti i codici</option>
+          <option value="TUTTE">Tutti gli elementi</option>
           {listaCodiciFiltroScadenze.map((codice) => <option key={codice} value={codice}>{codice}</option>)}
         </ScadenzeSelect>
 

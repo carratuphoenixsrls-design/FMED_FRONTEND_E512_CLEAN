@@ -23,6 +23,13 @@ export default function ScadenzePage(props) {
     FMED_RENDER_BATCH_SCADENZE,
   } = props;
 
+  const etichettaModulo = (modulo) => ({
+    ASSET: "Asset",
+    INFRASTRUTTURE: "Infrastrutture",
+    SICUREZZA_81_08: "Sicurezza 81/08",
+  }[String(modulo || "").toUpperCase()] || String(modulo || "Altro").replaceAll("_", " "));
+  const daPianificare = scadenzeConStatoBase.filter((row) => row?._statoScadenza?.codice === "DA_PIANIFICARE");
+
   return (
     <div className="fmed-scadenze-enterprise" style={styles.scadenzePageShell}>
       <ScadenzeHero
@@ -46,6 +53,10 @@ export default function ScadenzePage(props) {
               ...styles.scadenzeKpiValue,
               color: "#D99A00"
             }}>{scadenzeImminenti.length}</strong><span style={styles.scadenzeKpiHint}>imminenti</span></div>
+      <div style={styles.scadenzeKpiCard}><div style={styles.scadenzeKpiTop}><span style={styles.scadenzeKpiIcon}>🗓️</span><span style={styles.scadenzeKpiLabel}>Da pianificare</span></div><strong style={{
+              ...styles.scadenzeKpiValue,
+              color: "#8A6D1D"
+            }}>{daPianificare.length}</strong><span style={styles.scadenzeKpiHint}>senza data futura</span></div>
       <div style={styles.scadenzeKpiCard}><div style={styles.scadenzeKpiTop}><span style={styles.scadenzeKpiIcon}>✅</span><span style={styles.scadenzeKpiLabel}>Selezionate</span></div><strong style={{
               ...styles.scadenzeKpiValue,
               color: "#169C8F"
@@ -62,7 +73,7 @@ export default function ScadenzePage(props) {
           }}>
           <div>
             <h3 style={styles.scadenzeTableTitle}>Elenco scadenze filtrate</h3>
-            <p style={styles.scadenzeTableSubtitle}>Selezionate: {scadenzeSelezionateVisualizzate.length} / {scadenzeVisualizzate.length}. Clicca sul codice per aprire la scheda cespite.</p>
+            <p style={styles.scadenzeTableSubtitle}>Selezionate: {scadenzeSelezionateVisualizzate.length} / {scadenzeVisualizzate.length}. Per i cicli Asset puoi cliccare sull’elemento per aprire la scheda cespite.</p>
           </div>
           <button style={styles.scadenzeCloseBtn} onClick={() => setScadenzeElencoAperto(false)}>Chiudi</button>
         </div>
@@ -70,7 +81,7 @@ export default function ScadenzePage(props) {
             <table style={styles.scadenzeTable}>
               <thead>
                 <tr>
-                  <th style={styles.scadenzeTh}>Sel.</th><th style={styles.scadenzeTh}>Codice</th><th style={styles.scadenzeTh}>Sede</th><th style={styles.scadenzeTh}>Tipologia</th><th style={styles.scadenzeTh}>Attività</th><th style={styles.scadenzeTh}>Ditta</th><th style={styles.scadenzeTh}>Ultimo intervento</th><th style={styles.scadenzeTh}>Prossima scadenza</th><th style={styles.scadenzeTh}>Giorni</th><th style={styles.scadenzeTh}>Stato</th>
+                  <th style={styles.scadenzeTh}>Sel.</th><th style={styles.scadenzeTh}>Modulo</th><th style={styles.scadenzeTh}>Elemento</th><th style={styles.scadenzeTh}>Sede</th><th style={styles.scadenzeTh}>Ambito</th><th style={styles.scadenzeTh}>Famiglia attività</th><th style={styles.scadenzeTh}>Ditta / ente</th><th style={styles.scadenzeTh}>Ultima esecuzione</th><th style={styles.scadenzeTh}>Prossima scadenza</th><th style={styles.scadenzeTh}>Giorni</th><th style={styles.scadenzeTh}>Stato</th>
                 </tr>
               </thead>
               <tbody>
@@ -80,17 +91,18 @@ export default function ScadenzePage(props) {
                   const stato = s._statoScadenza || statoScadenza(s._dataScadenza);
                   return <tr key={chiave || idx} style={styles.tr} onClick={() => toggleScadenzaExport(s)}>
                       <td style={styles.scadenzeTd}><input type="checkbox" checked={selezionata} onChange={() => toggleScadenzaExport(s)} onClick={e => e.stopPropagation()} /></td>
-                      <td style={styles.scadenzeTdCode} onClick={e => {
+                      <td style={styles.scadenzeTd}>{etichettaModulo(s.modulo)}</td>
+                      <td style={s.modulo === "ASSET" ? styles.scadenzeTdCode : styles.scadenzeTd} onClick={e => {
                       e.stopPropagation();
-                      apriSchedaDaCodice(s.codice_strumento || s.codicestrumento);
-                    }}>{s.codice_strumento || s.codicestrumento}</td>
-                      <td style={styles.scadenzeTd}>{s.sede}</td>
-                      <td style={styles.scadenzeTd}>{s.tipologia}</td>
+                      if (s.modulo === "ASSET") apriSchedaDaCodice(s.codice_strumento || s.codicestrumento);
+                    }}>{s.codice_strumento || s.codicestrumento || s.entita_chiave || "-"}</td>
+                      <td style={styles.scadenzeTd}>{s.sede || "-"}</td>
+                      <td style={styles.scadenzeTd}>{s.tipologia || "-"}</td>
                       <td style={styles.scadenzeTd}>{s.attivita}</td>
-                      <td style={styles.scadenzeTd}>{normalizzaSocietaDitta(s.ditta_esecutrice || s.ditta)}</td>
+                      <td style={styles.scadenzeTd}>{normalizzaSocietaDitta(s.ditta_esecutrice || s.ditta || "")}</td>
                       <td style={styles.scadenzeTd}>{formattaData(s._dataUltimoIntervento || s.data_ultimo_intervento)}</td>
                       <td style={styles.scadenzeTd}>{formattaData(s._dataScadenza || s.data_prossimo_intervento || s.prossima_scadenza || s.data_scadenza)}</td>
-                      <td style={styles.scadenzeTd}>{stato.giorni ?? "-"} gg</td>
+                      <td style={styles.scadenzeTd}>{stato.giorni == null ? "-" : `${stato.giorni} gg`}</td>
                       <td style={styles.scadenzeTd}><span style={{
                         ...styles.scadenzeStatusDot,
                         background: stato.colore

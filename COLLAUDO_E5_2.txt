@@ -1,0 +1,8 @@
+FMED ENTERPRISE 1.0 · E5.2 MOTORE CICLI UNIFICATO
+
+- versione frontend E5.2 verificata
+- fonte scadenze: /cicli-unificati/attivi
+- Asset, Infrastrutture e Sicurezza 81/08 inclusi
+- vecchie scadenze sostituite escluse da KPI/alert/export
+- stato DA_PIANIFICARE supportato
+- build, lint e QA automatici superati

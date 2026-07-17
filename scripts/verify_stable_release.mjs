@@ -9,7 +9,7 @@ const required = [
   "src/main.jsx", "src/App_nuovo.jsx", "src/CoreStandardPage.jsx", "src/CoreStandardPage.css",
   "src/components/DizionariControls.jsx", "src/FmedE42LightComfortLayout.css",
   "src/FmedE32SemanticColorSystem.css", "src/fmedInlineStyles.js",
-  "scripts/verify_master_data_e51.mjs", "scripts/verify_performance_runtime.mjs",
+  "scripts/verify_master_data_e51.mjs", "scripts/verify_unified_cycles_e52.mjs", "scripts/verify_performance_runtime.mjs",
   "public/fmed-build.json",
 ];
 for (const file of required) await access(resolve(root, file), constants.R_OK);
@@ -21,18 +21,18 @@ const core = await readFile(resolve(root, "src/CoreStandardPage.jsx"), "utf8");
 const controls = await readFile(resolve(root, "src/components/DizionariControls.jsx"), "utf8");
 const buildInfo = JSON.parse(await readFile(resolve(root, "public/fmed-build.json"), "utf8"));
 
-assert.equal(pkg.version, "5.1.2");
+assert.equal(pkg.version, "5.2.0");
 assert.equal(pkg.scripts.build, "vite build --configLoader runner");
 assert.equal(pkg.scripts.prebuild, undefined);
-assert.match(app, /E5_1_2_CLEAN_REBUILD/);
+assert.match(app, /E5_2_UNIFIED_CYCLE_ENGINE/);
 assert.match(app, /fmedInlineStyles\.js/);
-assert.match(main, /e5-1-2-clean-rebuild/);
+assert.match(main, /e5-2-unified-cycle-engine/);
 assert.match(core, /master-data\/audit/);
 assert.match(core, /master-data\/acquisisci-valori/);
 assert.match(core, /master-data\/normalizza/);
 assert.match(core, /ACQUISISCI_E5_MASTER_DATA/);
 assert.match(core, /APPLICA_E5_MASTER_DATA/);
 assert.match(controls, /Qualità dati/);
-assert.equal(buildInfo.release, "E5.1.2 Clean Rebuild");
+assert.equal(buildInfo.release, "E5.2 Motore Cicli Unificato");
 assert.doesNotMatch(app, /useOnDemandDataset|caricaAssetDataset|caricaInterventiDataset/);
-console.log("FMED E5.1.2 Clean Rebuild integrity: OK");
+console.log("FMED E5.2 Unified Cycle Engine integrity: OK");

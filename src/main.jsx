@@ -15,7 +15,7 @@ import "./FmedErrorBoundary.css";
 import "./FmedE32SemanticColorSystem.css";
 import "./FmedE42LightComfortLayout.css";
 
-const FMED_APP_CACHE_VERSION = "fmed-enterprise-e5-1-2-clean-rebuild-20260717-1";
+const FMED_APP_CACHE_VERSION = "fmed-enterprise-e5-2-unified-cycle-engine-20260717-1";
 
 const FMED_API_WARMUP_URL = String(
   import.meta.env?.VITE_API_BASE_URL || "https://fmed-backend.onrender.com"

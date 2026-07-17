@@ -5,7 +5,7 @@ const checks = [
   ["src/ProcessiPage.jsx", ["humanizeStep", "Quando usarlo"]],
   ["src/pages/SharePointPage.jsx", ["Gestisci nel modulo"]],
   ["src/FmedE31UxReview.css", ["fmed-intervention-selected-summary", "fmed-process-use-case"]],
-  ["src/App_nuovo.jsx", ["E5.1.2 CLEAN REBUILD", "fmed-new-intervention-status"]],
+  ["src/App_nuovo.jsx", ["E5.2 MOTORE CICLI UNIFICATO", "fmed-new-intervention-status"]],
 ];
 
 for (const [file, needles] of checks) {
@@ -15,4 +15,4 @@ for (const [file, needles] of checks) {
     if (!content.includes(needle)) throw new Error(`Controllo UX fallito: ${needle} non trovato in ${file}`);
   }
 }
-console.log("FMED E5.1.2 UX review compatibility: OK");
+console.log("FMED E5.2 UX review compatibility: OK");

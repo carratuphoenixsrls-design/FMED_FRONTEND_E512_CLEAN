@@ -45,14 +45,14 @@ for (const [file, needle] of Object.entries(bannerFiles)) {
   assert.ok(content.includes(needle), `Icona banner non collegata: ${file}`);
 }
 
-assert.match(app, /E5_1_2_CLEAN_REBUILD/);
-assert.match(app, /E5\.1\.2 CLEAN REBUILD/);
+assert.match(app, /E5_2_UNIFIED_CYCLE_ENGINE/);
+assert.match(app, /E5\.2 MOTORE CICLI UNIFICATO/);
 assert.match(app, /sharepoint\/cespiti\/\$\{encodeURIComponent\(codice\)\}\/link-documento/);
 assert.ok(!app.includes("A_003323: \"https://marilab.sharepoint.com"), "Fallback SharePoint storico ancora incorporato");
 assert.match(app, /data-fmed-build/);
 assert.match(main, /FmedE42LightComfortLayout\.css/);
 assert.match(sharepoint, /sincronizza-link/);
 assert.match(sharepoint, /Anteprima modifiche/);
-assert.equal(buildInfo.release, "E5.1.2 Clean Rebuild");
+assert.equal(buildInfo.release, "E5.2 Motore Cicli Unificato");
 
-console.log("FMED E5.1.2 Light Comfort compatibility: OK");
+console.log("FMED E5.2 Light Comfort compatibility: OK");

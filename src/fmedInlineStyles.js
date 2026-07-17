@@ -1,4 +1,4 @@
-/* FMED Enterprise 1.0 · E5.1.2 Clean Rebuild
+/* FMED Enterprise 1.0 · E5.2 Motore Cicli Unificato
    Registro stili inline separato dal core applicativo per ridurre parsing e chunk principale. */
 
 const loginStyles = {
@@ -16204,7 +16204,7 @@ Object.assign(styles, {
   },
   scadenzeKpiGrid: {
     display: "grid",
-    gridTemplateColumns: "repeat(4, minmax(0, 1fr))",
+    gridTemplateColumns: "repeat(auto-fit, minmax(180px, 1fr))",
     gap: 14
   },
   scadenzeKpiCard: {
@@ -16309,7 +16309,7 @@ Object.assign(styles, {
   },
   scadenzeTable: {
     width: "100%",
-    minWidth: 1160,
+    minWidth: 1450,
     borderCollapse: "separate",
     borderSpacing: 0,
     background: "var(--fmed-card)"
