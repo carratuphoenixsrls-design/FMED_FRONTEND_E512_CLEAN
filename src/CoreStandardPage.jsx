@@ -104,6 +104,76 @@ function MasterDataQualityPanel({ quality, loading, busy, preview, canManage, on
   </section>;
 }
 
+function SiteHygienePanel({ audit, loading, busy, preview, canManage, onRefresh, onPreview, onApply }) {
+  const summary = audit?.riepilogo || {};
+  const variants = Array.isArray(audit?.varianti) ? audit.varianti : [];
+  const plan = Array.isArray(preview?.piano) ? preview.piano : [];
+  const officialSites = Array.isArray(audit?.sedi_ufficiali) ? audit.sedi_ufficiali : [];
+  return <section className="core-site-hygiene-panel" aria-label="Pulizia e normalizzazione sedi">
+    <div className="core-quality-heading">
+      <div>
+        <span className="core-standard-kicker">DATA HYGIENE E5.2.1</span>
+        <h3>Pulizia controllata delle sedi</h3>
+        <p>Riconduce Asset, Interventi, Infrastrutture e Sicurezza 81/08 alle sei sedi ufficiali. Conserva il valore precedente nello storico e non modifica valori sconosciuti.</p>
+      </div>
+      <button type="button" className="core-primary-button" onClick={onRefresh} disabled={loading || busy}>{loading ? "Analisi…" : "Aggiorna audit sedi"}</button>
+    </div>
+
+    {loading && !audit ? <div className="core-quality-loading">Ricerca di alias, indirizzi incorporati e caratteri invisibili…</div> : <>
+      <div className="core-quality-summary core-site-summary">
+        <article className="is-ok"><span>Sedi ufficiali</span><strong>{formatCount(summary.sedi_ufficiali || officialSites.length)}</strong><small>nomi brevi e univoci</small></article>
+        <article><span>Valori analizzati</span><strong>{formatCount(summary.valori_sede_analizzati)}</strong><small>in tutti i moduli operativi</small></article>
+        <article className={Number(summary.valori_da_normalizzare || 0) ? "is-warning" : "is-ok"}><span>Alias da pulire</span><strong>{formatCount(summary.valori_da_normalizzare)}</strong><small>correzioni sicure riconosciute</small></article>
+        <article className={Number(summary.valori_sconosciuti || 0) ? "is-warning" : "is-ok"}><span>Sconosciuti</span><strong>{formatCount(summary.valori_sconosciuti)}</strong><small>restano invariati per controllo umano</small></article>
+        <article><span>Varianti distinte</span><strong>{formatCount(summary.varianti_distinte)}</strong><small>incluse differenze invisibili</small></article>
+      </div>
+
+      <div className="core-site-catalog">
+        {officialSites.map(site => <article key={site.chiave}><strong>{site.sede}</strong><span>{site.indirizzo}</span></article>)}
+      </div>
+
+      <div className="core-quality-actions">
+        <div>
+          <strong>Normalizzazione con storico obbligatorio</strong>
+          <span>Prima mostra l'anteprima. L'applicazione è disponibile solo agli amministratori e richiede conferma esplicita.</span>
+        </div>
+        <button type="button" onClick={onPreview} disabled={busy}>Anteprima pulizia sedi</button>
+        {canManage && preview && <button type="button" className="core-danger-safe-button" onClick={onApply} disabled={busy || !plan.length}>Applica {plan.length} correzioni</button>}
+      </div>
+
+      {preview && <div className="core-quality-preview">
+        <div className="core-section-heading"><h3>Correzioni sedi previste</h3><span>{plan.length}</span></div>
+        <p>{preview.criterio}</p>
+        <div className="core-quality-preview-list">
+          {plan.slice(0, 120).map((item, index) => <div key={`${item.tabella}-${item.chiave_valore}-${item.campo}-${index}`}>
+            <code>{item.tabella}.{item.campo}</code>
+            <strong>{item.da} → {item.a}</strong>
+            <span>{item.chiave_campo}: {String(item.chiave_valore)}</span>
+          </div>)}
+          {!plan.length && <div className="core-empty-state">Nessuna sede da normalizzare.</div>}
+        </div>
+        {plan.length > 120 && <small>Mostrate le prime 120 correzioni su {plan.length}.</small>}
+      </div>}
+
+      <div className="core-quality-issues">
+        <div className="core-section-heading"><h3>Varianti rilevate</h3><span>{variants.length}</span></div>
+        <div className="core-quality-table-head"><span>Origine</span><span>Campo</span><span>Valore attuale</span><span>Esito</span><span>Occorrenze</span></div>
+        <div className="core-quality-table">
+          {variants.slice(0, 250).map((item, index) => <div className={`core-quality-row status-${String(item.stato || "").toLowerCase()}`} key={`${item.tabella}-${item.campo}-${item.valore_attuale}-${index}`}>
+            <code>{item.tabella}</code>
+            <span>{item.campo}</span>
+            <strong>{item.valore_attuale}</strong>
+            <span>{item.stato === "ALIAS" ? `Alias → ${item.valore_canonico}` : item.stato === "CANONICO" ? "Canonico" : "Sconosciuto: non modificato"}</span>
+            <b>{formatCount(item.occorrenze)}</b>
+          </div>)}
+          {!variants.length && <div className="core-empty-state">Nessun valore sede rilevato.</div>}
+        </div>
+      </div>
+    </>}
+  </section>;
+}
+
+
 export default function CoreStandardPage({ apiBaseUrl, onDataChanged, canManage = false, initialTab = "DIZIONARI" }) {
   const [catalogo, setCatalogo] = useState([]);
   const [selected, setSelected] = useState("");
@@ -124,6 +194,10 @@ export default function CoreStandardPage({ apiBaseUrl, onDataChanged, canManage 
   const [qualityLoading, setQualityLoading] = useState(false);
   const [qualityBusy, setQualityBusy] = useState(false);
   const [qualityPreview, setQualityPreview] = useState(null);
+  const [siteHygiene, setSiteHygiene] = useState(null);
+  const [siteHygieneLoading, setSiteHygieneLoading] = useState(false);
+  const [siteHygieneBusy, setSiteHygieneBusy] = useState(false);
+  const [siteHygienePreview, setSiteHygienePreview] = useState(null);
 
   const load = useCallback(async () => {
     setLoading(true); setMessage("");
@@ -157,9 +231,26 @@ export default function CoreStandardPage({ apiBaseUrl, onDataChanged, canManage 
     }
   }, [apiBaseUrl]);
 
+  const loadSiteHygiene = useCallback(async (force = true) => {
+    setSiteHygieneLoading(true);
+    try {
+      const response = await fetch(`${apiBaseUrl}/data-hygiene/sedi/audit?limit=10000&force=${force ? "true" : "false"}`);
+      const data = await response.json().catch(() => ({}));
+      const detail = data?.detail;
+      if (!response.ok) throw new Error(typeof detail === "string" ? detail : detail?.messaggio || "Audit sedi non disponibile");
+      setSiteHygiene(data);
+    } catch (error) {
+      setMessage(`Data Hygiene sedi: ${error.message}`);
+    } finally {
+      setSiteHygieneLoading(false);
+    }
+  }, [apiBaseUrl]);
+
   useEffect(() => {
-    if (tab === "QUALITA" && !quality && !qualityLoading) loadQuality(false);
-  }, [tab, quality, qualityLoading, loadQuality]);
+    if (tab !== "QUALITA") return;
+    if (!quality && !qualityLoading) loadQuality(false);
+    if (!siteHygiene && !siteHygieneLoading) loadSiteHygiene(false);
+  }, [tab, quality, qualityLoading, loadQuality, siteHygiene, siteHygieneLoading, loadSiteHygiene]);
 
   async function masterAction(endpoint, payload, type) {
     setQualityBusy(true); setMessage("");
@@ -196,6 +287,54 @@ export default function CoreStandardPage({ apiBaseUrl, onDataChanged, canManage 
     const count = qualityPreview?.data?.totale_modifiche || 0;
     if (!window.confirm(`Confermi ${count} correzioni Master Data già riconosciute? I valori non censiti resteranno invariati.`)) return;
     return masterAction("/master-data/normalizza", { apply: true, conferma: "APPLICA_E5_MASTER_DATA", limit: 6000, max_modifiche: 3000 }, "NORMALIZZAZIONE");
+  };
+
+  async function siteHygieneAction(apply = false) {
+    setSiteHygieneBusy(true); setMessage("");
+    try {
+      let actor = "FMED_ADMIN";
+      try {
+        const raw = localStorage.getItem("fmed_login_session") || sessionStorage.getItem("fmed_login_session");
+        const session = raw ? JSON.parse(raw) : null;
+        actor = String(session?.email || session?.nome || actor);
+      } catch { actor = "FMED_ADMIN"; }
+      const response = await fetch(`${apiBaseUrl}/data-hygiene/sedi/normalizza`, {
+        method: "POST",
+        headers: apiHeaders(),
+        body: JSON.stringify({
+          apply,
+          conferma: apply ? "APPLICA_E5_2_1_DATA_HYGIENE" : null,
+          limit: 10000,
+          max_modifiche: 10000,
+          eseguito_da: actor,
+        }),
+      });
+      const data = await response.json().catch(() => ({}));
+      const detail = data?.detail;
+      if (!response.ok) throw new Error(typeof detail === "string" ? detail : detail?.messaggio || "Pulizia sedi non riuscita");
+      if (!apply) {
+        setSiteHygienePreview(data);
+        setMessage(`Anteprima sedi pronta: ${data.totale_modifiche || 0} correzioni sicure.`);
+      } else {
+        setSiteHygienePreview(null);
+        await Promise.all([load(), loadQuality(true), loadSiteHygiene(true)]);
+        await onDataChanged?.({ tipo: "DATA_HYGIENE_SEDI_E5_2_1", risultato: data });
+        setMessage(`Pulizia sedi completata: ${data.campi_aggiornati || 0} campi aggiornati; ${data.errori?.length || 0} errori.`);
+      }
+      return data;
+    } catch (error) {
+      setMessage(error.message || "Pulizia sedi non riuscita");
+      return null;
+    } finally {
+      setSiteHygieneBusy(false);
+    }
+  }
+
+  const previewSiteHygiene = () => siteHygieneAction(false);
+  const applySiteHygiene = () => {
+    const count = Number(siteHygienePreview?.totale_modifiche || 0);
+    if (!window.confirm(`Confermi la normalizzazione di ${count} campi sede? Il valore precedente verrà conservato nello storico e nessun record sarà eliminato.`)) return;
+    return siteHygieneAction(true);
   };
 
   const loadNextCode = useCallback(async (dictionaryCode) => {
@@ -435,18 +574,30 @@ export default function CoreStandardPage({ apiBaseUrl, onDataChanged, canManage 
         </div>}
       </div>}
 
-      {tab === "QUALITA" && <MasterDataQualityPanel
-        quality={quality}
-        loading={qualityLoading}
-        busy={qualityBusy}
-        preview={qualityPreview}
-        canManage={canManage}
-        onRefresh={() => loadQuality(true)}
-        onPreviewAcquire={previewAcquire}
-        onApplyAcquire={applyAcquire}
-        onPreviewNormalize={previewNormalize}
-        onApplyNormalize={applyNormalize}
-      />}
+      {tab === "QUALITA" && <div className="core-quality-stack">
+        <SiteHygienePanel
+          audit={siteHygiene}
+          loading={siteHygieneLoading}
+          busy={siteHygieneBusy}
+          preview={siteHygienePreview}
+          canManage={canManage}
+          onRefresh={() => loadSiteHygiene(true)}
+          onPreview={previewSiteHygiene}
+          onApply={applySiteHygiene}
+        />
+        <MasterDataQualityPanel
+          quality={quality}
+          loading={qualityLoading}
+          busy={qualityBusy}
+          preview={qualityPreview}
+          canManage={canManage}
+          onRefresh={() => loadQuality(true)}
+          onPreviewAcquire={previewAcquire}
+          onApplyAcquire={applyAcquire}
+          onPreviewNormalize={previewNormalize}
+          onApplyNormalize={applyNormalize}
+        />
+      </div>}
     </section>
   );
 }

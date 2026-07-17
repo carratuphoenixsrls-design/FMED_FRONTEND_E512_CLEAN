@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useState } from "react";
+import { chiaveSedeCanonica, etichettaSedeCanonica, listaSediCanoniche } from "../../fmedStandard.js";
 
 const normalize = (value) => String(value || "").trim().toLocaleLowerCase("it-IT");
 
@@ -7,7 +8,7 @@ function assetSummary(row) {
 }
 
 function assetLocation(row) {
-  return [row?.sede, row?.reparto, row?.locazione].filter(Boolean).join(" · ") || "Collocazione non disponibile";
+  return [etichettaSedeCanonica(row?.sede), row?.reparto, row?.locazione].filter(Boolean).join(" · ") || "Collocazione non disponibile";
 }
 
 export default function NewInterventionAssetPicker({ cespiti = [], selectedCode = "", onSelect }) {
@@ -16,7 +17,7 @@ export default function NewInterventionAssetPicker({ cespiti = [], selectedCode 
   const [type, setType] = useState("TUTTE");
   const [selectionMode, setSelectionMode] = useState(!selectedCode);
 
-  const sites = useMemo(() => [...new Set((cespiti || []).map((row) => String(row?.sede || "").trim()).filter(Boolean))].sort((a, b) => a.localeCompare(b, "it")), [cespiti]);
+  const sites = useMemo(() => listaSediCanoniche((cespiti || []).map((row) => row?.sede), { includeUnknown: true }), [cespiti]);
   const types = useMemo(() => [...new Set((cespiti || []).map((row) => String(row?.tipologia || row?.categoria || "").trim()).filter(Boolean))].sort((a, b) => a.localeCompare(b, "it")), [cespiti]);
 
   const selected = useMemo(
@@ -34,7 +35,7 @@ export default function NewInterventionAssetPicker({ cespiti = [], selectedCode 
     if (!hasActiveQuery) return [];
     const query = normalize(search);
     return (cespiti || []).filter((row) => {
-      if (site !== "TUTTE" && String(row?.sede || "") !== site) return false;
+      if (site !== "TUTTE" && (chiaveSedeCanonica(row?.sede) || String(row?.sede || "").trim()) !== (chiaveSedeCanonica(site) || site)) return false;
       const rowType = String(row?.tipologia || row?.categoria || "");
       if (type !== "TUTTE" && rowType !== type) return false;
       if (!query) return true;

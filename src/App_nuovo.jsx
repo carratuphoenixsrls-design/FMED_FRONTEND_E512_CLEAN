@@ -1,4 +1,4 @@
-/* FMED ENTERPRISE 1.0 · E5.2 MOTORE CICLI UNIFICATO · FRONTEND COMPLETO */
+/* FMED ENTERPRISE 1.0 · E5.2.1 DATA HYGIENE · FRONTEND COMPLETO */
 /*
   FMED CLEANUP 2026-06-25
   - Verifica JSX eseguita con esbuild: sintassi OK.
@@ -7,7 +7,7 @@
 */
 
 import { useEffect, useMemo, useDeferredValue, useState, useCallback, memo, lazy, Suspense } from "react";
-import { SEDI_STANDARD, SEDI_STANDARD_LIST, PERIODICITA_STANDARD, calcolaProssimaScadenza, etichetteDaDizionario, codiciDaDizionario } from "./fmedStandard.js";
+import { SEDI_STANDARD, SEDI_STANDARD_LIST, PERIODICITA_STANDARD, calcolaProssimaScadenza, etichetteDaDizionario, codiciDaDizionario, chiaveSedeCanonica, etichettaSedeCanonica, listaSediCanoniche } from "./fmedStandard.js";
 import styles, { loginStyles, loginLightStyles } from "./fmedInlineStyles.js";
 const Sicurezza8108Page = lazy(() => import("./Sicurezza8108Page.jsx"));
 const ProcessiPage = lazy(() => import("./ProcessiPage.jsx"));
@@ -47,8 +47,8 @@ const API_BASE_URL = ENV_API_BASE_URL || (IS_LOCAL_FRONTEND ? "http://127.0.0.1:
 const API_BASE_CANDIDATES = [API_BASE_URL, ...(ENV_API_BASE_URL ? [] : IS_LOCAL_FRONTEND ? ["http://localhost:8000", "http://10.10.10.31:8000"] : [])].filter((value, index, array) => value && array.indexOf(value) === index);
 
 // Versione frontend visibile per evitare dubbi da cache, browser o PWA.
-const MRDB_APP_VERSION = "FMED_ENTERPRISE_1_0_E5_2_UNIFIED_CYCLE_ENGINE_2026_07_17";
-const MRDB_APP_BUILD_LABEL = "FMED ENTERPRISE 1.0 · E5.2 MOTORE CICLI UNIFICATO";
+const MRDB_APP_VERSION = "FMED_ENTERPRISE_1_0_E5_2_1_DATA_HYGIENE_2026_07_17";
+const MRDB_APP_BUILD_LABEL = "FMED ENTERPRISE 1.0 · E5.2.1 DATA HYGIENE";
 // FMED PERFORMANCE SAFE MODE
 // Render progressivo degli elenchi lunghi: filtri/export restano completi, si alleggerisce solo il DOM visibile.
 const FMED_RENDER_BATCH_ASSET = 100;
@@ -197,25 +197,22 @@ async function chiamataApiAutenticataFmed(endpoint, options = {}) {
 // Sedi e periodicità provengono dai Master Data centralizzati (fallback in fmedStandard.js).
 
 function chiaveSedeOperativa(valore) {
-  const t = String(valore || "").normalize("NFD").replace(/[\u0300-\u036f]/g, "").toUpperCase().replace(/[.,]/g, " ").replace(/\s+/g, " ").trim();
-  if (!t) return "";
-  if (t.includes("PINDARO") || t.includes("AXA")) return "AXA_MEDICA";
-  if (t.includes("SURGERY") || t.includes("SURGERI") || t.includes("ZAMBRINI 2") || t.includes("ZAMBRINI 4") || t.includes("ZAMBRINI 6")) return "MARILAB_SURGERY";
-  if (t.includes("CAFFARO")) return "MARILAB_GARBATELLA";
-  if (t.includes("FIUMICINO") || t.includes("FOCE MICINA")) return "MARILAB_FIUMICINO";
-  if (t.includes("POMEZIA") || t.includes("PHOENIX") || t.includes("CASTELLI ROMANI")) return "MARILAB_FUTURE_LABS";
-  if (t.includes("ZAMBRINI")) return "MARILAB_CENTER";
-  return t;
+  const canonica = chiaveSedeCanonica(valore);
+  if (canonica) return canonica;
+  return String(valore || "").normalize("NFKD").replace(/[\u0300-\u036f]/g, "").replace(/[\u200B-\u200D\uFEFF]/g, "").toUpperCase().replace(/[^A-Z0-9]+/g, "_").replace(/^_+|_+$/g, "");
 }
 function normalizzaMaiuscoleMinuscole(valore) {
-  const testo = String(valore || "").normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/_/g, " ").replace(/\s+/g, " ").trim();
+  const testo = String(valore || "").normalize("NFKD").replace(/[\u0300-\u036f]/g, "").replace(/[\u200B-\u200D\uFEFF]/g, "").replace(/_/g, " ").replace(/\s+/g, " ").trim();
   if (!testo) return "NON SPECIFICATA";
   return testo.toLowerCase().replace(/\b\w/g, c => c.toUpperCase()).replace(/\bSrl\b/g, "SRL").replace(/\bSpa\b/g, "SPA").replace(/\bAxa\b/g, "AXA").replace(/\bFmed\b/g, "FMED");
 }
 function normalizzaSedeDisplay(valore) {
-  const chiave = chiaveSedeOperativa(valore);
-  return SEDI_STANDARD[chiave] || normalizzaMaiuscoleMinuscole(valore);
+  return etichettaSedeCanonica(valore) || normalizzaMaiuscoleMinuscole(valore);
 }
+function deduplicaSediFmed(valori = [], includeUnknown = true) {
+  return listaSediCanoniche(valori, { includeUnknown });
+}
+
 function normalizzaCentroCostoFmed(valore, sedeFallback = "") {
   const candidato = String(valore || sedeFallback || "").trim();
   if (!candidato) return "";
@@ -2035,7 +2032,7 @@ function AppNuovoCore({
     });
     return indice;
   }, [cespiti]);
-  const listaSedi = useMemo(() => filtraDizionarioRimosso("sede", [...new Set([...SEDI_STANDARD_LIST, ...cespiti.map(c => normalizzaSedeDisplay(c.sede)), ...extraSedi.map(normalizzaSedeDisplay)].filter(Boolean))]), [cespiti, extraSedi, filtraDizionarioRimosso]);
+  const listaSedi = useMemo(() => filtraDizionarioRimosso("sede", deduplicaSediFmed([...SEDI_STANDARD_LIST, ...cespiti.map(c => c.sede), ...extraSedi], true)), [cespiti, extraSedi, filtraDizionarioRimosso]);
   const sedi = useMemo(() => ["TUTTE", ...listaSedi], [listaSedi]);
   const listaReparti = useMemo(() => filtraDizionarioRimosso("reparto", listaPulitaDizionario(REPARTI_STANDARD, extraReparti)), [extraReparti, filtraDizionarioRimosso]);
   const listaBranche = useMemo(() => filtraDizionarioRimosso("branca_medica", listaPulitaDizionario([...BRANCHE_MEDICHE_STANDARD, ...cespiti.map(c => c.branca_medica || c.branca)], extraBranche)), [cespiti, extraBranche, filtraDizionarioRimosso]);
@@ -2167,15 +2164,8 @@ function AppNuovoCore({
   const listaSediAsset = useMemo(() => {
     if (assetSocietaFiltro === "TUTTE") return sedi;
     const societaNorm = normalizzaTestoCodice(assetSocietaFiltro);
-    const valori = (Array.isArray(cespiti) ? cespiti : []).filter(c => normalizzaTestoCodice(c?.societa) === societaNorm).map(c => normalizzaSedeDisplay(c?.sede)).filter(Boolean);
-    return ["TUTTE", ...new Set(valori)].sort((a, b) => {
-      if (a === "TUTTE") return -1;
-      if (b === "TUTTE") return 1;
-      return a.localeCompare(b, "it", {
-        numeric: true,
-        sensitivity: "base"
-      });
-    });
+    const valori = (Array.isArray(cespiti) ? cespiti : []).filter(c => normalizzaTestoCodice(c?.societa) === societaNorm).map(c => c?.sede).filter(Boolean);
+    return ["TUTTE", ...deduplicaSediFmed(valori, true)];
   }, [assetSocietaFiltro, cespiti, sedi]);
 
   // FMED 2026-06-26 - Locazioni dipendenti dal presidio/sede.
@@ -2224,9 +2214,7 @@ function AppNuovoCore({
       listaCategorie: filtraDizionarioRimosso("categoria", listaPulitaDizionario(cespiti.map(c => normalizeCategoria(c.categoria)), extraCategorie)),
       listaPossesso: filtraDizionarioRimosso("possesso", listaPulitaDizionario([...POSSESSO_STANDARD, ...cespiti.map(c => c.possesso)], extraPossesso)),
       listaStatiAsset: filtraDizionarioRimosso("stato_asset", listaPulitaDizionario(STATI_ASSET_STANDARD, extraStatiAsset)),
-      listaSediInterventi: [...new Set([...SEDI_STANDARD_LIST, ...interventi.map(i => normalizzaSedeDisplay(i.sede)).filter(Boolean)])].sort((a, b) => a.localeCompare(b, "it", {
-        sensitivity: "base"
-      })),
+      listaSediInterventi: deduplicaSediFmed([...SEDI_STANDARD_LIST, ...interventi.map(i => i.sede)], true),
       listaSocietaInterventi: filtraDizionarioRimosso("societa", listaPulitaDizionario(interventi.map(i => normalizzaSocietaDitta(i.societa)), extraSocieta)),
       listaDitteEsecutrici: filtraDizionarioRimosso("ditta", listaPulitaDizionario([...ditteEsecutriciMasterData, ...interventi.map(i => normalizzaSocietaDitta(i.ditta_esecutrice || i.ditta))], extraDitte)),
       listaEsitiInterventi: filtraDizionarioRimosso("esito", listaPulitaDizionario([...ESITI_STANDARD, ...interventi.map(i => i.esito)], extraEsiti)),
@@ -2470,7 +2458,7 @@ function AppNuovoCore({
     sensitivity: "base"
   }));
   const listaCodiciStrumentoInterventi = pulisciLista([...cespiti.map(c => c.codicestrumento), ...interventi.map(i => i.codice_strumento || i.codicestrumento)]);
-  const listaSediFormInterventi = filtraDizionarioRimosso("sede", [...new Set([...etichetteDaDizionario(dizionariCoreFmed, "sedi", SEDI_STANDARD_LIST), ...cespiti.map(c => normalizzaSedeDisplay(c.sede)), ...interventi.map(i => normalizzaSedeDisplay(i.sede)), ...extraSedi.map(normalizzaSedeDisplay)].filter(Boolean))]);
+  const listaSediFormInterventi = filtraDizionarioRimosso("sede", deduplicaSediFmed([...etichetteDaDizionario(dizionariCoreFmed, "sedi", SEDI_STANDARD_LIST), ...cespiti.map(c => c.sede), ...interventi.map(i => i.sede), ...extraSedi], true));
   const listaTipologieFormInterventi = filtraDizionarioRimosso("tipologia", listaPulitaDizionario([...cespiti.map(c => c.tipologia), ...interventi.map(i => i.tipologia)], extraTipologie));
   const listaCostruttoriFormInterventi = filtraDizionarioRimosso("costruttore", listaPulitaDizionario([...cespiti.map(c => c.costruttore), ...interventi.map(i => i.costruttore)], extraCostruttori));
   const listaModelliFormInterventi = filtraDizionarioRimosso("modello", listaPulitaDizionario([...cespiti.map(c => c.modello), ...interventi.map(i => i.modello)], extraModelli));
@@ -3185,6 +3173,8 @@ function AppNuovoCore({
       const data = s._dataScadenza || s.data_prossimo_intervento || s.prossima_scadenza || s.data_scadenza;
       return {
         ...s,
+        sede_originale: s.sede_originale || s.sede || "",
+        sede: normalizzaSedeDisplay(s.sede || s.sede_originale || ""),
         _dataScadenza: data,
         _statoScadenza: s._statoScadenza || statoScadenza(data)
       };
@@ -3196,7 +3186,7 @@ function AppNuovoCore({
   }, [scadenzeFiltrate]);
   const listaModuliFiltroScadenze = pulisciLista(scadenzeConStatoBase.map(s => s.modulo));
   const listaCodiciFiltroScadenze = pulisciLista(scadenzeConStatoBase.map(s => s.codice_strumento || s.codicestrumento));
-  const listaSediFiltroScadenze = pulisciLista(scadenzeConStatoBase.map(s => s.sede));
+  const listaSediFiltroScadenze = deduplicaSediFmed(scadenzeConStatoBase.map(s => s.sede), true);
   const listaTipologieFiltroScadenze = pulisciLista(scadenzeConStatoBase.map(s => s.tipologia));
   const listaAttivitaFiltroScadenze = pulisciLista(scadenzeConStatoBase.map(s => normalizzaAttivitaIntervento(s.attivita || "")));
   const listaDitteFiltroScadenze = pulisciLista(scadenzeConStatoBase.map(s => normalizzaSocietaDitta(s.ditta_esecutrice || s.ditta)));
@@ -6672,7 +6662,7 @@ ${messaggio}`);
   }
   // eslint-disable-next-line react-hooks/exhaustive-deps -- il predicato usa data corrente e campi dei record, senza stato React aggiuntivo.
   const infrastruttureOperative = useMemo(() => infrastruttureConStato.filter(r => infrastrutturaRilevanteOperativa(r)), [infrastruttureConStato]);
-  const listaInfraSedi = useMemo(() => pulisciLista(infrastruttureOperative.map(r => r.sede)), [infrastruttureOperative]);
+  const listaInfraSedi = useMemo(() => deduplicaSediFmed(infrastruttureOperative.map(r => r.sede), true), [infrastruttureOperative]);
   const listaInfraCategorie = useMemo(() => pulisciLista(infrastruttureOperative.map(r => r.categoria)), [infrastruttureOperative]);
   const listaInfraDitte = useMemo(() => pulisciLista(infrastruttureOperative.map(r => normalizzaSocietaDitta(r.ditta))), [infrastruttureOperative]);
   const listaInfraPeriodicita = useMemo(() => pulisciLista(infrastruttureOperative.map(r => r.periodicita)), [infrastruttureOperative]);

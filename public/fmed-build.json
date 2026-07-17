@@ -1,14 +1,15 @@
 {
   "product": "FMED Enterprise 1.0",
-  "release": "E5.2 Motore Cicli Unificato",
-  "build": "FMED_ENTERPRISE_1_0_E5_2_UNIFIED_CYCLE_ENGINE_2026_07_17",
+  "release": "E5.2.1 Data Hygiene",
+  "build": "FMED_ENTERPRISE_1_0_E5_2_1_DATA_HYGIENE_2026_07_17",
   "frontend": true,
-  "backend_required": "E5.2 or newer",
+  "backend_required": "E5.2.1 or newer",
   "features": [
     "Light Comfort",
     "SharePoint Sync",
     "Master Data Governance",
-    "Clean Frontend Rebuild"
+    "Motore Cicli Unificato",
+    "Data Hygiene sedi"
   ],
-  "description": "Un solo ciclo operativo per entità e famiglia su Asset, Infrastrutture e Sicurezza 81/08."
+  "description": "Sei sedi ufficiali, menu deduplicati e normalizzazione non distruttiva con storico audit."
 }

@@ -566,7 +566,7 @@ export default function NewAssetWizard({
           <div className="fmed-banner-heading">
             <FmedModuleIcon module="NuovoAsset" />
             <div className="fmed-banner-copy">
-              <span>FMED ENTERPRISE 1.0 · E5.2</span>
+              <span>FMED ENTERPRISE 1.0 · E5.2.1</span>
               <h2>Nuovo Asset</h2>
               <p>Creazione industrializzata con dati centrali, relazioni intelligenti, controlli backend, SharePoint, QR e piano manutentivo.</p>
             </div>

@@ -1,4 +1,4 @@
-/* FMED Enterprise 1.0 · E5.2 Motore Cicli Unificato
+/* FMED Enterprise 1.0 · E5.2.1 Data Hygiene
    Registro stili inline separato dal core applicativo per ridurre parsing e chunk principale. */
 
 const loginStyles = {

@@ -675,3 +675,62 @@ body[data-theme="dark"] .core-quality-row,
   .core-quality-row { grid-template-columns: 1fr; gap: 5px; }
   .core-quality-row b { justify-self: start; }
 }
+
+/* ============================================================
+   FMED Enterprise E5.2.1 - Data Hygiene sedi
+   ============================================================ */
+.core-quality-stack {
+  display: grid;
+  gap: 18px;
+  min-width: 0;
+}
+.core-site-hygiene-panel {
+  display: grid;
+  gap: 14px;
+  min-width: 0;
+  padding: 18px;
+  border: 1px solid var(--fmed-border, #dfe7e5);
+  border-radius: 18px;
+  background: var(--fmed-card, #fff);
+  box-shadow: 0 8px 24px rgba(15, 58, 55, .05);
+}
+.core-site-catalog {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 10px;
+}
+.core-site-catalog article {
+  display: grid;
+  gap: 4px;
+  min-width: 0;
+  padding: 12px 13px;
+  border: 1px solid var(--fmed-border, #dfe7e5);
+  border-radius: 12px;
+  background: var(--fmed-surface, #f7faf9);
+}
+.core-site-catalog strong {
+  color: var(--fmed-text, #16322f);
+  font-size: 13px;
+}
+.core-site-catalog span {
+  color: var(--fmed-muted, #60706d);
+  font-size: 10.5px;
+  line-height: 1.4;
+}
+.core-quality-row.status-canonico { border-left: 4px solid #168767; }
+.core-quality-row.status-sconosciuto { border-left: 4px solid #bd7c15; }
+
+body[data-theme="dark"] .core-site-hygiene-panel,
+body[data-theme="dark"] .core-site-catalog article,
+.fmed-dark-mode .core-site-hygiene-panel,
+.fmed-dark-mode .core-site-catalog article {
+  background: #172633;
+  border-color: #334b5c;
+}
+
+@media (max-width: 1100px) {
+  .core-site-catalog { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+@media (max-width: 700px) {
+  .core-site-catalog { grid-template-columns: 1fr; }
+}
