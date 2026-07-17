@@ -1,0 +1,16 @@
+FMED E5.1.2 CLEAN REBUILD - COLLAUDO COMPLETO
+
+- npm ci: OK
+- verifica integrità release: OK
+- QA stabile: OK
+- QA desktop: OK
+- QA UX: OK
+- QA colori: OK
+- QA Light Comfort: OK
+- QA collaudo storico: OK
+- QA Master Data: OK
+- ESLint: 0 errori
+- build Vite: OK
+- QA performance: OK
+- vecchie versioni E4.2.1/E5.1.1 nei file di deploy: assenti
+- prebuild/release guard Vercel: assente

@@ -1,0 +1,41 @@
+{
+  "name": "fmed-frontend",
+  "private": true,
+  "version": "5.1.2",
+  "type": "module",
+  "engines": {
+    "node": "22.x"
+  },
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build --configLoader runner",
+    "lint": "eslint .",
+    "preview": "vite preview",
+    "verify:stable": "node scripts/verify_stable_release.mjs",
+    "check": "npm run verify:final && npm run verify:stable && npm run qa:desktop && npm run qa:ux && npm run qa:colors && npm run qa:light && npm run qa:collaudo && npm run qa:master-data && npm run lint && npm run build && npm run qa:performance",
+    "qa:desktop": "node scripts/verify_desktop_qa.mjs",
+    "qa:ux": "node scripts/verify_ux_review.mjs",
+    "qa:colors": "node scripts/verify_color_system.mjs",
+    "qa:collaudo": "node scripts/verify_collaudo_storico.mjs",
+    "qa:performance": "node scripts/verify_performance_runtime.mjs",
+    "qa:light": "node scripts/verify_light_comfort_layout.mjs",
+    "qa:master-data": "node scripts/verify_master_data_e51.mjs",
+    "release:verify": "npm run check",
+    "verify:final": "node scripts/verify_release_final_e512.mjs"
+  },
+  "dependencies": {
+    "react": "^19.2.6",
+    "react-dom": "^19.2.6"
+  },
+  "devDependencies": {
+    "@eslint/js": "^10.0.1",
+    "@types/react": "^19.2.14",
+    "@types/react-dom": "^19.2.3",
+    "@vitejs/plugin-react": "4.7.0",
+    "eslint": "^10.3.0",
+    "eslint-plugin-react-hooks": "^7.1.1",
+    "eslint-plugin-react-refresh": "^0.5.2",
+    "globals": "^17.6.0",
+    "vite": "6.4.1"
+  }
+}

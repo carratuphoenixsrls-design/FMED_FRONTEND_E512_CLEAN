@@ -1,0 +1,25 @@
+FMED ENTERPRISE 1.0 · E5.1.2 CLEAN REBUILD
+
+METODO CONSIGLIATO
+1. Clona FMED_FRONTEND_CLEAN con GitHub Desktop.
+2. Estrai questo ZIP in una cartella separata.
+3. Esegui RESET_FRONTEND_REPOSITORY.bat.
+4. Indica il percorso del clone locale.
+5. In GitHub Desktop: Commit to main, poi Push origin.
+6. Vercel creerà automaticamente un nuovo deployment.
+
+NON usare Redeploy su deployment vecchi.
+NON copiare la cartella esterna dentro il repository.
+Il repository deve mostrare direttamente package.json, src, public, scripts,
+vite.config.js, vercel.json e index.html.
+
+Vercel:
+- Framework: Vite
+- Root Directory: ./
+- Build Command: npm run build
+- Output Directory: dist
+- Install Command: npm ci --no-audit --no-fund
+- Variabile: VITE_API_BASE_URL=https://fmed-backend.onrender.com
+
+VERSIONE ATTESA NELLA LOGIN:
+FMED ENTERPRISE 1.0 · E5.1.2 CLEAN REBUILD
