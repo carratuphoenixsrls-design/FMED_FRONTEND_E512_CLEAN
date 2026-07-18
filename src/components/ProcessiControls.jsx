@@ -11,9 +11,9 @@ export default function ProcessiControls({
     <section className="fmed-process-controls" aria-label="Controlli processi">
       <div className="fmed-process-control-summary">
         <article><span>Disponibili</span><strong>{stats.available}</strong><small>procedure guidate</small></article>
-        <article><span>In corso</span><strong>{stats.running}</strong><small>esecuzioni aperte</small></article>
+        <article><span>In corso</span><strong>{stats.running}</strong><small>aperte o in lavorazione</small></article>
         <article><span>Completati</span><strong>{stats.completed}</strong><small>ultime 100 esecuzioni</small></article>
-        <article><span>Errori</span><strong>{stats.errors}</strong><small>da verificare</small></article>
+        <article><span>Errori</span><strong>{stats.errors}</strong><small>errori o da verificare</small></article>
       </div>
 
       <div className="fmed-process-control-bar">
@@ -29,8 +29,14 @@ export default function ProcessiControls({
           <span>Stato</span>
           <select value={statusFilter} onChange={(event) => onStatusFilterChange(event.target.value)}>
             <option value="TUTTI">Tutti gli stati</option>
+            <option value="BOZZA">Bozza</option>
+            <option value="APERTO">Aperti</option>
+            <option value="ASSEGNATO">Assegnati</option>
             <option value="IN_CORSO">In corso</option>
+            <option value="IN_ATTESA">In attesa</option>
+            <option value="DA_VERIFICARE">Da verificare</option>
             <option value="COMPLETATO">Completati</option>
+            <option value="RIAPERTO">Riaperti</option>
             <option value="ERRORE">Errori</option>
             <option value="ANNULLATO">Annullati</option>
           </select>

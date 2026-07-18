@@ -1,9 +1,9 @@
 {
   "product": "FMED Enterprise 1.0",
-  "release": "E5.2.2 Catalogo Canonico Globale",
-  "build": "FMED_ENTERPRISE_1_0_E5_2_2_CATALOGO_CANONICO_GLOBALE_2026_07_17",
+  "release": "E6.1 Process Engine Unificato",
+  "build": "FMED_ENTERPRISE_1_0_E6_1_PROCESS_ENGINE_UNIFICATO_2026_07_18",
   "frontend": true,
-  "backend_required": "E5.2.2 or newer",
+  "backend_required": "E6.1 or newer",
   "features": [
     "Light Comfort",
     "SharePoint Sync",
@@ -12,7 +12,10 @@
     "Data Hygiene sedi",
     "Catalogo Canonico Globale",
     "Quick Add contestuale",
-    "Relazioni storico-futuro"
+    "Relazioni storico-futuro",
+    "Process Engine unificato",
+    "Workflow multi-modulo",
+    "Audit transizioni"
   ],
-  "description": "Valori strutturati univoci e codificati, dropdown governati, Quick Add contestuale, unificazione alias e relazioni intelligenti tra passato e futuro."
+  "description": "Registro operativo unificato per Asset, Infrastrutture, Sicurezza 81/08, Formazione, Sorveglianza sanitaria, Contratti e Non conformità."
 }

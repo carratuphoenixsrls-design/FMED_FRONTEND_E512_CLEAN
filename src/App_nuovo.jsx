@@ -1,4 +1,4 @@
-/* FMED ENTERPRISE 1.0 · E5.2.2 CATALOGO CANONICO GLOBALE · FRONTEND COMPLETO */
+/* FMED ENTERPRISE 1.0 · E6.1 PROCESS ENGINE UNIFICATO · FRONTEND COMPLETO */
 /*
   FMED CLEANUP 2026-06-25
   - Verifica JSX eseguita con esbuild: sintassi OK.
@@ -48,8 +48,8 @@ const API_BASE_URL = ENV_API_BASE_URL || (IS_LOCAL_FRONTEND ? "http://127.0.0.1:
 const API_BASE_CANDIDATES = [API_BASE_URL, ...(ENV_API_BASE_URL ? [] : IS_LOCAL_FRONTEND ? ["http://localhost:8000", "http://10.10.10.31:8000"] : [])].filter((value, index, array) => value && array.indexOf(value) === index);
 
 // Versione frontend visibile per evitare dubbi da cache, browser o PWA.
-const MRDB_APP_VERSION = "FMED_ENTERPRISE_1_0_E5_2_2_CATALOGO_CANONICO_GLOBALE_2026_07_17";
-const MRDB_APP_BUILD_LABEL = "FMED ENTERPRISE 1.0 · E5.2.2 CATALOGO CANONICO GLOBALE";
+const MRDB_APP_VERSION = "FMED_ENTERPRISE_1_0_E6_1_PROCESS_ENGINE_UNIFICATO_2026_07_18";
+const MRDB_APP_BUILD_LABEL = "FMED ENTERPRISE 1.0 · E6.1 PROCESS ENGINE UNIFICATO";
 // FMED PERFORMANCE SAFE MODE
 // Render progressivo degli elenchi lunghi: filtri/export restano completi, si alleggerisce solo il DOM visibile.
 const FMED_RENDER_BATCH_ASSET = 100;
@@ -1315,14 +1315,16 @@ const FMED_ROLE_PERMISSIONS = {
     canExport: true,
     canSeeCosts: true,
     canManageUsers: true,
+    canManageProcesses: true,
     label: "Amministratore"
   },
   Service: {
-    pages: ["Dashboard", "Asset", "Interventi", "Scadenze", "Infrastrutture", "Sicurezza 81/08", "SharePoint"],
+    pages: ["Dashboard", "Asset", "Interventi", "Scadenze", "Infrastrutture", "Sicurezza 81/08", "SharePoint", "Processi"],
     canEdit: true,
     canExport: false,
     canSeeCosts: false,
     canManageUsers: false,
+    canManageProcesses: true,
     label: "Tecnico Service"
   },
   User: {
@@ -1331,6 +1333,7 @@ const FMED_ROLE_PERMISSIONS = {
     canExport: false,
     canSeeCosts: false,
     canManageUsers: false,
+    canManageProcesses: false,
     label: "Utente"
   }
 };
@@ -7137,12 +7140,12 @@ ${messaggio}`);
           />
         </Suspense>}
 
-        {pagina === "Processi" && permessiRuoloFmed.canManageUsers && <Suspense fallback={<div style={styles.card}>Caricamento Processi…</div>}>
+        {pagina === "Processi" && permessiRuoloFmed.canManageProcesses && <Suspense fallback={<div style={styles.card}>Caricamento Processi…</div>}>
             <ProcessiPage
               apiBaseUrl={API_BASE_URL}
               processes={processiCoreFmed}
               onLaunchProcess={avviaProcessoGuidatoFmed}
-              canManage={permessiRuoloFmed.canManageUsers}
+              canManage={permessiRuoloFmed.canManageProcesses}
             />
           </Suspense>}
 
