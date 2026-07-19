@@ -8,8 +8,9 @@ const EMPTY_FILTERS = {
   stato: "TUTTI",
   priorita: "TUTTE",
   responsabile: "TUTTI",
-  dal: "",
+  dal: "2023-01-01",
   al: "",
+  tutto_storico: false,
 };
 
 const MODULE_PAGE = {
@@ -183,13 +184,13 @@ export default function DashboardPage({
   ];
 
   return (
-    <div className="fmed-dashboard-page fmed-e71-dashboard" data-fmed-dashboard="E7.1">
+    <div className="fmed-dashboard-page fmed-e71-dashboard" data-fmed-dashboard="E7.2">
       <header className="fmed-e71-header">
         <div className="fmed-e71-title">
           <FmedModuleIcon module="Dashboard" className="fmed-dashboard-title-icon" />
           <div>
             <h2>Dashboard Enterprise</h2>
-            <p>Processi, cicli, criticità e responsabilità in un’unica vista operativa</p>
+            <p>Vista operativa dal 01/01/2023, archivio storico e collaudi sempre conservati</p>
           </div>
         </div>
         <div className="fmed-e71-header-actions">
@@ -202,11 +203,26 @@ export default function DashboardPage({
       {error && (
         <div className="fmed-e71-warning">
           <strong>Dashboard Enterprise non sincronizzata.</strong>
-          <span>{error}. I dati locali restano visibili, ma KPI processi e infrastrutture richiedono il backend E7.1.</span>
+          <span>{error}. I dati locali restano visibili, ma KPI processi e infrastrutture richiedono il backend E7.2.</span>
         </div>
       )}
 
+      <aside className="fmed-e71-warning" style={{ marginBottom: 14 }}>
+        <strong>Finestra operativa E7.2</strong>
+        <span>Per impostazione predefinita FMED utilizza le attività dal 01/01/2023 a oggi. I processi ancora aperti e i cicli correnti restano operativi. Tutti i collaudi restano sempre visibili e non generano falsi alert.</span>
+      </aside>
+
       <section className="fmed-e71-filters" aria-label="Filtri globali Dashboard Enterprise">
+        <FilterSelect
+          label="Vista temporale"
+          value={filters.tutto_storico ? "STORICO" : "OPERATIVA"}
+          onChange={(value) => setFilters((current) => value === "STORICO"
+            ? { ...current, tutto_storico: true, dal: "" }
+            : { ...current, tutto_storico: false, dal: "2023-01-01" })}
+        >
+          <option value="OPERATIVA">Dal 01/01/2023 a oggi</option>
+          <option value="STORICO">Tutto lo storico</option>
+        </FilterSelect>
         <FilterSelect label="Sede" value={filters.sede} onChange={(value) => updateFilter("sede", value)}>
           <option value="TUTTE">Tutte le sedi</option>
           {filterOptions.sedi.map((value) => <option key={value} value={value}>{value}</option>)}
@@ -227,7 +243,7 @@ export default function DashboardPage({
           <option value="TUTTI">Tutti i responsabili</option>
           {filterOptions.responsabili.map((value) => <option key={value} value={value}>{value}</option>)}
         </FilterSelect>
-        <label className="fmed-e71-filter"><span>Dal</span><input type="date" value={filters.dal} onChange={(event) => updateFilter("dal", event.target.value)} /></label>
+        <label className="fmed-e71-filter"><span>Dal</span><input type="date" value={filters.dal} min="2023-01-01" disabled={!filters.tutto_storico} onChange={(event) => updateFilter("dal", event.target.value)} /></label>
         <label className="fmed-e71-filter"><span>Al</span><input type="date" value={filters.al} onChange={(event) => updateFilter("al", event.target.value)} /></label>
         <button type="button" className="fmed-e71-reset" onClick={resetFilters}>Azzera filtri</button>
       </section>
@@ -245,6 +261,8 @@ export default function DashboardPage({
         <KpiCard label="Asset attivi" value={formatInteger(kpi.asset_attivi)} detail={`${Number(kpi.copertura_documentale_percentuale || 0).toLocaleString("it-IT")}% con documentazione`} tone="success" icon="A" onClick={() => setPagina("Asset")} />
         <KpiCard label="Infrastrutture" value={formatInteger(kpi.infrastrutture_totali)} detail="Impianti e controlli censiti" tone="secondary" icon="I" onClick={() => setPagina("Infrastrutture")} />
         <KpiCard label="Documenti 81/08" value={formatInteger(kpi.documenti_81_08)} detail={`${formatInteger(kpi.non_conformita_aperte)} non conformità aperte`} tone="brand" icon="81" onClick={() => setPagina("Sicurezza 81/08")} />
+        <KpiCard label="Attività operative" value={formatInteger(kpi.interventi_operativi)} detail="Dal 01/01/2023, più tutti i collaudi" tone="secondary" icon="O" onClick={() => setPagina("Interventi")} />
+        <KpiCard label="Collaudi conservati" value={formatInteger(kpi.collaudi_sempre_visibili)} detail={`${formatInteger(kpi.record_archivio_pre_2023)} record nell'archivio pre-2023`} tone="success" icon="C" onClick={() => setPagina("Interventi")} />
       </section>
 
       <div className="fmed-e71-main-grid">

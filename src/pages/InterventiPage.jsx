@@ -6,6 +6,8 @@ export default function InterventiPage(props) {
     styles,
     interventiFiltrati,
     interventi,
+    interventiIncludeStorico,
+    cambiaVistaStoricoInterventi,
     formatCurrency,
     totaleSpesaInterventiFiltrati,
     labelPeriodoContabileInterventi,
@@ -31,6 +33,36 @@ export default function InterventiPage(props) {
         filteredCount={interventiFiltrati.length}
         totalCount={interventi.length}
       />
+
+      <div style={{
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "space-between",
+        gap: 14,
+        flexWrap: "wrap",
+        padding: "12px 14px",
+        margin: "0 0 14px",
+        border: "1px solid var(--fmed-border)",
+        borderRadius: 14,
+        background: "var(--fmed-surface)",
+        color: "var(--fmed-text)",
+      }}>
+        <div>
+          <strong style={{ display: "block", fontSize: 13 }}>Finestra operativa E7.2</strong>
+          <span style={{ display: "block", marginTop: 3, fontSize: 12, color: "var(--fmed-muted)" }}>
+            {interventiIncludeStorico
+              ? "Tutto lo storico visibile. I record precedenti al 01/01/2023 sono marcati come archivio."
+              : "Attività dal 01/01/2023 a oggi. Tutti i collaudi restano sempre visibili."}
+          </span>
+        </div>
+        <button
+          type="button"
+          style={interventiIncludeStorico ? styles.interventiSecondaryAction : styles.interventiPrimaryAction}
+          onClick={() => cambiaVistaStoricoInterventi?.(!interventiIncludeStorico)}
+        >
+          {interventiIncludeStorico ? "Torna alla vista operativa" : "Apri archivio storico"}
+        </button>
+      </div>
 
       <InterventiControls {...props} />
 
@@ -80,7 +112,11 @@ export default function InterventiPage(props) {
                     <td style={styles.interventiTd}>{i.sede}</td>
                     <td style={styles.interventiTd}>{normalizzaSocietaDitta(i.ditta_esecutrice || i.ditta)}</td>
                     <td style={styles.interventiTd}>{i.tipologia}</td>
-                    <td style={styles.interventiTd}>{i.attivita}</td>
+                    <td style={styles.interventiTd}>
+                      <div>{i.attivita}</div>
+                      {i._eccezione_collaudo && <small style={{ display: "block", marginTop: 3, fontWeight: 700, color: "var(--fmed-brand)" }}>Collaudo sempre conservato</small>}
+                      {i._archivio_storico && <small style={{ display: "block", marginTop: 3, color: "var(--fmed-muted)" }}>Archivio pre-2023</small>}
+                    </td>
                     <td style={styles.interventiTd}>{formattaData(i.data_ultimo_intervento)}</td>
                     <td style={styles.interventiTd}>{formattaData(i.data_prossimo_intervento)}</td>
                     <td style={styles.interventiTd}>{formatCurrency(i.costo || i.importo_extra || 0)}</td>

@@ -14,9 +14,9 @@ const required = [
   "Relazioni intelligenti",
 ];
 for (const marker of required) {
-  if (!source.includes(marker)) throw new Error(`Dashboard E7.1 incompleta: ${marker}`);
+  if (!source.includes(marker)) throw new Error(`Dashboard Enterprise incompleta: ${marker}`);
 }
-if (!main.includes('import "./FmedE71DashboardEnterprise.css";')) throw new Error("CSS E7.1 non importato");
-if (!css.includes(".fmed-e71-kpi-grid") || !css.includes(".fmed-e71-drawer")) throw new Error("CSS Dashboard E7.1 incompleto");
-if (source.includes("Math.round(interventi.length *")) throw new Error("Percentuali simulate legacy ancora presenti nella Dashboard E7.1");
-console.log("FMED E7.1 Dashboard Enterprise frontend: OK");
+if (!main.includes('import "./FmedE71DashboardEnterprise.css";')) throw new Error("CSS Dashboard non importato");
+if (!css.includes(".fmed-e71-kpi-grid") || !css.includes(".fmed-e71-drawer")) throw new Error("CSS Dashboard Enterprise incompleto");
+if (source.includes("Math.round(interventi.length *")) throw new Error("Percentuali simulate legacy ancora presenti nella Dashboard Enterprise");
+console.log("FMED Dashboard Enterprise frontend: OK");

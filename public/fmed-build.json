@@ -1,24 +1,23 @@
 {
   "product": "FMED Enterprise 1.0",
-  "release": "E7.1 Dashboard Enterprise",
-  "build": "FMED_ENTERPRISE_1_0_E7_1_DASHBOARD_ENTERPRISE_2026_07_19",
+  "release": "E7.2 Finestra Operativa e Archivio Storico",
+  "build": "FMED_ENTERPRISE_1_0_E7_2_OPERATIONAL_WINDOW_ARCHIVE_2026_07_20",
   "frontend": true,
-  "backend_required": "E7.1 or newer",
+  "backend_required": "E7.2 or newer",
   "features": [
     "Light Comfort",
     "SharePoint Sync",
     "Master Data Governance",
     "Motore Cicli Unificato",
-    "Data Hygiene sedi",
     "Catalogo Canonico Globale",
     "Process Engine completo",
     "Dashboard Enterprise operativa",
-    "KPI processi e SLA reali",
-    "Filtri globali",
-    "Criticità per sede",
-    "Carico per responsabile",
-    "Drill-down sui record",
-    "Export CSV operativo"
+    "Finestra operativa dal 01/01/2023",
+    "Archivio storico non distruttivo",
+    "Collaudi sempre visibili",
+    "Processi aperti sempre operativi",
+    "Alert collaudi protetti",
+    "Drill-down ed export operativo"
   ],
-  "description": "Dashboard Enterprise unificata per Asset, Processi, Infrastrutture, Sicurezza 81/08, scadenze, SLA, qualità dati e responsabilità."
+  "description": "Vista operativa dal 01/01/2023 a oggi con archivio storico, conservazione completa dei collaudi e protezione da falsi KPI o alert."
 }

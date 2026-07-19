@@ -1,0 +1,16 @@
+import fs from "node:fs";
+const app = fs.readFileSync("src/App_nuovo.jsx", "utf8");
+const dashboard = fs.readFileSync("src/pages/DashboardPage.jsx", "utf8");
+const interventi = fs.readFileSync("src/pages/InterventiPage.jsx", "utf8");
+const processi = fs.readFileSync("src/ProcessiPage.jsx", "utf8");
+const build = JSON.parse(fs.readFileSync("public/fmed-build.json", "utf8"));
+const pkg = JSON.parse(fs.readFileSync("package.json", "utf8"));
+const version = "FMED_ENTERPRISE_1_0_E7_2_OPERATIONAL_WINDOW_ARCHIVE_2026_07_20";
+if (!app.includes(version)) throw new Error("Versione E7.2 assente in App_nuovo.jsx");
+if (!app.includes("FMED ENTERPRISE 1.0 · E7.2 FINESTRA OPERATIVA E ARCHIVIO STORICO")) throw new Error("Build label E7.2 assente");
+if (!dashboard.includes("2023-01-01") || !dashboard.includes("tutto_storico")) throw new Error("Finestra operativa Dashboard non collegata");
+if (!interventi.includes("Collaudo sempre conservato") || !interventi.includes("Apri archivio storico")) throw new Error("Archivio Interventi E7.2 incompleto");
+if (!processi.includes("include_storico") || !processi.includes("Archivio pre-2023")) throw new Error("Archivio Processi E7.2 incompleto");
+if (build.build !== version) throw new Error("fmed-build.json non allineato a E7.2");
+if (pkg.version !== "7.2.0") throw new Error("package.json non allineato a E7.2");
+console.log("FMED E7.2 release finale: OK");

@@ -1,0 +1,9 @@
+FMED ENTERPRISE 1.0 · E7.2 FINESTRA OPERATIVA E ARCHIVIO STORICO
+FRONTEND COMPLETO — ROOT VERCEL
+
+Caricare il CONTENUTO INTERNO nella root del repository frontend.
+Framework: Vite
+Install: npm ci --no-audit --no-fund
+Build: npm run build
+Output: dist
+VITE_API_BASE_URL=https://fmed-backend.onrender.com

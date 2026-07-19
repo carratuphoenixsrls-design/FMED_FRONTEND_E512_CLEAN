@@ -1,4 +1,4 @@
-/* FMED ENTERPRISE 1.0 · E7.1 DASHBOARD ENTERPRISE · FRONTEND COMPLETO */
+/* FMED ENTERPRISE 1.0 · E7.2 FINESTRA OPERATIVA E ARCHIVIO STORICO · FRONTEND COMPLETO */
 /*
   FMED CLEANUP 2026-06-25
   - Verifica JSX eseguita con esbuild: sintassi OK.
@@ -48,8 +48,8 @@ const API_BASE_URL = ENV_API_BASE_URL || (IS_LOCAL_FRONTEND ? "http://127.0.0.1:
 const API_BASE_CANDIDATES = [API_BASE_URL, ...(ENV_API_BASE_URL ? [] : IS_LOCAL_FRONTEND ? ["http://localhost:8000", "http://10.10.10.31:8000"] : [])].filter((value, index, array) => value && array.indexOf(value) === index);
 
 // Versione frontend visibile per evitare dubbi da cache, browser o PWA.
-const MRDB_APP_VERSION = "FMED_ENTERPRISE_1_0_E7_1_DASHBOARD_ENTERPRISE_2026_07_19";
-const MRDB_APP_BUILD_LABEL = "FMED ENTERPRISE 1.0 · E7.1 DASHBOARD ENTERPRISE";
+const MRDB_APP_VERSION = "FMED_ENTERPRISE_1_0_E7_2_OPERATIONAL_WINDOW_ARCHIVE_2026_07_20";
+const MRDB_APP_BUILD_LABEL = "FMED ENTERPRISE 1.0 · E7.2 FINESTRA OPERATIVA E ARCHIVIO STORICO";
 // FMED PERFORMANCE SAFE MODE
 // Render progressivo degli elenchi lunghi: filtri/export restano completi, si alleggerisce solo il DOM visibile.
 const FMED_RENDER_BATCH_ASSET = 100;
@@ -1450,6 +1450,7 @@ function AppNuovoCore({
     }
   }, [sidebarCompattata]);
   const [interventi, setInterventi] = useState([]);
+  const [interventiIncludeStorico, setInterventiIncludeStorico] = useState(false);
   const [filtroInterventiSede, setFiltroInterventiSede] = useState("TUTTE");
   const [filtroInterventiSocieta, setFiltroInterventiSocieta] = useState("TUTTE");
   const [filtroInterventiCodice, setFiltroInterventiCodice] = useState("TUTTE");
@@ -1827,12 +1828,14 @@ function AppNuovoCore({
   }, [assetLoaded, assetLoading, cespiti]);
   const caricaInterventiOnDemand = useCallback(async ({
     force = false,
-    source = "interventi"
+    source = "interventi",
+    includeStorico = interventiIncludeStorico
   } = {}) => {
     if (!force && (interventiLoaded || interventiLoading)) return interventi;
     if (source === "costi") setCostiLoading(true);else if (source === "export") setExportLoading(true);else setInterventiLoading(true);
     try {
-      const dati = await caricaJsonDaApi("/interventi?limit=5000", [], {
+      const endpointInterventi = `/interventi?limit=5000&include_storico=${includeStorico ? "true" : "false"}`;
+      const dati = await caricaJsonDaApi(endpointInterventi, [], {
         force
       });
       const normalizzati = Array.isArray(dati) ? dati.map(normalizzaInterventoDaApi) : [];
@@ -1844,7 +1847,15 @@ function AppNuovoCore({
     } finally {
       if (source === "costi") setCostiLoading(false);else if (source === "export") setExportLoading(false);else setInterventiLoading(false);
     }
-  }, [interventiLoaded, interventiLoading, interventi]);
+  }, [interventiLoaded, interventiLoading, interventi, interventiIncludeStorico]);
+  const cambiaVistaStoricoInterventi = useCallback(async (includeStorico) => {
+    const next = Boolean(includeStorico);
+    setInterventiIncludeStorico(next);
+    setInterventiLoaded(false);
+    setInterventiRenderLimit(FMED_RENDER_BATCH_INTERVENTI);
+    await caricaInterventiOnDemand({ force: true, source: "interventi", includeStorico: next });
+  }, [caricaInterventiOnDemand]);
+
   const caricaScadenzeOnDemand = useCallback(async ({
     force = false
   } = {}) => {
@@ -7242,6 +7253,8 @@ ${messaggio}`);
           styles,
           interventiFiltrati,
           interventi,
+          interventiIncludeStorico,
+          cambiaVistaStoricoInterventi,
           apriNuovoIntervento,
           ricercaCespiteIntervento,
           setRicercaCespiteIntervento,

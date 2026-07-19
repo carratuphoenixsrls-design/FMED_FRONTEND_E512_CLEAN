@@ -7,7 +7,7 @@ const app = await readFile(resolve(root, "src/App_nuovo.jsx"), "utf8");
 const styles = await readFile(resolve(root, "src/fmedInlineStyles.js"), "utf8");
 const vite = await readFile(resolve(root, "vite.config.js"), "utf8");
 
-assert.match(app, /E7_1_DASHBOARD_ENTERPRISE/);
+assert.match(app, /E7_2_OPERATIONAL_WINDOW_ARCHIVE/);
 assert.match(app, /FMED_API_MEMORY_CACHE_MAX_ITEMS = 48/);
 assert.match(app, /salvaCacheApiFmed/);
 assert.match(app, /fmedInlineStyles\.js/);
@@ -27,4 +27,4 @@ assert.ok(reactChunk, "Chunk React vendor non trovato");
 const appBytes = (await stat(resolve(assetsDir, appChunk))).size;
 assert.ok(appBytes < 350_000, `Chunk applicativo oltre budget: ${appBytes} byte`);
 
-console.log(`FMED E7.1 performance runtime: OK · app ${Math.round(appBytes / 1024)} KB · chunk separati attivi`);
+console.log(`FMED E7.2 performance runtime: OK · app ${Math.round(appBytes / 1024)} KB · chunk separati attivi`);

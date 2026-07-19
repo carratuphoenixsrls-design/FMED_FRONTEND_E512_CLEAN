@@ -78,6 +78,7 @@ export default function ProcessiPage({ apiBaseUrl, processes = [], onLaunchProce
   const [catalog, setCatalog] = useState(processes);
   const [executions, setExecutions] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [includeHistory, setIncludeHistory] = useState(false);
   const [message, setMessage] = useState("");
   const [search, setSearch] = useState("");
   const [statusFilter, setStatusFilter] = useState("TUTTI");
@@ -97,7 +98,7 @@ export default function ProcessiPage({ apiBaseUrl, processes = [], onLaunchProce
     try {
       const [catalogData, executionData] = await Promise.all([
         fmedFetchJson("/process-engine/catalogo", { apiBaseUrl, retries: 1 }),
-        fmedFetchJson("/process-engine/esecuzioni?limit=300", { apiBaseUrl, retries: 1, timeoutMs: 60000 }),
+        fmedFetchJson(`/process-engine/esecuzioni?limit=300&include_storico=${includeHistory ? "true" : "false"}`, { apiBaseUrl, retries: 1, timeoutMs: 60000 }),
       ]);
       setCatalog(Array.isArray(catalogData?.processi) ? catalogData.processi : processes);
       setExecutions(Array.isArray(executionData?.esecuzioni) ? executionData.esecuzioni : []);
@@ -109,7 +110,7 @@ export default function ProcessiPage({ apiBaseUrl, processes = [], onLaunchProce
         setCatalog(processes);
       } catch { setExecutions([]); }
     } finally { setLoading(false); }
-  }, [apiBaseUrl, processes]);
+  }, [apiBaseUrl, processes, includeHistory]);
 
   useEffect(() => { loadData(); }, [loadData]);
   useEffect(() => {
@@ -261,8 +262,8 @@ export default function ProcessiPage({ apiBaseUrl, processes = [], onLaunchProce
   return (
     <section className="fmed-process-page">
       <header className="fmed-process-head"><div className="fmed-banner-heading"><FmedModuleIcon module="Processi" /><div className="fmed-banner-copy">
-        <span className="fmed-process-kicker">FMED ENTERPRISE 1.0 · E6.2</span><h2>Process Engine completo</h2>
-        <p>Workflow multi-modulo con checklist obbligatorie, SLA, responsabilità, sostituti, evidenze, approvazioni, solleciti e audit integrale.</p>
+        <span className="fmed-process-kicker">FMED ENTERPRISE 1.0 · E7.2</span><h2>Process Engine completo</h2>
+        <p>Workflow multi-modulo con finestra operativa dal 01/01/2023, archivio storico, checklist, SLA, evidenze, approvazioni e audit integrale.</p>
       </div></div></header>
 
       <aside className="fmed-process-usage" aria-label="Regole del Process Engine"><strong>Regola operativa</strong><div>
@@ -271,6 +272,13 @@ export default function ProcessiPage({ apiBaseUrl, processes = [], onLaunchProce
         <span><b>Chiusura</b> checklist, evidenze e approvazioni bloccano chiusure incomplete.</span>
         <span><b>Cicli</b> il completamento resta collegato al record operativo e al Motore Cicli.</span>
       </div></aside>
+
+      <div className="fmed-process-message" style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 12, flexWrap: "wrap" }}>
+        <span>{includeHistory ? "Tutto lo storico processi è visibile." : "Vista operativa dal 01/01/2023. I processi ancora aperti restano sempre visibili."}</span>
+        <button type="button" onClick={() => setIncludeHistory(value => !value)}>
+          {includeHistory ? "Torna alla vista operativa" : "Apri archivio storico"}
+        </button>
+      </div>
 
       <ProcessiControls loading={loading} onRefresh={loadData} stats={stats} search={search} onSearchChange={setSearch} statusFilter={statusFilter} onStatusFilterChange={setStatusFilter} />
 
@@ -307,7 +315,7 @@ export default function ProcessiPage({ apiBaseUrl, processes = [], onLaunchProce
             const moduleCode = String(item.modulo || item.riferimento_modulo || "PROCESS_ENGINE").toUpperCase();
             const slaCode = String(item?.sla?.codice || item.stato_sla || "REGOLARE").toUpperCase();
             return <tr key={item.id || `${item.processo}-${item.aggiornato_il}`}>
-              <td><strong>{item.titolo || config?.titolo || String(item.processo || "").replaceAll("_", " ")}</strong><small>{item.sede || "Sede non indicata"}{item.riferimento_id ? ` · ${item.riferimento_id}` : ""}</small></td>
+              <td><strong>{item.titolo || config?.titolo || String(item.processo || "").replaceAll("_", " ")}</strong><small>{item.sede || "Sede non indicata"}{item.riferimento_id ? ` · ${item.riferimento_id}` : ""}</small>{item._archivio_storico && <small>Archivio pre-2023</small>}</td>
               <td>{MODULE_LABELS[moduleCode] || moduleCode.replaceAll("_", " ")}</td>
               <td><span className={`fmed-process-status is-${String(item.stato || "APERTO").toLowerCase()}`}>{STATUS_LABELS[String(item.stato || "").toUpperCase()] || item.stato}</span></td>
               <td><span className={`fmed-process-sla is-${slaCode.toLowerCase()}`}>{SLA_LABELS[slaCode] || slaCode}</span></td>
