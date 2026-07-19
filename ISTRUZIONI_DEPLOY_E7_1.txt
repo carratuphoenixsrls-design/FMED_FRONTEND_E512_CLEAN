@@ -1,0 +1,28 @@
+FMED ENTERPRISE 1.0 · E7.1 DASHBOARD ENTERPRISE
+FRONTEND COMPLETO — ROOT VERCEL
+
+Caricare il CONTENUTO INTERNO di questo ZIP nella root del repository
+frontend collegato a Vercel.
+
+La root deve contenere direttamente:
+  package.json
+  package-lock.json
+  index.html
+  vite.config.js
+  vercel.json
+  src/
+  public/
+  scripts/
+
+Vercel:
+  Framework: Vite
+  Root Directory: ./
+  Install Command: npm ci --no-audit --no-fund
+  Build Command: npm run build
+  Output Directory: dist
+
+Variabile ambiente:
+  VITE_API_BASE_URL=https://fmed-backend.onrender.com
+
+Versione attesa nella login:
+  FMED ENTERPRISE 1.0 · E7.1 DASHBOARD ENTERPRISE

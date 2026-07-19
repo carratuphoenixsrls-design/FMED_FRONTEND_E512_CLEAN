@@ -1,7 +1,7 @@
 {
   "name": "fmed-frontend",
   "private": true,
-  "version": "6.2.0",
+  "version": "7.1.0",
   "type": "module",
   "engines": {
     "node": "22.x"
@@ -12,7 +12,7 @@
     "lint": "eslint .",
     "preview": "vite preview",
     "verify:stable": "node scripts/verify_stable_release.mjs",
-    "check": "npm run verify:final && npm run verify:stable && npm run qa:desktop && npm run qa:ux && npm run qa:colors && npm run qa:light && npm run qa:collaudo && npm run qa:master-data && npm run qa:cycles && npm run qa:data-hygiene && npm run qa:catalogo && npm run qa:process-engine && npm run lint && npm run build && npm run qa:performance",
+    "check": "npm run verify:final && npm run verify:stable && npm run qa:desktop && npm run qa:ux && npm run qa:colors && npm run qa:light && npm run qa:collaudo && npm run qa:master-data && npm run qa:cycles && npm run qa:data-hygiene && npm run qa:catalogo && npm run qa:process-engine && npm run qa:dashboard-enterprise && npm run lint && npm run build && npm run qa:performance",
     "qa:desktop": "node scripts/verify_desktop_qa.mjs",
     "qa:ux": "node scripts/verify_ux_review.mjs",
     "qa:colors": "node scripts/verify_color_system.mjs",
@@ -21,11 +21,12 @@
     "qa:light": "node scripts/verify_light_comfort_layout.mjs",
     "qa:master-data": "node scripts/verify_master_data_e51.mjs",
     "release:verify": "npm run check",
-    "verify:final": "node scripts/verify_release_final_e62.mjs",
+    "verify:final": "node scripts/verify_release_final_e71.mjs",
     "qa:cycles": "node scripts/verify_unified_cycles_e52.mjs",
     "qa:data-hygiene": "node scripts/verify_data_hygiene_e521.mjs",
     "qa:catalogo": "node scripts/verify_catalogo_canonico_e522.mjs",
-    "qa:process-engine": "node scripts/verify_process_engine_e62.mjs"
+    "qa:process-engine": "node scripts/verify_process_engine_e62.mjs",
+    "qa:dashboard-enterprise": "node scripts/verify_dashboard_enterprise_e71.mjs"
   },
   "dependencies": {
     "react": "^19.2.6",
@@ -42,5 +43,5 @@
     "globals": "^17.6.0",
     "vite": "6.4.1"
   },
-  "description": "FMED Enterprise 1.0 E6.2 - Process Engine completo con SLA, checklist, evidenze, approvazioni e solleciti"
+  "description": "FMED Enterprise 1.0 E7.1 - Dashboard Enterprise operativa con KPI reali, filtri globali, SLA, criticità e drill-down"
 }

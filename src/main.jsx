@@ -14,8 +14,9 @@ import FmedErrorBoundary from "./FmedErrorBoundary.jsx";
 import "./FmedErrorBoundary.css";
 import "./FmedE32SemanticColorSystem.css";
 import "./FmedE42LightComfortLayout.css";
+import "./FmedE71DashboardEnterprise.css";
 
-const FMED_APP_CACHE_VERSION = "fmed-enterprise-e6-1-process-engine-unificato-20260718-1";
+const FMED_APP_CACHE_VERSION = "fmed-enterprise-e7-1-dashboard-enterprise-20260719-1";
 
 const FMED_API_WARMUP_URL = String(
   import.meta.env?.VITE_API_BASE_URL || "https://fmed-backend.onrender.com"
