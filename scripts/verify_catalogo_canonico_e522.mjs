@@ -20,7 +20,7 @@ assert.match(canonical, /fmed:master-data-updated/);
 assert.match(canonicalCss, /fmed-canonical-overlay/);
 assert.match(canonicalCss, /@media \(max-width: 640px\)/);
 
-assert.match(app, /E6_1_PROCESS_ENGINE_UNIFICATO/);
+assert.match(app, /E6_2_PROCESS_ENGINE_COMPLETO/);
 assert.match(app, /<CanonicalSelect/);
 assert.match(assets, /dictionary="TIPOLOGIE_ASSET"/);
 assert.match(assets, /dictionary="COSTRUTTORI"/);
@@ -40,7 +40,7 @@ assert.match(core, /CATALOGO CANONICO GLOBALE E5\.2\.2/);
 for (const source of [assets, infrastructure]) {
   assert.doesNotMatch(source, /<input[^>]+value=\{[^}]*\.(sede|societa|locazione|reparto|branca_medica|categoria|stato_asset|possesso|fornitore|costruttore|modello|tipologia|attivita|ditta|periodicita|esito|priorita|stato|descrizione|centro_costo|responsabile)/i);
 }
-assert.equal(pkg.version, "6.1.0");
-assert.equal(build.release, "E6.1 Process Engine Unificato");
+assert.equal(pkg.version, "6.2.0");
+assert.equal(build.release, "E6.2 Process Engine Completo");
 assert.equal(pkg.scripts?.prebuild, undefined);
-console.log("FMED E6.1 Catalogo Canonico frontend: OK");
+console.log("FMED E6.2 Catalogo Canonico frontend: OK");

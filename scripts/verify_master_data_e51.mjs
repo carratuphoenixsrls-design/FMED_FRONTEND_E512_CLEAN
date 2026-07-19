@@ -7,12 +7,12 @@ const required = [
   ["src/CoreStandardPage.jsx", "/master-data/normalizza"],
   ["src/components/DizionariControls.jsx", "Qualità dati"],
   ["src/CoreStandardPage.css", "FMED Enterprise E5.2"],
-  ["src/App_nuovo.jsx", "E6.1 PROCESS ENGINE UNIFICATO"],
+  ["src/App_nuovo.jsx", "E6.2 PROCESS ENGINE COMPLETO"],
 ];
 for (const [file, token] of required) {
   const text = fs.readFileSync(file, "utf8");
-  if (!text.includes(token)) throw new Error(`[E6.1] Token mancante in ${file}: ${token}`);
+  if (!text.includes(token)) throw new Error(`[E6.2] Token mancante in ${file}: ${token}`);
 }
 const pkg = JSON.parse(fs.readFileSync("package.json", "utf8"));
-if (pkg.scripts?.prebuild) throw new Error("[E6.1] prebuild non deve bloccare i deploy Vercel manuali");
-console.log("[FMED E6.1] Master Data Governance frontend: OK");
+if (pkg.scripts?.prebuild) throw new Error("[E6.2] prebuild non deve bloccare i deploy Vercel manuali");
+console.log("[FMED E6.2] Master Data Governance frontend: OK");

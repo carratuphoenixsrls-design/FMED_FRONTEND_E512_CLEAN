@@ -1,9 +1,9 @@
 {
   "product": "FMED Enterprise 1.0",
-  "release": "E6.1 Process Engine Unificato",
-  "build": "FMED_ENTERPRISE_1_0_E6_1_PROCESS_ENGINE_UNIFICATO_2026_07_18",
+  "release": "E6.2 Process Engine Completo",
+  "build": "FMED_ENTERPRISE_1_0_E6_2_PROCESS_ENGINE_COMPLETO_2026_07_19",
   "frontend": true,
-  "backend_required": "E6.1 or newer",
+  "backend_required": "E6.2 or newer",
   "features": [
     "Light Comfort",
     "SharePoint Sync",
@@ -13,9 +13,12 @@
     "Catalogo Canonico Globale",
     "Quick Add contestuale",
     "Relazioni storico-futuro",
-    "Process Engine unificato",
+    "Process Engine completo",
     "Workflow multi-modulo",
+    "SLA e solleciti",
+    "Checklist obbligatorie",
+    "Evidenze e approvazioni",
     "Audit transizioni"
   ],
-  "description": "Registro operativo unificato per Asset, Infrastrutture, Sicurezza 81/08, Formazione, Sorveglianza sanitaria, Contratti e Non conformità."
+  "description": "Process Engine completo per Asset, Infrastrutture, Sicurezza 81/08, Formazione, Sorveglianza sanitaria, Contratti e Non conformità."
 }

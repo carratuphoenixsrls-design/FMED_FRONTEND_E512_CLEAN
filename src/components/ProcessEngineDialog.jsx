@@ -10,6 +10,8 @@ const EMPTY_FORM = {
   attivita: "",
   priorita: "MEDIA",
   responsabile: "",
+  sostituto: "",
+  approvatore: "",
   scadenza: "",
   descrizione: "",
 };
@@ -124,6 +126,8 @@ export default function ProcessEngineDialog({ process, apiBaseUrl, onClose, onCr
           priorita: form.priorita,
           responsabile: form.responsabile || null,
           assegnato_a: form.responsabile || null,
+          sostituto: form.sostituto || null,
+          approvatore: form.approvatore || null,
           scadenza: form.scadenza || null,
           attivita: form.attivita || null,
           descrizione: form.descrizione || null,
@@ -136,6 +140,8 @@ export default function ProcessEngineDialog({ process, apiBaseUrl, onClose, onCr
             attivita: form.attivita || null,
             descrizione: form.descrizione || null,
             responsabile: form.responsabile || null,
+            sostituto: form.sostituto || null,
+            approvatore: form.approvatore || null,
             priorita: form.priorita,
             scadenza: form.scadenza || null,
           },
@@ -236,6 +242,28 @@ export default function ProcessEngineDialog({ process, apiBaseUrl, onClose, onCr
               allowQuickAdd
             />
 
+            <CanonicalSelect
+              label="Sostituto"
+              field="sostituto"
+              dictionary="RESPONSABILI"
+              value={form.sostituto}
+              onChange={value => update("sostituto", value)}
+              apiBaseUrl={apiBaseUrl}
+              form={form}
+              allowQuickAdd
+            />
+
+            {process.approvazione_obbligatoria && <CanonicalSelect
+              label="Approvatore"
+              field="approvatore"
+              dictionary="RESPONSABILI"
+              value={form.approvatore}
+              onChange={value => update("approvatore", value)}
+              apiBaseUrl={apiBaseUrl}
+              form={form}
+              allowQuickAdd
+            />}
+
             <label className="fmed-process-dialog-field">
               <span>Scadenza</span>
               <input type="date" value={form.scadenza} onChange={event => update("scadenza", event.target.value)} />
@@ -246,6 +274,14 @@ export default function ProcessEngineDialog({ process, apiBaseUrl, onClose, onCr
               <textarea value={form.descrizione} onChange={event => update("descrizione", event.target.value)} rows="4" placeholder="Testo narrativo: descrivi problema, risultato atteso o note operative." />
             </label>
           </div>
+
+          <aside className="fmed-process-dialog-requirements">
+            <strong>Controlli E6.2</strong>
+            <span>{process.checklist?.length || 0} attività di checklist</span>
+            <span>{process.allegati_obbligatori?.length || 0} evidenze obbligatorie</span>
+            <span>{process.approvazione_obbligatoria ? "Approvazione finale richiesta" : "Approvazione non richiesta"}</span>
+            <span>Scadenza automatica secondo priorità se non indicata</span>
+          </aside>
 
           {message && <div className="fmed-process-dialog-message">{message}</div>}
 
