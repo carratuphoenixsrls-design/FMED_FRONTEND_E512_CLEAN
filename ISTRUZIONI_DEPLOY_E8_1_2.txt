@@ -1,0 +1,17 @@
+FMED ENTERPRISE 1.0 · E8.1.2 AUDIT GRAFICO PROFESSIONALE
+FRONTEND COMPLETO PER VERCEL
+
+Questa release sostituisce esclusivamente il frontend.
+NON eseguire SQL.
+NON modificare Supabase.
+NON pubblicare nuovamente il backend Render.
+
+Caricare il contenuto interno dello ZIP nella root del repository frontend.
+Configurazione Vercel invariata:
+- Framework: Vite
+- Install: npm ci --no-audit --no-fund
+- Build: npm run build
+- Output: dist
+
+Versione attesa nella login:
+FMED ENTERPRISE 1.0 · E8.1.2 AUDIT GRAFICO PROFESSIONALE

@@ -1,0 +1,14 @@
+FMED ENTERPRISE 1.0 · E8.1.2 AUDIT GRAFICO PROFESSIONALE
+
+Base funzionale: E8.1 Operativo Semplificato.
+Differenze applicative: nessuna.
+Differenze frontend: classi di scope, metadati versione e stylesheet finale.
+
+Principi applicati:
+- palette sobria petrolio e neutri caldi;
+- colori semantici solo per stato/priorità;
+- dashboard 3 colonne per evitare KPI compressi;
+- card e pannelli con ombre contenute;
+- tabelle, form e controlli uniformati;
+- Light e Dark Mode bilanciate;
+- nessun SQL, backend o Supabase richiesto.
