@@ -1,4 +1,4 @@
-/* FMED ENTERPRISE 1.0 · E8.1 OPERATIVO SEMPLIFICATO · FRONTEND COMPLETO */
+/* FMED ENTERPRISE 1.0 · E8.1.1 AUDIT GRAFICO E VISUAL POLISH · FRONTEND COMPLETO */
 /*
   FMED CLEANUP 2026-06-25
   - Verifica JSX eseguita con esbuild: sintassi OK.
@@ -48,8 +48,8 @@ const API_BASE_URL = ENV_API_BASE_URL || (IS_LOCAL_FRONTEND ? "http://127.0.0.1:
 const API_BASE_CANDIDATES = [API_BASE_URL, ...(ENV_API_BASE_URL ? [] : IS_LOCAL_FRONTEND ? ["http://localhost:8000", "http://10.10.10.31:8000"] : [])].filter((value, index, array) => value && array.indexOf(value) === index);
 
 // Versione frontend visibile per evitare dubbi da cache, browser o PWA.
-const MRDB_APP_VERSION = "FMED_ENTERPRISE_1_0_E8_1_OPERATIVO_SEMPLIFICATO_2026_07_20";
-const MRDB_APP_BUILD_LABEL = "FMED ENTERPRISE 1.0 · E8.1 OPERATIVO SEMPLIFICATO";
+const MRDB_APP_VERSION = "FMED_ENTERPRISE_1_0_E8_1_1_AUDIT_GRAFICO_VISUAL_POLISH_2026_07_20";
+const MRDB_APP_BUILD_LABEL = "FMED ENTERPRISE 1.0 · E8.1.1 AUDIT GRAFICO E VISUAL POLISH";
 // FMED PERFORMANCE SAFE MODE
 // Render progressivo degli elenchi lunghi: filtri/export restano completi, si alleggerisce solo il DOM visibile.
 const FMED_RENDER_BATCH_ASSET = 100;
@@ -6968,7 +6968,7 @@ ${messaggio}`);
     </svg>;
   }
 
-  return <div data-fmed-build={MRDB_APP_VERSION} className={darkMode ? "fmed-app-root fmed-dark-mode" : "fmed-app-root fmed-light-mode"} style={{
+  return <div data-fmed-build={MRDB_APP_VERSION} className={darkMode ? "fmed-app-root fmed-dark-mode fmed-e811-visual-polish" : "fmed-app-root fmed-light-mode fmed-e811-visual-polish"} style={{
     ...styles.app,
     ...(darkMode ? styles.themeDarkVars : styles.themeLightVars),
     ...{}
@@ -9549,17 +9549,17 @@ function AppNuovo() {
   }, [sessioneFmed, logoutFmed]);
   const loginUi = loginDarkMode ? loginStyles : loginLightStyles;
   if (!sessioneFmed) {
-    return <div style={loginUi.page}>
-        <div style={loginUi.card}>
-          <button type="button" onClick={() => setLoginDarkMode(prev => !prev)} style={loginUi.themeToggle} title={loginDarkMode ? "Passa alla Light Mode" : "Passa alla Dark Mode"}>
+    return <div className="fmed-login-page" style={loginUi.page}>
+        <div className="fmed-login-card" style={loginUi.card}>
+          <button type="button" onClick={() => setLoginDarkMode(prev => !prev)} className="fmed-login-theme-toggle" style={loginUi.themeToggle} title={loginDarkMode ? "Passa alla Light Mode" : "Passa alla Dark Mode"}>
             <span>{loginDarkMode ? "☀️" : "🌙"}</span>
             <span>{loginDarkMode ? "Light" : "Dark"}</span>
           </button>
-          <div style={loginUi.kicker}>Area tecnica</div>
-          <h1 style={loginUi.title}>Sistema Gestione Manutenzioni</h1>
-          <p style={loginUi.subtitle}>Accesso riservato alla gestione tecnica di asset, interventi, scadenze e infrastrutture.</p>
+          <div className="fmed-login-kicker" style={loginUi.kicker}>Area tecnica</div>
+          <h1 className="fmed-login-title" style={loginUi.title}>Sistema Gestione Manutenzioni</h1>
+          <p className="fmed-login-subtitle" style={loginUi.subtitle}>Accesso riservato alla gestione tecnica di asset, interventi, scadenze e infrastrutture.</p>
 
-          <form onSubmit={loginSubmit} style={loginUi.form}>
+          <form className="fmed-login-form" onSubmit={loginSubmit} style={loginUi.form}>
             <label style={loginUi.label}>Email</label>
             <input value={loginUsername} onChange={e => setLoginUsername(e.target.value)} placeholder="email aziendale" autoComplete="username" style={loginUi.input} />
 
@@ -9573,7 +9573,7 @@ function AppNuovo() {
 
             {loginErrore ? <div style={loginUi.error}>{loginErrore}</div> : null}
 
-            <button type="submit" disabled={loginLoading} style={loginUi.button}>
+            <button className="fmed-login-submit" type="submit" disabled={loginLoading} style={loginUi.button}>
               {loginLoading ? "Accesso..." : "Accedi"}
             </button>
 

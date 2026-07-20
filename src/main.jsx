@@ -16,8 +16,9 @@ import "./FmedE32SemanticColorSystem.css";
 import "./FmedE42LightComfortLayout.css";
 import "./FmedE71DashboardEnterprise.css";
 import "./FmedE81OperationalSimplified.css";
+import "./FmedE811VisualPolish.css";
 
-const FMED_APP_CACHE_VERSION = "fmed-enterprise-e8-1-operativo-semplificato-20260720-1";
+const FMED_APP_CACHE_VERSION = "fmed-enterprise-e8-1-1-visual-polish-20260720-1";
 
 const FMED_API_WARMUP_URL = String(
   import.meta.env?.VITE_API_BASE_URL || "https://fmed-backend.onrender.com"

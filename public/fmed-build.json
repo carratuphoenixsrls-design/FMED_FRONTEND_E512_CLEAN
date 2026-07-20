@@ -1,7 +1,7 @@
 {
   "product": "FMED Enterprise 1.0",
-  "release": "E8.1 Operativo Semplificato",
-  "build": "FMED_ENTERPRISE_1_0_E8_1_OPERATIVO_SEMPLIFICATO_2026_07_20",
+  "release": "E8.1.1 Audit Grafico e Visual Polish",
+  "build": "FMED_ENTERPRISE_1_0_E8_1_1_AUDIT_GRAFICO_VISUAL_POLISH_2026_07_20",
   "frontend": true,
   "backend_required": "E8.1 or newer",
   "features": [
@@ -14,7 +14,14 @@
     "Process Engine dietro le quinte",
     "Finestra operativa dal 01/01/2023",
     "Collaudi sempre visibili",
-    "Audit finale disponibile"
+    "Audit finale disponibile",
+    "Palette semantica più ricca e coerente",
+    "Proporzioni dashboard e KPI riequilibrate",
+    "Sidebar compatta e colorata per area",
+    "Hero distinti per Asset, Interventi, Scadenze, Infrastrutture e 81/08",
+    "Tabelle, form e modali uniformati",
+    "Light e Dark Mode rifinite",
+    "Frontend only: logiche e backend invariati"
   ],
-  "description": "Interfaccia semplificata per l’uso quotidiano, senza rimuovere dati, motori o funzioni enterprise."
+  "description": "Audit grafico completo del frontend E8.1 con miglioramento autonomo di proporzioni, posizioni, dimensioni, colori, leggibilità e coerenza visiva."
 }
