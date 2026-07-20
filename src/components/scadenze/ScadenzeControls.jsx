@@ -192,7 +192,7 @@ export default function ScadenzeControls(props) {
           {scadenzeElencoAperto ? "▲ Nascondi elenco" : `📋 Apri elenco filtrato (${scadenzeVisualizzate.length})`}
         </button>
         <button type="button" style={styles.scadenzeSecondaryAction} onClick={selezionaTutteScadenzeVisualizzate}>
-          Seleziona visibili
+          ✅ Seleziona visibili
         </button>
         <button type="button" style={styles.scadenzeGhostAction} onClick={deselezionaTutteScadenze}>
           ⬜ Deseleziona
@@ -209,7 +209,7 @@ export default function ScadenzeControls(props) {
           onClick={esportaScadenzePdf}
           disabled={scadenzeSelezionateVisualizzate.length === 0}
         >
-          PDF selezionate ({scadenzeSelezionateVisualizzate.length})
+          📄 PDF selezionate ({scadenzeSelezionateVisualizzate.length})
         </button>
       </div>
     </div>

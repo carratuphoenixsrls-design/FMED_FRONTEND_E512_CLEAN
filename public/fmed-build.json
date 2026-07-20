@@ -1,19 +1,20 @@
 {
   "product": "FMED Enterprise 1.0",
-  "release": "E8.1.3 Scadenze Cessate e Layout Audit",
-  "build": "FMED_ENTERPRISE_1_0_E8_1_3_SCADENZE_CESSATE_LAYOUT_AUDIT_2026_07_20",
+  "release": "E8.1 Operativo Semplificato",
+  "build": "FMED_ENTERPRISE_1_0_E8_1_OPERATIVO_SEMPLIFICATO_2026_07_20",
   "frontend": true,
-  "backend_required": "E8.1.3",
+  "backend_required": "E8.1 or newer",
   "features": [
-    "Selezione immediata delle scadenze scadute",
-    "Cessazione amministrativa non distruttiva con motivo e conferma",
-    "Esclusione automatica dei cicli cessati da KPI, alert e scadenze attive",
-    "Collaudi sempre protetti",
-    "Salvaguardia delle attività che alimentano più famiglie di ciclo",
-    "Audit completo di proporzioni, tipografia, controlli, KPI e tabelle",
-    "Responsive desktop, notebook e tablet"
+    "Sidebar operativa ridotta",
+    "Dashboard orientata alle attività da fare",
+    "Analisi avanzate nascoste di default",
+    "Strumenti secondari raccolti in un’unica area",
+    "Motore Cicli automatico",
+    "Catalogo Canonico automatico",
+    "Process Engine dietro le quinte",
+    "Finestra operativa dal 01/01/2023",
+    "Collaudi sempre visibili",
+    "Audit finale disponibile"
   ],
-  "description": "Release completa frontend/backend per cessare scadenze obsolete senza cancellarle e uniformare proporzioni e leggibilità di tutto FMED.",
-  "version": "E8.1.3",
-  "label": "FMED ENTERPRISE 1.0 · E8.1.3 SCADENZE CESSATE E LAYOUT AUDIT"
+  "description": "Interfaccia semplificata per l’uso quotidiano, senza rimuovere dati, motori o funzioni enterprise."
 }
