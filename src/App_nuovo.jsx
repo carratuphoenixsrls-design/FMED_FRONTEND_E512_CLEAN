@@ -48,8 +48,8 @@ const API_BASE_URL = ENV_API_BASE_URL || (IS_LOCAL_FRONTEND ? "http://127.0.0.1:
 const API_BASE_CANDIDATES = [API_BASE_URL, ...(ENV_API_BASE_URL ? [] : IS_LOCAL_FRONTEND ? ["http://localhost:8000", "http://10.10.10.31:8000"] : [])].filter((value, index, array) => value && array.indexOf(value) === index);
 
 // Versione frontend visibile per evitare dubbi da cache, browser o PWA.
-const MRDB_APP_VERSION = "FMED_ENTERPRISE_1_0_E8_1_4_TOOLBAR_SCADENZE_OBSOLETE_2026_07_20";
-const MRDB_APP_BUILD_LABEL = "FMED ENTERPRISE 1.0 · E8.1.4 GESTIONE SCADENZE OBSOLETE";
+const MRDB_APP_VERSION = "FMED_ENTERPRISE_1_0_E8_1_3_SCADENZE_CESSATE_LAYOUT_AUDIT_2026_07_20";
+const MRDB_APP_BUILD_LABEL = "FMED ENTERPRISE 1.0 · E8.1.3 SCADENZE CESSATE E LAYOUT AUDIT";
 // FMED PERFORMANCE SAFE MODE
 // Render progressivo degli elenchi lunghi: filtri/export restano completi, si alleggerisce solo il DOM visibile.
 const FMED_RENDER_BATCH_ASSET = 100;
@@ -7021,9 +7021,6 @@ ${messaggio}`);
     return <svg {...common}><circle cx="12" cy="12" r="8" stroke={stroke} strokeWidth={sw} /></svg>;
   }
 
-  const scadenzeScaduteVisibiliCount = scadenzeVisualizzate.filter((row) => row?._statoScadenza?.codice === "SCADUTA").length;
-  const scadenzeScaduteSelezionateCount = scadenzeSelezionateVisualizzate.filter((row) => row?._statoScadenza?.codice === "SCADUTA").length;
-
   function renderFmedBrandMark(compact = false) {
     const size = compact ? 34 : 42;
     return <svg className="fmed-brand-symbol" width={size} height={size} viewBox="0 0 48 48" fill="none" aria-hidden="true">
@@ -7188,79 +7185,6 @@ ${messaggio}`);
       ...{}
     }}>
         {/* Ogni modulo usa una sola intestazione dedicata: rimosso il banner globale duplicato. */}
-
-        {paginaScadenzeAttiva && <section
-          className="fmed-e814-expired-toolbar"
-          role="region"
-          aria-label="Gestione scadenze obsolete"
-          style={{
-            position: "sticky",
-            top: 12,
-            zIndex: 80,
-            display: "flex",
-            flexWrap: "wrap",
-            alignItems: "center",
-            justifyContent: "space-between",
-            gap: 12,
-            marginBottom: 14,
-            padding: "12px 14px",
-            border: "1px solid color-mix(in srgb, var(--fmed-border) 88%, #D99A00)",
-            borderRadius: 14,
-            background: "color-mix(in srgb, var(--fmed-surface) 96%, #FFF4D6)",
-            boxShadow: "0 10px 28px rgba(17, 45, 58, .10)",
-          }}
-        >
-          <div style={{ minWidth: 250, flex: "1 1 360px" }}>
-            <div style={{ fontSize: 12, fontWeight: 850, letterSpacing: ".06em", textTransform: "uppercase", color: "var(--fmed-muted)" }}>
-              Gestione scadenze obsolete
-            </div>
-            <div style={{ marginTop: 3, fontSize: 14, lineHeight: 1.45, color: "var(--fmed-text)" }}>
-              <strong>{scadenzeScaduteVisibiliCount}</strong> scadenze scadute visibili · <strong>{scadenzeScaduteSelezionateCount}</strong> scadute selezionate.
-              Le attività cessate restano nello storico ma non compaiono più nei cicli attivi, nei KPI o negli alert.
-            </div>
-            {messaggioCessazioneScadenze && <div role="status" style={{ marginTop: 7, fontSize: 13, fontWeight: 700, color: "var(--fmed-text)" }}>
-              {messaggioCessazioneScadenze}
-            </div>}
-          </div>
-          <div style={{ display: "flex", flexWrap: "wrap", alignItems: "center", justifyContent: "flex-end", gap: 9 }}>
-            <button
-              type="button"
-              onClick={selezionaTutteScadenzeScadute}
-              style={{
-                minHeight: 40,
-                padding: "0 14px",
-                border: "1px solid color-mix(in srgb, #D99A00 40%, var(--fmed-border))",
-                borderRadius: 10,
-                background: "color-mix(in srgb, #D99A00 9%, var(--fmed-surface))",
-                color: "#9A6600",
-                WebkitTextFillColor: "#9A6600",
-                fontWeight: 800,
-                cursor: "pointer",
-              }}
-            >
-              Seleziona tutte le scadute ({scadenzeScaduteVisibiliCount})
-            </button>
-            {ruoloFmed === "Admin" && <button
-              type="button"
-              onClick={cessaScadenzeSelezionate}
-              disabled={cessazioneScadenzeLoading || scadenzeScaduteSelezionateCount === 0}
-              style={{
-                minHeight: 40,
-                padding: "0 15px",
-                border: "1px solid color-mix(in srgb, #C93E4F 45%, var(--fmed-border))",
-                borderRadius: 10,
-                background: scadenzeScaduteSelezionateCount ? "#B83243" : "color-mix(in srgb, var(--fmed-muted) 12%, var(--fmed-surface))",
-                color: scadenzeScaduteSelezionateCount ? "#FFFFFF" : "var(--fmed-muted)",
-                WebkitTextFillColor: scadenzeScaduteSelezionateCount ? "#FFFFFF" : "var(--fmed-muted)",
-                fontWeight: 850,
-                cursor: scadenzeScaduteSelezionateCount ? "pointer" : "not-allowed",
-                opacity: cessazioneScadenzeLoading ? .62 : 1,
-              }}
-            >
-              {cessazioneScadenzeLoading ? "Cessazione in corso…" : `Cessa selezionate (${scadenzeScaduteSelezionateCount})`}
-            </button>}
-          </div>
-        </section>}
 
         {pagina === "Dashboard" && <Suspense fallback={<div className="fmed-lazy-loading">Caricamento modulo…</div>}><DashboardPage {...{
           styles,
