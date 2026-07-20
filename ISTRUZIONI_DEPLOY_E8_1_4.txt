@@ -1,0 +1,15 @@
+FMED ENTERPRISE 1.0 · E8.1.4 GESTIONE SCADENZE OBSOLETE
+FRONTEND COMPLETO PER VERCEL
+
+Questa micro-release corregge definitivamente la visibilità dei comandi nella pagina Scadenze.
+La barra amministrativa è renderizzata direttamente da src/App_nuovo.jsx, così resta visibile anche se un upload GitHub manuale non aggiorna correttamente i componenti annidati.
+
+Caricare il CONTENUTO INTERNO dello ZIP nella root del repository frontend.
+Non modificare backend, Supabase o SQL: il backend E8.1.3 già pubblicato è compatibile.
+
+Versione attesa nella login:
+FMED ENTERPRISE 1.0 · E8.1.4 GESTIONE SCADENZE OBSOLETE
+
+Nella pagina Scadenze deve comparire in alto una barra con:
+- Seleziona tutte le scadute
+- Cessa selezionate
