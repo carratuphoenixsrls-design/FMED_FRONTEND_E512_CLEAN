@@ -1,0 +1,21 @@
+FMED ENTERPRISE 1.0 · E8.1.1 AUDIT GRAFICO E VISUAL POLISH
+FRONTEND COMPLETO — ROOT VERCEL
+
+Questa è una release SOLO FRONTEND.
+NON eseguire SQL.
+NON ricaricare il backend Render.
+
+Caricare il CONTENUTO INTERNO dello ZIP nella root del repository frontend.
+
+Vercel:
+Framework: Vite
+Root Directory: ./
+Install Command: npm ci --no-audit --no-fund
+Build Command: npm run build
+Output Directory: dist
+
+Variabile già esistente:
+VITE_API_BASE_URL=https://fmed-backend.onrender.com
+
+Versione attesa nella login:
+FMED ENTERPRISE 1.0 · E8.1.1 AUDIT GRAFICO E VISUAL POLISH
