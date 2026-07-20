@@ -1,7 +1,7 @@
 {
   "name": "fmed-frontend",
   "private": true,
-  "version": "8.1.4",
+  "version": "8.1.3",
   "type": "module",
   "engines": {
     "node": "22.x"
@@ -11,7 +11,7 @@
     "build": "vite build --configLoader runner",
     "lint": "eslint .",
     "preview": "vite preview",
-    "verify:release": "node scripts/verify_scadenze_toolbar_e814.mjs",
+    "verify:release": "node scripts/verify_scadenze_cessate_layout_e813.mjs",
     "check": "npm run verify:release && npm run lint && npm run build"
   },
   "dependencies": {
@@ -29,5 +29,5 @@
     "globals": "^17.6.0",
     "vite": "6.4.1"
   },
-  "description": "FMED Enterprise 1.0 E8.1.4 - Barra affidabile per selezione e cessazione delle scadenze obsolete"
+  "description": "FMED Enterprise 1.0 E8.1.3 - Scadenze cessate e audit completo delle proporzioni"
 }
