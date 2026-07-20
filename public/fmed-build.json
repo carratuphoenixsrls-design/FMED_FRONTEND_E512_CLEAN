@@ -1,19 +1,20 @@
 {
   "product": "FMED Enterprise 1.0",
-  "release": "E8.1.2 Audit Grafico Professionale",
-  "build": "FMED_ENTERPRISE_1_0_E8_1_2_AUDIT_GRAFICO_PROFESSIONALE_2026_07_20",
+  "release": "E8.1 Operativo Semplificato",
+  "build": "FMED_ENTERPRISE_1_0_E8_1_OPERATIVO_SEMPLIFICATO_2026_07_20",
   "frontend": true,
   "backend_required": "E8.1 or newer",
   "features": [
-    "Base funzionale E8.1 invariata",
-    "Palette professionale petrolio e neutri caldi",
-    "Colori semantici limitati a stato e priorità",
-    "Dashboard riproporzionata e leggibile",
-    "Sidebar e navigazione uniformate",
-    "Tabelle e form con densità operativa coerente",
-    "Light e Dark Mode riequilibrate",
-    "Accessibilità focus e contrasto migliorati",
-    "Nessuna modifica a backend, Supabase o automazioni"
+    "Sidebar operativa ridotta",
+    "Dashboard orientata alle attività da fare",
+    "Analisi avanzate nascoste di default",
+    "Strumenti secondari raccolti in un’unica area",
+    "Motore Cicli automatico",
+    "Catalogo Canonico automatico",
+    "Process Engine dietro le quinte",
+    "Finestra operativa dal 01/01/2023",
+    "Collaudi sempre visibili",
+    "Audit finale disponibile"
   ],
-  "description": "Rifinitura grafica professionale e sobria della E8.1, senza modifiche a funzioni, dati, API o automazioni."
+  "description": "Interfaccia semplificata per l’uso quotidiano, senza rimuovere dati, motori o funzioni enterprise."
 }
