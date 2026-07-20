@@ -1,4 +1,4 @@
-/* FMED ENTERPRISE 1.0 · E8 AUDIT FINALE E RELEASE STABILE · FRONTEND COMPLETO */
+/* FMED ENTERPRISE 1.0 · E8.1 OPERATIVO SEMPLIFICATO · FRONTEND COMPLETO */
 /*
   FMED CLEANUP 2026-06-25
   - Verifica JSX eseguita con esbuild: sintassi OK.
@@ -48,8 +48,8 @@ const API_BASE_URL = ENV_API_BASE_URL || (IS_LOCAL_FRONTEND ? "http://127.0.0.1:
 const API_BASE_CANDIDATES = [API_BASE_URL, ...(ENV_API_BASE_URL ? [] : IS_LOCAL_FRONTEND ? ["http://localhost:8000", "http://10.10.10.31:8000"] : [])].filter((value, index, array) => value && array.indexOf(value) === index);
 
 // Versione frontend visibile per evitare dubbi da cache, browser o PWA.
-const MRDB_APP_VERSION = "FMED_ENTERPRISE_1_0_E8_AUDIT_FINALE_RELEASE_STABILE_2026_07_20";
-const MRDB_APP_BUILD_LABEL = "FMED ENTERPRISE 1.0 · E8 AUDIT FINALE E RELEASE STABILE";
+const MRDB_APP_VERSION = "FMED_ENTERPRISE_1_0_E8_1_OPERATIVO_SEMPLIFICATO_2026_07_20";
+const MRDB_APP_BUILD_LABEL = "FMED ENTERPRISE 1.0 · E8.1 OPERATIVO SEMPLIFICATO";
 // FMED PERFORMANCE SAFE MODE
 // Render progressivo degli elenchi lunghi: filtri/export restano completi, si alleggerisce solo il DOM visibile.
 const FMED_RENDER_BATCH_ASSET = 100;
@@ -1280,16 +1280,16 @@ function urlCartellaInfrastruttura(record, tipo = "generale") {
 // Nota: questa fase non modifica API/backend. È una protezione UI.
 // La protezione definitiva lato sicurezza andrà completata in backend.
 // ========================================================
-const FMED_ALL_MENU_ITEMS = ["Dashboard", "Asset", "Interventi", "Costi", "Scadenze", "Infrastrutture", "Sicurezza 81/08", "Export", "SharePoint", "Processi", "Dizionari", "Gestione Utenti"];
+const FMED_ALL_MENU_ITEMS = ["Dashboard", "Asset", "Interventi", "Scadenze", "Infrastrutture", "Sicurezza 81/08", "Gestione Utenti"];
 const FMED_MENU_LABELS = {
   Asset: "Asset e Cespiti",
   Export: "Report e Analisi",
   SharePoint: "SHAREPOINT",
   Dizionari: "Dizionari",
-  "Gestione Utenti": "Impostazioni"
+  "Gestione Utenti": "Strumenti"
 };
 const FMED_MENU_HELP = {
-  Dashboard: "Riepilogo generale di asset, interventi, scadenze, costi e attività recenti.",
+  Dashboard: "Mostra subito cosa richiede attenzione e le operazioni più frequenti.",
   Asset: "Anagrafica delle apparecchiature e dei cespiti: ricerca, nuovo asset, OCR, modifica, documenti, QR e storico.",
   Interventi: "Registra e consulta manutenzioni ordinarie o straordinarie delle apparecchiature medicali e degli asset.",
   Costi: "Analizza costi, fornitori, ditte e spese degli interventi tecnici.",
@@ -1300,7 +1300,7 @@ const FMED_MENU_HELP = {
   SharePoint: "Apre l'archivio documentale tecnico centralizzato su SharePoint.",
   Processi: "Usa procedure guidate solo per operazioni complesse che coinvolgono più moduli, come dismissioni, trasferimenti o sostituzioni.",
   Dizionari: "Aggiunge o modifica sedi, società, reparti, locazioni, costruttori, modelli, fornitori, ditte esecutrici e valori dei menu a tendina.",
-  "Gestione Utenti": "Gestisce utenti, ruoli, permessi e configurazioni amministrative."
+  "Gestione Utenti": "Raccoglie report, costi, SharePoint, processi guidati e impostazioni avanzate."
 };
 function fmedMenuLabel(item) {
   return FMED_MENU_LABELS[item] || item;
@@ -1543,7 +1543,7 @@ function AppNuovoCore({
   const [exportCespitiInterventiSelezionati, setExportCespitiInterventiSelezionati] = useState([]);
   const [exportRicercaCespiteInventario, setExportRicercaCespiteInventario] = useState("");
   const [exportRicercaCespiteInterventi, setExportRicercaCespiteInterventi] = useState("");
-  const [impostazioniTab, setImpostazioniTab] = useState("UTENTI");
+  const [impostazioniTab, setImpostazioniTab] = useState("STRUMENTI");
 
   // FMED PERFORMANCE SAFE PATCH
   // Le ricerche pesanti usano una versione differita: mentre scrivi la UI resta fluida
@@ -7055,7 +7055,7 @@ ${messaggio}`);
                 setPagina("Dizionari");
                 return;
               }
-              if (item === "Gestione Utenti") setImpostazioniTab("UTENTI");
+              if (item === "Gestione Utenti") setImpostazioniTab("STRUMENTI");
               setPagina(item);
             }}>
               <span style={styles.menuIconWrap}>
@@ -7127,6 +7127,7 @@ ${messaggio}`);
           setNuovoInterventoOpen,
           setFiltroScadenze,
           setPagina,
+          setImpostazioniTab,
           avviaProcessoGuidatoFmed,
           openAlertMailDialog: () => setAlertMailOpen(true),
           openOutlook: () => apriOutlookAlertScadenze({ giorni: 30 }),
@@ -7659,6 +7660,7 @@ ${messaggio}`);
               onTabChange={setImpostazioniTab}
               onDataChanged={ricaricaDizionariCoreFmed}
               dictionariesOnly={pagina === "Dizionari"}
+              onNavigate={setPagina}
             />
           </Suspense>}
 

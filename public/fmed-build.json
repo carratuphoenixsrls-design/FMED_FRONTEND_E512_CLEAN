@@ -1,24 +1,20 @@
 {
   "product": "FMED Enterprise 1.0",
-  "release": "E8 Audit Finale e Release Stabile",
-  "build": "FMED_ENTERPRISE_1_0_E8_AUDIT_FINALE_RELEASE_STABILE_2026_07_20",
+  "release": "E8.1 Operativo Semplificato",
+  "build": "FMED_ENTERPRISE_1_0_E8_1_OPERATIVO_SEMPLIFICATO_2026_07_20",
   "frontend": true,
-  "backend_required": "E8 or newer",
+  "backend_required": "E8.1 or newer",
   "features": [
-    "Light Comfort",
-    "SharePoint Sync",
-    "Master Data Governance",
-    "Motore Cicli Unificato",
-    "Catalogo Canonico Globale",
-    "Process Engine completo",
-    "Dashboard Enterprise operativa",
+    "Sidebar operativa ridotta",
+    "Dashboard orientata alle attività da fare",
+    "Analisi avanzate nascoste di default",
+    "Strumenti secondari raccolti in un’unica area",
+    "Motore Cicli automatico",
+    "Catalogo Canonico automatico",
+    "Process Engine dietro le quinte",
     "Finestra operativa dal 01/01/2023",
-    "Archivio storico non distruttivo",
     "Collaudi sempre visibili",
-    "Audit finale amministrativo",
-    "Hardening header di sicurezza",
-    "Readiness endpoint",
-    "Export report audit JSON"
+    "Audit finale disponibile"
   ],
-  "description": "Release finale con audit non distruttivo di ruoli, sicurezza, dati, cicli, processi, Master Data e SharePoint."
+  "description": "Interfaccia semplificata per l’uso quotidiano, senza rimuovere dati, motori o funzioni enterprise."
 }
