@@ -1,4 +1,4 @@
-/* FMED ENTERPRISE 1.0 · E8.1 OPERATIVO SEMPLIFICATO · FRONTEND COMPLETO */
+/* FMED ENTERPRISE 1.0 · E8.1.3 SCADENZE CESSATE E AUDIT PROPORZIONI · FRONTEND COMPLETO */
 /*
   FMED CLEANUP 2026-06-25
   - Verifica JSX eseguita con esbuild: sintassi OK.
@@ -48,8 +48,8 @@ const API_BASE_URL = ENV_API_BASE_URL || (IS_LOCAL_FRONTEND ? "http://127.0.0.1:
 const API_BASE_CANDIDATES = [API_BASE_URL, ...(ENV_API_BASE_URL ? [] : IS_LOCAL_FRONTEND ? ["http://localhost:8000", "http://10.10.10.31:8000"] : [])].filter((value, index, array) => value && array.indexOf(value) === index);
 
 // Versione frontend visibile per evitare dubbi da cache, browser o PWA.
-const MRDB_APP_VERSION = "FMED_ENTERPRISE_1_0_E8_1_OPERATIVO_SEMPLIFICATO_2026_07_20";
-const MRDB_APP_BUILD_LABEL = "FMED ENTERPRISE 1.0 · E8.1 OPERATIVO SEMPLIFICATO";
+const MRDB_APP_VERSION = "FMED_ENTERPRISE_1_0_E8_1_3_SCADENZE_CESSATE_LAYOUT_AUDIT_2026_07_20";
+const MRDB_APP_BUILD_LABEL = "FMED ENTERPRISE 1.0 · E8.1.3 SCADENZE CESSATE E LAYOUT AUDIT";
 // FMED PERFORMANCE SAFE MODE
 // Render progressivo degli elenchi lunghi: filtri/export restano completi, si alleggerisce solo il DOM visibile.
 const FMED_RENDER_BATCH_ASSET = 100;
@@ -1477,6 +1477,8 @@ function AppNuovoCore({
   const [filtroScadenzeProssimaA, setFiltroScadenzeProssimaA] = useState("");
   const [ordineScadenze, setOrdineScadenze] = useState("SCADENZA_ASC");
   const [scadenzeSelezionateExport, setScadenzeSelezionateExport] = useState([]);
+  const [cessazioneScadenzeLoading, setCessazioneScadenzeLoading] = useState(false);
+  const [messaggioCessazioneScadenze, setMessaggioCessazioneScadenze] = useState("");
   const [infrastrutture, setInfrastrutture] = useState(SCADENZIARIO_INFRASTRUTTURE_AXA);
       const [infrastruttureLoaded, setInfrastruttureLoaded] = useState(false);
   const [infrastruttureLoading, setInfrastruttureLoading] = useState(false);
@@ -3266,6 +3268,69 @@ function AppNuovoCore({
   const scadenzeSelezionateVisualizzate = scadenzeVisualizzate.filter(s => scadenzeSelezionateExport.includes(chiaveScadenzaExport(s)));
   function selezionaTutteScadenzeVisualizzate() {
     setScadenzeSelezionateExport(chiaviScadenzeVisualizzate);
+    setMessaggioCessazioneScadenze("");
+  }
+  function selezionaTutteScadenzeScadute() {
+    const chiaviScadute = scadenzeVisualizzate
+      .filter((row) => row?._statoScadenza?.codice === "SCADUTA")
+      .map((row) => chiaveScadenzaExport(row));
+    setScadenzeSelezionateExport(chiaviScadute);
+    setScadenzeElencoAperto(true);
+    setMessaggioCessazioneScadenze(
+      chiaviScadute.length
+        ? `Selezionate ${chiaviScadute.length} scadenze scadute visibili.`
+        : "Nessuna scadenza scaduta presente nei filtri attuali."
+    );
+  }
+  async function cessaScadenzeSelezionate() {
+    if (ruoloFmed !== "Admin") {
+      setMessaggioCessazioneScadenze("La cessazione delle scadenze è riservata all’Admin.");
+      return;
+    }
+    const selezionate = scadenzeConStatoBase.filter((row) =>
+      scadenzeSelezionateExport.includes(chiaveScadenzaExport(row))
+    );
+    const scadute = selezionate.filter((row) => row?._statoScadenza?.codice === "SCADUTA");
+    if (!scadute.length) {
+      setMessaggioCessazioneScadenze("Seleziona almeno una scadenza realmente scaduta.");
+      return;
+    }
+    const motivo = window.prompt(
+      "Indica perché queste scadenze non sono più operative. Il motivo resterà nello storico e nell’audit.",
+      "Attività storica non più applicabile o non più operativa"
+    );
+    if (!motivo || motivo.trim().length < 5) return;
+    const confermata = window.confirm(
+      `Stai per cessare ${scadute.length} scadenze scadute. Non verranno cancellate, ma spariranno dai cicli attivi e resteranno nello storico. Procedere?`
+    );
+    if (!confermata) return;
+    setCessazioneScadenzeLoading(true);
+    setMessaggioCessazioneScadenze("Cessazione controllata in corso…");
+    try {
+      const risposta = await chiamataApiAutenticataFmed("/cicli-unificati/cessa", {
+        method: "POST",
+        body: JSON.stringify({
+          cicli: scadute.map((row) => ({
+            modulo: row.modulo,
+            record_id: row.record_id,
+            famiglia_codice: row.famiglia_codice,
+            ciclo_chiave: row.ciclo_chiave,
+          })),
+          motivo: motivo.trim(),
+          conferma: "CESSA_SCADENZE",
+        }),
+      });
+      setMessaggioCessazioneScadenze(
+        `${risposta?.messaggio || "Operazione completata"}${risposta?.non_trovate_o_non_attive ? ` Non più attive: ${risposta.non_trovate_o_non_attive}.` : ""}`
+      );
+      setScadenzeSelezionateExport([]);
+      setScadenzeLoaded(false);
+      await caricaScadenzeOnDemand({ force: true });
+    } catch (error) {
+      setMessaggioCessazioneScadenze(`Cessazione non completata: ${error?.message || error}`);
+    } finally {
+      setCessazioneScadenzeLoading(false);
+    }
   }
   function deselezionaTutteScadenze() {
     setScadenzeSelezionateExport([]);
@@ -6968,7 +7033,7 @@ ${messaggio}`);
     </svg>;
   }
 
-  return <div data-fmed-build={MRDB_APP_VERSION} className={darkMode ? "fmed-app-root fmed-dark-mode" : "fmed-app-root fmed-light-mode"} style={{
+  return <div data-fmed-build={MRDB_APP_VERSION} className={darkMode ? "fmed-app-root fmed-dark-mode fmed-e812-professional-ui fmed-e813-layout-audit" : "fmed-app-root fmed-light-mode fmed-e812-professional-ui fmed-e813-layout-audit"} style={{
     ...styles.app,
     ...(darkMode ? styles.themeDarkVars : styles.themeLightVars),
     ...{}
@@ -7393,6 +7458,11 @@ ${messaggio}`);
           setFiltroScadenzeProssimaA,
           scadenzeElencoAperto,
           selezionaTutteScadenzeVisualizzate,
+          selezionaTutteScadenzeScadute,
+          cessaScadenzeSelezionate,
+          cessazioneScadenzeLoading,
+          messaggioCessazioneScadenze,
+          puoCessareScadenze: ruoloFmed === "Admin",
           deselezionaTutteScadenze,
           resetFiltriScadenze,
           esportaScadenzePdf,
@@ -7577,6 +7647,11 @@ ${messaggio}`);
           scadenzeSelezionateVisualizzate,
           resetFiltriScadenze,
           selezionaTutteScadenzeVisualizzate,
+          selezionaTutteScadenzeScadute,
+          cessaScadenzeSelezionate,
+          cessazioneScadenzeLoading,
+          messaggioCessazioneScadenze,
+          puoCessareScadenze: ruoloFmed === "Admin",
           deselezionaTutteScadenze,
           filtroScadenze,
           setFiltroScadenze,
@@ -9549,17 +9624,17 @@ function AppNuovo() {
   }, [sessioneFmed, logoutFmed]);
   const loginUi = loginDarkMode ? loginStyles : loginLightStyles;
   if (!sessioneFmed) {
-    return <div style={loginUi.page}>
-        <div style={loginUi.card}>
-          <button type="button" onClick={() => setLoginDarkMode(prev => !prev)} style={loginUi.themeToggle} title={loginDarkMode ? "Passa alla Light Mode" : "Passa alla Dark Mode"}>
+    return <div className="fmed-login-page fmed-e812-login" style={loginUi.page}>
+        <div className="fmed-login-card" style={loginUi.card}>
+          <button className="fmed-login-theme-toggle" type="button" onClick={() => setLoginDarkMode(prev => !prev)} style={loginUi.themeToggle} title={loginDarkMode ? "Passa alla Light Mode" : "Passa alla Dark Mode"}>
             <span>{loginDarkMode ? "☀️" : "🌙"}</span>
             <span>{loginDarkMode ? "Light" : "Dark"}</span>
           </button>
-          <div style={loginUi.kicker}>Area tecnica</div>
-          <h1 style={loginUi.title}>Sistema Gestione Manutenzioni</h1>
-          <p style={loginUi.subtitle}>Accesso riservato alla gestione tecnica di asset, interventi, scadenze e infrastrutture.</p>
+          <div className="fmed-login-kicker" style={loginUi.kicker}>Area tecnica</div>
+          <h1 className="fmed-login-title" style={loginUi.title}>Sistema Gestione Manutenzioni</h1>
+          <p className="fmed-login-subtitle" style={loginUi.subtitle}>Accesso riservato alla gestione tecnica di asset, interventi, scadenze e infrastrutture.</p>
 
-          <form onSubmit={loginSubmit} style={loginUi.form}>
+          <form className="fmed-login-form" onSubmit={loginSubmit} style={loginUi.form}>
             <label style={loginUi.label}>Email</label>
             <input value={loginUsername} onChange={e => setLoginUsername(e.target.value)} placeholder="email aziendale" autoComplete="username" style={loginUi.input} />
 
@@ -9573,7 +9648,7 @@ function AppNuovo() {
 
             {loginErrore ? <div style={loginUi.error}>{loginErrore}</div> : null}
 
-            <button type="submit" disabled={loginLoading} style={loginUi.button}>
+            <button className="fmed-login-submit" type="submit" disabled={loginLoading} style={loginUi.button}>
               {loginLoading ? "Accesso..." : "Accedi"}
             </button>
 
