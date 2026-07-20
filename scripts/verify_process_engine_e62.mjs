@@ -4,7 +4,7 @@ const page = fs.readFileSync("src/ProcessiPage.jsx", "utf8");
 const dialog = fs.readFileSync("src/components/ProcessEngineDialog.jsx", "utf8");
 const css = fs.readFileSync("src/ProcessiPage.css", "utf8");
 const required = [
-  [app, "FMED_ENTERPRISE_1_0_E7_2_OPERATIONAL_WINDOW_ARCHIVE_2026_07_20"],
+  [app, "FMED_ENTERPRISE_1_0_E8_AUDIT_FINALE_RELEASE_STABILE_2026_07_20"],
   [page, "/process-engine/esecuzioni/${id}/quadro"],
   [page, "/attivita/${task.id}"],
   [page, "/approvazioni"],

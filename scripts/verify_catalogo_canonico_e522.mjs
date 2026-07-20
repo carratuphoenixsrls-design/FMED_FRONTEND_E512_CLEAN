@@ -20,7 +20,7 @@ assert.match(canonical, /fmed:master-data-updated/);
 assert.match(canonicalCss, /fmed-canonical-overlay/);
 assert.match(canonicalCss, /@media \(max-width: 640px\)/);
 
-assert.match(app, /E7_2_OPERATIONAL_WINDOW_ARCHIVE/);
+assert.match(app, /E8_AUDIT_FINALE_RELEASE_STABILE/);
 assert.match(app, /<CanonicalSelect/);
 assert.match(assets, /dictionary="TIPOLOGIE_ASSET"/);
 assert.match(assets, /dictionary="COSTRUTTORI"/);
@@ -40,7 +40,7 @@ assert.match(core, /CATALOGO CANONICO GLOBALE E5\.2\.2/);
 for (const source of [assets, infrastructure]) {
   assert.doesNotMatch(source, /<input[^>]+value=\{[^}]*\.(sede|societa|locazione|reparto|branca_medica|categoria|stato_asset|possesso|fornitore|costruttore|modello|tipologia|attivita|ditta|periodicita|esito|priorita|stato|descrizione|centro_costo|responsabile)/i);
 }
-assert.equal(pkg.version, "7.2.0");
-assert.equal(build.release, "E7.2 Finestra Operativa e Archivio Storico");
+assert.equal(pkg.version, "8.0.0");
+assert.equal(build.release, "E8 Audit Finale e Release Stabile");
 assert.equal(pkg.scripts?.prebuild, undefined);
-console.log("FMED E7.2 Catalogo Canonico compatibility: OK");
+console.log("FMED E8 Catalogo Canonico compatibility: OK");

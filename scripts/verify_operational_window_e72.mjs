@@ -16,5 +16,5 @@ for (const marker of requiredDashboard) if (!dashboard.includes(marker)) throw n
 if (!app.includes("include_storico=${includeStorico")) throw new Error("Interventi non collegati alla finestra backend");
 if (!interventions.includes("_eccezione_collaudo") || !interventions.includes("_archivio_storico")) throw new Error("Etichette archivio/collaudo mancanti");
 if (!processes.includes("includeHistory") || !processes.includes("process-engine/esecuzioni?limit=300&include_storico=")) throw new Error("Archivio processi non collegato");
-if (!main.includes("e7-2-operational-window")) throw new Error("Cache frontend E7.2 non aggiornata");
+if (!main.includes("e8-audit-finale")) throw new Error("Cache frontend E7.2 non aggiornata");
 console.log("FMED E7.2 Finestra Operativa frontend: OK");

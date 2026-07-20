@@ -1,5 +1,6 @@
 import FmedModuleIcon from "./components/FmedModuleIcon.jsx";
 import CoreStandardPage from "./CoreStandardPage.jsx";
+import AuditFinalePage from "./AuditFinalePage.jsx";
 import "./ImpostazioniPage.css";
 
 const SETTINGS_SECTIONS = [
@@ -12,6 +13,11 @@ const SETTINGS_SECTIONS = [
     key: "MASTER_DATA",
     title: "Master Data",
     description: "Dizionari, relazioni e valori usati nei menu FMED.",
+  },
+  {
+    key: "AUDIT",
+    title: "Audit finale",
+    description: "Controllo E8 di sicurezza, dati, cicli, processi e rilascio.",
   },
 ];
 
@@ -60,6 +66,7 @@ export default function ImpostazioniPage({
         <nav className="fmed-settings-tabs" aria-label="Sezioni impostazioni">
           <button type="button" className={activeTab === "UTENTI" ? "active" : ""} onClick={() => onTabChange?.("UTENTI")}>Utenti e permessi</button>
           <button type="button" className={activeTab === "MASTER_DATA" ? "active" : ""} onClick={() => onTabChange?.("MASTER_DATA")}>Master Data</button>
+          <button type="button" className={activeTab === "AUDIT" ? "active" : ""} onClick={() => onTabChange?.("AUDIT")}>Audit finale</button>
         </nav>
       </>}
 
@@ -91,6 +98,11 @@ export default function ImpostazioniPage({
         canManage={canManage}
         onDataChanged={onDataChanged}
         initialTab="DIZIONARI"
+      />}
+
+      {activeTab === "AUDIT" && !dictionariesOnly && <AuditFinalePage
+        apiBaseUrl={apiBaseUrl}
+        canManage={canManage}
       />}
     </section>
   );

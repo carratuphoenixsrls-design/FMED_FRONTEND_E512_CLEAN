@@ -1,9 +1,9 @@
 {
   "product": "FMED Enterprise 1.0",
-  "release": "E7.2 Finestra Operativa e Archivio Storico",
-  "build": "FMED_ENTERPRISE_1_0_E7_2_OPERATIONAL_WINDOW_ARCHIVE_2026_07_20",
+  "release": "E8 Audit Finale e Release Stabile",
+  "build": "FMED_ENTERPRISE_1_0_E8_AUDIT_FINALE_RELEASE_STABILE_2026_07_20",
   "frontend": true,
-  "backend_required": "E7.2 or newer",
+  "backend_required": "E8 or newer",
   "features": [
     "Light Comfort",
     "SharePoint Sync",
@@ -15,9 +15,10 @@
     "Finestra operativa dal 01/01/2023",
     "Archivio storico non distruttivo",
     "Collaudi sempre visibili",
-    "Processi aperti sempre operativi",
-    "Alert collaudi protetti",
-    "Drill-down ed export operativo"
+    "Audit finale amministrativo",
+    "Hardening header di sicurezza",
+    "Readiness endpoint",
+    "Export report audit JSON"
   ],
-  "description": "Vista operativa dal 01/01/2023 a oggi con archivio storico, conservazione completa dei collaudi e protezione da falsi KPI o alert."
+  "description": "Release finale con audit non distruttivo di ruoli, sicurezza, dati, cicli, processi, Master Data e SharePoint."
 }

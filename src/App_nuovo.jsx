@@ -1,4 +1,4 @@
-/* FMED ENTERPRISE 1.0 · E7.2 FINESTRA OPERATIVA E ARCHIVIO STORICO · FRONTEND COMPLETO */
+/* FMED ENTERPRISE 1.0 · E8 AUDIT FINALE E RELEASE STABILE · FRONTEND COMPLETO */
 /*
   FMED CLEANUP 2026-06-25
   - Verifica JSX eseguita con esbuild: sintassi OK.
@@ -48,8 +48,8 @@ const API_BASE_URL = ENV_API_BASE_URL || (IS_LOCAL_FRONTEND ? "http://127.0.0.1:
 const API_BASE_CANDIDATES = [API_BASE_URL, ...(ENV_API_BASE_URL ? [] : IS_LOCAL_FRONTEND ? ["http://localhost:8000", "http://10.10.10.31:8000"] : [])].filter((value, index, array) => value && array.indexOf(value) === index);
 
 // Versione frontend visibile per evitare dubbi da cache, browser o PWA.
-const MRDB_APP_VERSION = "FMED_ENTERPRISE_1_0_E7_2_OPERATIONAL_WINDOW_ARCHIVE_2026_07_20";
-const MRDB_APP_BUILD_LABEL = "FMED ENTERPRISE 1.0 · E7.2 FINESTRA OPERATIVA E ARCHIVIO STORICO";
+const MRDB_APP_VERSION = "FMED_ENTERPRISE_1_0_E8_AUDIT_FINALE_RELEASE_STABILE_2026_07_20";
+const MRDB_APP_BUILD_LABEL = "FMED ENTERPRISE 1.0 · E8 AUDIT FINALE E RELEASE STABILE";
 // FMED PERFORMANCE SAFE MODE
 // Render progressivo degli elenchi lunghi: filtri/export restano completi, si alleggerisce solo il DOM visibile.
 const FMED_RENDER_BATCH_ASSET = 100;

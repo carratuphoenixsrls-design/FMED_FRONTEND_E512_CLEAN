@@ -1,0 +1,14 @@
+import fs from "node:fs";
+const app = fs.readFileSync("src/App_nuovo.jsx", "utf8");
+const settings = fs.readFileSync("src/ImpostazioniPage.jsx", "utf8");
+const audit = fs.readFileSync("src/AuditFinalePage.jsx", "utf8");
+const build = JSON.parse(fs.readFileSync("public/fmed-build.json", "utf8"));
+const pkg = JSON.parse(fs.readFileSync("package.json", "utf8"));
+const version = "FMED_ENTERPRISE_1_0_E8_AUDIT_FINALE_RELEASE_STABILE_2026_07_20";
+if (!app.includes(version)) throw new Error("Versione E8 assente in App_nuovo.jsx");
+if (!app.includes("FMED ENTERPRISE 1.0 · E8 AUDIT FINALE E RELEASE STABILE")) throw new Error("Build label E8 assente");
+if (!settings.includes('key: "AUDIT"')) throw new Error("Sezione Audit E8 assente");
+if (!audit.includes("Nessuna modifica al database")) throw new Error("Garanzia audit non distruttivo assente");
+if (build.build !== version) throw new Error("fmed-build.json non allineato a E8");
+if (pkg.version !== "8.0.0") throw new Error("package.json non allineato a E8");
+console.log("FMED E8 release finale: OK");
