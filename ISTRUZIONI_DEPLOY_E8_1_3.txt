@@ -1,0 +1,32 @@
+FMED ENTERPRISE 1.0 · E8.1.3 SCADENZE CESSATE E LAYOUT AUDIT
+FRONTEND COMPLETO PER VERCEL
+
+Pubblicare prima il backend E8.1.3 su Render.
+Poi caricare il CONTENUTO INTERNO di questo ZIP nella root del repository frontend.
+
+Root prevista:
+  package.json
+  package-lock.json
+  index.html
+  vite.config.js
+  vercel.json
+  src/
+  public/
+  scripts/
+
+Vercel:
+  Framework: Vite
+  Root Directory: ./
+  Install: npm ci --no-audit --no-fund
+  Build: npm run build
+  Output: dist
+
+Variabile:
+  VITE_API_BASE_URL=https://fmed-backend.onrender.com
+
+Versione attesa nella login:
+  FMED ENTERPRISE 1.0 · E8.1.3 SCADENZE CESSATE E LAYOUT AUDIT
+
+Uso nuova funzione:
+  Scadenze → filtra o seleziona scadute → Cessa selezionate.
+  Serve un motivo e una conferma. I record non vengono cancellati.
