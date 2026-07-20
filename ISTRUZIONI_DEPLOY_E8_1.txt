@@ -1,0 +1,8 @@
+FMED ENTERPRISE 1.0 · E8.1 OPERATIVO SEMPLIFICATO
+FRONTEND COMPLETO — ROOT VERCEL
+
+Caricare il contenuto interno dello ZIP nella root del repository frontend.
+Vercel: npm ci --no-audit --no-fund | npm run build | output dist
+Variabile: VITE_API_BASE_URL=https://fmed-backend.onrender.com
+Versione attesa: FMED ENTERPRISE 1.0 · E8.1 OPERATIVO SEMPLIFICATO
+Nessun SQL Supabase richiesto.
