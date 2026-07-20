@@ -1,0 +1,805 @@
+/*
+  FMED ENTERPRISE 1.0 · E8.1.2
+  AUDIT GRAFICO PROFESSIONALE
+  Base: E8.1 Operativo Semplificato.
+  Solo presentazione: nessuna modifica a dati, logiche, API o automazioni.
+*/
+
+/* ========================================================================== 
+   1. TOKENS — PALETTE SOBRIA, CLINICA E PROFESSIONALE
+   ========================================================================== */
+.fmed-app-root.fmed-e812-professional-ui,
+body[data-theme="light"] .fmed-app-root.fmed-e812-professional-ui {
+  --e812-canvas: #eef2ef;
+  --e812-canvas-deep: #e8eeea;
+  --e812-surface: #fbfcfa;
+  --e812-surface-strong: #ffffff;
+  --e812-surface-soft: #f4f7f4;
+  --e812-input: #ffffff;
+  --e812-text: #203330;
+  --e812-muted: #657570;
+  --e812-border: #d5dfda;
+  --e812-border-strong: #bccbc5;
+  --e812-brand: #176d69;
+  --e812-brand-strong: #105956;
+  --e812-brand-soft: rgba(23, 109, 105, .09);
+  --e812-info: #2e6f8e;
+  --e812-success: #27785f;
+  --e812-warning: #a87119;
+  --e812-danger: #a8454d;
+  --e812-secondary: #60727a;
+  --e812-radius-sm: 8px;
+  --e812-radius-md: 12px;
+  --e812-radius-lg: 16px;
+  --e812-shadow-sm: 0 3px 12px rgba(31, 57, 50, .045);
+  --e812-shadow-md: 0 10px 26px rgba(31, 57, 50, .075);
+  --e812-shadow-overlay: 0 24px 60px rgba(20, 45, 41, .18);
+  --e812-focus: 0 0 0 3px rgba(23, 109, 105, .16);
+
+  --fmed-bg: var(--e812-canvas) !important;
+  --fmed-card: var(--e812-surface) !important;
+  --fmed-card-strong: var(--e812-surface-strong) !important;
+  --fmed-soft: var(--e812-surface-soft) !important;
+  --fmed-input: var(--e812-input) !important;
+  --fmed-text: var(--e812-text) !important;
+  --fmed-muted: var(--e812-muted) !important;
+  --fmed-border: var(--e812-border) !important;
+  --fmed-border-strong: var(--e812-border-strong) !important;
+  --fmed-primary: var(--e812-brand) !important;
+  --fmed-primary-hover: var(--e812-brand-strong) !important;
+  --fmed-primary-soft: var(--e812-brand-soft) !important;
+  --fmed-success: var(--e812-success) !important;
+  --fmed-warning: var(--e812-warning) !important;
+  --fmed-danger: var(--e812-danger) !important;
+  --fmed-info: var(--e812-info) !important;
+  --fmed-shadow-sm: var(--e812-shadow-sm) !important;
+  --fmed-shadow-md: var(--e812-shadow-md) !important;
+  --fmed-main-bg: linear-gradient(180deg, var(--e812-canvas) 0%, #f2f5f2 100%) !important;
+  --fmed-surface: var(--e812-surface) !important;
+  --fmed-surface-raised: var(--e812-surface-strong) !important;
+  --fmed-input-surface: var(--e812-input) !important;
+  --fmed-text-primary: var(--e812-text) !important;
+  --fmed-text-secondary: var(--e812-muted) !important;
+  --fmed-line: var(--e812-border) !important;
+  --fmed-line-strong: var(--e812-border-strong) !important;
+  --fmed-brand: var(--e812-brand) !important;
+  --fmed-brand-hover: var(--e812-brand-strong) !important;
+}
+
+body[data-theme="dark"] .fmed-app-root.fmed-e812-professional-ui,
+.fmed-dark-mode.fmed-e812-professional-ui {
+  --e812-canvas: #0d181e;
+  --e812-canvas-deep: #0a141a;
+  --e812-surface: #15242b;
+  --e812-surface-strong: #192a32;
+  --e812-surface-soft: #1d3038;
+  --e812-input: #101d23;
+  --e812-text: #edf4f2;
+  --e812-muted: #a8b8b4;
+  --e812-border: #31454c;
+  --e812-border-strong: #455d64;
+  --e812-brand: #36b8b1;
+  --e812-brand-strong: #55cac4;
+  --e812-brand-soft: rgba(54, 184, 177, .14);
+  --e812-info: #72a7c6;
+  --e812-success: #58af87;
+  --e812-warning: #d5a24b;
+  --e812-danger: #df737b;
+  --e812-secondary: #90a4ab;
+  --e812-shadow-sm: 0 4px 15px rgba(0, 0, 0, .17);
+  --e812-shadow-md: 0 12px 30px rgba(0, 0, 0, .23);
+  --e812-shadow-overlay: 0 28px 66px rgba(0, 0, 0, .38);
+  --e812-focus: 0 0 0 3px rgba(54, 184, 177, .20);
+
+  --fmed-bg: var(--e812-canvas) !important;
+  --fmed-card: var(--e812-surface) !important;
+  --fmed-card-strong: var(--e812-surface-strong) !important;
+  --fmed-soft: var(--e812-surface-soft) !important;
+  --fmed-input: var(--e812-input) !important;
+  --fmed-text: var(--e812-text) !important;
+  --fmed-muted: var(--e812-muted) !important;
+  --fmed-border: var(--e812-border) !important;
+  --fmed-border-strong: var(--e812-border-strong) !important;
+  --fmed-primary: var(--e812-brand) !important;
+  --fmed-primary-hover: var(--e812-brand-strong) !important;
+  --fmed-primary-soft: var(--e812-brand-soft) !important;
+  --fmed-success: var(--e812-success) !important;
+  --fmed-warning: var(--e812-warning) !important;
+  --fmed-danger: var(--e812-danger) !important;
+  --fmed-info: var(--e812-info) !important;
+  --fmed-shadow-sm: var(--e812-shadow-sm) !important;
+  --fmed-shadow-md: var(--e812-shadow-md) !important;
+  --fmed-main-bg: linear-gradient(180deg, var(--e812-canvas-deep) 0%, var(--e812-canvas) 100%) !important;
+  --fmed-surface: var(--e812-surface) !important;
+  --fmed-surface-raised: var(--e812-surface-strong) !important;
+  --fmed-input-surface: var(--e812-input) !important;
+  --fmed-text-primary: var(--e812-text) !important;
+  --fmed-text-secondary: var(--e812-muted) !important;
+  --fmed-line: var(--e812-border) !important;
+  --fmed-line-strong: var(--e812-border-strong) !important;
+  --fmed-brand: var(--e812-brand) !important;
+  --fmed-brand-hover: var(--e812-brand-strong) !important;
+}
+
+body[data-theme="light"],
+body[data-theme="light"] #root,
+body[data-theme="dark"],
+body[data-theme="dark"] #root {
+  background: var(--e812-canvas, #eef2ef) !important;
+}
+
+/* ========================================================================== 
+   2. SHELL E NAVIGAZIONE — DIMENSIONI E ALLINEAMENTI STABILI
+   ========================================================================== */
+.fmed-app-root.fmed-e812-professional-ui {
+  color: var(--e812-text) !important;
+  background: var(--fmed-main-bg) !important;
+}
+
+.fmed-app-root.fmed-e812-professional-ui .fmed-main-content {
+  min-width: 0 !important;
+  padding: clamp(18px, 1.75vw, 28px) clamp(18px, 2vw, 32px) 40px !important;
+  background: transparent !important;
+}
+
+.fmed-app-root.fmed-e812-professional-ui aside.fmed-side-rail.is-expanded,
+.fmed-app-root.fmed-e812-professional-ui aside.fmed-side-rail:not(.is-collapsed) {
+  width: 244px !important;
+  min-width: 244px !important;
+  padding: 14px 12px !important;
+  border-right: 1px solid rgba(255, 255, 255, .10) !important;
+  background: #164f57 !important;
+  box-shadow: 8px 0 24px rgba(18, 54, 58, .09) !important;
+}
+
+.fmed-app-root.fmed-e812-professional-ui aside.fmed-side-rail.is-collapsed {
+  width: 72px !important;
+  min-width: 72px !important;
+  padding-inline: 9px !important;
+}
+
+.fmed-app-root.fmed-e812-professional-ui .fmed-sidebar-logo-lockup {
+  min-height: 68px !important;
+  padding: 8px 7px 12px !important;
+  gap: 10px !important;
+}
+
+.fmed-app-root.fmed-e812-professional-ui .fmed-sidebar-logo-mark {
+  width: 42px !important;
+  height: 42px !important;
+  min-width: 42px !important;
+  border: 1px solid rgba(255, 255, 255, .18) !important;
+  border-radius: 12px !important;
+  background: rgba(255, 255, 255, .10) !important;
+  color: #fff !important;
+  box-shadow: none !important;
+}
+
+.fmed-app-root.fmed-e812-professional-ui .fmed-sidebar-logo-title {
+  font-size: 22px !important;
+  letter-spacing: .09em !important;
+  color: #fff !important;
+  -webkit-text-fill-color: #fff !important;
+}
+
+.fmed-app-root.fmed-e812-professional-ui .fmed-sidebar-logo-subtitle,
+.fmed-app-root.fmed-e812-professional-ui .fmed-sidebar-logo-byline {
+  color: rgba(239, 249, 248, .72) !important;
+  -webkit-text-fill-color: rgba(239, 249, 248, .72) !important;
+}
+
+.fmed-app-root.fmed-e812-professional-ui aside.fmed-side-rail nav {
+  gap: 5px !important;
+  padding: 7px 0 10px !important;
+}
+
+.fmed-app-root.fmed-e812-professional-ui aside.fmed-side-rail .fmed-side-menu-btn {
+  min-height: 42px !important;
+  height: 42px !important;
+  padding: 0 10px !important;
+  gap: 10px !important;
+  border: 1px solid transparent !important;
+  border-radius: 10px !important;
+  background: transparent !important;
+  color: rgba(241, 249, 248, .80) !important;
+  -webkit-text-fill-color: rgba(241, 249, 248, .80) !important;
+  box-shadow: none !important;
+  transform: none !important;
+}
+
+.fmed-app-root.fmed-e812-professional-ui aside.fmed-side-rail .fmed-side-menu-btn:hover {
+  border-color: rgba(255, 255, 255, .10) !important;
+  background: rgba(255, 255, 255, .07) !important;
+  color: #fff !important;
+  -webkit-text-fill-color: #fff !important;
+}
+
+.fmed-app-root.fmed-e812-professional-ui aside.fmed-side-rail .fmed-side-menu-btn.is-active,
+.fmed-app-root.fmed-e812-professional-ui aside.fmed-side-rail .fmed-side-menu-btn[aria-current="page"] {
+  border-color: rgba(255, 255, 255, .16) !important;
+  background: rgba(255, 255, 255, .13) !important;
+  color: #fff !important;
+  -webkit-text-fill-color: #fff !important;
+  box-shadow: inset 3px 0 0 #8fd4cd !important;
+}
+
+.fmed-app-root.fmed-e812-professional-ui aside.fmed-side-rail .fmed-side-menu-btn > span:first-child {
+  width: 29px !important;
+  height: 29px !important;
+  min-width: 29px !important;
+  border: 0 !important;
+  border-radius: 8px !important;
+  background: rgba(255, 255, 255, .08) !important;
+}
+
+.fmed-app-root.fmed-e812-professional-ui .fmed-sidebar-controls {
+  gap: 6px !important;
+}
+
+.fmed-app-root.fmed-e812-professional-ui .fmed-sidebar-control-btn {
+  min-height: 36px !important;
+  border: 1px solid rgba(255, 255, 255, .11) !important;
+  border-radius: 9px !important;
+  background: rgba(255, 255, 255, .055) !important;
+  color: rgba(245, 251, 250, .84) !important;
+  -webkit-text-fill-color: rgba(245, 251, 250, .84) !important;
+  box-shadow: none !important;
+}
+
+/* ========================================================================== 
+   3. GERARCHIA, HERO E TITOLI — PIÙ COMPATTI, NON DECORATIVI
+   ========================================================================== */
+.fmed-app-root.fmed-e812-professional-ui .fmed-module-hero,
+.fmed-app-root.fmed-e812-professional-ui .fmed-costi-hero,
+.fmed-app-root.fmed-e812-professional-ui .fmed-sharepoint-hero,
+.fmed-app-root.fmed-e812-professional-ui .fmed-report-hero,
+.fmed-app-root.fmed-e812-professional-ui .fmed-process-head,
+.fmed-app-root.fmed-e812-professional-ui .fmed-settings-head,
+.fmed-app-root.fmed-e812-professional-ui .core-standard-head,
+.fmed-app-root.fmed-e812-professional-ui .s8108-page-head,
+.fmed-app-root.fmed-e812-professional-ui .fmed-wizard-head,
+.fmed-app-root.fmed-e812-professional-ui .fmed-e71-header {
+  min-height: 98px !important;
+  padding: 18px 20px !important;
+  border: 1px solid var(--e812-border) !important;
+  border-radius: var(--e812-radius-lg) !important;
+  background: var(--e812-surface) !important;
+  color: var(--e812-text) !important;
+  box-shadow: var(--e812-shadow-sm) !important;
+}
+
+.fmed-app-root.fmed-e812-professional-ui .fmed-module-hero {
+  grid-template-columns: minmax(0, 1fr) minmax(160px, 190px) !important;
+  gap: 20px !important;
+}
+
+.fmed-app-root.fmed-e812-professional-ui .fmed-module-icon,
+.fmed-app-root.fmed-e812-professional-ui .fmed-dashboard-title-icon {
+  width: 46px !important;
+  height: 46px !important;
+  min-width: 46px !important;
+  flex-basis: 46px !important;
+  border: 0 !important;
+  border-radius: 13px !important;
+  background: var(--e812-brand-soft) !important;
+  color: var(--e812-brand) !important;
+  -webkit-text-fill-color: var(--e812-brand) !important;
+  box-shadow: none !important;
+}
+
+.fmed-app-root.fmed-e812-professional-ui .fmed-module-hero-title,
+.fmed-app-root.fmed-e812-professional-ui .fmed-costi-title,
+.fmed-app-root.fmed-e812-professional-ui .fmed-sharepoint-hero h2,
+.fmed-app-root.fmed-e812-professional-ui .fmed-report-hero h2,
+.fmed-app-root.fmed-e812-professional-ui .fmed-process-head h2,
+.fmed-app-root.fmed-e812-professional-ui .fmed-settings-head h2,
+.fmed-app-root.fmed-e812-professional-ui .core-standard-head h2,
+.fmed-app-root.fmed-e812-professional-ui .s8108-page-head h1,
+.fmed-app-root.fmed-e812-professional-ui .fmed-wizard-head h2,
+.fmed-app-root.fmed-e812-professional-ui .fmed-e71-title h2 {
+  color: var(--e812-text) !important;
+  -webkit-text-fill-color: var(--e812-text) !important;
+  font-size: clamp(24px, 1.75vw, 31px) !important;
+  line-height: 1.12 !important;
+  letter-spacing: -.025em !important;
+}
+
+.fmed-app-root.fmed-e812-professional-ui .fmed-module-hero-subtitle,
+.fmed-app-root.fmed-e812-professional-ui .fmed-costi-hero p,
+.fmed-app-root.fmed-e812-professional-ui .fmed-sharepoint-hero p,
+.fmed-app-root.fmed-e812-professional-ui .fmed-report-hero p,
+.fmed-app-root.fmed-e812-professional-ui .fmed-process-head p,
+.fmed-app-root.fmed-e812-professional-ui .fmed-settings-head p,
+.fmed-app-root.fmed-e812-professional-ui .core-standard-head p,
+.fmed-app-root.fmed-e812-professional-ui .s8108-page-head p,
+.fmed-app-root.fmed-e812-professional-ui .fmed-wizard-head p,
+.fmed-app-root.fmed-e812-professional-ui .fmed-e71-title p {
+  color: var(--e812-muted) !important;
+  -webkit-text-fill-color: var(--e812-muted) !important;
+  font-size: 13px !important;
+  line-height: 1.48 !important;
+}
+
+.fmed-app-root.fmed-e812-professional-ui .fmed-module-hero-eyebrow,
+.fmed-app-root.fmed-e812-professional-ui .fmed-costi-kicker,
+.fmed-app-root.fmed-e812-professional-ui .fmed-module-kicker,
+.fmed-app-root.fmed-e812-professional-ui .fmed-process-kicker,
+.fmed-app-root.fmed-e812-professional-ui .core-standard-kicker,
+.fmed-app-root.fmed-e812-professional-ui .s8108-eyebrow {
+  color: var(--e812-brand) !important;
+  -webkit-text-fill-color: var(--e812-brand) !important;
+  font-size: 10px !important;
+  font-weight: 800 !important;
+  letter-spacing: .065em !important;
+}
+
+.fmed-app-root.fmed-e812-professional-ui .fmed-module-hero-metric {
+  min-height: 78px !important;
+  padding: 12px 14px !important;
+  border: 1px solid var(--e812-border) !important;
+  border-radius: 12px !important;
+  background: var(--e812-surface-soft) !important;
+  color: var(--e812-text) !important;
+  box-shadow: none !important;
+}
+
+.fmed-app-root.fmed-e812-professional-ui .fmed-module-hero-metric-value {
+  color: var(--e812-brand) !important;
+  -webkit-text-fill-color: var(--e812-brand) !important;
+  font-size: clamp(27px, 2vw, 34px) !important;
+}
+
+.fmed-app-root.fmed-e812-professional-ui .fmed-module-hero-metric-label,
+.fmed-app-root.fmed-e812-professional-ui .fmed-module-hero-metric-sub {
+  color: var(--e812-muted) !important;
+  -webkit-text-fill-color: var(--e812-muted) !important;
+  letter-spacing: 0 !important;
+  text-transform: none !important;
+}
+
+/* Accenti modulo: limitati all'icona e alla linea, non all'intera superficie. */
+.fmed-app-root.fmed-e812-professional-ui .fmed-module-hero-asset { border-left: 4px solid #4e7899 !important; }
+.fmed-app-root.fmed-e812-professional-ui .fmed-module-hero-interventi { border-left: 4px solid var(--e812-brand) !important; }
+.fmed-app-root.fmed-e812-professional-ui .fmed-module-hero-scadenze { border-left: 4px solid var(--e812-warning) !important; }
+.fmed-app-root.fmed-e812-professional-ui .fmed-module-hero-infrastrutture { border-left: 4px solid var(--e812-success) !important; }
+.fmed-app-root.fmed-e812-professional-ui .s8108-page-head { border-left: 4px solid #72658a !important; }
+
+.fmed-app-root.fmed-e812-professional-ui .fmed-module-hero-asset .fmed-module-icon { color: #4e7899 !important; -webkit-text-fill-color: #4e7899 !important; background: rgba(78, 120, 153, .10) !important; }
+.fmed-app-root.fmed-e812-professional-ui .fmed-module-hero-scadenze .fmed-module-icon { color: var(--e812-warning) !important; -webkit-text-fill-color: var(--e812-warning) !important; background: rgba(168, 113, 25, .10) !important; }
+.fmed-app-root.fmed-e812-professional-ui .fmed-module-hero-infrastrutture .fmed-module-icon { color: var(--e812-success) !important; -webkit-text-fill-color: var(--e812-success) !important; background: rgba(39, 120, 95, .10) !important; }
+.fmed-app-root.fmed-e812-professional-ui .s8108-page-head .fmed-module-icon { color: #72658a !important; -webkit-text-fill-color: #72658a !important; background: rgba(114, 101, 138, .10) !important; }
+
+/* ========================================================================== 
+   4. DASHBOARD — PROPORZIONI, KPI E AZIONI RAPIDE
+   ========================================================================== */
+.fmed-app-root.fmed-e812-professional-ui .fmed-e81-dashboard {
+  gap: 15px !important;
+}
+
+.fmed-app-root.fmed-e812-professional-ui .fmed-e81-header {
+  min-height: 96px !important;
+}
+
+.fmed-app-root.fmed-e812-professional-ui .fmed-e71-header-actions {
+  gap: 8px !important;
+}
+
+.fmed-app-root.fmed-e812-professional-ui .fmed-e71-live {
+  min-height: 36px !important;
+  padding: 0 11px !important;
+  border: 1px solid var(--e812-border) !important;
+  background: var(--e812-surface-soft) !important;
+  color: var(--e812-muted) !important;
+}
+
+.fmed-app-root.fmed-e812-professional-ui .fmed-e81-automation-strip {
+  padding: 13px 15px !important;
+  border: 1px solid rgba(39, 120, 95, .25) !important;
+  border-radius: 12px !important;
+  background: rgba(39, 120, 95, .055) !important;
+  box-shadow: none !important;
+}
+
+.fmed-app-root.fmed-e812-professional-ui .fmed-e81-quick-actions,
+.fmed-app-root.fmed-e812-professional-ui .fmed-e71-quick-actions {
+  grid-template-columns: repeat(3, minmax(175px, 1fr)) !important;
+  gap: 10px !important;
+}
+
+.fmed-app-root.fmed-e812-professional-ui .fmed-e71-quick-actions button {
+  min-height: 68px !important;
+  padding: 12px 14px !important;
+  border: 1px solid var(--e812-border) !important;
+  border-radius: 12px !important;
+  background: var(--e812-surface) !important;
+  color: var(--e812-text) !important;
+  box-shadow: var(--e812-shadow-sm) !important;
+  transform: none !important;
+}
+
+.fmed-app-root.fmed-e812-professional-ui .fmed-e71-quick-actions button:hover {
+  border-color: var(--e812-border-strong) !important;
+  background: var(--e812-surface-strong) !important;
+  box-shadow: var(--e812-shadow-md) !important;
+  transform: translateY(-1px) !important;
+}
+
+.fmed-app-root.fmed-e812-professional-ui .fmed-e71-quick-actions i {
+  width: 36px !important;
+  height: 36px !important;
+  flex: 0 0 36px !important;
+  border-radius: 10px !important;
+  background: var(--e812-brand-soft) !important;
+  color: var(--e812-brand) !important;
+}
+
+.fmed-app-root.fmed-e812-professional-ui .fmed-e81-section-head h3 {
+  font-size: 19px !important;
+}
+
+.fmed-app-root.fmed-e812-professional-ui .fmed-e81-kpi-grid,
+.fmed-app-root.fmed-e812-professional-ui .fmed-e71-kpi-grid {
+  grid-template-columns: repeat(3, minmax(210px, 1fr)) !important;
+  gap: 11px !important;
+}
+
+.fmed-app-root.fmed-e812-professional-ui .fmed-e71-kpi {
+  min-height: 104px !important;
+  padding: 15px 16px !important;
+  border: 1px solid var(--e812-border) !important;
+  border-top: 3px solid var(--kpi-tone) !important;
+  border-radius: 13px !important;
+  background: var(--e812-surface) !important;
+  color: var(--e812-text) !important;
+  box-shadow: var(--e812-shadow-sm) !important;
+  transform: none !important;
+}
+
+.fmed-app-root.fmed-e812-professional-ui .fmed-e71-kpi::after {
+  display: none !important;
+}
+
+.fmed-app-root.fmed-e812-professional-ui .fmed-e71-kpi:hover {
+  border-color: color-mix(in srgb, var(--kpi-tone) 45%, var(--e812-border)) !important;
+  box-shadow: var(--e812-shadow-md) !important;
+  transform: translateY(-1px) !important;
+}
+
+.fmed-app-root.fmed-e812-professional-ui .fmed-e71-kpi-icon {
+  width: 40px !important;
+  height: 40px !important;
+  flex: 0 0 40px !important;
+  border-radius: 11px !important;
+  background: color-mix(in srgb, var(--kpi-tone) 10%, transparent) !important;
+}
+
+.fmed-app-root.fmed-e812-professional-ui .fmed-e71-kpi-copy strong {
+  font-size: clamp(28px, 2vw, 34px) !important;
+}
+
+.fmed-app-root.fmed-e812-professional-ui .fmed-e71-kpi-copy small {
+  font-size: 12.5px !important;
+}
+
+.fmed-app-root.fmed-e812-professional-ui .fmed-e81-operational-grid {
+  gap: 12px !important;
+}
+
+/* ========================================================================== 
+   5. CARD, PANNELLI, STRUMENTI E MODALI
+   ========================================================================== */
+.fmed-app-root.fmed-e812-professional-ui .fmed-e71-panel,
+.fmed-app-root.fmed-e812-professional-ui .fmed-e81-advanced,
+.fmed-app-root.fmed-e812-professional-ui .fmed-e81-tool-grid button,
+.fmed-app-root.fmed-e812-professional-ui .fmed-e81-auto-card,
+.fmed-app-root.fmed-e812-professional-ui .fmed-costi-controls,
+.fmed-app-root.fmed-e812-professional-ui .fmed-costi-summary,
+.fmed-app-root.fmed-e812-professional-ui .fmed-sharepoint-controls,
+.fmed-app-root.fmed-e812-professional-ui .fmed-sharepoint-table-wrap,
+.fmed-app-root.fmed-e812-professional-ui .fmed-process-card,
+.fmed-app-root.fmed-e812-professional-ui .fmed-process-history,
+.fmed-app-root.fmed-e812-professional-ui .core-toolbar,
+.fmed-app-root.fmed-e812-professional-ui .core-dictionary-list,
+.fmed-app-root.fmed-e812-professional-ui .core-dictionary-panel,
+.fmed-app-root.fmed-e812-professional-ui .core-relations-panel,
+.fmed-app-root.fmed-e812-professional-ui .fmed-settings-users,
+.fmed-app-root.fmed-e812-professional-ui .fmed-settings-tabs,
+.fmed-app-root.fmed-e812-professional-ui .s8108-panel,
+.fmed-app-root.fmed-e812-professional-ui .s8108-kpi-grid article,
+.fmed-app-root.fmed-e812-professional-ui .s8108-site-card {
+  border: 1px solid var(--e812-border) !important;
+  border-radius: 14px !important;
+  background: var(--e812-surface) !important;
+  color: var(--e812-text) !important;
+  box-shadow: var(--e812-shadow-sm) !important;
+}
+
+.fmed-app-root.fmed-e812-professional-ui .fmed-e81-advanced {
+  padding: 16px !important;
+}
+
+.fmed-app-root.fmed-e812-professional-ui .fmed-e81-tool-grid {
+  grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+  gap: 10px !important;
+}
+
+.fmed-app-root.fmed-e812-professional-ui .fmed-e81-tool-grid button {
+  min-height: 82px !important;
+  padding: 13px !important;
+  transform: none !important;
+}
+
+.fmed-app-root.fmed-e812-professional-ui .fmed-e81-tool-grid button:hover {
+  border-color: var(--e812-border-strong) !important;
+  box-shadow: var(--e812-shadow-md) !important;
+  transform: translateY(-1px) !important;
+}
+
+.fmed-app-root.fmed-e812-professional-ui .fmed-e81-tool-grid i {
+  width: 38px !important;
+  height: 38px !important;
+  flex: 0 0 38px !important;
+  border-radius: 10px !important;
+  background: var(--e812-brand-soft) !important;
+  color: var(--e812-brand) !important;
+}
+
+.fmed-app-root.fmed-e812-professional-ui .fmed-e71-drawer-backdrop,
+.fmed-app-root.fmed-e812-professional-ui [class*="modalBackdrop"],
+.fmed-app-root.fmed-e812-professional-ui [class*="modal-backdrop"] {
+  background: rgba(13, 31, 33, .48) !important;
+  backdrop-filter: blur(3px) !important;
+}
+
+.fmed-app-root.fmed-e812-professional-ui .fmed-e71-drawer,
+.fmed-app-root.fmed-e812-professional-ui [class*="modalContent"],
+.fmed-app-root.fmed-e812-professional-ui [class*="modal-content"] {
+  border-color: var(--e812-border) !important;
+  background: var(--e812-surface-strong) !important;
+  box-shadow: var(--e812-shadow-overlay) !important;
+}
+
+/* ========================================================================== 
+   6. CONTROLLI, FORM E BOTTONI — DENSITÀ COERENTE
+   ========================================================================== */
+.fmed-app-root.fmed-e812-professional-ui input,
+.fmed-app-root.fmed-e812-professional-ui select,
+.fmed-app-root.fmed-e812-professional-ui textarea {
+  min-height: 42px !important;
+  border: 1px solid var(--e812-border-strong) !important;
+  border-radius: 10px !important;
+  background: var(--e812-input) !important;
+  color: var(--e812-text) !important;
+  box-shadow: none !important;
+}
+
+.fmed-app-root.fmed-e812-professional-ui input:hover,
+.fmed-app-root.fmed-e812-professional-ui select:hover,
+.fmed-app-root.fmed-e812-professional-ui textarea:hover {
+  border-color: color-mix(in srgb, var(--e812-brand) 34%, var(--e812-border-strong)) !important;
+}
+
+.fmed-app-root.fmed-e812-professional-ui input:focus,
+.fmed-app-root.fmed-e812-professional-ui select:focus,
+.fmed-app-root.fmed-e812-professional-ui textarea:focus {
+  border-color: var(--e812-brand) !important;
+  box-shadow: var(--e812-focus) !important;
+}
+
+.fmed-app-root.fmed-e812-professional-ui button:not(.fmed-side-menu-btn):not(.fmed-sidebar-control-btn) {
+  border-radius: 10px !important;
+}
+
+.fmed-app-root.fmed-e812-professional-ui .fmed-e71-button-primary,
+.fmed-app-root.fmed-e812-professional-ui .fmed-ui-button:not(.secondary):not(.ghost):not(.danger),
+.fmed-app-root.fmed-e812-professional-ui .core-primary-button,
+.fmed-app-root.fmed-e812-professional-ui .fmed-wizard-actions button:not(.secondary) {
+  border-color: var(--e812-brand) !important;
+  background: var(--e812-brand) !important;
+  color: #fff !important;
+  box-shadow: none !important;
+}
+
+.fmed-app-root.fmed-e812-professional-ui .fmed-e71-button-primary:hover,
+.fmed-app-root.fmed-e812-professional-ui .fmed-ui-button:not(.secondary):not(.ghost):not(.danger):hover,
+.fmed-app-root.fmed-e812-professional-ui .core-primary-button:hover,
+.fmed-app-root.fmed-e812-professional-ui .fmed-wizard-actions button:not(.secondary):hover {
+  border-color: var(--e812-brand-strong) !important;
+  background: var(--e812-brand-strong) !important;
+  box-shadow: 0 5px 14px rgba(23, 109, 105, .15) !important;
+}
+
+.fmed-app-root.fmed-e812-professional-ui .fmed-e71-button-secondary,
+.fmed-app-root.fmed-e812-professional-ui .fmed-ui-button.secondary,
+.fmed-app-root.fmed-e812-professional-ui .fmed-ui-button.ghost,
+.fmed-app-root.fmed-e812-professional-ui .fmed-wizard-actions button.secondary {
+  border-color: var(--e812-border) !important;
+  background: var(--e812-surface-strong) !important;
+  color: var(--e812-text) !important;
+  box-shadow: none !important;
+}
+
+.fmed-app-root.fmed-e812-professional-ui button:focus-visible,
+.fmed-app-root.fmed-e812-professional-ui a:focus-visible,
+.fmed-app-root.fmed-e812-professional-ui input:focus-visible,
+.fmed-app-root.fmed-e812-professional-ui select:focus-visible,
+.fmed-app-root.fmed-e812-professional-ui textarea:focus-visible {
+  outline: 0 !important;
+  box-shadow: var(--e812-focus) !important;
+}
+
+/* ========================================================================== 
+   7. TABELLE E LISTE — PIÙ LEGGIBILI, MENO PESANTI
+   ========================================================================== */
+.fmed-app-root.fmed-e812-professional-ui table {
+  border-collapse: separate !important;
+  border-spacing: 0 !important;
+  font-size: 12.5px !important;
+}
+
+.fmed-app-root.fmed-e812-professional-ui thead th {
+  min-height: 42px !important;
+  padding: 11px 12px !important;
+  border-top: 1px solid var(--e812-border) !important;
+  border-bottom: 1px solid var(--e812-border) !important;
+  background: var(--e812-surface-soft) !important;
+  color: var(--e812-muted) !important;
+  font-size: 10.5px !important;
+  font-weight: 800 !important;
+  letter-spacing: .04em !important;
+}
+
+.fmed-app-root.fmed-e812-professional-ui tbody td {
+  min-height: 48px !important;
+  padding: 11px 12px !important;
+  border-bottom: 1px solid color-mix(in srgb, var(--e812-border) 76%, transparent) !important;
+  background: var(--e812-surface) !important;
+  color: var(--e812-text) !important;
+}
+
+.fmed-app-root.fmed-e812-professional-ui tbody tr:hover td {
+  background: color-mix(in srgb, var(--e812-brand) 3.5%, var(--e812-surface)) !important;
+}
+
+.fmed-app-root.fmed-e812-professional-ui table th:first-child { border-top-left-radius: 10px !important; }
+.fmed-app-root.fmed-e812-professional-ui table th:last-child { border-top-right-radius: 10px !important; }
+
+/* ========================================================================== 
+   8. LOGIN — RIFINITURA SOBRIA E COERENTE
+   ========================================================================== */
+.fmed-e812-login.fmed-login-page {
+  background: linear-gradient(145deg, #e9efeb 0%, #f5f7f4 58%, #edf2ef 100%) !important;
+  color: #203330 !important;
+}
+
+body[data-theme="dark"] .fmed-e812-login.fmed-login-page {
+  background: linear-gradient(145deg, #0b161c 0%, #102027 62%, #0c191f 100%) !important;
+  color: #edf4f2 !important;
+}
+
+.fmed-e812-login .fmed-login-card {
+  width: min(460px, calc(100vw - 36px)) !important;
+  padding: clamp(28px, 4vw, 42px) !important;
+  border: 1px solid rgba(188, 203, 197, .92) !important;
+  border-radius: 18px !important;
+  background: rgba(255, 255, 255, .94) !important;
+  box-shadow: 0 24px 64px rgba(34, 61, 54, .13) !important;
+  backdrop-filter: blur(8px) !important;
+}
+
+body[data-theme="dark"] .fmed-e812-login .fmed-login-card {
+  border-color: #334950 !important;
+  background: rgba(21, 36, 43, .95) !important;
+  box-shadow: 0 28px 70px rgba(0, 0, 0, .35) !important;
+}
+
+.fmed-e812-login .fmed-login-kicker {
+  color: #176d69 !important;
+  -webkit-text-fill-color: #176d69 !important;
+  letter-spacing: .09em !important;
+}
+
+body[data-theme="dark"] .fmed-e812-login .fmed-login-kicker {
+  color: #55cac4 !important;
+  -webkit-text-fill-color: #55cac4 !important;
+}
+
+.fmed-e812-login .fmed-login-title {
+  margin-bottom: 10px !important;
+  font-size: clamp(30px, 4vw, 38px) !important;
+  line-height: 1.08 !important;
+  letter-spacing: -.035em !important;
+}
+
+.fmed-e812-login .fmed-login-subtitle {
+  max-width: 390px !important;
+  margin-bottom: 24px !important;
+  line-height: 1.55 !important;
+}
+
+.fmed-e812-login .fmed-login-form {
+  gap: 10px !important;
+}
+
+.fmed-e812-login .fmed-login-form input {
+  min-height: 46px !important;
+  border-radius: 10px !important;
+}
+
+.fmed-e812-login .fmed-login-submit {
+  min-height: 46px !important;
+  border-radius: 10px !important;
+  background: #176d69 !important;
+  box-shadow: none !important;
+}
+
+.fmed-e812-login .fmed-login-submit:hover:not(:disabled) {
+  background: #105956 !important;
+  box-shadow: 0 6px 16px rgba(23, 109, 105, .18) !important;
+}
+
+.fmed-e812-login .fmed-login-theme-toggle {
+  border-radius: 9px !important;
+}
+
+/* ========================================================================== 
+   9. RESPONSIVE — DESKTOP, NOTEBOOK E TABLET
+   ========================================================================== */
+@media (max-width: 1380px) {
+  .fmed-app-root.fmed-e812-professional-ui .fmed-e81-quick-actions,
+  .fmed-app-root.fmed-e812-professional-ui .fmed-e71-quick-actions {
+    grid-template-columns: repeat(3, minmax(155px, 1fr)) !important;
+  }
+  .fmed-app-root.fmed-e812-professional-ui .fmed-e81-kpi-grid,
+  .fmed-app-root.fmed-e812-professional-ui .fmed-e71-kpi-grid {
+    grid-template-columns: repeat(3, minmax(190px, 1fr)) !important;
+  }
+}
+
+@media (max-width: 1120px) {
+  .fmed-app-root.fmed-e812-professional-ui .fmed-e81-quick-actions,
+  .fmed-app-root.fmed-e812-professional-ui .fmed-e71-quick-actions,
+  .fmed-app-root.fmed-e812-professional-ui .fmed-e81-kpi-grid,
+  .fmed-app-root.fmed-e812-professional-ui .fmed-e71-kpi-grid {
+    grid-template-columns: repeat(2, minmax(180px, 1fr)) !important;
+  }
+  .fmed-app-root.fmed-e812-professional-ui .fmed-e81-tool-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  }
+}
+
+@media (max-width: 900px) {
+  .fmed-app-root.fmed-e812-professional-ui .fmed-module-hero {
+    grid-template-columns: 1fr !important;
+  }
+  .fmed-app-root.fmed-e812-professional-ui .fmed-module-hero-metric {
+    min-height: 70px !important;
+  }
+  .fmed-app-root.fmed-e812-professional-ui .fmed-main-content {
+    padding-inline: 16px !important;
+  }
+}
+
+@media (max-width: 680px) {
+  .fmed-app-root.fmed-e812-professional-ui .fmed-e81-quick-actions,
+  .fmed-app-root.fmed-e812-professional-ui .fmed-e71-quick-actions,
+  .fmed-app-root.fmed-e812-professional-ui .fmed-e81-kpi-grid,
+  .fmed-app-root.fmed-e812-professional-ui .fmed-e71-kpi-grid,
+  .fmed-app-root.fmed-e812-professional-ui .fmed-e81-tool-grid {
+    grid-template-columns: 1fr !important;
+  }
+  .fmed-app-root.fmed-e812-professional-ui .fmed-e71-header-actions {
+    width: 100% !important;
+  }
+  .fmed-app-root.fmed-e812-professional-ui .fmed-e71-header-actions > * {
+    flex: 1 1 auto !important;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .fmed-app-root.fmed-e812-professional-ui *,
+  .fmed-e812-login * {
+    transition: none !important;
+    animation: none !important;
+  }
+}

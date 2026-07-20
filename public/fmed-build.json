@@ -1,27 +1,19 @@
 {
   "product": "FMED Enterprise 1.0",
-  "release": "E8.1.1 Audit Grafico e Visual Polish",
-  "build": "FMED_ENTERPRISE_1_0_E8_1_1_AUDIT_GRAFICO_VISUAL_POLISH_2026_07_20",
+  "release": "E8.1.2 Audit Grafico Professionale",
+  "build": "FMED_ENTERPRISE_1_0_E8_1_2_AUDIT_GRAFICO_PROFESSIONALE_2026_07_20",
   "frontend": true,
   "backend_required": "E8.1 or newer",
   "features": [
-    "Sidebar operativa ridotta",
-    "Dashboard orientata alle attività da fare",
-    "Analisi avanzate nascoste di default",
-    "Strumenti secondari raccolti in un’unica area",
-    "Motore Cicli automatico",
-    "Catalogo Canonico automatico",
-    "Process Engine dietro le quinte",
-    "Finestra operativa dal 01/01/2023",
-    "Collaudi sempre visibili",
-    "Audit finale disponibile",
-    "Palette semantica più ricca e coerente",
-    "Proporzioni dashboard e KPI riequilibrate",
-    "Sidebar compatta e colorata per area",
-    "Hero distinti per Asset, Interventi, Scadenze, Infrastrutture e 81/08",
-    "Tabelle, form e modali uniformati",
-    "Light e Dark Mode rifinite",
-    "Frontend only: logiche e backend invariati"
+    "Base funzionale E8.1 invariata",
+    "Palette professionale petrolio e neutri caldi",
+    "Colori semantici limitati a stato e priorità",
+    "Dashboard riproporzionata e leggibile",
+    "Sidebar e navigazione uniformate",
+    "Tabelle e form con densità operativa coerente",
+    "Light e Dark Mode riequilibrate",
+    "Accessibilità focus e contrasto migliorati",
+    "Nessuna modifica a backend, Supabase o automazioni"
   ],
-  "description": "Audit grafico completo del frontend E8.1 con miglioramento autonomo di proporzioni, posizioni, dimensioni, colori, leggibilità e coerenza visiva."
+  "description": "Rifinitura grafica professionale e sobria della E8.1, senza modifiche a funzioni, dati, API o automazioni."
 }

@@ -115,7 +115,7 @@ export default function DashboardPage({
     { label: "Sicurezza 81/08", action: () => setPagina("Sicurezza 81/08"), icon: "81" },
   ];
 
-  return <div className="fmed-dashboard-page fmed-e71-dashboard fmed-e81-dashboard" data-fmed-dashboard="E8.1.1">
+  return <div className="fmed-dashboard-page fmed-e71-dashboard fmed-e81-dashboard" data-fmed-dashboard="E8.1">
     <header className="fmed-e71-header fmed-e81-header">
       <div className="fmed-e71-title"><FmedModuleIcon module="Dashboard" className="fmed-dashboard-title-icon" /><div><h2>FMED operativo</h2><p>Cosa richiede attenzione e cosa devi fare oggi</p></div></div>
       <div className="fmed-e71-header-actions">
