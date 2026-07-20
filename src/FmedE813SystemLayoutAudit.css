@@ -1,0 +1,288 @@
+/*
+  FMED ENTERPRISE 1.0 · E8.1.3
+  Audit completo di proporzioni, testi e pagine.
+  Layer finale conservativo: corregge gerarchie e dimensioni senza cambiare logiche.
+*/
+
+.fmed-app-root.fmed-e813-layout-audit {
+  --e813-page-gap: clamp(12px, 1.15vw, 18px);
+  --e813-section-gap: clamp(10px, .9vw, 15px);
+  --e813-control-height: 40px;
+  --e813-table-text: 12px;
+  --e813-body-text: 14px;
+  --e813-small-text: 12px;
+  font-size: var(--e813-body-text) !important;
+  line-height: 1.45 !important;
+}
+
+.fmed-app-root.fmed-e813-layout-audit .fmed-main-content {
+  width: 100% !important;
+  min-width: 0 !important;
+  padding: clamp(14px, 1.45vw, 24px) clamp(14px, 1.7vw, 28px) 36px !important;
+}
+
+/* Gerarchia titoli coerente in tutte le pagine */
+.fmed-app-root.fmed-e813-layout-audit .fmed-module-hero,
+.fmed-app-root.fmed-e813-layout-audit .fmed-costi-hero,
+.fmed-app-root.fmed-e813-layout-audit .fmed-sharepoint-hero,
+.fmed-app-root.fmed-e813-layout-audit .fmed-report-hero,
+.fmed-app-root.fmed-e813-layout-audit .fmed-process-head,
+.fmed-app-root.fmed-e813-layout-audit .fmed-settings-head,
+.fmed-app-root.fmed-e813-layout-audit .core-standard-head,
+.fmed-app-root.fmed-e813-layout-audit .s8108-page-head,
+.fmed-app-root.fmed-e813-layout-audit .fmed-wizard-head,
+.fmed-app-root.fmed-e813-layout-audit .fmed-e71-header {
+  min-height: 0 !important;
+  padding: clamp(18px, 1.6vw, 24px) !important;
+  gap: clamp(12px, 1.2vw, 18px) !important;
+  border-radius: 15px !important;
+}
+
+.fmed-app-root.fmed-e813-layout-audit .fmed-module-hero-title,
+.fmed-app-root.fmed-e813-layout-audit .fmed-costi-title,
+.fmed-app-root.fmed-e813-layout-audit .fmed-sharepoint-hero h2,
+.fmed-app-root.fmed-e813-layout-audit .fmed-report-hero h2,
+.fmed-app-root.fmed-e813-layout-audit .fmed-process-head h2,
+.fmed-app-root.fmed-e813-layout-audit .fmed-settings-head h2,
+.fmed-app-root.fmed-e813-layout-audit .core-standard-head h2,
+.fmed-app-root.fmed-e813-layout-audit .s8108-page-head h1,
+.fmed-app-root.fmed-e813-layout-audit .fmed-wizard-head h2,
+.fmed-app-root.fmed-e813-layout-audit .fmed-e71-title h2 {
+  margin: 0 !important;
+  max-width: 100% !important;
+  font-size: clamp(26px, 2.15vw, 36px) !important;
+  line-height: 1.08 !important;
+  letter-spacing: -.025em !important;
+  overflow-wrap: anywhere !important;
+}
+
+.fmed-app-root.fmed-e813-layout-audit .fmed-module-hero-subtitle,
+.fmed-app-root.fmed-e813-layout-audit .fmed-costi-hero p,
+.fmed-app-root.fmed-e813-layout-audit .fmed-sharepoint-hero p,
+.fmed-app-root.fmed-e813-layout-audit .fmed-report-hero p,
+.fmed-app-root.fmed-e813-layout-audit .fmed-process-head p,
+.fmed-app-root.fmed-e813-layout-audit .fmed-settings-head p,
+.fmed-app-root.fmed-e813-layout-audit .core-standard-head p,
+.fmed-app-root.fmed-e813-layout-audit .s8108-page-head p,
+.fmed-app-root.fmed-e813-layout-audit .fmed-wizard-head p,
+.fmed-app-root.fmed-e813-layout-audit .fmed-e71-title p {
+  max-width: 92ch !important;
+  margin: 7px 0 0 !important;
+  font-size: 13px !important;
+  line-height: 1.5 !important;
+  font-weight: 600 !important;
+  letter-spacing: .015em !important;
+}
+
+.fmed-app-root.fmed-e813-layout-audit h3,
+.fmed-app-root.fmed-e813-layout-audit .fmed-section-title {
+  font-size: clamp(17px, 1.35vw, 21px) !important;
+  line-height: 1.2 !important;
+  letter-spacing: -.012em !important;
+}
+
+/* Card, pannelli e griglie: proporzioni uniformi */
+.fmed-app-root.fmed-e813-layout-audit .fmed-module-hero + *,
+.fmed-app-root.fmed-e813-layout-audit .fmed-e81-dashboard > *,
+.fmed-app-root.fmed-e813-layout-audit .fmed-scadenze-enterprise > * {
+  margin-top: var(--e813-page-gap) !important;
+}
+
+.fmed-app-root.fmed-e813-layout-audit .fmed-e71-kpi-grid,
+.fmed-app-root.fmed-e813-layout-audit .fmed-e81-kpi-grid,
+.fmed-app-root.fmed-e813-layout-audit [class*="KpiGrid"],
+.fmed-app-root.fmed-e813-layout-audit [class*="kpi-grid"] {
+  grid-template-columns: repeat(auto-fit, minmax(178px, 1fr)) !important;
+  gap: 12px !important;
+}
+
+.fmed-app-root.fmed-e813-layout-audit [class*="KpiCard"],
+.fmed-app-root.fmed-e813-layout-audit [class*="kpi-card"],
+.fmed-app-root.fmed-e813-layout-audit .fmed-e71-kpi,
+.fmed-app-root.fmed-e813-layout-audit .fmed-e81-kpi {
+  min-width: 0 !important;
+  min-height: 92px !important;
+  padding: 14px 15px !important;
+  border-radius: 13px !important;
+}
+
+.fmed-app-root.fmed-e813-layout-audit [class*="KpiValue"],
+.fmed-app-root.fmed-e813-layout-audit [class*="kpi-value"],
+.fmed-app-root.fmed-e813-layout-audit .fmed-e71-kpi strong,
+.fmed-app-root.fmed-e813-layout-audit .fmed-e81-kpi strong {
+  font-size: clamp(25px, 2vw, 32px) !important;
+  line-height: 1 !important;
+}
+
+.fmed-app-root.fmed-e813-layout-audit [class*="KpiLabel"],
+.fmed-app-root.fmed-e813-layout-audit [class*="KpiHint"],
+.fmed-app-root.fmed-e813-layout-audit [class*="kpi-label"],
+.fmed-app-root.fmed-e813-layout-audit [class*="kpi-hint"] {
+  font-size: 11px !important;
+  line-height: 1.35 !important;
+  letter-spacing: .035em !important;
+}
+
+/* Moduli, filtri e controlli */
+.fmed-app-root.fmed-e813-layout-audit input,
+.fmed-app-root.fmed-e813-layout-audit select,
+.fmed-app-root.fmed-e813-layout-audit textarea,
+.fmed-app-root.fmed-e813-layout-audit button {
+  font-family: inherit !important;
+  font-size: 13px !important;
+}
+
+.fmed-app-root.fmed-e813-layout-audit input:not([type="checkbox"]):not([type="radio"]),
+.fmed-app-root.fmed-e813-layout-audit select,
+.fmed-app-root.fmed-e813-layout-audit button {
+  min-height: var(--e813-control-height) !important;
+}
+
+.fmed-app-root.fmed-e813-layout-audit textarea {
+  min-height: 92px !important;
+  line-height: 1.45 !important;
+}
+
+.fmed-app-root.fmed-e813-layout-audit label,
+.fmed-app-root.fmed-e813-layout-audit [class*="Label"] {
+  line-height: 1.35 !important;
+}
+
+.fmed-app-root.fmed-e813-layout-audit .fmed-scadenze-enterprise [style*="grid-template-columns"],
+.fmed-app-root.fmed-e813-layout-audit .fmed-form-grid,
+.fmed-app-root.fmed-e813-layout-audit .fmed-filter-grid {
+  column-gap: 10px !important;
+  row-gap: 10px !important;
+}
+
+.fmed-app-root.fmed-e813-layout-audit .fmed-scadenze-enterprise .fmed-module-hero-metric {
+  min-width: 132px !important;
+  padding: 12px 15px !important;
+}
+
+/* Tabelle leggibili e stabili */
+.fmed-app-root.fmed-e813-layout-audit table {
+  width: 100% !important;
+  border-collapse: separate !important;
+  border-spacing: 0 !important;
+  font-size: var(--e813-table-text) !important;
+}
+
+.fmed-app-root.fmed-e813-layout-audit th {
+  padding: 10px 11px !important;
+  font-size: 10.5px !important;
+  line-height: 1.3 !important;
+  letter-spacing: .055em !important;
+  white-space: nowrap !important;
+}
+
+.fmed-app-root.fmed-e813-layout-audit td {
+  padding: 10px 11px !important;
+  font-size: var(--e813-table-text) !important;
+  line-height: 1.4 !important;
+  vertical-align: middle !important;
+}
+
+.fmed-app-root.fmed-e813-layout-audit td button,
+.fmed-app-root.fmed-e813-layout-audit td input,
+.fmed-app-root.fmed-e813-layout-audit td select {
+  min-height: 32px !important;
+}
+
+/* Finestre e overlay */
+.fmed-app-root.fmed-e813-layout-audit [role="dialog"],
+.fmed-app-root.fmed-e813-layout-audit .fmed-modal,
+.fmed-app-root.fmed-e813-layout-audit .fmed-dialog {
+  max-width: min(940px, calc(100vw - 32px)) !important;
+  max-height: calc(100vh - 32px) !important;
+}
+
+/* Nuova gestione cessazione scadenze */
+.fmed-app-root.fmed-e813-layout-audit .fmed-e813-select-expired {
+  border-color: color-mix(in srgb, var(--e812-warning) 38%, var(--e812-border)) !important;
+  color: var(--e812-warning) !important;
+  -webkit-text-fill-color: var(--e812-warning) !important;
+  background: color-mix(in srgb, var(--e812-warning) 7%, var(--e812-surface)) !important;
+}
+
+.fmed-app-root.fmed-e813-layout-audit .fmed-e813-cessa-action {
+  min-height: 40px !important;
+  padding: 0 14px !important;
+  border: 1px solid color-mix(in srgb, var(--e812-danger) 38%, var(--e812-border)) !important;
+  border-radius: 9px !important;
+  background: color-mix(in srgb, var(--e812-danger) 9%, var(--e812-surface)) !important;
+  color: var(--e812-danger) !important;
+  -webkit-text-fill-color: var(--e812-danger) !important;
+  font-weight: 700 !important;
+  cursor: pointer !important;
+}
+
+.fmed-app-root.fmed-e813-layout-audit .fmed-e813-cessa-action:hover:not(:disabled) {
+  background: color-mix(in srgb, var(--e812-danger) 15%, var(--e812-surface)) !important;
+}
+
+.fmed-app-root.fmed-e813-layout-audit .fmed-e813-cessa-action:disabled {
+  opacity: .48 !important;
+  cursor: not-allowed !important;
+}
+
+.fmed-app-root.fmed-e813-layout-audit .fmed-e813-closure-help,
+.fmed-app-root.fmed-e813-layout-audit .fmed-e813-closure-message {
+  margin-top: 10px !important;
+  padding: 11px 13px !important;
+  border: 1px solid var(--e812-border) !important;
+  border-radius: 10px !important;
+  background: var(--e812-surface-soft) !important;
+  color: var(--e812-muted) !important;
+  font-size: 12px !important;
+  line-height: 1.45 !important;
+}
+
+.fmed-app-root.fmed-e813-layout-audit .fmed-e813-closure-message {
+  border-color: color-mix(in srgb, var(--e812-brand) 30%, var(--e812-border)) !important;
+  background: color-mix(in srgb, var(--e812-brand) 7%, var(--e812-surface)) !important;
+  color: var(--e812-text) !important;
+}
+
+/* Desktop ridotto e tablet: nessun testo schiacciato */
+@media (max-width: 1180px) {
+  .fmed-app-root.fmed-e813-layout-audit .fmed-main-content {
+    padding-inline: 14px !important;
+  }
+
+  .fmed-app-root.fmed-e813-layout-audit .fmed-module-hero-title,
+  .fmed-app-root.fmed-e813-layout-audit .fmed-e71-title h2 {
+    font-size: clamp(24px, 3vw, 31px) !important;
+  }
+
+  .fmed-app-root.fmed-e813-layout-audit [class*="KpiGrid"],
+  .fmed-app-root.fmed-e813-layout-audit [class*="kpi-grid"] {
+    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)) !important;
+  }
+}
+
+@media (max-width: 760px) {
+  .fmed-app-root.fmed-e813-layout-audit {
+    --e813-control-height: 44px;
+    --e813-table-text: 11.5px;
+  }
+
+  .fmed-app-root.fmed-e813-layout-audit .fmed-main-content {
+    padding: 10px 10px 28px !important;
+  }
+
+  .fmed-app-root.fmed-e813-layout-audit .fmed-module-hero,
+  .fmed-app-root.fmed-e813-layout-audit .fmed-e71-header,
+  .fmed-app-root.fmed-e813-layout-audit .s8108-page-head {
+    padding: 16px !important;
+  }
+
+  .fmed-app-root.fmed-e813-layout-audit .fmed-module-hero-title,
+  .fmed-app-root.fmed-e813-layout-audit .fmed-e71-title h2 {
+    font-size: 25px !important;
+  }
+
+  .fmed-app-root.fmed-e813-layout-audit table {
+    min-width: 860px !important;
+  }
+}
