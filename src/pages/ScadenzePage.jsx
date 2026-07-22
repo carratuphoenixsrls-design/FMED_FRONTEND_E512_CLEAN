@@ -16,6 +16,7 @@ export default function ScadenzePage(props) {
     scadenzeSelezionateExport,
     statoScadenza,
     toggleScadenzaExport,
+    chiudiScadenzaSingolaComeSostituita,
     apriSchedaDaCodice,
     normalizzaSocietaDitta,
     formattaData,
@@ -81,7 +82,7 @@ export default function ScadenzePage(props) {
             <table style={styles.scadenzeTable}>
               <thead>
                 <tr>
-                  <th style={styles.scadenzeTh}>Sel.</th><th style={styles.scadenzeTh}>Modulo</th><th style={styles.scadenzeTh}>Elemento</th><th style={styles.scadenzeTh}>Sede</th><th style={styles.scadenzeTh}>Ambito</th><th style={styles.scadenzeTh}>Famiglia attività</th><th style={styles.scadenzeTh}>Ditta / ente</th><th style={styles.scadenzeTh}>Ultima esecuzione</th><th style={styles.scadenzeTh}>Prossima scadenza</th><th style={styles.scadenzeTh}>Giorni</th><th style={styles.scadenzeTh}>Stato</th>
+                  <th style={styles.scadenzeTh}>Sel.</th><th style={styles.scadenzeTh}>Modulo</th><th style={styles.scadenzeTh}>Elemento</th><th style={styles.scadenzeTh}>Sede</th><th style={styles.scadenzeTh}>Ambito</th><th style={styles.scadenzeTh}>Famiglia attività</th><th style={styles.scadenzeTh}>Ditta / ente</th><th style={styles.scadenzeTh}>Ultima esecuzione</th><th style={styles.scadenzeTh}>Prossima scadenza</th><th style={styles.scadenzeTh}>Giorni</th><th style={styles.scadenzeTh}>Stato</th><th style={styles.scadenzeTh}>Azione</th>
                 </tr>
               </thead>
               <tbody>
@@ -107,6 +108,27 @@ export default function ScadenzePage(props) {
                         ...styles.scadenzeStatusDot,
                         background: stato.colore
                       }} />{stato.testo}</td>
+                      <td style={styles.scadenzeTd} onClick={(event) => event.stopPropagation()}>
+                        {stato.codice === "SCADUTA" && typeof chiudiScadenzaSingolaComeSostituita === "function" ? <button
+                          type="button"
+                          onClick={() => chiudiScadenzaSingolaComeSostituita(s)}
+                          style={{
+                            minHeight: 32,
+                            padding: "0 10px",
+                            borderRadius: 9,
+                            border: "1px solid #B8C7D1",
+                            background: "#F4F7F9",
+                            color: "#334E5C",
+                            fontSize: 11,
+                            fontWeight: 800,
+                            whiteSpace: "nowrap",
+                            cursor: "pointer",
+                          }}
+                          title="Archivia il vecchio ciclo come chiuso e sostituito"
+                        >
+                          Chiudi e sostituisci
+                        </button> : <span style={{color: "var(--fmed-muted)"}}>—</span>}
+                      </td>
                     </tr>;
                 })}
               </tbody>

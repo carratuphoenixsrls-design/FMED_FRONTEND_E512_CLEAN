@@ -2538,15 +2538,85 @@ const styles = {
     border: "1px solid var(--fmed-border)",
     borderRadius: "14px",
     background: "var(--fmed-card-gradient)",
-    minHeight: "86px",
+    minHeight: "138px",
     display: "flex",
     flexDirection: "column",
     alignItems: "center",
     justifyContent: "center",
-    gap: "8px",
+    gap: "7px",
+    padding: "16px 12px",
     textAlign: "center",
     color: "var(--fmed-text)",
-    fontSize: "15px"
+    fontSize: "15px",
+    transition: "transform .18s ease, box-shadow .18s ease"
+  },
+  predictivePanel: {
+    background: "linear-gradient(180deg, rgba(255,255,255,.98) 0%, rgba(246,250,252,.98) 100%)",
+    borderWidth: "1px",
+    borderStyle: "solid"
+  },
+  predictiveHeader: {
+    display: "flex",
+    alignItems: "flex-start",
+    justifyContent: "space-between",
+    gap: "12px",
+    marginBottom: "14px",
+    flexWrap: "wrap"
+  },
+  predictiveSubtitle: {
+    fontSize: "12px",
+    lineHeight: 1.4,
+    color: "var(--fmed-muted)",
+    maxWidth: "460px"
+  },
+  predictiveSummaryPill: {
+    minHeight: "30px",
+    padding: "6px 10px",
+    borderRadius: "999px",
+    fontSize: "11px",
+    lineHeight: 1.2,
+    fontWeight: 600,
+    letterSpacing: ".03em",
+    textTransform: "uppercase",
+    whiteSpace: "nowrap"
+  },
+  predictiveIcon: {
+    width: "36px",
+    height: "36px",
+    borderRadius: "12px",
+    display: "inline-flex",
+    alignItems: "center",
+    justifyContent: "center",
+    fontSize: "17px"
+  },
+  predictiveMetricLabel: {
+    fontSize: "11px",
+    lineHeight: 1.2,
+    color: "var(--fmed-muted)",
+    fontWeight: 600,
+    letterSpacing: ".06em",
+    textTransform: "uppercase"
+  },
+  predictiveMetricHint: {
+    fontSize: "10.5px",
+    lineHeight: 1.25,
+    color: "var(--fmed-muted)"
+  },
+  predictiveProgressTrack: {
+    width: "78%",
+    maxWidth: "150px",
+    height: "7px",
+    borderRadius: "999px",
+    overflow: "hidden",
+    background: "rgba(15,23,42,.10)",
+    marginTop: "2px"
+  },
+  predictiveProgressFill: {
+    display: "block",
+    height: "100%",
+    borderRadius: "inherit",
+    minWidth: "4px",
+    transition: "width .25s ease"
   },
   dashboardIntroCompact: {
     minHeight: "auto",
@@ -2618,6 +2688,21 @@ const styles = {
     fontWeight: 400,
     boxShadow: "0 6px 14px rgba(0,31,91,.04)",
     overflowWrap: "anywhere"
+  },
+  recommendationBoxInfo: {
+    background: "linear-gradient(180deg,#F5FAFF 0%,#EFF8FF 100%)",
+    borderColor: "#B2DDFF",
+    boxShadow: "inset 4px 0 0 #2E90FA"
+  },
+  recommendationBoxTechnical: {
+    background: "linear-gradient(180deg,#F9F5FF 0%,#F4EBFF 100%)",
+    borderColor: "#D6BBFB",
+    boxShadow: "inset 4px 0 0 #9E77ED"
+  },
+  recommendationBoxCalculation: {
+    background: "linear-gradient(180deg,#FFFAEB 0%,#FEF0C7 100%)",
+    borderColor: "#FEDF89",
+    boxShadow: "inset 4px 0 0 #F79009"
   },
   recommendationBoxCompact: {
     border: "1px solid var(--fmed-border)",

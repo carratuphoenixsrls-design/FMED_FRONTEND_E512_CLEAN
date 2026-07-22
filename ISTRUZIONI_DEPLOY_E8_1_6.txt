@@ -1,0 +1,8 @@
+FMED ENTERPRISE 1.0 · E8.1.6 ANALISI PREDITTIVA E CHIUSURA STORICO
+
+FRONTEND VERCEL
+Caricare il contenuto interno dello ZIP nella root del repository frontend.
+Pubblicare prima il backend E8.1.6.
+Non eseguire SQL.
+Versione attesa nella login:
+FMED ENTERPRISE 1.0 · E8.1.6 ANALISI PREDITTIVA E CHIUSURA STORICO

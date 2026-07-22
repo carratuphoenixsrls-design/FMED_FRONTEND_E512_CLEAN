@@ -1,4 +1,4 @@
-/* FMED ENTERPRISE 1.0 · E8.1 OPERATIVO SEMPLIFICATO · FRONTEND COMPLETO */
+/* FMED ENTERPRISE 1.0 · E8.1.3 SCADENZE CESSATE E AUDIT PROPORZIONI · FRONTEND COMPLETO */
 /*
   FMED CLEANUP 2026-06-25
   - Verifica JSX eseguita con esbuild: sintassi OK.
@@ -48,8 +48,8 @@ const API_BASE_URL = ENV_API_BASE_URL || (IS_LOCAL_FRONTEND ? "http://127.0.0.1:
 const API_BASE_CANDIDATES = [API_BASE_URL, ...(ENV_API_BASE_URL ? [] : IS_LOCAL_FRONTEND ? ["http://localhost:8000", "http://10.10.10.31:8000"] : [])].filter((value, index, array) => value && array.indexOf(value) === index);
 
 // Versione frontend visibile per evitare dubbi da cache, browser o PWA.
-const MRDB_APP_VERSION = "FMED_ENTERPRISE_1_0_E8_1_OPERATIVO_SEMPLIFICATO_2026_07_20";
-const MRDB_APP_BUILD_LABEL = "FMED ENTERPRISE 1.0 · E8.1 OPERATIVO SEMPLIFICATO";
+const MRDB_APP_VERSION = "FMED_ENTERPRISE_1_0_E8_1_6_ANALISI_PREDITTIVA_CHIUSURA_STORICO_2026_07_22";
+const MRDB_APP_BUILD_LABEL = "FMED ENTERPRISE 1.0 · E8.1.6 ANALISI PREDITTIVA E CHIUSURA STORICO";
 // FMED PERFORMANCE SAFE MODE
 // Render progressivo degli elenchi lunghi: filtri/export restano completi, si alleggerisce solo il DOM visibile.
 const FMED_RENDER_BATCH_ASSET = 100;
@@ -1477,6 +1477,9 @@ function AppNuovoCore({
   const [filtroScadenzeProssimaA, setFiltroScadenzeProssimaA] = useState("");
   const [ordineScadenze, setOrdineScadenze] = useState("SCADENZA_ASC");
   const [scadenzeSelezionateExport, setScadenzeSelezionateExport] = useState([]);
+  const [cessazioneScadenzeLoading, setCessazioneScadenzeLoading] = useState(false);
+  const [messaggioCessazioneScadenze, setMessaggioCessazioneScadenze] = useState("");
+  const [statoChiusuraScadenze, setStatoChiusuraScadenze] = useState("SOSTITUITA");
   const [infrastrutture, setInfrastrutture] = useState(SCADENZIARIO_INFRASTRUTTURE_AXA);
       const [infrastruttureLoaded, setInfrastruttureLoaded] = useState(false);
   const [infrastruttureLoading, setInfrastruttureLoading] = useState(false);
@@ -3266,6 +3269,83 @@ function AppNuovoCore({
   const scadenzeSelezionateVisualizzate = scadenzeVisualizzate.filter(s => scadenzeSelezionateExport.includes(chiaveScadenzaExport(s)));
   function selezionaTutteScadenzeVisualizzate() {
     setScadenzeSelezionateExport(chiaviScadenzeVisualizzate);
+    setMessaggioCessazioneScadenze("");
+  }
+  function selezionaTutteScadenzeScadute() {
+    const chiaviScadute = scadenzeVisualizzate
+      .filter((row) => row?._statoScadenza?.codice === "SCADUTA")
+      .map((row) => chiaveScadenzaExport(row));
+    setScadenzeSelezionateExport(chiaviScadute);
+    setScadenzeElencoAperto(true);
+    setMessaggioCessazioneScadenze(
+      chiaviScadute.length
+        ? `Selezionate ${chiaviScadute.length} scadenze scadute visibili.`
+        : "Nessuna scadenza scaduta presente nei filtri attuali."
+    );
+  }
+  async function cessaScadenzeSelezionate(statoOverride = "", righeOverride = null) {
+    if (ruoloFmed !== "Admin") {
+      setMessaggioCessazioneScadenze("La chiusura delle attività è riservata all’Admin.");
+      return;
+    }
+    const selezionate = Array.isArray(righeOverride)
+      ? righeOverride
+      : scadenzeConStatoBase.filter((row) =>
+          scadenzeSelezionateExport.includes(chiaveScadenzaExport(row))
+        );
+    const scadute = selezionate.filter((row) => row?._statoScadenza?.codice === "SCADUTA");
+    if (!scadute.length) {
+      setMessaggioCessazioneScadenze("Seleziona almeno una scadenza realmente scaduta.");
+      return;
+    }
+    const statoFinale = ["SOSTITUITA", "CESSATA"].includes(statoOverride)
+      ? statoOverride
+      : statoChiusuraScadenze;
+    const etichettaStato = statoFinale === "SOSTITUITA" ? "Chiusa e sostituita" : "Cessata / non più applicabile";
+    const motivoPredefinito = statoFinale === "SOSTITUITA"
+      ? "Attività storica già sostituita da una registrazione successiva"
+      : "Attività non più applicabile all'operatività corrente";
+    const motivo = window.prompt(
+      `Motivo della chiusura come “${etichettaStato}”. Il testo resterà nello storico e nell’audit.`,
+      motivoPredefinito
+    );
+    if (!motivo || motivo.trim().length < 5) return;
+    const confermata = window.confirm(
+      `Stai per impostare ${scadute.length} scadenze come “${etichettaStato}”. Non verranno cancellate e non compariranno più tra i cicli attivi, nei KPI o negli alert. Procedere?`
+    );
+    if (!confermata) return;
+    setCessazioneScadenzeLoading(true);
+    setMessaggioCessazioneScadenze("Chiusura controllata in corso…");
+    try {
+      const risposta = await chiamataApiAutenticataFmed("/cicli-unificati/cessa", {
+        method: "POST",
+        body: JSON.stringify({
+          cicli: scadute.map((row) => ({
+            modulo: row.modulo,
+            record_id: row.record_id,
+            famiglia_codice: row.famiglia_codice,
+            ciclo_chiave: row.ciclo_chiave,
+          })),
+          motivo: motivo.trim(),
+          stato_finale: statoFinale,
+          conferma: "CESSA_SCADENZE",
+        }),
+      });
+      setMessaggioCessazioneScadenze(
+        `${risposta?.messaggio || "Operazione completata"}${risposta?.non_trovate_o_non_attive ? ` Non più attive: ${risposta.non_trovate_o_non_attive}.` : ""}`
+      );
+      setScadenzeSelezionateExport([]);
+      setScadenzeLoaded(false);
+      await caricaScadenzeOnDemand({ force: true });
+    } catch (error) {
+      setMessaggioCessazioneScadenze(`Chiusura non completata: ${error?.message || error}`);
+    } finally {
+      setCessazioneScadenzeLoading(false);
+    }
+  }
+  function chiudiScadenzaSingolaComeSostituita(row) {
+    if (!row || row?._statoScadenza?.codice !== "SCADUTA") return;
+    return cessaScadenzeSelezionate("SOSTITUITA", [row]);
   }
   function deselezionaTutteScadenze() {
     setScadenzeSelezionateExport([]);
@@ -6543,30 +6623,44 @@ ${messaggio}`);
     const v = String(valore || "").toUpperCase();
     if (v.includes("ROSSO") || v.includes("ALTO") || v.includes("CRITICA")) {
       return {
-        background: "#FFE3E3",
-        color: "var(--fmed-danger-text)",
-        border: "1px solid #FDA29B"
+        background: "#FFF1F0",
+        color: "#B42318",
+        border: "1px solid #FDA29B",
+        accent: "#D92D20",
+        soft: "rgba(217,45,32,.12)"
       };
     }
     if (v.includes("GIALLO") || v.includes("MEDIO") || v.includes("ATTENZIONE")) {
       return {
-        background: "var(--fmed-alert-gold-bg)",
+        background: "#FFF8E6",
         color: "#9A6700",
-        border: "1px solid #FEC84B"
+        border: "1px solid #FEC84B",
+        accent: "#F79009",
+        soft: "rgba(247,144,9,.14)"
       };
     }
     if (v.includes("VERDE") || v.includes("BASSO") || v.includes("OK")) {
       return {
-        background: "#DFF8EA",
+        background: "#ECFDF3",
         color: "#027A48",
-        border: "1px solid #75E0A7"
+        border: "1px solid #75E0A7",
+        accent: "#12B76A",
+        soft: "rgba(18,183,106,.13)"
       };
     }
     return {
-      background: "#EEF3EA",
-      color: "#0E1B42",
-      border: "1px solid #C7DDF5"
+      background: "#F2F7FA",
+      color: "#123B52",
+      border: "1px solid #B8D6E5",
+      accent: "#2E7D91",
+      soft: "rgba(46,125,145,.12)"
     };
+  }
+  function colorePunteggioPredittivo(valore) {
+    const score = Math.max(0, Math.min(100, Number(valore || 0)));
+    if (score >= 70) return { color: "#B42318", accent: "#D92D20", soft: "#FFF1F0", border: "#FDA29B" };
+    if (score >= 40) return { color: "#9A6700", accent: "#F79009", soft: "#FFF8E6", border: "#FEC84B" };
+    return { color: "#027A48", accent: "#12B76A", soft: "#ECFDF3", border: "#75E0A7" };
   }
     const storicoCespiteOrdinato = (Array.isArray(interventiCespite) ? [...interventiCespite] : []).sort((a, b) => {
     const dataA = parseDataFMED(a.data_ultimo_intervento || a.data_prossimo_intervento) || new Date(0);
@@ -6956,6 +7050,9 @@ ${messaggio}`);
     return <svg {...common}><circle cx="12" cy="12" r="8" stroke={stroke} strokeWidth={sw} /></svg>;
   }
 
+  const scadenzeScaduteVisibiliCount = scadenzeVisualizzate.filter((row) => row?._statoScadenza?.codice === "SCADUTA").length;
+  const scadenzeScaduteSelezionateCount = scadenzeSelezionateVisualizzate.filter((row) => row?._statoScadenza?.codice === "SCADUTA").length;
+
   function renderFmedBrandMark(compact = false) {
     const size = compact ? 34 : 42;
     return <svg className="fmed-brand-symbol" width={size} height={size} viewBox="0 0 48 48" fill="none" aria-hidden="true">
@@ -6968,7 +7065,7 @@ ${messaggio}`);
     </svg>;
   }
 
-  return <div data-fmed-build={MRDB_APP_VERSION} className={darkMode ? "fmed-app-root fmed-dark-mode" : "fmed-app-root fmed-light-mode"} style={{
+  return <div data-fmed-build={MRDB_APP_VERSION} className={darkMode ? "fmed-app-root fmed-dark-mode fmed-e812-professional-ui fmed-e813-layout-audit" : "fmed-app-root fmed-light-mode fmed-e812-professional-ui fmed-e813-layout-audit"} style={{
     ...styles.app,
     ...(darkMode ? styles.themeDarkVars : styles.themeLightVars),
     ...{}
@@ -7120,6 +7217,96 @@ ${messaggio}`);
       ...{}
     }}>
         {/* Ogni modulo usa una sola intestazione dedicata: rimosso il banner globale duplicato. */}
+
+        {paginaScadenzeAttiva && <section
+          className="fmed-e814-expired-toolbar"
+          role="region"
+          aria-label="Gestione scadenze obsolete"
+          style={{
+            position: "sticky",
+            top: 12,
+            zIndex: 80,
+            display: "flex",
+            flexWrap: "wrap",
+            alignItems: "center",
+            justifyContent: "space-between",
+            gap: 12,
+            marginBottom: 14,
+            padding: "12px 14px",
+            border: "1px solid color-mix(in srgb, var(--fmed-border) 88%, #D99A00)",
+            borderRadius: 14,
+            background: "color-mix(in srgb, var(--fmed-surface) 96%, #FFF4D6)",
+            boxShadow: "0 10px 28px rgba(17, 45, 58, .10)",
+          }}
+        >
+          <div style={{ minWidth: 250, flex: "1 1 360px" }}>
+            <div style={{ fontSize: 12, fontWeight: 850, letterSpacing: ".06em", textTransform: "uppercase", color: "var(--fmed-muted)" }}>
+              Gestione scadenze obsolete
+            </div>
+            <div style={{ marginTop: 3, fontSize: 14, lineHeight: 1.45, color: "var(--fmed-text)" }}>
+              <strong>{scadenzeScaduteVisibiliCount}</strong> scadenze scadute visibili · <strong>{scadenzeScaduteSelezionateCount}</strong> scadute selezionate.
+              Le attività chiuse restano nello storico ma non compaiono più nei cicli attivi, nei KPI o negli alert.
+            </div>
+            {messaggioCessazioneScadenze && <div role="status" style={{ marginTop: 7, fontSize: 13, fontWeight: 700, color: "var(--fmed-text)" }}>
+              {messaggioCessazioneScadenze}
+            </div>}
+          </div>
+          <div style={{ display: "flex", flexWrap: "wrap", alignItems: "center", justifyContent: "flex-end", gap: 9 }}>
+            {ruoloFmed === "Admin" && <select
+              value={statoChiusuraScadenze}
+              onChange={(event) => setStatoChiusuraScadenze(event.target.value)}
+              aria-label="Stato finale delle scadenze selezionate"
+              style={{
+                minHeight: 40,
+                padding: "0 34px 0 12px",
+                border: "1px solid var(--fmed-border)",
+                borderRadius: 10,
+                background: "var(--fmed-surface)",
+                color: "var(--fmed-text)",
+                fontWeight: 750,
+              }}
+            >
+              <option value="SOSTITUITA">Chiusa e sostituita</option>
+              <option value="CESSATA">Cessata / non applicabile</option>
+            </select>}
+            <button
+              type="button"
+              onClick={selezionaTutteScadenzeScadute}
+              style={{
+                minHeight: 40,
+                padding: "0 14px",
+                border: "1px solid color-mix(in srgb, #D99A00 40%, var(--fmed-border))",
+                borderRadius: 10,
+                background: "color-mix(in srgb, #D99A00 9%, var(--fmed-surface))",
+                color: "#9A6600",
+                WebkitTextFillColor: "#9A6600",
+                fontWeight: 800,
+                cursor: "pointer",
+              }}
+            >
+              Seleziona tutte le scadute ({scadenzeScaduteVisibiliCount})
+            </button>
+            {ruoloFmed === "Admin" && <button
+              type="button"
+              onClick={cessaScadenzeSelezionate}
+              disabled={cessazioneScadenzeLoading || scadenzeScaduteSelezionateCount === 0}
+              style={{
+                minHeight: 40,
+                padding: "0 15px",
+                border: "1px solid color-mix(in srgb, #C93E4F 45%, var(--fmed-border))",
+                borderRadius: 10,
+                background: scadenzeScaduteSelezionateCount ? "#B83243" : "color-mix(in srgb, var(--fmed-muted) 12%, var(--fmed-surface))",
+                color: scadenzeScaduteSelezionateCount ? "#FFFFFF" : "var(--fmed-muted)",
+                WebkitTextFillColor: scadenzeScaduteSelezionateCount ? "#FFFFFF" : "var(--fmed-muted)",
+                fontWeight: 850,
+                cursor: scadenzeScaduteSelezionateCount ? "pointer" : "not-allowed",
+                opacity: cessazioneScadenzeLoading ? .62 : 1,
+              }}
+            >
+              {cessazioneScadenzeLoading ? "Chiusura in corso…" : `Chiudi selezionate (${scadenzeScaduteSelezionateCount})`}
+            </button>}
+          </div>
+        </section>}
 
         {pagina === "Dashboard" && <Suspense fallback={<div className="fmed-lazy-loading">Caricamento modulo…</div>}><DashboardPage {...{
           styles,
@@ -7393,6 +7580,12 @@ ${messaggio}`);
           setFiltroScadenzeProssimaA,
           scadenzeElencoAperto,
           selezionaTutteScadenzeVisualizzate,
+          selezionaTutteScadenzeScadute,
+          cessaScadenzeSelezionate,
+          chiudiScadenzaSingolaComeSostituita,
+          cessazioneScadenzeLoading,
+          messaggioCessazioneScadenze,
+          puoCessareScadenze: ruoloFmed === "Admin",
           deselezionaTutteScadenze,
           resetFiltriScadenze,
           esportaScadenzePdf,
@@ -7577,6 +7770,11 @@ ${messaggio}`);
           scadenzeSelezionateVisualizzate,
           resetFiltriScadenze,
           selezionaTutteScadenzeVisualizzate,
+          selezionaTutteScadenzeScadute,
+          cessaScadenzeSelezionate,
+          cessazioneScadenzeLoading,
+          messaggioCessazioneScadenze,
+          puoCessareScadenze: ruoloFmed === "Admin",
           deselezionaTutteScadenze,
           filtroScadenze,
           setFiltroScadenze,
@@ -9156,39 +9354,63 @@ ${messaggio}`);
           </div>
         </div>
 
-        {analisiCespite && <div style={styles.assetPanel}>
-            <h3 style={styles.sectionTitle}>Analisi Predittiva</h3>
+        {analisiCespite && (() => {
+          const stileCriticita = coloreCriticita(analisiCespite.criticita);
+          const stileRischio = coloreCriticita(analisiCespite.rischio);
+          const stilePunteggio = colorePunteggioPredittivo(analisiCespite.punteggio);
+          const punteggio = Math.max(0, Math.min(100, Number(analisiCespite.punteggio || 0)));
+          const prossimoIntervento = getProssimoInterventoValido(interventiCespite)?.data_prossimo_intervento;
+          return <div style={{
+              ...styles.assetPanel,
+              ...styles.predictivePanel,
+              borderColor: stileCriticita.border.replace("1px solid ", "")
+            }}>
+            <div style={styles.predictiveHeader}>
+              <div>
+                <h3 style={{...styles.sectionTitle, marginBottom: 3}}>Analisi predittiva</h3>
+                <div style={styles.predictiveSubtitle}>Lettura immediata dello stato tecnico e del rischio operativo.</div>
+              </div>
+              <span style={{
+                ...styles.predictiveSummaryPill,
+                background: stileCriticita.background,
+                color: stileCriticita.color,
+                border: stileCriticita.border
+              }}>
+                ● {analisiCespite.criticita || "Da valutare"}
+              </span>
+            </div>
             <div style={styles.fmeaGrid}>
-              <div style={styles.fmeaBox}>
-                <span>Criticità</span>
-                <strong style={{
-                    color: coloreCriticita(analisiCespite.criticita).color,
-                    fontSize: "21px"
-                  }}>{analisiCespite.criticita || "-"}</strong>
+              <div style={{...styles.fmeaBox, background: stileCriticita.background, border: stileCriticita.border, boxShadow: `inset 4px 0 0 ${stileCriticita.accent}`}}>
+                <span style={{...styles.predictiveIcon, background: stileCriticita.soft, color: stileCriticita.color}}>🛡️</span>
+                <span style={styles.predictiveMetricLabel}>Criticità</span>
+                <strong style={{color: stileCriticita.color, fontSize: "22px"}}>{analisiCespite.criticita || "-"}</strong>
+                <small style={styles.predictiveMetricHint}>Condizione complessiva</small>
               </div>
-              <div style={styles.fmeaBox}>
-                <span>Rischio</span>
-                <strong style={{
-                    color: coloreCriticita(analisiCespite.rischio).color,
-                    fontSize: "21px"
-                  }}>{analisiCespite.rischio || "-"}</strong>
+              <div style={{...styles.fmeaBox, background: stileRischio.background, border: stileRischio.border, boxShadow: `inset 4px 0 0 ${stileRischio.accent}`}}>
+                <span style={{...styles.predictiveIcon, background: stileRischio.soft, color: stileRischio.color}}>⚠️</span>
+                <span style={styles.predictiveMetricLabel}>Rischio</span>
+                <strong style={{color: stileRischio.color, fontSize: "22px"}}>{analisiCespite.rischio || "-"}</strong>
+                <small style={styles.predictiveMetricHint}>Probabilità di criticità</small>
               </div>
-              <div style={styles.fmeaBox}>
-                <span>Punteggio</span>
-                <strong style={{
-                    fontSize: "21px"
-                  }}>{analisiCespite.punteggio ?? "-"}/100</strong>
+              <div style={{...styles.fmeaBox, background: stilePunteggio.soft, border: `1px solid ${stilePunteggio.border}`, boxShadow: `inset 4px 0 0 ${stilePunteggio.accent}`}}>
+                <span style={{...styles.predictiveIcon, background: "rgba(255,255,255,.72)", color: stilePunteggio.color}}>🎯</span>
+                <span style={styles.predictiveMetricLabel}>Punteggio</span>
+                <strong style={{fontSize: "22px", color: stilePunteggio.color}}>{analisiCespite.punteggio ?? "-"}/100</strong>
+                <div style={styles.predictiveProgressTrack} aria-label={`Punteggio predittivo ${punteggio} su 100`}>
+                  <span style={{...styles.predictiveProgressFill, width: `${punteggio}%`, background: stilePunteggio.accent}} />
+                </div>
               </div>
-              <div style={styles.fmeaBox}>
-                <span>Prossimo intervento</span>
-                <strong style={{
-                    fontSize: "19px"
-                  }}>
-                  {getProssimoInterventoValido(interventiCespite)?.data_prossimo_intervento ? formattaData(getProssimoInterventoValido(interventiCespite)?.data_prossimo_intervento) : "-"}
+              <div style={{...styles.fmeaBox, background: "#EFF8FF", border: "1px solid #84CAFF", boxShadow: "inset 4px 0 0 #2E90FA"}}>
+                <span style={{...styles.predictiveIcon, background: "rgba(46,144,250,.12)", color: "#175CD3"}}>📅</span>
+                <span style={styles.predictiveMetricLabel}>Prossimo intervento</span>
+                <strong style={{fontSize: "19px", color: "#175CD3"}}>
+                  {prossimoIntervento ? formattaData(prossimoIntervento) : "Da pianificare"}
                 </strong>
+                <small style={styles.predictiveMetricHint}>Scadenza operativa</small>
               </div>
             </div>
-          </div>}
+          </div>;
+        })()}
       </div>
 
       {analisiCespite && <div style={styles.recommendationPanel}>
@@ -9197,16 +9419,16 @@ ${messaggio}`);
               ...styles.recommendationGrid,
               ...{}
             }}>
-            <div style={styles.recommendationBox}>
-              <div style={styles.recommendationTitle}>ℹ️ Raccomandazione</div>
+            <div style={{...styles.recommendationBox, ...styles.recommendationBoxInfo}}>
+              <div style={{...styles.recommendationTitle, color: "#175CD3"}}>ℹ️ Raccomandazione</div>
               <p>{safeText(analisiCespite.raccomandazione)}</p>
             </div>
-            <div style={styles.recommendationBox}>
-              <div style={styles.recommendationTitle}>⚙️ Motivazione tecnica</div>
+            <div style={{...styles.recommendationBox, ...styles.recommendationBoxTechnical}}>
+              <div style={{...styles.recommendationTitle, color: "#6941C6"}}>⚙️ Motivazione tecnica</div>
               <p>{safeText(analisiCespite.motivazione)}</p>
             </div>
-            <div style={styles.recommendationBox}>
-              <div style={styles.recommendationTitle}>🧮 Criterio di calcolo</div>
+            <div style={{...styles.recommendationBox, ...styles.recommendationBoxCalculation}}>
+              <div style={{...styles.recommendationTitle, color: "#B54708"}}>🧮 Criterio di calcolo</div>
               <p>
                 {safeText(analisiCespite.criterio_analisi || analisiCespite.criterio || "Il calcolo considera numero interventi, manutenzioni straordinarie, fermi macchina e prossime scadenze.")}
               </p>
@@ -9549,17 +9771,17 @@ function AppNuovo() {
   }, [sessioneFmed, logoutFmed]);
   const loginUi = loginDarkMode ? loginStyles : loginLightStyles;
   if (!sessioneFmed) {
-    return <div style={loginUi.page}>
-        <div style={loginUi.card}>
-          <button type="button" onClick={() => setLoginDarkMode(prev => !prev)} style={loginUi.themeToggle} title={loginDarkMode ? "Passa alla Light Mode" : "Passa alla Dark Mode"}>
+    return <div className="fmed-login-page fmed-e812-login" style={loginUi.page}>
+        <div className="fmed-login-card" style={loginUi.card}>
+          <button className="fmed-login-theme-toggle" type="button" onClick={() => setLoginDarkMode(prev => !prev)} style={loginUi.themeToggle} title={loginDarkMode ? "Passa alla Light Mode" : "Passa alla Dark Mode"}>
             <span>{loginDarkMode ? "☀️" : "🌙"}</span>
             <span>{loginDarkMode ? "Light" : "Dark"}</span>
           </button>
-          <div style={loginUi.kicker}>Area tecnica</div>
-          <h1 style={loginUi.title}>Sistema Gestione Manutenzioni</h1>
-          <p style={loginUi.subtitle}>Accesso riservato alla gestione tecnica di asset, interventi, scadenze e infrastrutture.</p>
+          <div className="fmed-login-kicker" style={loginUi.kicker}>Area tecnica</div>
+          <h1 className="fmed-login-title" style={loginUi.title}>Sistema Gestione Manutenzioni</h1>
+          <p className="fmed-login-subtitle" style={loginUi.subtitle}>Accesso riservato alla gestione tecnica di asset, interventi, scadenze e infrastrutture.</p>
 
-          <form onSubmit={loginSubmit} style={loginUi.form}>
+          <form className="fmed-login-form" onSubmit={loginSubmit} style={loginUi.form}>
             <label style={loginUi.label}>Email</label>
             <input value={loginUsername} onChange={e => setLoginUsername(e.target.value)} placeholder="email aziendale" autoComplete="username" style={loginUi.input} />
 
@@ -9573,7 +9795,7 @@ function AppNuovo() {
 
             {loginErrore ? <div style={loginUi.error}>{loginErrore}</div> : null}
 
-            <button type="submit" disabled={loginLoading} style={loginUi.button}>
+            <button className="fmed-login-submit" type="submit" disabled={loginLoading} style={loginUi.button}>
               {loginLoading ? "Accesso..." : "Accedi"}
             </button>
 
