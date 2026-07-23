@@ -1,4 +1,4 @@
-/* FMED ENTERPRISE 1.0 · E8.1.3 SCADENZE CESSATE E AUDIT PROPORZIONI · FRONTEND COMPLETO */
+/* FMED ENTERPRISE 1.0 · E8.1.8 UX/UI E UNIFORMITÀ CATALOGHI · FRONTEND COMPLETO */
 /*
   FMED CLEANUP 2026-06-25
   - Verifica JSX eseguita con esbuild: sintassi OK.
@@ -48,8 +48,8 @@ const API_BASE_URL = ENV_API_BASE_URL || (IS_LOCAL_FRONTEND ? "http://127.0.0.1:
 const API_BASE_CANDIDATES = [API_BASE_URL, ...(ENV_API_BASE_URL ? [] : IS_LOCAL_FRONTEND ? ["http://localhost:8000", "http://10.10.10.31:8000"] : [])].filter((value, index, array) => value && array.indexOf(value) === index);
 
 // Versione frontend visibile per evitare dubbi da cache, browser o PWA.
-const MRDB_APP_VERSION = "FMED_ENTERPRISE_1_0_E8_1_6_ANALISI_PREDITTIVA_CHIUSURA_STORICO_2026_07_22";
-const MRDB_APP_BUILD_LABEL = "FMED ENTERPRISE 1.0 · E8.1.6 ANALISI PREDITTIVA E CHIUSURA STORICO";
+const MRDB_APP_VERSION = "FMED_ENTERPRISE_1_0_E8_1_8_UX_UI_MASTER_DATA_UNIFORMITY_2026_07_23";
+const MRDB_APP_BUILD_LABEL = "FMED ENTERPRISE 1.0 · E8.1.8 UX/UI E UNIFORMITÀ CATALOGHI";
 // FMED PERFORMANCE SAFE MODE
 // Render progressivo degli elenchi lunghi: filtri/export restano completi, si alleggerisce solo il DOM visibile.
 const FMED_RENDER_BATCH_ASSET = 100;
@@ -3271,17 +3271,23 @@ function AppNuovoCore({
     setScadenzeSelezionateExport(chiaviScadenzeVisualizzate);
     setMessaggioCessazioneScadenze("");
   }
-  function selezionaTutteScadenzeScadute() {
-    const chiaviScadute = scadenzeVisualizzate
-      .filter((row) => row?._statoScadenza?.codice === "SCADUTA")
+  function selezionaScadenzePerStato(codiceStato) {
+    const stato = String(codiceStato || "").toUpperCase();
+    const chiavi = scadenzeVisualizzate
+      .filter((row) => String(row?._statoScadenza?.codice || row?.stato_operativo || "").toUpperCase() === stato)
       .map((row) => chiaveScadenzaExport(row));
-    setScadenzeSelezionateExport(chiaviScadute);
+    setScadenzeSelezionateExport(chiavi);
     setScadenzeElencoAperto(true);
+    const etichetta = stato === "DA_PIANIFICARE" ? "da pianificare" : "scadute";
     setMessaggioCessazioneScadenze(
-      chiaviScadute.length
-        ? `Selezionate ${chiaviScadute.length} scadenze scadute visibili.`
-        : "Nessuna scadenza scaduta presente nei filtri attuali."
+      chiavi.length ? `Selezionate ${chiavi.length} attività ${etichetta} visibili.` : `Nessuna attività ${etichetta} presente nei filtri attuali.`
     );
+  }
+  function selezionaTutteScadenzeScadute() {
+    selezionaScadenzePerStato("SCADUTA");
+  }
+  function selezionaTutteScadenzeDaPianificare() {
+    selezionaScadenzePerStato("DA_PIANIFICARE");
   }
   async function cessaScadenzeSelezionate(statoOverride = "", righeOverride = null) {
     if (ruoloFmed !== "Admin") {
@@ -3293,15 +3299,15 @@ function AppNuovoCore({
       : scadenzeConStatoBase.filter((row) =>
           scadenzeSelezionateExport.includes(chiaveScadenzaExport(row))
         );
-    const scadute = selezionate.filter((row) => row?._statoScadenza?.codice === "SCADUTA");
-    if (!scadute.length) {
-      setMessaggioCessazioneScadenze("Seleziona almeno una scadenza realmente scaduta.");
+    const obsolete = selezionate.filter(statoOperativoChiusuraAmmesso);
+    if (!obsolete.length) {
+      setMessaggioCessazioneScadenze("Seleziona almeno un’attività scaduta oppure da pianificare.");
       return;
     }
-    const statoFinale = ["SOSTITUITA", "CESSATA"].includes(statoOverride)
+    const statoFinale = ["SOSTITUITA", "CESSATA", "NON_APPLICABILE"].includes(statoOverride)
       ? statoOverride
       : statoChiusuraScadenze;
-    const etichettaStato = statoFinale === "SOSTITUITA" ? "Chiusa e sostituita" : "Cessata / non più applicabile";
+    const etichettaStato = statoFinale === "SOSTITUITA" ? "Chiusa e sostituita" : "Cessata / non applicabile";
     const motivoPredefinito = statoFinale === "SOSTITUITA"
       ? "Attività storica già sostituita da una registrazione successiva"
       : "Attività non più applicabile all'operatività corrente";
@@ -3311,7 +3317,7 @@ function AppNuovoCore({
     );
     if (!motivo || motivo.trim().length < 5) return;
     const confermata = window.confirm(
-      `Stai per impostare ${scadute.length} scadenze come “${etichettaStato}”. Non verranno cancellate e non compariranno più tra i cicli attivi, nei KPI o negli alert. Procedere?`
+      `Stai per impostare ${obsolete.length} attività come “${etichettaStato}”. Non verranno cancellate e non compariranno più tra i cicli attivi, nei KPI o negli alert. I collaudi resteranno integralmente nello storico. Procedere?`
     );
     if (!confermata) return;
     setCessazioneScadenzeLoading(true);
@@ -3320,7 +3326,7 @@ function AppNuovoCore({
       const risposta = await chiamataApiAutenticataFmed("/cicli-unificati/cessa", {
         method: "POST",
         body: JSON.stringify({
-          cicli: scadute.map((row) => ({
+          cicli: obsolete.map((row) => ({
             modulo: row.modulo,
             record_id: row.record_id,
             famiglia_codice: row.famiglia_codice,
@@ -3331,12 +3337,40 @@ function AppNuovoCore({
           conferma: "CESSA_SCADENZE",
         }),
       });
-      setMessaggioCessazioneScadenze(
-        `${risposta?.messaggio || "Operazione completata"}${risposta?.non_trovate_o_non_attive ? ` Non più attive: ${risposta.non_trovate_o_non_attive}.` : ""}`
+      const motiviRifiuto = Array.isArray(risposta?.rifiutati)
+        ? [...new Set(risposta.rifiutati.map((item) => item?.motivo).filter(Boolean))].slice(0, 3)
+        : [];
+      const sorgentiChiuse = new Set(
+        (Array.isArray(risposta?.dettaglio) ? risposta.dettaglio : [])
+          .map((item) => `${String(item?.modulo || "").toUpperCase()}|${String(item?.record_id || "")}`)
+          .filter((key) => !key.endsWith("|"))
       );
-      setScadenzeSelezionateExport([]);
-      setScadenzeLoaded(false);
-      await caricaScadenzeOnDemand({ force: true });
+      const chiaviRigheChiuse = new Set(
+        obsolete
+          .filter((row) => sorgentiChiuse.has(`${String(row?.modulo || "").toUpperCase()}|${String(row?.record_id || "")}`))
+          .map((row) => chiaveScadenzaExport(row))
+      );
+
+      // E8.1.8: aggiornamento locale immediato. Appena il backend conferma la
+      // chiusura, i cicli cessati escono da vista, KPI e alert senza attendere
+      // un secondo caricamento di rete. Il refresh successivo riconcilia i dati.
+      if (sorgentiChiuse.size) {
+        setScadenze((correnti) => (Array.isArray(correnti) ? correnti : []).filter((row) =>
+          !sorgentiChiuse.has(`${String(row?.modulo || "").toUpperCase()}|${String(row?.record_id || "")}`)
+        ));
+        setScadenzeLoaded(true);
+        setScadenzeSelezionateExport((correnti) =>
+          (Array.isArray(correnti) ? correnti : []).filter((chiave) => !chiaviRigheChiuse.has(chiave))
+        );
+      }
+      setMessaggioCessazioneScadenze(
+        `${risposta?.messaggio || "Operazione completata"}${sorgentiChiuse.size ? " Vista operativa e KPI aggiornati." : ""}${risposta?.non_trovate_o_non_attive ? ` Non più attive: ${risposta.non_trovate_o_non_attive}.` : ""}${motiviRifiuto.length ? ` Motivi: ${motiviRifiuto.join(" · ")}.` : ""}`
+      );
+
+      // Riconciliazione silenziosa con la sorgente ufficiale: non blocca la UI.
+      void caricaScadenzeOnDemand({ force: true }).catch((refreshError) => {
+        console.warn("[FMED E8.1.8] Riconciliazione scadenze rinviata:", refreshError);
+      });
     } catch (error) {
       setMessaggioCessazioneScadenze(`Chiusura non completata: ${error?.message || error}`);
     } finally {
@@ -3344,8 +3378,9 @@ function AppNuovoCore({
     }
   }
   function chiudiScadenzaSingolaComeSostituita(row) {
-    if (!row || row?._statoScadenza?.codice !== "SCADUTA") return;
-    return cessaScadenzeSelezionate("SOSTITUITA", [row]);
+    if (!row || !statoOperativoChiusuraAmmesso(row)) return;
+    const stato = String(row?._statoScadenza?.codice || row?.stato_operativo || "").toUpperCase();
+    return cessaScadenzeSelezionate(stato === "DA_PIANIFICARE" ? "NON_APPLICABILE" : "SOSTITUITA", [row]);
   }
   function deselezionaTutteScadenze() {
     setScadenzeSelezionateExport([]);
@@ -7050,8 +7085,11 @@ ${messaggio}`);
     return <svg {...common}><circle cx="12" cy="12" r="8" stroke={stroke} strokeWidth={sw} /></svg>;
   }
 
+  const statoOperativoChiusuraAmmesso = (row) => ["SCADUTA", "DA_PIANIFICARE"].includes(String(row?._statoScadenza?.codice || row?.stato_operativo || "").toUpperCase());
   const scadenzeScaduteVisibiliCount = scadenzeVisualizzate.filter((row) => row?._statoScadenza?.codice === "SCADUTA").length;
-  const scadenzeScaduteSelezionateCount = scadenzeSelezionateVisualizzate.filter((row) => row?._statoScadenza?.codice === "SCADUTA").length;
+  const scadenzeDaPianificareVisibiliCount = scadenzeVisualizzate.filter((row) => row?._statoScadenza?.codice === "DA_PIANIFICARE").length;
+  const scadenzeObsoleteVisibiliCount = scadenzeVisualizzate.filter(statoOperativoChiusuraAmmesso).length;
+  const scadenzeObsoleteSelezionateCount = scadenzeSelezionateVisualizzate.filter(statoOperativoChiusuraAmmesso).length;
 
   function renderFmedBrandMark(compact = false) {
     const size = compact ? 34 : 42;
@@ -7065,7 +7103,7 @@ ${messaggio}`);
     </svg>;
   }
 
-  return <div data-fmed-build={MRDB_APP_VERSION} className={darkMode ? "fmed-app-root fmed-dark-mode fmed-e812-professional-ui fmed-e813-layout-audit" : "fmed-app-root fmed-light-mode fmed-e812-professional-ui fmed-e813-layout-audit"} style={{
+  return <div data-fmed-build={MRDB_APP_VERSION} className={darkMode ? "fmed-app-root fmed-dark-mode fmed-e812-professional-ui fmed-e813-layout-audit fmed-e817-unified-ux fmed-e818-ux-refinement" : "fmed-app-root fmed-light-mode fmed-e812-professional-ui fmed-e813-layout-audit fmed-e817-unified-ux fmed-e818-ux-refinement"} style={{
     ...styles.app,
     ...(darkMode ? styles.themeDarkVars : styles.themeLightVars),
     ...{}
@@ -7219,7 +7257,7 @@ ${messaggio}`);
         {/* Ogni modulo usa una sola intestazione dedicata: rimosso il banner globale duplicato. */}
 
         {paginaScadenzeAttiva && <section
-          className="fmed-e814-expired-toolbar"
+          className="fmed-e814-expired-toolbar fmed-e818-expired-toolbar"
           role="region"
           aria-label="Gestione scadenze obsolete"
           style={{
@@ -7244,8 +7282,8 @@ ${messaggio}`);
               Gestione scadenze obsolete
             </div>
             <div style={{ marginTop: 3, fontSize: 14, lineHeight: 1.45, color: "var(--fmed-text)" }}>
-              <strong>{scadenzeScaduteVisibiliCount}</strong> scadenze scadute visibili · <strong>{scadenzeScaduteSelezionateCount}</strong> scadute selezionate.
-              Le attività chiuse restano nello storico ma non compaiono più nei cicli attivi, nei KPI o negli alert.
+              <strong>{scadenzeVisualizzate.length}</strong> visibili · <strong>{scadenzeScaduteVisibiliCount}</strong> scadute · <strong>{scadenzeDaPianificareVisibiliCount}</strong> da pianificare · <strong>{scadenzeObsoleteSelezionateCount}</strong> selezionate.
+              La chiusura archivia soltanto il ciclo operativo: record, documenti e collaudi restano nello storico e nell’audit.
             </div>
             {messaggioCessazioneScadenze && <div role="status" style={{ marginTop: 7, fontSize: 13, fontWeight: 700, color: "var(--fmed-text)" }}>
               {messaggioCessazioneScadenze}
@@ -7255,6 +7293,7 @@ ${messaggio}`);
             {ruoloFmed === "Admin" && <select
               value={statoChiusuraScadenze}
               onChange={(event) => setStatoChiusuraScadenze(event.target.value)}
+              className="fmed-e818-close-state-select"
               aria-label="Stato finale delle scadenze selezionate"
               style={{
                 minHeight: 40,
@@ -7267,11 +7306,12 @@ ${messaggio}`);
               }}
             >
               <option value="SOSTITUITA">Chiusa e sostituita</option>
-              <option value="CESSATA">Cessata / non applicabile</option>
+              <option value="NON_APPLICABILE">Cessata / non applicabile</option>
             </select>}
             <button
               type="button"
               onClick={selezionaTutteScadenzeScadute}
+              className="fmed-e818-select-expired-btn"
               style={{
                 minHeight: 40,
                 padding: "0 14px",
@@ -7284,26 +7324,45 @@ ${messaggio}`);
                 cursor: "pointer",
               }}
             >
-              Seleziona tutte le scadute ({scadenzeScaduteVisibiliCount})
+              Seleziona scadute ({scadenzeScaduteVisibiliCount})
+            </button>
+            <button
+              type="button"
+              onClick={selezionaTutteScadenzeDaPianificare}
+              className="fmed-e818-select-unplanned-btn"
+              style={{
+                minHeight: 40,
+                padding: "0 14px",
+                border: "1px solid color-mix(in srgb, #7A5AF8 34%, var(--fmed-border))",
+                borderRadius: 10,
+                background: "color-mix(in srgb, #7A5AF8 8%, var(--fmed-surface))",
+                color: "#6941C6",
+                WebkitTextFillColor: "#6941C6",
+                fontWeight: 800,
+                cursor: "pointer",
+              }}
+            >
+              Seleziona da pianificare ({scadenzeDaPianificareVisibiliCount})
             </button>
             {ruoloFmed === "Admin" && <button
               type="button"
               onClick={cessaScadenzeSelezionate}
-              disabled={cessazioneScadenzeLoading || scadenzeScaduteSelezionateCount === 0}
+              className="fmed-e818-close-selected-btn"
+              disabled={cessazioneScadenzeLoading || scadenzeObsoleteSelezionateCount === 0}
               style={{
                 minHeight: 40,
                 padding: "0 15px",
                 border: "1px solid color-mix(in srgb, #C93E4F 45%, var(--fmed-border))",
                 borderRadius: 10,
-                background: scadenzeScaduteSelezionateCount ? "#B83243" : "color-mix(in srgb, var(--fmed-muted) 12%, var(--fmed-surface))",
-                color: scadenzeScaduteSelezionateCount ? "#FFFFFF" : "var(--fmed-muted)",
-                WebkitTextFillColor: scadenzeScaduteSelezionateCount ? "#FFFFFF" : "var(--fmed-muted)",
+                background: scadenzeObsoleteSelezionateCount ? "#B83243" : "color-mix(in srgb, var(--fmed-muted) 12%, var(--fmed-surface))",
+                color: scadenzeObsoleteSelezionateCount ? "#FFFFFF" : "var(--fmed-muted)",
+                WebkitTextFillColor: scadenzeObsoleteSelezionateCount ? "#FFFFFF" : "var(--fmed-muted)",
                 fontWeight: 850,
-                cursor: scadenzeScaduteSelezionateCount ? "pointer" : "not-allowed",
+                cursor: scadenzeObsoleteSelezionateCount ? "pointer" : "not-allowed",
                 opacity: cessazioneScadenzeLoading ? .62 : 1,
               }}
             >
-              {cessazioneScadenzeLoading ? "Chiusura in corso…" : `Chiudi selezionate (${scadenzeScaduteSelezionateCount})`}
+              {cessazioneScadenzeLoading ? "Chiusura in corso…" : `Chiudi selezionate (${scadenzeObsoleteSelezionateCount})`}
             </button>}
           </div>
         </section>}
@@ -9195,11 +9254,11 @@ ${messaggio}`);
           </div>
         </div>}
 
-      <div style={{
+      <div className="fmed-asset-detail-grid" style={{
             ...styles.assetMainGrid,
             ...{}
           }}>
-        <div style={styles.assetPanel}>
+        <div className="fmed-asset-data-panel" style={styles.assetPanel}>
           <h3 style={styles.sectionTitle}>Dati generali</h3>
           <div style={styles.assetInfoTable}>
             <Detail label="Tipologia" value={cespiteSelezionato.tipologia} />
@@ -9360,7 +9419,7 @@ ${messaggio}`);
           const stilePunteggio = colorePunteggioPredittivo(analisiCespite.punteggio);
           const punteggio = Math.max(0, Math.min(100, Number(analisiCespite.punteggio || 0)));
           const prossimoIntervento = getProssimoInterventoValido(interventiCespite)?.data_prossimo_intervento;
-          return <div style={{
+          return <div className="fmed-predictive-panel" style={{
               ...styles.assetPanel,
               ...styles.predictivePanel,
               borderColor: stileCriticita.border.replace("1px solid ", "")
@@ -9379,20 +9438,20 @@ ${messaggio}`);
                 ● {analisiCespite.criticita || "Da valutare"}
               </span>
             </div>
-            <div style={styles.fmeaGrid}>
-              <div style={{...styles.fmeaBox, background: stileCriticita.background, border: stileCriticita.border, boxShadow: `inset 4px 0 0 ${stileCriticita.accent}`}}>
+            <div className="fmed-predictive-grid" style={styles.fmeaGrid}>
+              <div className="fmed-predictive-card is-criticality" style={{...styles.fmeaBox, background: stileCriticita.background, border: stileCriticita.border, boxShadow: `inset 4px 0 0 ${stileCriticita.accent}`}}>
                 <span style={{...styles.predictiveIcon, background: stileCriticita.soft, color: stileCriticita.color}}>🛡️</span>
                 <span style={styles.predictiveMetricLabel}>Criticità</span>
                 <strong style={{color: stileCriticita.color, fontSize: "22px"}}>{analisiCespite.criticita || "-"}</strong>
                 <small style={styles.predictiveMetricHint}>Condizione complessiva</small>
               </div>
-              <div style={{...styles.fmeaBox, background: stileRischio.background, border: stileRischio.border, boxShadow: `inset 4px 0 0 ${stileRischio.accent}`}}>
+              <div className="fmed-predictive-card is-risk" style={{...styles.fmeaBox, background: stileRischio.background, border: stileRischio.border, boxShadow: `inset 4px 0 0 ${stileRischio.accent}`}}>
                 <span style={{...styles.predictiveIcon, background: stileRischio.soft, color: stileRischio.color}}>⚠️</span>
                 <span style={styles.predictiveMetricLabel}>Rischio</span>
                 <strong style={{color: stileRischio.color, fontSize: "22px"}}>{analisiCespite.rischio || "-"}</strong>
                 <small style={styles.predictiveMetricHint}>Probabilità di criticità</small>
               </div>
-              <div style={{...styles.fmeaBox, background: stilePunteggio.soft, border: `1px solid ${stilePunteggio.border}`, boxShadow: `inset 4px 0 0 ${stilePunteggio.accent}`}}>
+              <div className="fmed-predictive-card is-score" style={{...styles.fmeaBox, background: stilePunteggio.soft, border: `1px solid ${stilePunteggio.border}`, boxShadow: `inset 4px 0 0 ${stilePunteggio.accent}`}}>
                 <span style={{...styles.predictiveIcon, background: "rgba(255,255,255,.72)", color: stilePunteggio.color}}>🎯</span>
                 <span style={styles.predictiveMetricLabel}>Punteggio</span>
                 <strong style={{fontSize: "22px", color: stilePunteggio.color}}>{analisiCespite.punteggio ?? "-"}/100</strong>
@@ -9400,7 +9459,7 @@ ${messaggio}`);
                   <span style={{...styles.predictiveProgressFill, width: `${punteggio}%`, background: stilePunteggio.accent}} />
                 </div>
               </div>
-              <div style={{...styles.fmeaBox, background: "#EFF8FF", border: "1px solid #84CAFF", boxShadow: "inset 4px 0 0 #2E90FA"}}>
+              <div className="fmed-predictive-card is-next" style={{...styles.fmeaBox, background: "#EFF8FF", border: "1px solid #84CAFF", boxShadow: "inset 4px 0 0 #2E90FA"}}>
                 <span style={{...styles.predictiveIcon, background: "rgba(46,144,250,.12)", color: "#175CD3"}}>📅</span>
                 <span style={styles.predictiveMetricLabel}>Prossimo intervento</span>
                 <strong style={{fontSize: "19px", color: "#175CD3"}}>
@@ -9413,7 +9472,7 @@ ${messaggio}`);
         })()}
       </div>
 
-      {analisiCespite && <div style={styles.recommendationPanel}>
+      {analisiCespite && <div className="fmed-predictive-recommendations" style={styles.recommendationPanel}>
           <h3 style={styles.sectionTitle}>Valutazioni predittive</h3>
           <div style={{
               ...styles.recommendationGrid,

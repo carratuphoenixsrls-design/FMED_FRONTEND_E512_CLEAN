@@ -67,7 +67,7 @@ export default function ScadenzeControls(props) {
   };
 
   return (
-    <div style={styles.scadenzeFiltersPanel}>
+    <div className="fmed-e818-deadline-filters" style={styles.scadenzeFiltersPanel}>
       <div style={styles.scadenzeFiltersHeader}>
         <div>
           <h3 style={styles.scadenzeSectionTitle}>Filtri scadenze</h3>
@@ -187,8 +187,8 @@ export default function ScadenzeControls(props) {
         />
       </div>
 
-      <div style={styles.scadenzeActionsBar}>
-        <button type="button" style={styles.scadenzePrimaryAction} onClick={() => setScadenzeElencoAperto((value) => !value)}>
+      <div className="fmed-e818-deadline-actions" style={styles.scadenzeActionsBar}>
+        <button type="button" className="fmed-e818-open-list-btn" style={styles.scadenzePrimaryAction} onClick={() => setScadenzeElencoAperto((value) => !value)}>
           {scadenzeElencoAperto ? "▲ Nascondi elenco" : `📋 Apri elenco filtrato (${scadenzeVisualizzate.length})`}
         </button>
         <button type="button" style={styles.scadenzeSecondaryAction} onClick={selezionaTutteScadenzeVisualizzate}>

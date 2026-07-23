@@ -3,6 +3,7 @@ import { useCallback, useEffect, useMemo, useState } from "react";
 import "./CoreStandardPage.css";
 import DizionariControls from "./components/DizionariControls.jsx";
 import { fmedAuthHeaders, fmedFetchJson, fmedSession } from "./fmedApiClient.js";
+import CatalogUniformityPanel from "./components/masterdata/CatalogUniformityPanel.jsx";
 
 const emptyValue = { dizionario: "", codice: "", etichetta: "", ordine: 100, attivo: true, metadati: {} };
 const emptyRelation = { tipo: "CONSENTE", sorgente_dizionario: "SEDI", sorgente_codice: "", destinazione_dizionario: "REPARTI", destinazione_codice: "", priorita: 100, obbligatoria: false, attivo: true, metadati: {} };
@@ -188,6 +189,10 @@ export default function CoreStandardPage({ apiBaseUrl, onDataChanged, canManage 
   const [siteHygieneLoading, setSiteHygieneLoading] = useState(false);
   const [siteHygieneBusy, setSiteHygieneBusy] = useState(false);
   const [siteHygienePreview, setSiteHygienePreview] = useState(null);
+  const [uniformity, setUniformity] = useState(null);
+  const [uniformityLoading, setUniformityLoading] = useState(false);
+  const [uniformityBusy, setUniformityBusy] = useState(false);
+  const [uniformityMergePreview, setUniformityMergePreview] = useState(null);
 
   const load = useCallback(async () => {
     setLoading(true); setMessage("");
@@ -240,11 +245,24 @@ export default function CoreStandardPage({ apiBaseUrl, onDataChanged, canManage 
     }
   }, [apiBaseUrl]);
 
+  const loadUniformity = useCallback(async (force = true) => {
+    setUniformityLoading(true);
+    try {
+      const data = await fmedFetchJson(`/master-data/uniformazione/anteprima?limit=10000&force=${force ? "true" : "false"}`, { apiBaseUrl, retries: 2, timeoutMs: 120000 });
+      setUniformity(data);
+    } catch (error) {
+      setMessage(`Uniformità cataloghi Supabase: ${error.message}`);
+    } finally {
+      setUniformityLoading(false);
+    }
+  }, [apiBaseUrl]);
+
   useEffect(() => {
     if (tab !== "QUALITA") return;
+    if (!uniformity && !uniformityLoading) loadUniformity(false);
     if (!quality && !qualityLoading) loadQuality(false);
     if (!siteHygiene && !siteHygieneLoading) loadSiteHygiene(false);
-  }, [tab, quality, qualityLoading, loadQuality, siteHygiene, siteHygieneLoading, loadSiteHygiene]);
+  }, [tab, uniformity, uniformityLoading, loadUniformity, quality, qualityLoading, loadQuality, siteHygiene, siteHygieneLoading, loadSiteHygiene]);
 
   async function masterAction(endpoint, payload, type) {
     setQualityBusy(true); setMessage("");
@@ -280,6 +298,57 @@ export default function CoreStandardPage({ apiBaseUrl, onDataChanged, canManage 
     if (!window.confirm(`Confermi ${count} correzioni Master Data già riconosciute? I valori non censiti resteranno invariati.`)) return;
     return masterAction("/master-data/normalizza", { apply: true, conferma: "APPLICA_E5_MASTER_DATA", limit: 6000, max_modifiche: 3000 }, "NORMALIZZAZIONE");
   };
+
+  async function uniformityExactAction(apply = false) {
+    setUniformityBusy(true); setMessage("");
+    try {
+      const session = fmedSession();
+      const actor = String(session?.email || session?.nome || "FMED_ADMIN");
+      const data = await fmedFetchJson("/master-data/uniformazione/duplicati-esatti", {
+        apiBaseUrl,
+        method: "POST",
+        headers: apiHeaders(),
+        body: JSON.stringify({
+          apply,
+          conferma: apply ? "UNIFICA_DUPLICATI_ESATTI_E818" : null,
+          limit: 10000,
+          max_gruppi: 500,
+          eseguito_da: actor,
+        }),
+        retries: apply ? 0 : 1,
+        timeoutMs: 180000,
+      });
+      if (!apply) {
+        setUniformityMergePreview(data);
+        setMessage(`Piano uniformazione pronto: ${data.totale_gruppi || 0} gruppi esatti, ${data.totale_alias || 0} alias da conservare.`);
+      } else {
+        setUniformityMergePreview(null);
+        await Promise.all([load(), loadUniformity(true), loadQuality(true)]);
+        await onDataChanged?.({ tipo: "MASTER_DATA_UNIFORMITA_E8_1_8", risultato: data });
+        setMessage(`Uniformazione completata: ${data.gruppi_applicati || 0} gruppi; ${data.alias_conservati || 0} alias storici conservati; ${data.errori?.length || 0} errori.`);
+      }
+      return data;
+    } catch (error) {
+      setMessage(error.message || "Uniformazione cataloghi non riuscita");
+      return null;
+    } finally {
+      setUniformityBusy(false);
+    }
+  }
+
+  const previewUniformityExact = () => uniformityExactAction(false);
+  const applyUniformityExact = () => {
+    const groups = Number(uniformityMergePreview?.totale_gruppi || 0);
+    const aliases = Number(uniformityMergePreview?.totale_alias || 0);
+    if (!window.confirm(`Confermi l’unificazione di ${groups} gruppi di duplicati esatti? ${aliases} vecchie voci resteranno conservate come alias storici. Nessun record e nessun Codice inventario verranno eliminati o modificati.`)) return;
+    return uniformityExactAction(true);
+  };
+
+  function openUniformityDictionary(dictionaryCode) {
+    const code = String(dictionaryCode || "").trim();
+    if (code) setSelected(code);
+    setTab("DIZIONARI");
+  }
 
   async function siteHygieneAction(apply = false) {
     setSiteHygieneBusy(true); setMessage("");
@@ -669,6 +738,17 @@ export default function CoreStandardPage({ apiBaseUrl, onDataChanged, canManage 
       </div>}
 
       {tab === "QUALITA" && <div className="core-quality-stack">
+        <CatalogUniformityPanel
+          audit={uniformity}
+          loading={uniformityLoading}
+          busy={uniformityBusy}
+          mergePreview={uniformityMergePreview}
+          canManage={canManage}
+          onRefresh={() => loadUniformity(true)}
+          onPreviewExact={previewUniformityExact}
+          onApplyExact={applyUniformityExact}
+          onOpenDictionary={openUniformityDictionary}
+        />
         <SiteHygienePanel
           audit={siteHygiene}
           loading={siteHygieneLoading}

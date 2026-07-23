@@ -18,8 +18,10 @@ import "./FmedE71DashboardEnterprise.css";
 import "./FmedE81OperationalSimplified.css";
 import "./FmedE812ProfessionalAudit.css";
 import "./FmedE813SystemLayoutAudit.css";
+import "./FmedE817UnifiedOperationalUX.css";
+import "./FmedE818FrontendUxUiRefinement.css";
 
-const FMED_APP_CACHE_VERSION = "fmed-enterprise-e8-1-6-predittiva-chiusura-storico-20260722-2";
+const FMED_APP_CACHE_VERSION = "fmed-enterprise-e8-1-8-frontend-ux-ui-refinement-20260723-1";
 
 const FMED_API_WARMUP_URL = String(
   import.meta.env?.VITE_API_BASE_URL || "https://fmed-backend.onrender.com"

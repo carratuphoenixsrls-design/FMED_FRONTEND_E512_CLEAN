@@ -30,6 +30,12 @@ export default function ScadenzePage(props) {
     SICUREZZA_81_08: "Sicurezza 81/08",
   }[String(modulo || "").toUpperCase()] || String(modulo || "Altro").replaceAll("_", " "));
   const daPianificare = scadenzeConStatoBase.filter((row) => row?._statoScadenza?.codice === "DA_PIANIFICARE");
+  const isCollaudoStorico = (row) => /COLLAUDO/i.test([
+    row?.famiglia_codice,
+    row?.famiglia_label,
+    row?.attivita,
+    row?.attivita_originale,
+  ].filter(Boolean).join(" "));
 
   return (
     <div className="fmed-scadenze-enterprise" style={styles.scadenzePageShell}>
@@ -61,7 +67,7 @@ export default function ScadenzePage(props) {
       <div style={styles.scadenzeKpiCard}><div style={styles.scadenzeKpiTop}><span style={styles.scadenzeKpiIcon}>✅</span><span style={styles.scadenzeKpiLabel}>Selezionate</span></div><strong style={{
               ...styles.scadenzeKpiValue,
               color: "#169C8F"
-            }}>{scadenzeSelezionateVisualizzate.length}</strong><span style={styles.scadenzeKpiHint}>per export PDF</span></div>
+            }}>{scadenzeSelezionateVisualizzate.length}</strong><span style={styles.scadenzeKpiHint}>per azioni o PDF</span></div>
     </div>
 
     {scadenzeElencoAperto && <div style={{
@@ -79,7 +85,7 @@ export default function ScadenzePage(props) {
           <button style={styles.scadenzeCloseBtn} onClick={() => setScadenzeElencoAperto(false)}>Chiudi</button>
         </div>
         {<div style={styles.scadenzeTableWrap}>
-            <table style={styles.scadenzeTable}>
+            <table className="fmed-e818-deadlines-table" style={styles.scadenzeTable}>
               <thead>
                 <tr>
                   <th style={styles.scadenzeTh}>Sel.</th><th style={styles.scadenzeTh}>Modulo</th><th style={styles.scadenzeTh}>Elemento</th><th style={styles.scadenzeTh}>Sede</th><th style={styles.scadenzeTh}>Ambito</th><th style={styles.scadenzeTh}>Famiglia attività</th><th style={styles.scadenzeTh}>Ditta / ente</th><th style={styles.scadenzeTh}>Ultima esecuzione</th><th style={styles.scadenzeTh}>Prossima scadenza</th><th style={styles.scadenzeTh}>Giorni</th><th style={styles.scadenzeTh}>Stato</th><th style={styles.scadenzeTh}>Azione</th>
@@ -90,7 +96,7 @@ export default function ScadenzePage(props) {
                   const chiave = chiaveScadenzaExport(s);
                   const selezionata = scadenzeSelezionateExport.includes(chiave);
                   const stato = s._statoScadenza || statoScadenza(s._dataScadenza);
-                  return <tr key={chiave || idx} style={styles.tr} onClick={() => toggleScadenzaExport(s)}>
+                  return <tr key={chiave || idx} className={`${selezionata ? "is-selected" : ""} ${stato.codice === "SCADUTA" ? "is-expired" : ""}`} style={styles.tr} onClick={() => toggleScadenzaExport(s)}>
                       <td style={styles.scadenzeTd}><input type="checkbox" checked={selezionata} onChange={() => toggleScadenzaExport(s)} onClick={e => e.stopPropagation()} /></td>
                       <td style={styles.scadenzeTd}>{etichettaModulo(s.modulo)}</td>
                       <td style={s.modulo === "ASSET" ? styles.scadenzeTdCode : styles.scadenzeTd} onClick={e => {
@@ -99,7 +105,10 @@ export default function ScadenzePage(props) {
                     }}>{s.codice_strumento || s.codicestrumento || s.entita_chiave || "-"}</td>
                       <td style={styles.scadenzeTd}>{s.sede || "-"}</td>
                       <td style={styles.scadenzeTd}>{s.tipologia || "-"}</td>
-                      <td style={styles.scadenzeTd}>{s.attivita}</td>
+                      <td style={styles.scadenzeTd}>
+                        <span>{s.attivita}</span>
+                        {isCollaudoStorico(s) && <span className="fmed-e818-history-badge" title="Il collaudo resta conservato nello storico; viene archiviato soltanto il falso ciclo operativo">Storico protetto</span>}
+                      </td>
                       <td style={styles.scadenzeTd}>{normalizzaSocietaDitta(s.ditta_esecutrice || s.ditta || "")}</td>
                       <td style={styles.scadenzeTd}>{formattaData(s._dataUltimoIntervento || s.data_ultimo_intervento)}</td>
                       <td style={styles.scadenzeTd}>{formattaData(s._dataScadenza || s.data_prossimo_intervento || s.prossima_scadenza || s.data_scadenza)}</td>
@@ -109,8 +118,9 @@ export default function ScadenzePage(props) {
                         background: stato.colore
                       }} />{stato.testo}</td>
                       <td style={styles.scadenzeTd} onClick={(event) => event.stopPropagation()}>
-                        {stato.codice === "SCADUTA" && typeof chiudiScadenzaSingolaComeSostituita === "function" ? <button
+                        {["SCADUTA", "DA_PIANIFICARE"].includes(stato.codice) && typeof chiudiScadenzaSingolaComeSostituita === "function" ? <button
                           type="button"
+                          className="fmed-e818-row-close-btn"
                           onClick={() => chiudiScadenzaSingolaComeSostituita(s)}
                           style={{
                             minHeight: 32,
@@ -124,9 +134,9 @@ export default function ScadenzePage(props) {
                             whiteSpace: "nowrap",
                             cursor: "pointer",
                           }}
-                          title="Archivia il vecchio ciclo come chiuso e sostituito"
+                          title={stato.codice === "DA_PIANIFICARE" ? "Archivia il ciclo come non applicabile" : "Archivia il vecchio ciclo come chiuso e sostituito"}
                         >
-                          Chiudi e sostituisci
+                          {stato.codice === "DA_PIANIFICARE" ? "Archivia ciclo" : "Chiudi e sostituisci"}
                         </button> : <span style={{color: "var(--fmed-muted)"}}>—</span>}
                       </td>
                     </tr>;
