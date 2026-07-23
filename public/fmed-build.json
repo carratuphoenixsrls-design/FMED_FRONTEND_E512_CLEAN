@@ -1,18 +1,20 @@
 {
   "product": "FMED Enterprise 1.0",
-  "release": "E8.1.6 Analisi Predittiva e Chiusura Storico",
-  "build": "FMED_ENTERPRISE_1_0_E8_1_6_ANALISI_PREDITTIVA_CHIUSURA_STORICO_2026_07_22",
+  "release": "E8.1.8 UX/UI e Uniformità Cataloghi Supabase",
+  "build": "FMED_ENTERPRISE_1_0_E8_1_8_UX_UI_MASTER_DATA_UNIFORMITY_2026_07_23",
   "frontend": true,
-  "backend_required": "E8.1.6",
+  "backend_required": "E8.1.8",
+  "target_domain": "fmed512clean.vercel.app",
   "features": [
-    "Analisi predittiva con colori semantici verde, ambra e rosso",
-    "Punteggio con barra visiva e prossimo intervento evidenziato",
-    "Chiusura delle scadenze come chiuse e sostituite oppure cessate",
-    "Azione singola Chiudi e sostituisci per ogni scadenza scaduta",
-    "Esclusione da KPI, alert e cicli attivi con conservazione nello storico",
-    "Collaudi protetti"
+    "Aggiornamento locale immediato di vista, KPI e alert dopo la chiusura delle scadenze",
+    "Collaudi conservati nello storico senza falsi cicli operativi",
+    "Sidebar compatta e Analisi Predittiva con colori semantici",
+    "Audit live di tutti i cataloghi Supabase con Codice inventario escluso",
+    "Rilevamento di duplicati esatti, valori simili ed etichette tecniche o numerate",
+    "Unificazione non distruttiva: valori precedenti conservati come alias e relazioni migrate",
+    "Nessuna cancellazione automatica e anteprima obbligatoria prima delle scritture"
   ],
-  "description": "Release frontend/backend per rendere intuitiva l'analisi predittiva e archiviare in sicurezza i vecchi cicli già sostituiti.",
-  "version": "E8.1.6",
-  "label": "FMED ENTERPRISE 1.0 · E8.1.6 ANALISI PREDITTIVA E CHIUSURA STORICO"
+  "description": "Release completa frontend/backend per rifinitura operativa e uniformità controllata dei Master Data.",
+  "version": "E8.1.8",
+  "label": "FMED ENTERPRISE 1.0 · E8.1.8 UX/UI E UNIFORMITÀ CATALOGHI"
 }

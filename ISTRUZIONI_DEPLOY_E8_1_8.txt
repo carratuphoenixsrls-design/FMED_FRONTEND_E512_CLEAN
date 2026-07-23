@@ -1,0 +1,25 @@
+FMED E8.1.8 - DEPLOY FRONTEND VERCEL
+====================================
+
+DESTINAZIONE
+https://fmed512clean.vercel.app
+
+ORDINE CORRETTO
+1. Pubblicare prima il backend E8.1.8 su Render.
+2. Verificare l'endpoint radice del backend e l'anteprima Master Data.
+3. Caricare il contenuto di questo ZIP nella root del repository collegato a Vercel.
+4. Eseguire il deploy Production.
+5. Aprire FMED e verificare la dicitura E8.1.8 nella schermata di accesso.
+6. Aprire Core/Dizionari > Qualità dati > Uniformità cataloghi Supabase.
+
+COMANDI LOCALI
+npm ci
+npm run verify:release
+npm run lint
+npm run build
+
+REGOLE
+- Non importare SQL per questa release.
+- Non modificare il Codice inventario.
+- Eseguire sempre prima l'anteprima.
+- Applicare i duplicati esatti solo dopo controllo umano.

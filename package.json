@@ -1,7 +1,7 @@
 {
   "name": "fmed-frontend",
   "private": true,
-  "version": "8.1.6",
+  "version": "8.1.8",
   "type": "module",
   "engines": {
     "node": "22.x"
@@ -11,7 +11,7 @@
     "build": "vite build --configLoader runner",
     "lint": "eslint .",
     "preview": "vite preview",
-    "verify:release": "node scripts/verify_release_e816.mjs",
+    "verify:release": "node scripts/verify_release_e818.mjs",
     "check": "npm run verify:release && npm run lint && npm run build"
   },
   "dependencies": {
@@ -29,5 +29,5 @@
     "globals": "^17.6.0",
     "vite": "6.4.1"
   },
-  "description": "FMED Enterprise 1.0 E8.1.6 - Analisi predittiva semantica e chiusura controllata dello storico"
+  "description": "FMED Enterprise 1.0 E8.1.8 - UX/UI Refinement e uniformità non distruttiva dei cataloghi Supabase"
 }
